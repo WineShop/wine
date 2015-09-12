@@ -4,9 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
-// +----------------------------------------------------------------------
-// | Author: 烟消云散 1010422715@qq.com
+// | Author: Kevin <lamp365@163.com> <http://myblog365.xyz>
 // +----------------------------------------------------------------------
 // +----------------------------------------------------------------------
 
@@ -22,7 +20,7 @@ const ONETHINK_ADDON_PATH = './Addons/';
 /**
  * 检测用户是否登录
  * @return integer 0-未登录，大于0-当前登录用户ID
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function is_login(){
     $user = session('user_auth');
@@ -57,7 +55,7 @@ function get_sdk_title($name){
 /**
  * 检测当前用户是否为管理员
  * @return boolean true-管理员，false-非管理员
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function is_administrator($uid = null){
     $uid = is_null($uid) ? is_login() : $uid;
@@ -69,7 +67,7 @@ function is_administrator($uid = null){
  * @param  string $str  要分割的字符串
  * @param  string $glue 分割符
  * @return array
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function str2arr($str, $glue = ','){
     return explode($glue, $str);
@@ -80,7 +78,7 @@ function str2arr($str, $glue = ','){
  * @param  array  $arr  要连接的数组
  * @param  string $glue 分割符
  * @return string
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function arr2str($arr, $glue = ','){
     return implode($glue, $arr);
@@ -122,7 +120,7 @@ function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true) {
  * @param string $key  加密密钥
  * @param int $expire  过期时间 单位 秒
  * @return string
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function think_encrypt($data, $key = '', $expire = 0) {
     $key  = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
@@ -149,7 +147,7 @@ function think_encrypt($data, $key = '', $expire = 0) {
  * 获取导航URL
  * @param  string $url 导航URL
  * @return string      解析或的url
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function get_nav_url($url){
     switch ($url) {
@@ -173,7 +171,7 @@ function get_index_url(){
  * @param  string $data 要解密的字符串 （必须是think_encrypt方法加密的字符串）
  * @param  string $key  加密密钥
  * @return string
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function think_decrypt($data, $key = ''){
     $key    = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
@@ -214,7 +212,7 @@ function think_decrypt($data, $key = ''){
  * 数据签名认证
  * @param  array  $data 被认证的数据
  * @return string       签名
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function data_auth_sign($data) {
     //数据类型检测
@@ -265,7 +263,6 @@ function list_sort_by($list,$field, $sortby='asc') {
  * @param string $pid parent标记字段
  * @param string $level level标记字段
  * @return array
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0) {
     // 创建Tree
@@ -281,6 +278,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
             $parentId =  $data[$pid];
             if ($root == $parentId) {
                 $tree[] =& $list[$key];
+
             }else{
                 if (isset($refer[$parentId])) {
                     $parent =& $refer[$parentId];
@@ -292,6 +290,26 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
     return $tree;
 }
 
+function pp(){
+    $arr = func_get_args();
+    foreach($arr as $val)
+    {
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+    }
+}
+
+function ppd(){
+    $arr = func_get_args();
+    foreach($arr as $val)
+    {
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+    }
+    die();
+}
 /**
  * 将list_to_tree的树还原成列表
  * @param  array $tree  原来的树
@@ -322,7 +340,7 @@ function tree_to_list($tree, $child = '_child', $order='id', &$list = array()){
  * @param  number $size      字节数
  * @param  string $delimiter 数字和单位分隔符
  * @return string            格式化后的带单位的大小
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function format_bytes($size, $delimiter = '') {
     $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
@@ -333,7 +351,7 @@ function format_bytes($size, $delimiter = '') {
 /**
  * 设置跳转页面URL
  * 使用函数再次封装，方便以后选择不同的存储方式（目前使用cookie存储）
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function set_redirect_url($url){
     cookie('redirect_url', $url);
@@ -342,7 +360,7 @@ function set_redirect_url($url){
 /**
  * 获取跳转页面URL
  * @return string 跳转页URL
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function get_redirect_url(){
     $url = cookie('redirect_url');
@@ -386,7 +404,7 @@ function get_addon_config($name){
  * 插件显示内容里生成访问插件的url
  * @param string $url url
  * @param array $param 参数
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function addons_url($url, $param = array()){
     $url        = parse_url($url);
@@ -951,7 +969,7 @@ function get_document_model($id = null, $field = null){
  * 解析UBB数据
  * @param string $data UBB字符串
  * @return string 解析为HTML的数据
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author Kevin.liu@yunzhihui.com
  */
 function ubb($data){
     //TODO: 待完善，目前返回原始数据
@@ -1649,10 +1667,37 @@ function  CheckSubstrs($substrs,$text){
         return false;
 
     }
+}
 
-
-
-
-
+/**
+ * @conent 防止QCC攻击
+ */
+function checkCsf()
+{
+//代理IP直接退出
+    empty($_SERVER['HTTP_VIA']) or exit('Access Denied');
+//防止快速刷新
+    session_start();
+    $seconds = '3'; //时间段[秒]
+    $refresh = '8'; //刷新次数
+//设置监控变量
+    $cur_time = time();
+    if(isset($_SESSION['last_time'])){
+        $_SESSION['refresh_times'] += 1;
+    }else{
+        $_SESSION['refresh_times'] = 1;
+        $_SESSION['last_time'] = $cur_time;
+    }
+//处理监控结果
+    if($cur_time - $_SESSION['last_time'] < $seconds){
+        if($_SESSION['refresh_times'] >= $refresh){
+            //跳转至攻击者服务器地址
+            header(sprintf('Location:%s', 'http://127.0.0.1'));
+            exit('Sorry,Access Denied');
+        }
+    }else{
+        $_SESSION['refresh_times'] = 0;
+        $_SESSION['last_time'] = $cur_time;
+    }
 }
 

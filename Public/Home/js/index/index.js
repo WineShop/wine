@@ -50,7 +50,7 @@ define(function (require, exports, module) {
         //幻灯片首个li设置class为CurrentPic
         $(".LunBoslide>li").eq(0).attr("class","CurrentPic");
 
-        //首页添加到购物车图片显示与隐藏
+        //首页图片动画
         $("div.pic").mouseenter(function(e){
             $(this).find("a").animate({
                 top:'-15px',height:'140px'

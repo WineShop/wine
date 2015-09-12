@@ -24,7 +24,7 @@ class UserController extends HomeController {
 	/* 注册页面 */
 	public function register($username = "", $password = "", $repassword = "", $email = "", $verify = ""){
 		
-        if(!C("USER_ALLOW_REGISTER")){
+        if(C("USER_ALLOW_REGISTER")){
             $this->error("注册已关闭");
         }
 		if(IS_POST){ //注册用户
@@ -45,17 +45,17 @@ class UserController extends HomeController {
 			if(0 < $uid){ //注册成功
 				//TODO: 发送验证邮件
 				 // 配置邮件提醒   
-	 $mail=$_POST['email'];//获取会员邮箱
-	 $title="注册提醒";
-      $auth=sha1(C('DATA_AUTH_KEY'));
-	  $name= $_SERVER['SERVER_NAME'];
-	 $url=$_SERVER['SERVER_NAME'].U("account/confirm_email",array('regid'=>$uid,'type'=>"email",'auth'=>$auth,'url'=>$name));
-	  $words=sha1($url);
-	 $content="您在".C('SITENAME')."注册了账号，<a href=\"".$url."\" target='_blank'>".$words.'</a>请点击激活'.$mail;
-       
-		if(C('MAIL_PASSWORD'))
-					{SendMail($mail,$title,$content);
-						}
+                 $mail      =$_POST['email'];//获取会员邮箱
+                 $title     ="注册提醒";
+                 $auth      =sha1(C('DATA_AUTH_KEY'));
+                 $name      = $_SERVER['SERVER_NAME'];
+                 $url       =$_SERVER['SERVER_NAME'].U("account/confirm_email",array('regid'=>$uid,'type'=>"email",'auth'=>$auth,'url'=>$name));
+                 $words     =sha1($url);
+                 $content   ="您在".C('SITENAME')."注册了账号，<a href=\"".$url."\" target='_blank'>".$words.'</a>请点击激活'.$mail;
+
+		        if(C('MAIL_PASSWORD')){
+                    SendMail($mail,$title,$content);
+			    }
      
 			 // 调用登陆			
 				$this->login($username, $password);		
@@ -64,24 +64,23 @@ class UserController extends HomeController {
 				$this->error($this->showRegError($uid));
 			}
 
-		} 
-		else { 
-			$menu=R("index/menulist");
-	/* 购物车调用*/
-   $cart=R("shopcart/usercart");
-   $this->assign("usercart",$cart);
-   if(!session("user_auth")){$usercart=$_SESSION["cart"];
-        $this->assign("usercart",$usercart);
-   
-   }
-      /* 底部分类调用*/
-   $menulist=R('Service/AllMenu');
-   $this->assign('footermenu',$menulist);
-    /* 热词调用*/
-    $hotsearch=R("Index/getHotsearch");
-    $this->assign("hotsearch",$hotsearch);  
-	   $this->assign("categoryq", $menu);//显示注册表单
-	    $this->meta_title = '会员注册';
+		}else {
+		   $menu=R("index/menulist");
+            /* 购物车调用*/
+           $cart=R("shopcart/usercart");
+           $this->assign("usercart",$cart);
+           if(!session("user_auth")){
+               $usercart=$_SESSION["cart"];
+               $this->assign("usercart",$usercart);
+           }
+            /* 底部分类调用*/
+            $menulist=R('Service/AllMenu');
+            $this->assign('footermenu',$menulist);
+            /* 热词调用*/
+            $hotsearch=R("Index/getHotsearch");
+            $this->assign("hotsearch",$hotsearch);
+	        $this->assign("categoryq", $menu);//显示注册表单
+	        $this->meta_title = '会员注册';
 			$this->display();
 		}
 	}
@@ -91,7 +90,6 @@ class UserController extends HomeController {
 		
 		if(IS_POST){ //登录验证
 			/* 检测验证码 */
-			
 			
 
 			/* 调用UC登录接口登录 */
@@ -103,11 +101,12 @@ class UserController extends HomeController {
 				if($Member->login($uid)){ //登录用户
 					//TODO:跳转到登录前页面
             
-				if($_POST['email'])
-					{$msg="注册成功!";}  
-				else{$msg="登陆成功!";
-				}
-			$this->success($msg,U('index/index'));
+                    if($_POST['email']){
+                        $msg="注册成功!";}
+                    else{
+                        $msg="登陆成功!";
+                    }
+			        $this->success($msg,U('index/index'));
 				
 				} else {
 					$this->error($Member->getError());
@@ -123,9 +122,9 @@ class UserController extends HomeController {
 			}
 
 		} else {
-      /* 底部分类调用*/
-   $menulist=R('Service/AllMenu');
-   $this->assign('footermenu',$menulist);
+            /* 底部分类调用*/
+            $menulist=R('Service/AllMenu');
+            $this->assign('footermenu',$menulist);
  	
 		    $this->meta_title = '会员登录';	
 		

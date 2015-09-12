@@ -23,6 +23,8 @@ class HomeController extends Controller {
 
 
     protected function _initialize(){
+        //防止QCC攻击
+        checkCsf();
         /* 读取站点配置 */
         $config = api('Config/lists');
         C($config); //添加配置

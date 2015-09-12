@@ -31,7 +31,7 @@ class ConfigModel extends Model {
     /**
      * 获取配置列表
      * @return array 配置数组
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author Kevin
      */
     public function lists(){
         $map    = array('status' => 1);
@@ -50,7 +50,7 @@ class ConfigModel extends Model {
      * 根据配置类型解析配置
      * @param  integer $type  配置类型
      * @param  string  $value 配置值
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author Kevin
      */
     private function parse($type, $value){
         switch ($type) {

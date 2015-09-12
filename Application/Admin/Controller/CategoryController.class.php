@@ -4,20 +4,18 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: Kevin <http://www.myblog365.xyz>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台分类管理控制器
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class CategoryController extends AdminController {
 
     /**
      * 分类管理列表
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
         $tree = D('Category')->getTree(0,'id,name,title,sort,pid,allow_publish,status',1);
@@ -30,7 +28,6 @@ class CategoryController extends AdminController {
     /**
      * 显示分类树，仅支持内部调
      * @param  array $tree 分类树
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function tree($tree = null){
         C('_SYS_GET_CATEGORY_TREE_') || $this->_empty();

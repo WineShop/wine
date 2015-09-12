@@ -12,7 +12,6 @@ use Admin\Model\AuthRuleModel;
 use Admin\Model\AuthGroupModel;
 /**
  * 后台首页控制器
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class AdminController extends Controller {
 
