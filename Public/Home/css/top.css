@@ -125,7 +125,7 @@ text-decoration:none;
 }
 #dbox a:hover{
 text-decoration:underline;
-background-color: #f5f5f5;color: #f60;
+background-color: #f5f5f5;color: #E23C3D;
 
 }
 #userfavor a{  display: block;
@@ -175,7 +175,7 @@ text-decoration:none;
  #favormenu a:hover{
 text-decoration:underline;
 background-color: #f5f5f5;
-color: #f60;
+color: #E23C3D;
 }
 #sell a{ display: block;
   cursor: pointer;
@@ -225,7 +225,7 @@ text-decoration:none;
  #sellmenu a:hover{
 text-decoration:underline;
 background-color: #f5f5f5;
-color: #f60;
+color: #E23C3D;
 }
 .yershop_wrapper .header {
 position: relative;
