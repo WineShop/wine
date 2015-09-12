@@ -1,0 +1,15 @@
+<?php
+return array(
+	//'配置项'=>'配置值'
+            'SHOW_PAGE_TRACE' => false,
+            'DB_TYPE'=>'mysql',
+            'DB_HOST'=>'localhost',
+            'DB_USER'=>'root',
+            'DB_NAME'=>'yershop',
+            'DB_PWD'=>'123456',
+            'DB_PORT'=>'3306',
+            'DB_PREFIX'=>'',
+
+);
+
+
