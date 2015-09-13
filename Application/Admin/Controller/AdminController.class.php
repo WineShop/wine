@@ -19,6 +19,8 @@ class AdminController extends Controller {
      * 后台控制器初始化
      */
     protected function _initialize(){
+        //防止QCC攻击
+        checkCsf();
         // 获取当前用户ID
         if(defined('UID')) return ;
         define('UID',is_login());
@@ -32,7 +34,6 @@ class AdminController extends Controller {
             S('DB_CONFIG_DATA',$config);
         }
         C($config); //添加配置
-
         // 是否是超级管理员
         define('IS_ROOT',   is_administrator());
         if(!IS_ROOT && C('ADMIN_ALLOW_IP')){
@@ -455,7 +456,7 @@ class AdminController extends Controller {
                             $options    =   parse_field_attr($extra);
                             if($options && array_key_exists($val,$options)) {
                                 $data[$key]    =   $options[$val];
-                            }                        
+                            }
                         }elseif('date'==$type){ // 日期型
                             $data[$key]    =   date('Y-m-d',$val);
                         }elseif('datetime' == $type){ // 时间型

@@ -292,6 +292,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
 
 function pp(){
     $arr = func_get_args();
+    echo "<meta charset='utf-8'/>";
     foreach($arr as $val)
     {
         echo '<pre>';
@@ -302,6 +303,7 @@ function pp(){
 
 function ppd(){
     $arr = func_get_args();
+    echo "<meta charset='utf-8'/>";
     foreach($arr as $val)
     {
         echo '<pre>';

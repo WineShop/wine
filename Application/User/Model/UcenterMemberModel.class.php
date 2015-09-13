@@ -127,6 +127,7 @@ class UcenterMemberModel extends Model{
 	 * @return integer           登录成功-用户ID，登录失败-错误编号
 	 */
 	public function login($username, $password, $type = 1){
+        $is_admin  = C('IS_ADMIN');
 		$map = array();
 		switch ($type) {
 			case 1:
@@ -144,10 +145,14 @@ class UcenterMemberModel extends Model{
 			default:
 				return 0; //参数错误
 		}
-
 		/* 获取用户数据 */
 		$user = $this->where($map)->find();
 		if(is_array($user) && $user['status']){
+            /** 验证是否是不是管理员 */
+            if($is_admin != $user['is_admin'])
+            {
+                return -10;
+            }
 			/* 验证用户密码 */
 			if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
 				$this->updateLogin($user['id']); //更新用户登录信息

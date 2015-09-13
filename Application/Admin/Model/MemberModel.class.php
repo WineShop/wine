@@ -35,7 +35,7 @@ class MemberModel extends Model {
     public function login($uid){
         /* 检测是否在当前应用注册 */
         $user = $this->field(true)->find($uid);
-        if(!$user || 1 != $user['status']) {
+        if(!$user || 0 == $user['status']) {
             $this->error = '用户不存在或已被禁用！'; //应用级别禁用
             return false;
         }

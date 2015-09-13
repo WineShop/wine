@@ -9,16 +9,18 @@
 
 namespace Admin\Controller;
 use User\Api\UserApi;
+use Think\Controller;
 
 /**
  * 后台首页控制器
  */
-class PublicController extends \Think\Controller {
+class PublicController extends Controller {
 
     public function __construct()
     {
         //防止QCC攻击
         checkCsf();
+        parent::__construct();
     }
     /**
      * 后台用户登录
@@ -47,6 +49,7 @@ class PublicController extends \Think\Controller {
                 switch($uid) {
                     case -1: $error = '用户不存在或被禁用！'; break; //系统级别禁用
                     case -2: $error = '密码错误！'; break;
+                    case -10: $error = '对不起，你不是管理员！';break;
                     default: $error = '未知错误！'; break; // 0-接口参数错误（调试阶段使用）
                 }
                 $this->error($error);

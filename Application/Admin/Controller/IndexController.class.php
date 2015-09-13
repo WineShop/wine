@@ -21,12 +21,12 @@ class IndexController extends AdminController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-   $damain=$_SERVER['SERVER_NAME'];
+        $damain=$_SERVER['SERVER_NAME'];
         $this->assign('data',$damain); 
 	    $url="http://".$damain.__ROOT__;
         M("config")->where("name='DOMAIN'")->setField('value',$url);
   
-	 $this->meta_title = '管理首页';
+	     $this->meta_title = '管理首页';
       
 		 $this->display();
     }
