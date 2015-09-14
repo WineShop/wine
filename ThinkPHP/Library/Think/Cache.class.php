@@ -37,7 +37,7 @@ class Cache {
      */
     public function connect($type='',$options=array()) {
         if(empty($type))  $type = C('DATA_CACHE_TYPE');
-        $class  =   strpos($type,'\\')? $type : 'Think\\Cache\\Driver\\'.ucwords(strtolower($type));            
+        $class  =   strpos($type,'\\')? $type : 'Think\\Cache\\Driver\\'.ucwords(strtolower($type));
         if(class_exists($class))
             $cache = new $class($options);
         else

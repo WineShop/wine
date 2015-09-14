@@ -5,6 +5,8 @@ define(function (require, exports, module) {
     var T   = require('T');
     var main = require('main');
 
+    main.modalEvent();
+
 
     //banner切换
     var banner = function(){

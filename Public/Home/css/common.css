@@ -1364,7 +1364,8 @@ input.v_inp:focus {
     border: 1px solid #E23C3D;
 }
 .login-other .control-group{overflow:hidden;margin: 10px}
-em.user {
+.checkCode{width: 120px;height: 40px;cursor: pointer;vertical-align: middle;display: inline-block}
+    em.user {
   width: 36px;
 
 overflow: hidden;
@@ -2088,7 +2089,7 @@ div.text{display:block;overflow:hidden;clear:both;}
 }
 .alert-danger {
     color: rgb(255, 255, 255);
-    background-color: #2f96b4;
+    background-color: #f59f25;
 }
 
 /*按钮颜色*/

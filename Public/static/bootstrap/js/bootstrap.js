@@ -901,7 +901,6 @@
         this.$element
           .removeClass('in')
           .attr('aria-hidden', true)
-
         $.support.transition && this.$element.hasClass('fade') ?
           this.hideWithTransition() :
           this.hideModal()

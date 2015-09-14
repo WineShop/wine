@@ -416,7 +416,7 @@ padding: 24px 15px;
 }
 #login-page .login-form .icon-login-user,
 #login-page .login-form .icon-login-pwd,
-.#login-page login-form .icon-login-verifycode {
+#login-page .login-form .icon-login-verifycode {
     background: url("../images/icon24_login.png") no-repeat;
 }
 #login-page .login-form .icon-login-user {
@@ -435,6 +435,7 @@ padding: 24px 15px;
 #login-page .login-form .login-btn {
     color: #FFFFFF;
     background-color: #40C402;
+    border-radius: 3px;
 }
 #login-page .login-form .login-btn:hover {
     background-color: #42EC00;

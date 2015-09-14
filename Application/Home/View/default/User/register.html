@@ -1,112 +1,72 @@
-<div class="modal-dialog">
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{:C('SITENAME')}——用户激活邮件</title>
+</head>
+<body>
+<div style="background:#f4f4f4; font-family:'微软雅黑'; padding:30px 0; margin:0;">
+    <div style="width:900px; margin:0 auto; background:#fafafa;">
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="900px" style="font-family: '微软雅黑';font-size: 14px;color: #393737;">
+            <tbody>
+            <tr bgcolor="#35bdbc" height="100">
+                <td width="170" align="center"><img src="/resource/img/edm/logo.png"></td>
+                <td width="550" style="line-height:30px;" align="center">
+                    <span style="font-size:20px; color:#fff;">欢迎试用 {:C('SITENAME')}，请完成账号激活</span><br/>
+                <td width="180"></td>
+            </tr>
+            </tbody>
+        </table>
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="860px" style="font-family: '微软雅黑';font-size: 14px;color: #393737;">
+            <tbody>
+            <tr height="20px"></tr>
+            <tr>
+                <td width="150" align="center" rowspan="2"><img src="/resource/img/edm/head_mail.png"></td>
+                <td width="750" style="line-height:30px;font-family:'微软雅黑';font-size:16px;">
+                    Hi，亲爱的<span style="font-weight: bold;">{$mail}</span>
 
-  <div class="mainwrap">
-    
-	<div class="think-form"> <div class="loginform">
-      <div class="hd">
-          <strong>用户注册</strong><span>已有帐号？点击<a href='{:U("User/login")}'>登录</a></span>
-      </div>
-      <a rel="nofollow" href="{:C('DOMAIN')}" class="img"> <img src="__IMG__/login-3.jpg" width='300' height='300'></a>
-	</div>
-	
-	<div class="login-other">  
-	    <form class="form-horizontal" role="form" action="__SELF__" method="post" id="register" onsubmit="return false;">
-          <div class="control-group">
-              <label class="control-label" for="inputEmail">邮箱</label>
-              <div class="controls">
-                  <input type="text" id="inputEmail" class="v_inp" class="span3" placeholder="请输入电子邮件"  ajaxurl="/member/checkUserEmailUnique.html" errormsg="请填写正确格式的邮箱" nullmsg="请填写邮箱" datatype="e" value="" name="email">
-              </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="inputEmail">用户名</label>
-            <div class="controls">
-              <em class="user glyphicon glyphicon-user"></em><input type="text" id="inputEmail" class="v_inp" class="span3" placeholder="请输入用户名"  ajaxurl="/member/checkUserNameUnique.html" errormsg="请填写1-16位用户名" nullmsg="请填写用户名" datatype="*1-16" value="" name="username">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="inputPassword">密码</label>
-            <div class="controls">
-             <input type="password" id="inputPassword" class="v_inp"  class="span3" placeholder="请输入密码"  errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
-            </div>
-          </div>
-          <div class="control-group">
-              <label class="control-label" for="inputPassword">确认密码</label>
-              <div class="controls">
-                  <input type="password" id="inputPassword" class="v_inp" class="span3" placeholder="请再次输入密码" recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请填确认密码" datatype="*" name="repassword">
-              </div>
-			 <div class="controls Validform_checktip text-warning"></div>
-          </div>
-         
-          <div class="control-group">
-            <div class="controls">
-              <button type="submit"  class="v_dark_btn">注 册</button>
-            </div>
-          </div>
-        </form>
-		<p>合作网站账号登录：{:hook('SyncLogin')}
-		</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size:14px;font-family:'微软雅黑'">您于{$time}在{:C('SITENAME')}注册了新的账号,请点击下面的链接完成注册：</td>
+            </tr>
+            <tr style="height: 30px;"></tr>
+            <tr>
+                <td></td>
+                <td height="30px">
+                    <a href="{$url}" style="color: #009bdc;">{$url}</a>
+                </td>
+            </tr>
+            <tr height="60" ><td colspan="2" style="border-bottom: 1px dashed #ddd;"></td></tr>
+            <tr height="20px"></tr>
+            <tr>
+                <td></td>
+                <td height="30px">如果您在使用过程中有任何疑问，请随时联系我们：</td>
+            </tr>
+            <tr height="40px"></tr>
+
+            </tbody>
+        </table>
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="860px" style="font-family: '微软雅黑';font-size: 14px;color: #393737;">
+            <tbody>
+            <tr>
+                <td width="150"></td>
+                <td width="500px" height="30px">微信平台：cloudwise2014</td>
+                <td rowspan="3"><img src="/resource/img/erweima.png"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td height="30px">统一受理热线：400-618-7188</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td height="30px">统一受理平台：<a href="support.cloudwise.com" style="color: #009bdc;">support.cloudwise.com</a></td>
+            </tr>
+            <tr height="40"></tr>
+            </tbody>
+        </table>
+
     </div>
- </div>
-	
 </div>
-
-
-	<script type="text/javascript">
-    seajs.use(['T','login'],function(T,login){
-        login.register();
-
-        (function($){
-            //表单提交
-            $.fn.form = function(option){
-                var options = $.extend({
-                    loading :true,
-                    reset   :true,
-                    success :true,
-                    error   :true,
-                    loadingText :'正在提交',
-                    alertSuccess:true,
-                    alertError  :true,
-                    method      :"GET"
-                },option);
-
-
-                return this.each(function(){
-
-                    var form = $(this);
-                    var submit = form.find('[type="submit"]');
-
-
-                    form.submit(function(){
-                        if(options.loading === true){
-                            submit.data('loadingText') || submit.data('loadingText',options.loadingText);
-                            submit.button('loading');
-                        }
-                        form.trigger('loading');
-                        T.restGet({
-                            url         : form.attr('action'),
-                            data        : form.serialize(),
-                            alertSuccess: options.alertSuccess,
-                            alertError  : options.alertError,
-                            method      : form.attr('method').toUpperCase() || options.method,
-                            success     : function(reJson){
-                                options.success && form.trigger('success',reJson);
-                            },
-                            error:function(reJson){
-                                options.error && form.trigger('error',reJson);
-                            },
-                            complete:function(reJson){
-                                options.reset && submit.button('reset');
-                            }
-                        });
-
-                        return false;
-                    });
-                });
-            };
-        }($));
-
-        var aa = $("#register").form();
-    });
-
-
-    </script>
+</body>
+</html>

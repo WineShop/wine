@@ -196,7 +196,18 @@ define(function (require, exports, module) {
 
 							$('body').find(".location1,.location2").remove();
 					});
-				}
+				},
+
+
+                /**
+                 * 监听模态弹框，让弹框可以使用多次请求
+                 */
+                modalEvent : function(){
+                    $("#alterModal").on("hidden.bs.modal", function() {
+                        $(this).removeData("bs.modal");
+                    });
+                }
+
 
 			};
 			return tsb;

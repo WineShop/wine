@@ -40,4 +40,18 @@ class HomeController extends Controller {
 		is_login() || $this->error('您还没有登录，请先登录！', U('User/login'));
 	}
 
+    /* 用于ajax返回错误信息 */
+    protected function ajaxError($msg = NULL, $status = 900, $data = array())
+    {
+        \Think\RestTool::instance()->error($msg, $status, $data);
+    }
+
+    /* 用于ajax返回正确信息 */
+    protected function ajaxSuccess($data=null,$status = 1000, $msg = null)
+    {
+        if(!is_array($data))
+            $msg = $data;
+        \Think\RestTool::instance()->success($data, $status, $msg);
+    }
+
 }

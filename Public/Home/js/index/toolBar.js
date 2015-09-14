@@ -5,6 +5,8 @@ define(function (require, exports, module) {
     var T   = require('T');
     var main = require('main');
 
+    main.modalEvent();
+
     //头部topbar会员中心显示与隐藏
     var Account= document.getElementById('account');
     var Downmenu= document.getElementById('dbox');
