@@ -31,7 +31,10 @@ class PublicController extends Controller {
            // if(!check_verify($verify)){
               //  $this->error('验证码输入错误！');
            // }
-
+            if(empty($username) || empty($password))
+            {
+                \Think\RestTool::instance()->error('用户名和密码都不能为空！');
+            }
             /* 调用UC登录接口登录 */
             $User = new UserApi;
             $uid = $User->login($username, $password);
@@ -40,9 +43,10 @@ class PublicController extends Controller {
                 $Member = D('Member');
                 if($Member->login($uid)){ //登录用户
                     //TODO:跳转到登录前页面
-                    $this->success('登录成功！', U('Admin/Index/index'));
+                    $url = U('Admin/Index/index');
+                    \Think\RestTool::instance()->success($url,1000,'登录成功！');
                 } else {
-                    $this->error($Member->getError());
+                    \Think\RestTool::instance()->error($Member->getError());
                 }
 
             } else { //登录失败

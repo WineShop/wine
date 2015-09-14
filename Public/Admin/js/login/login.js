@@ -13,7 +13,7 @@ define(function(require, exports, module){
                 $(this).closest('.item').removeClass('focus');
             });
 
-       
+
         $(".login-btn").click(function(){
             $("button:submit").addClass("log-in").attr("disabled", true);
             var url     = $("#login").attr('action');
@@ -23,6 +23,7 @@ define(function(require, exports, module){
             };
             T.restPost(url,param,function(success){
                 main.modalAlert('操作成功','success');
+                window.location.href = success.data;
             },function(error){
                 main.modalAlert(error.msg,'danger');
             })

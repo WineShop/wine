@@ -102,7 +102,7 @@
             self::STATUS_ERROR_API_VALIDE_AUTH        => 'auth拒绝请求',
             self::STATUS_ERROR_API_VALIDE_SESSION     => 'session失效',
             self::STATUS_ERROR_API_VALIDE_TOKEN       => 'token失效',
-            self::STATUS_SUCCESS                      => 'success',
+            self::STATUS_SUCCESS                      => '操作成功',
             self::STATUS_SUCCESS_DO_ERROR             => '请求成功,逻辑处理失败,末定义错误',
             self::STATUS_SUCCESS_DO_ERROR_DB          => '请求成功,数据库错误',
             self::STATUS_SUCCESS_DO_ERROR_DB_REPEAT   => '记录重复',
