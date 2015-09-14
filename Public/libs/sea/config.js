@@ -10,14 +10,20 @@ seajs.config({
     alias: {
 
 		//TSB common公共的js
-        jquery      : 'Home/js/jquery.min.js',
-        TSB         : 'libs/main.js',
+        jquery      : 'static/jquery.min.js',
+        main        : 'libs/main.js',
         T           : 'libs/TSB.js',
         Public      : 'Home/js/public.js',
 
         //首页
         Menudown    : 'static/js/menudown.js',
-        Index       : 'Home/js/index/index.js'
+        Index       : 'Home/js/index/index.js',
+        ToolBar     : 'Home/js/index/toolBar.js',
+        Login       : 'Home/js/index/login.js',
+
+
+        //后台登陆
+        AdminLogin  : 'Admin/js/login/login.js'
 
 
 

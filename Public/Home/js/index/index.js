@@ -3,7 +3,7 @@
  */
 define(function (require, exports, module) {
     var T   = require('T');
-    var TSB = require('TSB');
+    var main = require('main');
 
 
     //banner切换

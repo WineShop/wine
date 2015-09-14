@@ -23,8 +23,7 @@ class UserController extends HomeController {
 
 	/* 注册页面 */
 	public function register($username = "", $password = "", $repassword = "", $email = "", $verify = ""){
-		
-        if(C("USER_ALLOW_REGISTER")){
+        if(!C("USER_ALLOW_REGISTER")){
             $this->error("注册已关闭");
         }
 		if(IS_POST){ //注册用户
@@ -33,6 +32,7 @@ class UserController extends HomeController {
 				//$this->error("验证码输入错误！");
 			//}
 
+            ppd('22222');
 			/* 检测密码 */
 			if($password != $repassword){
 				$this->error("密码和重复密码不一致！");
@@ -49,7 +49,7 @@ class UserController extends HomeController {
                  $title     ="注册提醒";
                  $auth      =sha1(C('DATA_AUTH_KEY'));
                  $name      = $_SERVER['SERVER_NAME'];
-                 $url       =$_SERVER['SERVER_NAME'].U("account/confirm_email",array('regid'=>$uid,'type'=>"email",'auth'=>$auth,'url'=>$name));
+                 $url       = $_SERVER['SERVER_NAME'].U("account/confirm_email",array('regid'=>$uid,'type'=>"email",'auth'=>$auth,'url'=>$name));
                  $words     =sha1($url);
                  $content   ="您在".C('SITENAME')."注册了账号，<a href=\"".$url."\" target='_blank'>".$words.'</a>请点击激活'.$mail;
 
@@ -65,21 +65,6 @@ class UserController extends HomeController {
 			}
 
 		}else {
-		   $menu=R("index/menulist");
-            /* 购物车调用*/
-           $cart=R("shopcart/usercart");
-           $this->assign("usercart",$cart);
-           if(!session("user_auth")){
-               $usercart=$_SESSION["cart"];
-               $this->assign("usercart",$usercart);
-           }
-            /* 底部分类调用*/
-            $menulist=R('Service/AllMenu');
-            $this->assign('footermenu',$menulist);
-            /* 热词调用*/
-            $hotsearch=R("Index/getHotsearch");
-            $this->assign("hotsearch",$hotsearch);
-	        $this->assign("categoryq", $menu);//显示注册表单
 	        $this->meta_title = '会员注册';
 			$this->display();
 		}
@@ -122,12 +107,8 @@ class UserController extends HomeController {
 			}
 
 		} else {
-            /* 底部分类调用*/
-            $menulist=R('Service/AllMenu');
-            $this->assign('footermenu',$menulist);
- 	
-		    $this->meta_title = '会员登录';	
-		
+
+		    $this->meta_title = '会员登录';
 			//显示登录表单
 			$this->display();
 		}

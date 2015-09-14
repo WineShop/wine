@@ -52,7 +52,7 @@ class PublicController extends Controller {
                     case -10: $error = '对不起，你不是管理员！';break;
                     default: $error = '未知错误！'; break; // 0-接口参数错误（调试阶段使用）
                 }
-                $this->error($error);
+                \Think\RestTool::instance()->error($error);
             }
         } else {
             if(is_login()){

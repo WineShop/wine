@@ -497,7 +497,6 @@ width:60%;margin:0 auto;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
-
 }
 #dialog p {
     margin:0 0 12px;
@@ -910,9 +909,10 @@ float:left;
 #account a{margin-right:1px;}
 .topbar .welcome a{height: 34px;
 line-height: 34px;display:inline-block;}
-.operate_nav{z-index: 8888;
+.operate_nav{z-index: 200;
 float: right;position: relative;
 padding-left:6px;
+}
 .operate_nav a{height: 34px;
 line-height: 34px;
 }

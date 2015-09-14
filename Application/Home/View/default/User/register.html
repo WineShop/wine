@@ -1,18 +1,22 @@
-<extend name="Base/s4" />
+<div class="modal-dialog">
 
-
-<block name="body">
-
-<section><div class="mainwrap">
+  <div class="mainwrap">
     
 	<div class="think-form"> <div class="loginform">
-<div class="hd">
-                                   <strong>用户注册</strong><span>已有帐号？点击<a href='{:U("User/login")}'>登录</a></span>            </div>
-<a rel="nofollow" href="{:C('DOMAIN')}" class="img"> <img src="__IMG__/login-3.jpg" width='400' height='300'></a>
+      <div class="hd">
+          <strong>用户注册</strong><span>已有帐号？点击<a href='{:U("User/login")}'>登录</a></span>
+      </div>
+      <a rel="nofollow" href="{:C('DOMAIN')}" class="img"> <img src="__IMG__/login-3.jpg" width='300' height='300'></a>
 	</div>
 	
 	<div class="login-other">  
-	<form class="form-horizontal" role="form" action="__SELF__" method="post">
+	    <form class="form-horizontal" role="form" action="__SELF__" method="post" id="register" onsubmit="return false;">
+          <div class="control-group">
+              <label class="control-label" for="inputEmail">邮箱</label>
+              <div class="controls">
+                  <input type="text" id="inputEmail" class="v_inp" class="span3" placeholder="请输入电子邮件"  ajaxurl="/member/checkUserEmailUnique.html" errormsg="请填写正确格式的邮箱" nullmsg="请填写邮箱" datatype="e" value="" name="email">
+              </div>
+          </div>
           <div class="control-group">
             <label class="control-label" for="inputEmail">用户名</label>
             <div class="controls">
@@ -26,16 +30,10 @@
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="inputPassword">确认密码</label>
-            <div class="controls">
-             <input type="password" id="inputPassword" class="v_inp" class="span3" placeholder="请再次输入密码" recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请填确认密码" datatype="*" name="repassword">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="inputEmail">邮箱</label>
-            <div class="controls">
-           <input type="text" id="inputEmail" class="v_inp" class="span3" placeholder="请输入电子邮件"  ajaxurl="/member/checkUserEmailUnique.html" errormsg="请填写正确格式的邮箱" nullmsg="请填写邮箱" datatype="e" value="" name="email">
-            </div>
+              <label class="control-label" for="inputPassword">确认密码</label>
+              <div class="controls">
+                  <input type="password" id="inputPassword" class="v_inp" class="span3" placeholder="请再次输入密码" recheck="password" errormsg="您两次输入的密码不一致" nullmsg="请填确认密码" datatype="*" name="repassword">
+              </div>
 			 <div class="controls Validform_checktip text-warning"></div>
           </div>
          
@@ -47,49 +45,68 @@
         </form>
 		<p>合作网站账号登录：{:hook('SyncLogin')}
 		</p>
-		</div>
     </div>
+ </div>
 	
-</section>
- 
-</block>
+</div>
 
-<block name="script">
+
 	<script type="text/javascript">
-    	$(document)
-	    	.ajaxStart(function(){
-	    		$("button:submit").addClass("log-in").attr("disabled", true);
-	    	})
-	    	.ajaxStop(function(){
-	    		$("button:submit").removeClass("log-in").attr("disabled", false);
-	    	});
+    seajs.use(['T','login'],function(T,login){
+        login.register();
+
+        (function($){
+            //表单提交
+            $.fn.form = function(option){
+                var options = $.extend({
+                    loading :true,
+                    reset   :true,
+                    success :true,
+                    error   :true,
+                    loadingText :'正在提交',
+                    alertSuccess:true,
+                    alertError  :true,
+                    method      :"GET"
+                },option);
 
 
-    	$("form").submit(function(){
-    		var self = $(this);
-    		$.post(self.attr("action"), self.serialize(), success, "json");
-    		return false;
+                return this.each(function(){
 
-    		function success(data){
-    			if(data.status){
-    				window.location.href = data.url;
-    			} else {
-    				self.find(".Validform_checktip").text(data.info);
-    				//刷新验证码
-    				$(".reloadverify").click();
-    			}
-    		}
-    	});
+                    var form = $(this);
+                    var submit = form.find('[type="submit"]');
 
-		$(function(){
-			var verifyimg = $(".verifyimg").attr("src");
-            $(".reloadverify").click(function(){
-                if( verifyimg.indexOf('?')>0){
-                    $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
-                }else{
-                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
-                }
-            });
-		});
-	</script>
-</block>
+
+                    form.submit(function(){
+                        if(options.loading === true){
+                            submit.data('loadingText') || submit.data('loadingText',options.loadingText);
+                            submit.button('loading');
+                        }
+                        form.trigger('loading');
+                        T.restGet({
+                            url         : form.attr('action'),
+                            data        : form.serialize(),
+                            alertSuccess: options.alertSuccess,
+                            alertError  : options.alertError,
+                            method      : form.attr('method').toUpperCase() || options.method,
+                            success     : function(reJson){
+                                options.success && form.trigger('success',reJson);
+                            },
+                            error:function(reJson){
+                                options.error && form.trigger('error',reJson);
+                            },
+                            complete:function(reJson){
+                                options.reset && submit.button('reset');
+                            }
+                        });
+
+                        return false;
+                    });
+                });
+            };
+        }($));
+
+        var aa = $("#register").form();
+    });
+
+
+    </script>

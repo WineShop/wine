@@ -6,38 +6,10 @@
 define(function (require, exports, module) {
 	var jQuery = require('jquery');
 	
-	var TSB = (function ($, window, document, undefined) {
+	var main = (function ($, window, document, undefined) {
 			
 			var tsb = {
-				switchHideShow: function (oChange, oTarget) {
 
-					oTarget.blur(function(){
-						oChange.parents('li').removeClass('active');
-						oTarget.slideUp('fast');
-					});
-
-					oChange.click(function () {
-						if (oTarget.is(':hidden')) {
-							oChange.parents('li').addClass('active');
-							oTarget.slideDown('fast');
-							oTarget.focus();
-						} else {
-							oChange.parents('li').removeClass('active');
-							oTarget.slideUp('normal');
-						}
-					});
-
-
-				},
-
-				/**
-				 * 初始化选择控件
-				 */
-				initSwitchCheckBox: function () {
-					if ($('.switch-checkbox')[0]) {
-						$(document).find('.switch-checkbox').bootstrapSwitch();
-					}
-				},
 
 				/*弹框提示信息*/
 				modalAlert: function (options,status,speed) {
@@ -53,202 +25,43 @@ define(function (require, exports, module) {
 					};
 
 					var cls = $.isEmptyObject(status[opt.status]) ? opt.status : status[opt.status];
-
-					var alertHtml = '<div class="modal-alert"><div class="alert alert-' + cls + '">'  + opt.msg + '</div></div>';
-
-					$(alertHtml).appendTo($('body')).fadeIn().delay(opt.speed).fadeOut(function () {
+                    var icon = cls+'_icon.png';
+					var alertHtml = '<div class="modal-alert"><div class="alert alert-' + cls + '"><img src="/Public/static/images/'+icon+'"/>'  + opt.msg + '</div></div>';
+                    $(alertHtml).appendTo($('body')).fadeIn().delay(opt.speed).fadeOut(function () {
 						$(this).remove()
 					});
 				},
+
 				/**
 				 * congfirm确认提示框
 				 * @param data   删除条目的配置信息
 				 * @param dom    删除的dom元素
 				 * @returns {*}
 				 */
-				modalConfirm: function (data,dom,options) {
-					var opt = $.extend({
-						status: 'success',
-						msg: "Operation is successful !",
-						speed: 2000
-					}, options || {});
-					if (opt.status == 'success') {
-						var alertIcon = '<i class="fa fa-check-circle" id="green"></i>';
-					} else {
-						var alertIcon = '<i class="fa fa-times-circle" id="red"></i>';
-					}
-					var alertHtml = '<div class="modal-alert" style="display:none;height:100%;margin-top: -30px;padding-top: 100px"><div class="alert alert-' + opt.status + '">' + alertIcon + opt.msg + '</<div></br></br><input type="button" id="confirm" class="btn-blue " style="margin-left: 80px" value="确定"/>     <input type="button" id="cancle" class="btn-blue center"  style="margin-left: 40px" value="取消"/></div></div>';
+               confirm : function(msg,ok,quxiao){
+                    var opt = {
+                        status: 'success',
+                        msg: msg,
+                        speed: 2000
+                    };
 
-					$(alertHtml).appendTo($('body')).fadeIn().delay(opt.speed);
+                    var alertIcon = '<img src="/Public/static/images/danger_icon.png"/>';
+                    var alertHtml = $('<div class="modal-alert" style="display:none;height:100%;margin-top: -30px;padding-top: 100px"><div class="alert alert-' + opt.status + '">' + alertIcon + opt.msg + '</<div></br></br><input type="button" id="confirm" class="wine_btn wine_btn-blue" style="margin-left: 80px;" value="确定"/>     <input type="button" id="cancle" class="wine_btn wine_btn-blue"  style="margin-left: 40px" value="取消"/></div></div>');
 
-					$('#confirm').click(function(){
-						T.restPost('/ajax/alert/template/remove',data,function(back){
-							dom.remove();
-							TSB.modalAlert({msg:back.msg});
-						},function(back){
-							TSB.modalAlert({msg:back.msg});
-						});
-						$('#cancle').trigger('click');
-					});
+                    $(alertHtml).find("#confirm").click(function(e){
+                        $(this).parent().parent().hide();
+                        $.isFunction(ok) && ok(e);
+                    })
 
-					$(document).delegate('#cancle','click',function(){
-						$('.modal-alert').remove();
-					});
+                    $(alertHtml).find("#cancle").click(function(e){
+                        $(this).parent().parent().hide();
+                        $.isFunction(quxiao) && quxiao(e);
+                    })
 
-				},
+                    $(alertHtml).appendTo($('body')).fadeIn().delay(opt.speed);
+                },
 
 
-				/*jquery UI 滑块扩展*/
-				slider: function (sel, opt) {
-					var $selectors = $(sel);
-					return $.each($selectors, function () {
-						var $target = $(this);
-
-						opt.start = function (event, ui) {
-							if (typeof opt.startFun == 'function') {
-								opt.startFun.call(this, event, ui);
-							}
-						};
-						opt.slide = function (event, ui) {
-							if (typeof opt.slideFun == 'function') {
-								opt.slideFun.call(this, event, ui);
-							}
-							if (opt.values != undefined) {
-								rangeWidget.call(this);
-							}
-						};
-						opt.change = function (event, ui) {
-							if (typeof opt.changeFun == 'function') {
-								opt.changeFun.call(this, event, ui);
-							}
-							if (opt.values != undefined) {
-								rangeWidget.call(this);
-							}
-						};
-						opt.stop = function (event, ui) {
-							if (typeof opt.stopFun == 'function') {
-								opt.stopFun.call(this, event, ui);
-							}
-						};
-
-						var range = $(this).attr('js-range');
-
-						if (opt.range == undefined) {
-							opt.range = range == 'true' ? true : range;
-						}
-						if (opt.min == undefined) {
-							opt.min = parseInt($(this).parent('div').find('.slider-widget-range').eq(0).text());
-						}
-						if (opt.max == undefined) {
-							opt.max = parseInt($(this).parent('div').find('.slider-widget-range').eq(1).text());
-						}
-
-						if (opt.value == undefined && opt.values == undefined) {
-							var input_target = $(this).attr('js-target-input');
-
-							if (input_target) {
-								var oForm = $(this).closest('form');
-
-								if (input_target.indexOf(',') > 1) {
-									var input_targets = input_target.split(',');
-									var input_targets_0 = parseInt(oForm.find('input[name="' + input_targets[0] + '"]').val());
-									var input_targets_1 = parseInt(oForm.find('input[name="' + input_targets[1] + '"]').val());
-									opt.values = [input_targets_0, input_targets_1];
-								} else {
-									opt.value = parseInt(oForm.find('input[name="' + input_target + '"]').val());
-								}
-							}
-						}
-						$target.slider(opt);
-
-						if (opt.values != undefined) {
-							var rangeWidget = function () {
-								var widthPer = parseInt($target.find('.ui-slider-range')[0].style.width);
-								var leftPer = parseInt($target.find('.ui-slider-range')[0].style.left);
-								if ($target.find('.ui-widget-range-left')[0] == undefined) {
-									$('<div class="ui-widget-range-left" style="width:' + leftPer + '%;"></div>' +
-										'<div class="ui-widget-range-right" style="width:' + (100 - widthPer - leftPer) + '%;"></div>').appendTo($target);
-								} else {
-									$target.find('.ui-widget-range-left').css('width', leftPer + '%');
-									$target.find('.ui-widget-range-right').css('width', (100 - widthPer - leftPer) + '%');
-								}
-							};
-							rangeWidget();
-						}
-					});
-				},
-				/*初始化slider*/
-				initSlider: function () {
-					$('.js-ui-slider').each(function () {
-						TSB.slider(this, {
-							slideFun: function (event, ui) {
-								var oForm = $(this).closest('form');
-
-								var target_input = $(this).attr('js-target-input');
-
-								if (target_input.indexOf(',') > 1) {
-									var input_targets = target_input.split(',');
-
-									oForm.find('.js_data_' + input_targets[0]).text(ui.values[0]);
-									oForm.find('input[name="' + input_targets[0] + '"]').val(ui.values[0]);
-
-									oForm.find('.js_data_' + input_targets[1]).text(ui.values[1]);
-									oForm.find('input[name="' + input_targets[1] + '"]').val(ui.values[1]);
-
-								} else {
-									oForm.find('.js_data_' + target_input).text(ui.value);
-									oForm.find('input[name="' + target_input + '"]').val(ui.value);
-									oForm.find('#' + target_input).trigger('change');
-								}
-
-							}
-						});
-					});
-
-					$('.js-ui-slider-with-scale').each(function () {
-						var oForm = $(this).closest('form');
-
-						var target_input = $(this).attr('js-target-input');
-						var target_value = oForm.find('input[name="' + target_input + '"]').val();
-						var value;
-
-						var scale = new Array();
-						var scale_target = new Array();
-						$(this).closest('div').parent('div').find('.sacle').each(function (k) {
-							var _scale_value = $(this).attr('js-data-scale');
-							var _scale_target = $(this).html();
-							scale[k + 1] = _scale_value;
-							scale_target[k + 1] = _scale_target;
-							if (target_value == _scale_value) {
-								value = k + 1;
-								oForm.find('.js_data_' + target_input).text(_scale_target);
-							}
-						});
-
-						TSB.slider(this, {
-							min: 1,
-							max: scale.length - 1,
-							value: value,
-							slideFun: function (event, ui) {
-
-								if (target_input.indexOf(',') > 1) {
-									var input_targets = target_input.split(',');
-
-									oForm.find('.js_data_' + input_targets[0]).text(scale_target[ui.values[0]]);
-									oForm.find('input[name="' + input_targets[0] + '"]').val(scale[ui.values[0]]);
-
-									oForm.find('.js_data_' + input_targets[1]).text(scale_target[ui.values[1]]);
-									oForm.find('input[name="' + input_targets[1] + '"]').val(scale[ui.values[1]]);
-
-								} else {
-									oForm.find('.js_data_' + target_input).text(scale_target[ui.value]);
-									oForm.find('input[name="' + target_input + '"]').val(scale[ui.value]);
-								}
-
-							}
-						});
-					});
-				},
 				/*初始化表单元素*/
 				initForm: function (oForm, oValue) {
 					function initSwitch(oForm) {
@@ -329,42 +142,6 @@ define(function (require, exports, module) {
 					initSwitch(oForm);
 				},
 
-				/*事件管理*/
-				eventManager: {
-					events: {
-					},
-					addListener: function (type, handler, scope, params) {
-						this.events = this.events || {};
-						this.events[type] = this.events[type] || [];
-						this.events[type].push({
-							handler: handler,
-							scope: scope,
-							params: params
-						});
-					},
-					removeListener: function (type, handler, scope) {
-						if (!$.isEmptyObject(this.events)) {
-							this.events[type] = $.grep(this.events[type], function (e) {
-								var s = scope || e.scope;
-								var h = handler || e.handler;
-								return e.scope !== s || e.handler !== h;
-							});
-						}
-					},
-					trigger: function (type, params) {
-						if (this.events) {
-							var fns = this.events[type], i, fn;
-							if (!fns) {
-								return;
-							}
-							for (i = 0; fn = fns[i]; i++) {
-								if (fn.handler.apply(fn.scope || this, params || fn.params || []) === false) {
-									return false;
-								}
-							}
-						}
-					}
-				},
 				/*url锚点值处理*/
 				anchorManager: {
 					_processHash: function (params) {
@@ -402,21 +179,7 @@ define(function (require, exports, module) {
 						this._processHash(params);
 					}
 				},
-				/**
-				 * 初始化harViwer
-				 */
-				harViewerInit: function () {
-					$(document).ready(function () {
-						var har = document.createElement("script");
-						har.src = "/resource/js/harviewer/har.js";
-						har.setAttribute("id", "har");
-						har.setAttribute("async", "true");
-						document.documentElement.firstChild.appendChild(har);
-					});
-					if (typeof(harInitialize) != "undefined") {
-						harInitialize()
-					}
-				},
+
 
 				/**
 				 * 弹窗 + 前向翻页
@@ -440,37 +203,6 @@ define(function (require, exports, module) {
 		})(jQuery, window, document, undefined);
 
 
-
-	Date.prototype.format = function (format) {
-		var o = {
-			"M+": this.getMonth() + 1, //month
-			"d+": this.getDate(), //day
-			"h+": this.getHours(), //hour
-			"m+": this.getMinutes(), //minute
-			"s+": this.getSeconds(), //second
-			"q+": Math.floor((this.getMonth() + 3) / 3), //quarter
-			"S": this.getMilliseconds() //millisecond
-		}
-
-		if (/(y+)/.test(format)) {
-			format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-		}
-		for (var k in o) {
-			if (new RegExp("(" + k + ")").test(format)) {
-				format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
-			}
-		}
-		return format;
-	}
-
 	
-/*	var init = function($){
-		$(function () {
-			TSB.initSwitchCheckBox();
-		});
-	}
-	
-	init(jQuery);*/
-	
-	module.exports = TSB;
+	module.exports = main;
 });

@@ -1,14 +1,14 @@
-<extend name="Base/s4"/>
 
+<div class="modal-dialog">
 
-<block name="body">
-<div class="mainwrap">
+   <div class="mainwrap">
     
 	<div class="think-form"> <div class="loginform">
-<div class="hd">
-                                    <strong>用户登录</strong><span>已有帐号？点击<a href="{:U("User/register")}">注册</a></span>            </div>
+        <div class="hd">
+          <strong>用户登录</strong><span>已有帐号？点击<a href="{:U("User/register")}">注册</a></span>            </div>
        
-	<a rel="nofollow" href="{:C('DOMAIN')}" class="img"><img src="__IMG__/login-3.jpg" width='400' height='300'></a></div><div class="login-other">  <form class="form-horizontal login-user"  action="{:U("User/login")}" id="loginform" name="user" method="post">
+	       <a rel="nofollow" href="{:C('DOMAIN')}" class="img"><img src="__IMG__/login-3.jpg" width='300' height='280'></a></div><div class="login-other">
+        <form class="form-horizontal login-user"  action="{:U("User/login")}" id="loginform" name="user" method="post">
           <div class="control-group ">
             <label class="control-label" for="username">用户名</label>
             <div class="controls">
@@ -22,7 +22,7 @@
             </div>
 			 <div class="controls Validform_checktip text-warning"></div>
           </div>
-         <input name="reffer" type="hidden" value="{$referr}">
+          <input name="reffer" type="hidden" value="{$referr}">
           <div class="control-group">
             <div class="controls">
               <label class="checkbox">
@@ -31,14 +31,15 @@
               <br/><button type="submit" id="login_btn_cart" class="v_dark_btn">登 陆</button>
             </div>
           </div>
-        </form><p>合作网站账号登录：{:hook('SyncLogin')}
-		</p></div>
+        </form>
+        <p>合作网站账号登录：{:hook('SyncLogin')}</p>
     </div>
+   </div>
 
-</block>
+</div>
 
 
-<block name="script">
+
 	<script type="text/javascript">
 
     	$(document)
@@ -77,4 +78,4 @@
             });
 		});
 	</script>
-</block>
+

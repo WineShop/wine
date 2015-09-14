@@ -1,10 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <title>{$meta_title}_{:C('WEB_SITE_TITLE')}</title>
-<script src="/Public/libs/sea/sea.js"></script>
-<script src="/Public/libs/sea/config.js"></script>
-<script src="/Public/Home/js/jquery.min.js"></script>
-<script src="/Public/static/bootstrap/js/bootstrap.min.js"></script>
 <head>
 <include file="Public/s0_head"/>
 </head>
@@ -14,19 +10,23 @@
 	<!-- /工具条 -->
 	<!-- 头部 -->
 	<div class="yershop_wrapper">
-	<include file="Public/s0_logo"/>
-	<!-- /头部 -->
-	
-	<!-- 主体 -->
-	<include file="Public/s0_body"/>
-	<!-- /主体 -->
+        <include file="Public/s0_logo"/>
+        <!-- /头部 -->
 
-  <!-- 购物车js -->
-   <include file="Public/cart_js"/>
-   <!-- 购物车js -->
+        <!-- 主体 -->
+        <include file="Public/s0_body"/>
+        <!-- /主体 -->
 
-	<!-- 底部 -->
-	<include file="Public/footer"/></div>
-	<!-- /底部 -->
+      <!-- 购物车js -->
+       <include file="Public/cart_js"/>
+       <!-- 购物车js -->
+
+        <!-- 底部 -->
+        <include file="Public/footer"/>
+        <!-- /底部 -->
+    </div>
+
+    <!--弹出框-->
+    <div id="alterModal" class="modalBox"></div>
 </body>
 </html>

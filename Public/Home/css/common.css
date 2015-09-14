@@ -29,7 +29,7 @@ cursor: pointer;}
 .main-content h4{
 font-size: 20px;margin-top:18px;width: 100%;color: #333;font-weight: 500;text-align:center
 }
-.loginform .img{margin:40px 2px 2px 20px;overflow:hidden;display:block;text-align:center}
+.loginform .img{margin:30px 2px 2px 2px;overflow:hidden;display:block;text-align:center}
 .main-content #contents{
 font-size:16px;color: #000;
 }
@@ -129,7 +129,7 @@ ul.menu-list a:hover{height: 40px; background-color: #474747; text-decoration: n
 
 
 .all-goods{clear:right; position: absolute;top: 40px;left: 0;width: 186px;
-background: #ff3300;border: solid #E23C3D;border-width: 0 2px 2px;overflow: visible; z-index:9999}
+background: #ff3300;border: solid #E23C3D;border-width: 0 2px 2px;overflow: visible; z-index:1000}
 .all-goods .item{width: 186px;height: 36px;border-top: 1px solid #FFF;background: #fff;}
 .all-goods .btnone{ border-top:none;}
 .all-goods .item .product{ position: absolute;z-index: 999; width: 186px;}
@@ -918,7 +918,7 @@ border-right: 0;
 .mainwrap{
 margin-left: auto;
 margin-right: auto;
-min-height: 530px;
+min-height: 408px;
 height: auto!important;overflow: hidden;
 }
 .think-form {
@@ -953,7 +953,7 @@ vertical-align: top;
 text-align: right;
 }
 .Validform_checktip {
-height: 20px;line-height: 20px;margin:5px; color: rgba(243, 45, 21, 1);
+height: 20px;line-height: 20px;margin:5px; color: #E23C3D;
 }
 .login-other {overflow: hidden;
 display: inline;
@@ -977,12 +977,12 @@ color: #000; margin-right:30px;
 }
 .loginform  .hd a {
 margin-left: 6px;
-color:rgba(239, 72, 36, 1);
+color:#E23C3D;
 vertical-align: -1px;
 }
 .loginform  .hd {
 height: 36px;
-line-height: 36px; padding-left:130px; margin-bottom:0px;
+line-height: 36px; padding-left:20px; margin-bottom:0px;
 }
 .other-account li a {
 display: inline-block;
@@ -1351,17 +1351,17 @@ line-height: 28px;padding:5px
 input.v_inp {
   height: 29px;
   line-height:30px;
-  width: 300px;
+  width: 290px;
   background: #FFf;
   border: 1px solid #EEE;
-  border-radius:0px;
+  border-radius:2px;
   color: #999;
   font-size: 14px;
- 
+  padding-left: 10px;
   vertical-align: middle;
 }
 input.v_inp:focus {
-    border: 1px solid #F60;
+    border: 1px solid #E23C3D;
 }
 .login-other .control-group{overflow:hidden;margin: 10px}
 em.user {
@@ -1374,7 +1374,7 @@ background-position: 0px 0px;
 }
 .v_dark_btn {
     border: medium none;
-    background: none repeat scroll 0% 0% #FF4B01;
+    background: none repeat scroll 0% 0% #fe6e33;
     font-size: 14px;
     color: #FFF;
     display: inline-block;
@@ -1389,6 +1389,7 @@ font-size: 18px;
 display: inline-block;
 overflow: hidden;
 text-align: center;}
+.v_dark_btn:hover{background: #FF4B01}
 ul.dginfo_info{overflow:hidden}
 
 
@@ -1992,3 +1993,122 @@ color:#fff;
 }
 
 div.text{display:block;overflow:hidden;clear:both;}
+
+
+
+/*模态弹框*/
+.modalBox{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    display: none;
+    overflow: auto;
+    overflow-y: scroll;
+}
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.fade.in {
+    opacity: 1;
+}
+
+.modal-backdrop.in {
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+.modal-backdrop.fade {
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1030;
+    background-color: #000;
+}
+
+.modal-dialog {
+    width: 60%;
+    margin: 50px auto 0px auto;
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,0.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,0.5);
+    background-clip: padding-box;
+}
+.modal-title {
+    margin: 0;
+    line-height: 1.428571429;
+}
+.modal-body {
+    position: relative;
+    padding: 20px;
+}
+/*消息状态弹框*/
+.modal-alert {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 30px;
+    z-index: 999999;
+
+}
+.modal-alert img{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.modal-alert .alert {
+    margin: 0 auto;
+    width: 280px;
+    min-height: 30px;
+    padding: 25px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+.alert-success {
+    color: rgb(255, 255, 255);
+    background-color: #E23C3D;
+}
+.alert-danger {
+    color: rgb(255, 255, 255);
+    background-color: #2f96b4;
+}
+
+/*按钮颜色*/
+.wine_btn {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+.wine_btn-blue {
+    background-color: #f96f2e;
+    color: #ffffff;
+}
+
+.wine_btn-blue:hover,
+.wine_btn-blue:focus,
+.wine_btn-blue:active {
+    color: #ffffff;
+    background-color: #fc5f16;
+}

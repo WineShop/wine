@@ -831,14 +831,13 @@ function get_category_title($id){
 }
  ////获取ip地址信息，返回操作对象
  function get_ip_address(){
-	  $ip=getip(); 
- 
- $json=@file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);//根据taobao ip
+	    $ip=getip();
+        $json=@file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);//根据taobao ip
    		$jsonarr=json_decode($json);
    		if($jsonarr->code==0)
    		{
    			$data =$jsonarr->data;
-return $data; 
+            return $data;
    		}
    		else
    		{
@@ -880,36 +879,43 @@ function IpLookup($ip='',$tag,$id){
 	 $data["country"]=$arr->country;
 	 $data["province"]=$arr->region;
 	 $data["city"]=$arr->city;
-	  $data["isp"]=$arr->isp;
+	 $data["isp"]=$arr->isp;        //电信 移动 联通
      if(is_login()){
 		  $member=D("member");
-	  $data["uid"]=$member->uid();
+	      $data["uid"]=$member->uid();
 	  }
-       if(!empty($tag))
-		   {$data["tag"]=$tag;}
-	   if(!empty($id))
-		   {$data["page"]=$id;}
-	   $data["time"]=NOW_TIME;
-	   $data["referer"]=$_SERVER['HTTP_REFERER'];
-	   $data["url"]=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	   $record=M("records");
-	    if($record->where("ip='$ip' and tag='$tag' and page='$id'")->select()){
-			//有访问记录
-		  $now=NOW_TIME;
-		  $recordtime=date("YmdH",$now);//当前时间点
-          $time=$record->where("ip='$ip' and tag='$tag' and page='$id'")->limit(1)->order("id desc")->getField("time");
-		  $visittime=date("YmdH",$time);//获取最近一次访问点
-		  $chazhi=$recordtime-$visittime;//小时差值
-		  if($chazhi>C('LAG')){
-			  $record->add($data);
-			  }//每隔5小时记录一次
-		  else{
-		  }//不记录
+       if(!empty($tag)){
+           $data["tag"]=$tag;
+       }
+	   if(!empty($id)){
+           $data["page"]=$id;
+       }
+	   $data["time"]    = NOW_TIME;
+	   $data["referer"] = $_SERVER['HTTP_REFERER'];
+	   $data["url"]     = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	   $record = M("records");
 
-		}
-      else{//没有访问记录
-	   $record->add($data);
-	  }
+        $cookie_key = 'ipkey_'.$tag.$id;
+        if(cookie($cookie_key) != $arr->ip){
+			   //有访问记录
+              $now          = NOW_TIME;
+              $recordtime   = date("YmdH",$now);//当前时间点
+              $time         = $record->where("ip='$ip' and tag='$tag' and page='$id'")->limit(1)->order("id desc")->getField("time");
+              $visittime    = date("YmdH",$time);//获取最近一次访问点
+              $chazhi       = $recordtime-$visittime;//小时差值
+              if($chazhi>C('LAG')){
+                  $record->add($data);
+                  //存四个小时，记录一次
+                  cookie($cookie_key,$arr->ip,array('expire'=>60*60*4,'prefix'=>C('COOKIE_IP')));
+              }//每隔四个小时记录一次
+              else{
+
+              }//不记录
+
+		}else{//没有访问记录
+	        $record->add($data);
+            cookie($cookie_key,$arr->ip,array('expire'=>60*60*4,'prefix'=>C('COOKIE_IP')));
+	    }
 
 	  return $tag;
 }

@@ -22,14 +22,16 @@ body{ background: #fff; font-family: '微软雅黑'; color: #333; font-size: 16p
 <body>
 <div class="system-message">
 <?php if(isset($message)) {?>
-<h1>:)</h1>
-<p class="success"><?php echo($message); ?></p>
+
+<p class="success" style="text-align:center"><?php echo($message); ?></p>
+<div style="text-align:center"> <img src="/Public/Home/img/404.jpg"/> </div>
 <?php }else{?>
-<h1>:(</h1>
-<p class="error"><?php echo($error); ?></p>
+<p class="error" style="text-align:center;"><?php echo($error); ?></p>
+<div style="text-align:center"> <img src="/Public/Home/img/404.jpg"/> </div>
+
 <?php }?>
 <p class="detail"></p>
-<p class="jump">
+<p class="jump" style="text-align:center;">
 页面自动 <a id="href" href="<?php echo($jumpUrl); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b>
 </p>
 </div>

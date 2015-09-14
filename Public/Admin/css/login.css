@@ -2,7 +2,6 @@ html,body {
     font-size: 14px;
     font-family: "微软雅黑", Helvetica, Tahoma, Arial, sans-serif;
     color: #000;
-    background-color:;
     margin: 0;
     padding: 0;
 }
@@ -10,8 +9,8 @@ img {
     border: 0;
 }
 #login-page {
-color: #000;
-  background: #fff url(../images/bg.jpg) 50% 0 no-repeat;
+  color: #000;
+  background: #fff 50% 0 no-repeat;
 }
 .cf:before,.cf:after {
     display: table;
@@ -249,3 +248,62 @@ img.verifyimg{
 	width: 100%;
     cursor: pointer;
 }
+
+
+/*消息状态弹框*/
+.modal-alert {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 30px;
+    z-index: 999999;
+
+}
+.modal-alert img{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.modal-alert .alert {
+    margin: 0 auto;
+    width: 280px;
+    min-height: 30px;
+    padding: 25px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+.alert-success {
+    color: rgb(255, 255, 255);
+    background-color: #E23C3D;
+}
+.alert-danger {
+    color: rgb(255, 255, 255);
+    background-color: #f59f25;
+}
+/*按钮颜色*/
+.wine_btn {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+.wine_btn-blue {
+    background-color: #f96f2e;
+    color: #ffffff;
+}
+
+.wine_btn-blue:hover,
+.wine_btn-blue:focus,
+.wine_btn-blue:active {
+    color: #ffffff;
+    background-color: #fc5f16;
+}
+
