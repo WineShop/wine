@@ -24,7 +24,7 @@ class UserController extends HomeController {
         $title     ="欢迎注册".C('SITENAME');
         $token     =sha1(C('DATA_AUTH_KEY'));
         $name      = $_SERVER['SERVER_NAME'];
-        $url       = $_SERVER['SERVER_NAME'].U("account/confirm_email",array('token'=>$token));
+        $url       = $_SERVER['SERVER_NAME'].U("wine/active/".$token);
 
         $this->assign('url',$url);
         $this->assign('mail',$mail);
@@ -75,12 +75,11 @@ class UserController extends HomeController {
         $uid = $User->register($password, $email);
         if(0 < $uid){ //注册成功
             //TODO: 发送验证邮件
-            // 配置邮件提醒
             $mail      =$_POST['email'];//获取会员邮箱
             $title     ="欢迎注册".C('SITENAME');
             $token     =sha1(C('DATA_AUTH_KEY'));
-            $name      = $_SERVER['SERVER_NAME'];
-            $url       = $_SERVER['SERVER_NAME'].U("account/confirm_email",array('token'=>$token));
+            //U("account/confirm_email",array('token'=>$token)  'wine/active/:token\w'
+            $url       = $_SERVER['SERVER_NAME'].U("wine/active/".$token);
 
             $this->assign('url',$url);
             $this->assign('mail',$mail);
@@ -92,8 +91,9 @@ class UserController extends HomeController {
             if($res)
             {
                 S($token,array('email'=>$mail,'uid'=>$uid),3600*24*3);  //有效期3天
-                $this->ajaxSuccess('恭喜您，注册成功!');
+                $this->ajaxSuccess("<h4>恭喜您，注册成功!</h4>请尽快到您的邮件中进行激活");
             }else{
+                $User->deleteUserById($uid);
                 $this->ajaxError('注册失败，邮件没有成功发送！');
             }
 
@@ -107,6 +107,7 @@ class UserController extends HomeController {
     {
         $this->display();
     }
+
     /* 登录页面 */
     public function login($username = "", $password = "", $verify = ""){
 

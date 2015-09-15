@@ -26,7 +26,7 @@ define(function (require, exports, module) {
 
 					var cls = $.isEmptyObject(status[opt.status]) ? opt.status : status[opt.status];
                     var icon = cls+'_icon.png';
-					var alertHtml = '<div class="modal-alert"><div class="alert alert-' + cls + '"><img src="/Public/static/images/'+icon+'"/>'  + opt.msg + '</div></div>';
+					var alertHtml = '<div class="modal-alert"><div class="alert alert-' + cls + '"><div class="alert_left"><img src="/Public/static/images/'+icon+'"/></div><div class="alert_right">'  + opt.msg + '</div></div></div>';
                     $(alertHtml).appendTo($('body')).fadeIn().delay(opt.speed).fadeOut(function () {
 						$(this).remove()
 					});

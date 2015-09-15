@@ -30,6 +30,11 @@ class UserApi extends Api{
         return $this->model->register($password, $email, $mobile);
     }
 
+    public function deleteUserById($uid)
+    {
+        return $this->model->deleteUserById($uid);
+    }
+
     /**
      * 用户登录认证
      * @param  string  $username 用户名

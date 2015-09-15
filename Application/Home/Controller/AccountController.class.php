@@ -263,21 +263,20 @@ public  function send_email() {
 		}
 /** 激活邮箱 **/
 public  function confirm_email() {
-		$type=I("get.type");
-		$regid=I("get.regid");
-		if($type&&$regid){
-		$verification=M("verification");
-		$mail=get_email($uid);
-		$data['email']= $mail;
-		$data['create_time']=NOW_TIME;
-		$data['status']=1;
-		$data['tag']=1;
-		$data['uid']=$regid;
-		$verification->create();
-		$verification->add($data);
-		$this->display("success");
-		}
-		else{
+    $type=I("get.type");
+    $regid=I("get.regid");
+    if($type&&$regid){
+        $verification=M("verification");
+        $mail=get_email($uid);
+        $data['email']= $mail;
+        $data['create_time']=NOW_TIME;
+        $data['status']=1;
+        $data['tag']=1;
+        $data['uid']=$regid;
+        $verification->create();
+        $verification->add($data);
+        $this->display("success");
+    }else{
 
 		$this->redirect("index/index");
 		}

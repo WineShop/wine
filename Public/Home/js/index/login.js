@@ -15,7 +15,8 @@ define(function(require, exports, module){
            var url  = $("#form_register").attr('action');
            $("button:submit").addClass("log-in").attr("disabled", true);
            T.restPost(url,param,function(success){
-               window.location.href='/User/registerSuccess.html';
+//               window.location.href='/regsuccess.html';
+               main.modalAlert(success.msg);
            },function(error){
                 main.modalAlert(error.msg,'danger');
                 $(".checkCode").click();
@@ -40,11 +41,17 @@ define(function(require, exports, module){
             {
                 if($.trim($("#inputPassword").val()) != $.trim($("#inputRePassword").val()))
                 {
-                    main.modalAlert('对不起，两次密码不一致!','danger');
+                    main.modalAlert('对不起，两次密码不一致！','danger');
+                    return false;
+                }
+                var reg = /^[a-zA-Z0-9]+@([a-zA-Z0-9]\.)+[a-zA-Z0-9]{1,5}$/;
+                if(!reg.test($.trim($("#inputEmail").val())))
+                {
+                    main.modalAlert('对不起，邮箱格式不对！','danger');
                     return false;
                 }
             }else{
-                main.modalAlert('对不起，不能为空!','danger');
+                main.modalAlert('对不起，不能为空！','danger');
                 return false;
             }
             return true;

@@ -117,6 +117,15 @@ class UcenterMemberModel extends Model{
 		}
 	}
 
+    /**
+     * @param $uid
+     * @return mixed
+     */
+    public function deleteUserById($uid)
+    {
+        return $this->delete($uid);
+    }
+
 	/**
 	 * 用户登录认证
 	 * @param  string  $username 用户名
