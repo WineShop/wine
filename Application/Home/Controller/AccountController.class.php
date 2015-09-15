@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace Home\Controller;
 use Think\Controller;
+use User\Api\UserApi;
 /*****个人中心
 ***************/
 class AccountController extends HomeController {
@@ -263,9 +264,44 @@ public  function send_email() {
 		}
 /** 激活邮箱 **/
 public  function confirm_email() {
-    $type=I("get.type");
-    $regid=I("get.regid");
-    if($type&&$regid){
+    $token = I("get.token");
+    if(empty($token))
+    {
+        $title = '激活失败';
+        $tip   = '激活链接地址参数有误！';
+    }else{
+        $userInfo = S($token);
+        if(empty($userInfo))
+        {
+            $title = '激活失败';
+            $tip   = '激活链接地址已经过期';
+            $is_ok = 'no';
+        }else{
+            //验证用户
+            $user_email = $userInfo['email'];
+            $uid        = $userInfo['uid'];
+            $mail       = get_email($uid);
+            if($mail != $user_email)
+            {
+                $title  = '激活失败';
+                $tip    = '激活链接地址参数有误！';
+                $is_ok  = 'no';
+            }else{
+                $userModel = new UserApi;
+                $userModel->updateUserStatus($uid,1);
+                $title = '激活成功';
+                $tip   = '恭喜您，激活成功';
+                $is_ok = 'yes';
+                $this->assign('email',$mail);
+            }
+        }
+    }
+
+    $this->assign('tip',$tip);
+    $this->assign('is_ok',$is_ok);
+    $this->assign('title',$title);
+    $this->display('User/confirm_email');
+    /*if($type&&$regid){
         $verification=M("verification");
         $mail=get_email($uid);
         $data['email']= $mail;
@@ -276,12 +312,8 @@ public  function confirm_email() {
         $verification->create();
         $verification->add($data);
         $this->display("success");
-    }else{
-
-		$this->redirect("index/index");
-		}
-
-		}
+    }*/
+}
 
 public function history() {
 		/** ！控制器必须 **/

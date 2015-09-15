@@ -35,17 +35,7 @@ class MemberModel extends Model{
     public function login($uid){
         /* 检测是否在当前应用注册 */
         $user = $this->field(true)->find($uid);
-        if(!$user){ //未注册
-            /* 在当前应用中注册用户 */
-        	$Api = new UserApi();
-        	$info = $Api->info($uid);
-            $user = $this->create(array("nickname" => $info[1], "status" => 1));
-            $user["uid"] = $uid;			
-            if(!$this->add($user)){
-                $this->error = "前台用户信息注册失败，请重试！";
-                return false;
-            }
-        } elseif(1 != $user["status"]) {
+        if(1 != $user["status"]) {
             $this->error = "用户未激活或已禁用！"; //应用级别禁用
             return false;
         }
@@ -54,8 +44,8 @@ class MemberModel extends Model{
 
        /* 登录历史 */
        history($uid);
-     /* 登录购物车处理函数 */
-     addintocart($uid);
+       /* 登录购物车处理函数 */
+       addintocart($uid);
         //记录行为
         action_log("user_login", "member", $uid, $uid);
 

@@ -40,10 +40,14 @@ class UserApi extends Api{
      * @param  string  $username 用户名
      * @param  string  $password 用户密码
      * @param  integer $type     用户名类型 （1-用户名，2-邮箱，3-手机，4-UID)
+     * @param  bool $admin_login  是否是后台登录
      * @return integer           登录成功-用户ID，登录失败-错误编号
      */
-    public function login($username, $password, $type = 1){
-        return $this->model->login($username, $password, $type);
+    public function login($username, $password, $type = 1,$admin_login = false){
+        if($admin_login)
+            return $this->model->admin_login($username, $password, $type);
+        else
+            return $this->model->login($username, $password, $type);
     }
 
     /**
@@ -99,6 +103,17 @@ class UserApi extends Api{
             $return['info'] = $this->model->getError();
         }
         return $return;
+    }
+
+    /**
+     * 修改用户状态
+     * @param $uid
+     * @param $status
+     * @return mixed
+     */
+    public function updateUserStatus($uid,$status)
+    {
+        return $this->model->updateUserStatus($uid,$status);
     }
 
 }

@@ -113,26 +113,21 @@ class UserController extends HomeController {
 
         if(IS_POST){ //登录验证
             /* 检测验证码 */
-
+            if(!check_verify($verify)){
+                $this->ajaxError('验证码输入错误！');
+            }
 
             /* 调用UC登录接口登录 */
             $user = new UserApi;
-            $uid = $user->login($username, $password);
+            $uid = $user->login($username, $password,I('post.type'));
             if(0 < $uid){ //UC登录成功
                 /* 登录用户 */
                 $Member = D("Member");
                 if($Member->login($uid)){ //登录用户
-                    //TODO:跳转到登录前页面
-
-                    if($_POST['email']){
-                        $msg="注册成功!";}
-                    else{
-                        $msg="登陆成功!";
-                    }
-                    $this->success($msg,U('index/index'));
+                    $this->ajaxSuccess('登陆成功！');
 
                 } else {
-                    $this->error($Member->getError());
+                    $this->ajaxError($Member->getError());
                 }
 
             } else { //登录失败
@@ -141,13 +136,11 @@ class UserController extends HomeController {
                     case -2: $error = "密码错误！"; break;
                     default: $error = "未知错误！"; break; // 0-接口参数错误（调试阶段使用）
                 }
-                $this->error($error);
+                $this->ajaxError($error);
             }
 
         } else {
-
             $this->meta_title = '会员登录';
-            //显示登录表单
             $this->display();
         }
     }
@@ -190,9 +183,10 @@ class UserController extends HomeController {
             D("Member")->logout();
             $this->success("退出成功！");
         } else {
-            $this->redirect("User/login");
+            $this->redirect("Index/index");
         }
     }
+
     public function favor(){
         if(IS_AJAX ){
             $id=$_POST["id"];

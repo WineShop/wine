@@ -37,7 +37,7 @@ class PublicController extends Controller {
             }
             /* 调用UC登录接口登录 */
             $User = new UserApi;
-            $uid = $User->login($username, $password);
+            $uid = $User->login($username, $password,1,true);
             if(0 < $uid){ //UC登录成功
                 /* 登录用户 */
                 $Member = D('Member');

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$title}</title>
+    <link href="__CSS__/common.css" rel="stylesheet">
+    <script src="__STATIC__/jquery.min.js"></script>
+    <script src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        .main-user {
+            height: 100%;
+            margin-left: 0px;
+            padding-top: 0px;
+            background: #fff;
+            overflow: hidden;
+        }
+        .login-success {
+            background: #FAFAFA;
+            padding: 15px;
+            height: 100%;
+        }
+        .user-check-s {
+            padding: 25px 0px 0px 0px;
+            width: 100%;
+            background: #dae8c2;
+        }
+        .user-check-s-img {
+            margin: 0px auto;
+            padding: 0px;
+            height: 46px;
+            width: 400px;
+            background: url(/Public/Home/images/user_check_success.png) no-repeat center;
+            background-size: 40px 40px;
+        }
+        .user-check-f-img {
+            margin: 0px auto;
+            padding: 0px;
+            height: 46px;
+            width: 400px;
+            background: url(/Public/Home/images/user_check_fail.png) no-repeat center;
+            background-size: 40px 40px;
+        }
+        .user-check-text-s {
+            margin: 0px auto;
+            padding: 0px;
+            width: 400px;
+        }
+        .user-check-text-s >.title {
+            margin: 0px;
+            padding-bottom: 10px;
+            line-height: 50px;
+            height: 50px;
+            color: #67a101;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .user-check-text-s>.p {
+            margin: 0px;
+            padding: 0px;
+            line-height: 30px;
+            text-align: center;
+        }
+        .text-bold {
+            font-weight: bold;
+        }
+        .login-time {
+            font-size: 16px;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .login-time span {
+            font-size: 25px;
+        }
+        .goback a{
+            padding: 8px 12px;
+            background: #67a101;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="main-user">
+    <if condition="$is_ok eq yes">
+
+    <div class="login-success">
+        <div class="user-check-s">
+             <div class="user-check-s-img"> </div>
+            <div class="user-check-text-s">
+                <p class="p" style="color: #67a101"> {$tip}</p>
+                <p class="p">
+                    <span>您的邮箱&nbsp;&nbsp;<span class="text-bold">{$email}</span>&nbsp;&nbsp;已经激活成功！。</span><br>
+                    您可以使用该邮箱作为登录账号，祝您购物愉快！
+                </p>
+            </div>
+
+            <div class="login-time">
+                <span id="num">3</span>s 后进入{:C('SITENAME')}首页……
+            </div>
+
+        </div>
+    </div>
+
+    <else/>
+        <!--激活失败 -->
+        <div class="login-success login-fail">
+
+            <div class="user-check-s">
+                <div class="user-check-f-img"></div>
+                <div class="user-check-text-s">
+                    <p class="p" style="color: #ff3e3e"> {$tip}</p>
+                    <p class="p">
+                        请联系管理员：kevin.liu@yunzhihui.com
+                        <br>
+                        或者重新注册一个
+                    </p>
+
+                </div>
+                <div class="login-time">
+                    <span id="num">3</span>s 后返回{:C('SITENAME')}首页……
+                </div>
+            </div>
+
+        </div>
+    </if>
+
+    <script language="javascript" type="text/javascript">
+        $(function(){
+            var i = 3;
+            var intervalid = setInterval(function(){
+                if (i == 0) {
+                    window.location.href = "/";
+                    clearInterval(intervalid);
+                }
+                $('#num').html(i);
+                i--;
+            }, 1000);
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -206,6 +206,24 @@ define(function (require, exports, module) {
                     $("#alterModal").on("hidden.bs.modal", function() {
                         $(this).removeData("bs.modal");
                     });
+                },
+
+
+                /**
+                 * 2分钟后跳转
+                 */
+                //跳转
+                redirect : function(url,after){
+                    after = after || 3;
+                    setTimeout(function(){
+                        if($.isEmptyObject(url)){
+                            window.location.reload();
+                        }else{
+                            window.location.href = url;
+                        }
+
+                    },after);
+
                 }
 
 

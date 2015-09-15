@@ -53,7 +53,7 @@ class UcenterMemberModel extends Model{
 		array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function', 1),
         array('face', NOW_TIME, self::MODEL_INSERT),
 		array('update_time', NOW_TIME),
-		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
+//		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 	);
 
 	/**
@@ -134,7 +134,6 @@ class UcenterMemberModel extends Model{
 	 * @return integer           登录成功-用户ID，登录失败-错误编号
 	 */
 	public function login($username, $password, $type = 1){
-        $is_admin  = C('IS_ADMIN');
 		$map = array();
 		switch ($type) {
 			case 1:
@@ -155,11 +154,6 @@ class UcenterMemberModel extends Model{
 		/* 获取用户数据 */
 		$user = $this->where($map)->find();
 		if(is_array($user) && $user['status']){
-            /** 验证是否是不是管理员 */
-            if($is_admin != $user['is_admin'])
-            {
-                return -10;
-            }
 			/* 验证用户密码 */
 			if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
 				$this->updateLogin($user['id']); //更新用户登录信息
@@ -172,7 +166,54 @@ class UcenterMemberModel extends Model{
 		}
 	}
 
-	/**
+    /**
+     * 用户登录认证
+     * @param  string  $username 用户名
+     * @param  string  $password 用户密码
+     * @param  integer $type     用户名类型 （1-用户名，2-邮箱，3-手机，4-UID）
+     * @return integer           登录成功-用户ID，登录失败-错误编号
+     */
+    public function admin_login($username, $password, $type = 1){
+        $is_admin  = C('IS_ADMIN');
+        $map = array();
+        switch ($type) {
+            case 1:
+                $map['username'] = $username;
+                break;
+            case 2:
+                $map['email'] = $username;
+                break;
+            case 3:
+                $map['mobile'] = $username;
+                break;
+            case 4:
+                $map['id'] = $username;
+                break;
+            default:
+                return 0; //参数错误
+        }
+        /* 获取用户数据 */
+        $user = $this->where($map)->find();
+        if(is_array($user) && $user['status']){
+            /** 验证是否是不是管理员 */
+            if($is_admin != $user['is_admin'])
+            {
+                return -10;
+            }
+            /* 验证用户密码 */
+            if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
+                $this->updateLogin($user['id']); //更新用户登录信息
+                return $user['id']; //登录成功，返回用户ID
+            } else {
+                return -2; //密码错误
+            }
+        } else {
+            return -1; //用户不存在或被禁用
+        }
+    }
+
+
+    /**
 	 * 获取用户信息
 	 * @param  string  $uid         用户ID或用户名
 	 * @param  boolean $is_username 是否使用用户名查询
@@ -274,5 +315,17 @@ class UcenterMemberModel extends Model{
 		}
 		return false;
 	}
+
+    /**
+     * 修改用户状态
+     * @param $uid
+     * @param $status
+     * @return bool
+     */
+    public function updateUserStatus($uid,$status)
+    {
+        $data = array('status'=>$status);
+        return $this->where(array('id'=>$uid))->save($data);
+    }
 
 }

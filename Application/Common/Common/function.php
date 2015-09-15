@@ -1525,30 +1525,28 @@ function random($length = 6 , $numeric = 0) {
 /* 登录购物车处理函数 ,会员模型函数*/
 function addintocart($uid){
 	 $table=M("shopcart");
-    $cart=$_SESSION["cart"];
- foreach($cart as $k=>$val){ 
-$id=$val["id"];
-$parameters=$val["parameters"];
-$sort=$val["sort"];
-$num=M("shopcart")->where("goodid='$id' and uid='$uid 'and parameters='$parameters'")->getField("num");
-if($num)
-	 {
-	$table->num=$val["num"]+$num;
-$table->where("goodid='$id' and uid='$uid 'and parameters='$parameters'")->save();
+     $cart=$_SESSION["cart"];
+     foreach($cart as $k=>$val){
+        $id=$val["id"];
+        $parameters=$val["parameters"];
+        $sort=$val["sort"];
+        $num=M("shopcart")->where("goodid='$id' and uid='$uid 'and parameters='$parameters'")->getField("num");
+        if($num)
+        {
+            $table->num=$val["num"]+$num;
+            $table->where("goodid='$id' and uid='$uid 'and parameters='$parameters'")->save();
 
+        }else{
+            $table->goodid=$id;
+            $table->price=$val["price"];
+            $table->parameters=$parameters;
+            $table->sort=$sort;
+            $table->uid=$uid;
+            $table->num=$val["num"];
+            $table->add();
+        }
+     }
 }
-else{
-$table->goodid=$id;
-$table->price=$val["price"];
-$table->parameters=$parameters;
-$table->sort=$sort;
-$table->uid=$uid;
-$table->num=$val["num"];
-$table->add();
-
-}
- }
-	}
   /* 记录登录历史信息 ,会员模型函数 */
  function history($uid){
       
@@ -1565,10 +1563,12 @@ $table->add();
 	  $history=M("history");
 	   $history->create();
        $history->add($data);
-    }
-	  /* 判断是电脑还是手机访问*/
+}
+
+
+/* 判断是电脑还是手机访问*/
 function isMobil()
-    {
+{
         $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
         $useragent_commentsblock = preg_match('|\(.*?\)|', $useragent, $matches) > 0 ? $matches[0] : '';
         $mobile_os_list = array
@@ -1630,9 +1630,9 @@ function isMobil()
         {
            $way= '电脑登录';//'电脑登录'
         }
-  return $way;
+        return $way;
+}
 
-    }
 // 加密解密函数，函数encrypt($string,$operation,$key)
 //中$string：需要加密解密的字符串；$operation：判断是加密还是解密，E表示加密，D表示解密；$key：密匙。
 //echo '加密:'.encrypt($str, 'E', $key); echo '解密：'.encrypt($str, 'D', $key);
@@ -1672,6 +1672,8 @@ function encrypt($string,$operation,$key=''){
         return str_replace('=','',base64_encode($result)); 
     } 
 }
+
+
 function  CheckSubstrs($substrs,$text){
 
     foreach($substrs as $substr){
