@@ -77,8 +77,9 @@ define(function(require, exports, module){
             var param ={
                 username    : $.trim($("#inputusername").val()),
                 password    : $.trim($("#inputpassword").val()),
-                verify      : $.trim($("#verify").val())
-            }
+                verify      : $.trim($("#verify").val()),
+                is_forver   : $("input[name=is_forver]").val()
+             }
 
             var type   = checkFormPut();
             if(!type) return false;
@@ -138,6 +139,16 @@ define(function(require, exports, module){
                 $('#alterModal').modal('show');
             });
         });
+
+        //点击记住密码
+        $("#forver").click(function(){
+           if($(this).is(':checked'))
+           {
+               $("input[name=is_forver]").val('1');
+           }else{
+               $("input[name=is_forver]").val('0');
+           }
+        })
 
     }
 

@@ -157,12 +157,12 @@ class UcenterMemberModel extends Model{
 			/* 验证用户密码 */
 			if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
 				$this->updateLogin($user['id']); //更新用户登录信息
-				return $user['id']; //登录成功，返回用户ID
+				return array('status'=>'ok','msg'=>$user); //登录成功，返回用户信息
 			} else {
-				return -2; //密码错误
+                return array('status'=>'error','msg'=>'密码错误！'); //密码错误
 			}
 		} else {
-			return -1; //用户不存在或被禁用
+			return array('status'=>'error','msg'=>'用户不存在或被禁用'); //用户不存在或被禁用
 		}
 	}
 
@@ -326,6 +326,51 @@ class UcenterMemberModel extends Model{
     {
         $data = array('status'=>$status);
         return $this->where(array('id'=>$uid))->save($data);
+    }
+
+    /**
+     * 登陆时设置用户的缓存信息
+     * @param $userInfo
+     * @param $is_forever
+     */
+    public function setUserCache($userInfo,$is_forever)
+    {
+        $userData = array(
+          'id'                  => $userInfo['id'],
+          'username'            => $userInfo['username'],
+          'email'               => $userInfo['email'],
+          'last_login_time'     => $userInfo['last_login_time'],
+          'last_login_ip'       => $userInfo['last_login_ip']
+        );
+        $token = md5($userInfo['email']);
+        if($is_forever){
+            cookie('WINE_USER_INFO_TICKET',$token,3600*24*60);
+            S($token,$userData,3600*24*61);
+        }else{
+            cookie('WINE_USER_INFO_TICKET',$token,3600*24);
+            S($token,$userData,3600*25);
+        }
+
+        /* 登录历史 */
+        history($uid);
+        /* 登录购物车处理函数 */
+        addintocart($uid);
+        //记录行为
+        action_log("user_login", "member", $uid, $uid);
+    }
+
+    /**
+     * 获取用户的缓存信息
+     */
+    public function getUserCache()
+    {
+        $token = cookie('WINE_USER_INFO_TICKET');
+        if(empty($token))
+        {
+            return false;
+        }else{
+            return S($token);
+        }
     }
 
 }

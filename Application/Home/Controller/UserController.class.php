@@ -109,8 +109,7 @@ class UserController extends HomeController {
     }
 
     /* 登录页面 */
-    public function login($username = "", $password = "", $verify = ""){
-
+    public function login($username = "", $password = "", $verify = "",$is_forver=''){
         if(IS_POST){ //登录验证
             /* 检测验证码 */
             if(!check_verify($verify)){
@@ -118,27 +117,15 @@ class UserController extends HomeController {
             }
 
             /* 调用UC登录接口登录 */
-            $user = new UserApi;
-            $uid = $user->login($username, $password,I('post.type'));
-            if(0 < $uid){ //UC登录成功
-                /* 登录用户 */
-                $Member = D("Member");
-                if($Member->login($uid)){ //登录用户
-                    $this->ajaxSuccess('登陆成功！');
-
-                } else {
-                    $this->ajaxError($Member->getError());
-                }
-
-            } else { //登录失败
-                switch($uid) {
-                    case -1: $error = "用户不存在或被禁用！"; break; //系统级别禁用
-                    case -2: $error = "密码错误！"; break;
-                    default: $error = "未知错误！"; break; // 0-接口参数错误（调试阶段使用）
-                }
-                $this->ajaxError($error);
+            $user     = new UserApi;
+            $userInfo = $user->login($username, $password,I('post.type'));
+            if($userInfo['status'] == 'ok')
+            {
+                $user -> setUserCache($user,$is_forver);        //设置用户缓存
+                $this -> ajaxSuccess('登陆成功！');
+            }else{
+                $this->ajaxError($userInfo['msg']);
             }
-
         } else {
             $this->meta_title = '会员登录';
             $this->display();

@@ -116,4 +116,23 @@ class UserApi extends Api{
         return $this->model->updateUserStatus($uid,$status);
     }
 
+    /**
+     * 设置用户缓存
+     * @param $userData
+     * @param int $is_forever
+     */
+    public function setUserCache($userData,$is_forever = 0)
+    {
+        $this->model->setUserCache($userData,$is_forever);
+    }
+
+    /**
+     * 获取用户缓存
+     * @return mixed
+     */
+    public function getUserCache()
+    {
+        return $this->model->getUserCache();
+    }
+
 }

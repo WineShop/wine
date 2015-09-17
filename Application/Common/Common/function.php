@@ -23,11 +23,12 @@ const ONETHINK_ADDON_PATH = './Addons/';
  * @author Kevin.liu@yunzhihui.com
  */
 function is_login(){
-    $user = session('user_auth');
-    if (empty($user)) {
+    $user       = new \User\Api\UserApi;
+    $userCache  = $user->getUserCache();
+    if (empty($userCache)) {
         return 0;
     } else {
-        return session('user_auth_sign') == data_auth_sign($user) ? $user['uid'] : 0;
+        return empty($userCache['id']) ? $userCache['id'] : 0;
     }
 }
 function get_sdk_title($name){
