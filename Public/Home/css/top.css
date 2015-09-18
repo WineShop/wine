@@ -106,10 +106,12 @@ height:34px;color: #f60;
 position: absolute;
 top: 32px;
 z-index:99999;
-border: 1px solid #e8e8e8;
+border-radius: 4px;
 border-top: 0;
 background-color: #fff;
-width:85px;
+width:83px;
+border: 1px solid #e3e3e3;
+box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
 }
 
 #dbox li{
@@ -151,14 +153,17 @@ background-color: #f5f5f5;color: #E23C3D;
   border-color: #bbb transparent transparent;
   font-size: 0;
   line-height: 0;}
- #favormenu {left:6px;
-position: absolute;
-top: 32px;
-z-index:99999;
-border: 1px solid #e8e8e8;
-border-top: 0;
-background-color: #fff;
-width:93px;
+ #favormenu {
+    left:6px;
+    position: absolute;
+    top: 32px;
+    z-index:99999;
+    border-radius: 4px;
+    border-top: 0;
+    background-color: #fff;
+    width:95px;
+     border: 1px solid #e3e3e3;
+     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
 }
 
  #favormenu li{
@@ -186,7 +191,8 @@ color: #E23C3D;
   margin-right:1px;position: relative;padding-right: 14px;
   }
 
-#sell a b{  -webkit-backface-visibility: hidden;
+#sell a b{
+   -webkit-backface-visibility: hidden;
   position: absolute;
   right: 9px;
   top: 15px;
@@ -196,15 +202,19 @@ color: #E23C3D;
   border-style: solid dashed dashed;
   border-color: #bbb transparent transparent;
   font-size: 0;
-  line-height: 0;}
- #sellmenu {left:6px;
-position: absolute;
-top: 32px;
-z-index:99999;
-border: 1px solid #e8e8e8;
-border-top: 0;
-background-color: #fff;
-width:93px;
+  line-height: 0;
+}
+ #sellmenu {
+    left:6px;
+    position: absolute;
+    top: 32px;
+    z-index:99999;
+    border-radius: 4px;
+    border-top: 0;
+    background-color: #fff;
+    width:88px;
+    border: 1px solid #e3e3e3;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
 }
 
  #sell li{
@@ -232,7 +242,7 @@ position: relative;
 height:90px;
 clear: both;
 width: 1200px;
-margin: 0 auto; z-index:999;margin:5px 0;
+margin: 0 auto; z-index:20;margin:5px 0;
 }
 .header-wrap {
 position: relative;
@@ -295,7 +305,7 @@ padding-top: 18px;width:250px;
     top: -8px;
     right: 192px;
     float: right;
-    z-index: 1000;
+    z-index: 90;
 }
 .shopping_cart{
     position: relative;
@@ -899,9 +909,23 @@ background: #fff;}
 .icon-down{width:50px;height:20px;
 background: url(http://img32.ddimg.cn/upload_img/00363/header/home_sprite.png) no-repeat right -307px;}
 #account{
-position: relative;
-padding-left:8px;
-padding-right:7px;}
+    position: relative;
+    padding-left:8px;
+    padding-right:12px;
+}
+#account a b{
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    top: 15px;
+    width: 0;
+    height: 0;
+    border-width: 3px;
+    border-style: solid dashed dashed;
+    border-color: #bbb transparent transparent;
+    font-size: 0;
+    line-height: 0;
+    margin-right: 8px;
+}
 .topbar .welcome{
 padding: 0px 0 0 10px;
 float:left;

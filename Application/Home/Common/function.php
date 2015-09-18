@@ -118,7 +118,6 @@ $deccode=0;
  * 获取段落总数
  * @param  string $id 文档ID
  * @return integer    段落总数
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function get_part_count($id){
     static $count;
@@ -147,11 +146,10 @@ function get_shop_address($id){
  * 获取首页幻灯片
  * @param  string $url 导航URL
  * @return string      解析或的url
- * @author 烟消云散 <1010422715@qq.com>
  */
 function get_slide(){
-     $slide=M('slide');
-    $slidelist=$slide->where('status=1')->select();
+    $slide      = M('slide');
+    $slidelist  = $slide->where('status=1')->limit(5)->select();
     return  $slidelist;
 }
 

@@ -64,10 +64,18 @@ define(function (require, exports, module) {
 
 
     //卖家中心显隐
-    usersell;sellmenu;clock;
+   // usersell;sellmenu;clock;
     var usersell= document.getElementById('sell');
     var sellmenu= document.getElementById('sellmenu');
     var clock = null;//定义定时器变量
+
+   /* $('#sell').mouseover(function(){
+        $(this).css({'background-color':"#fff"});
+        $("#sellmenu").show();
+    })
+*/
+
+
     //鼠标移入div1或div2都把定时器关闭了，不让他消失
     usersell.onmouseover = sellmenu.onmouseover = function ()
     {
@@ -87,7 +95,16 @@ define(function (require, exports, module) {
         usersell.style.backgroundColor = '#F5F5F5';
         //开定时器，每隔200微妙下拉框消失
         clock = setTimeout(function () {
-            $("#sellmenu").hide(); }, 10);
+            $("#sellmenu").hide(); }, 20);
     }
+
+
+    //退出
+    $("#logout").click(function(){
+        T.restPost('/wine/out',{},function(success){
+              main.modalAlert(success.msg);
+              main.redirect();
+        })
+    });
 
 })

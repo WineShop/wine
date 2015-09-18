@@ -210,11 +210,11 @@ define(function (require, exports, module) {
 
 
                 /**
-                 * 2分钟后跳转
+                 * 2s后跳转
                  */
                 //跳转
                 redirect : function(url,after){
-                    after = after || 3;
+                    after = after || 2000;
                     setTimeout(function(){
                         if($.isEmptyObject(url)){
                             window.location.reload();

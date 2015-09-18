@@ -121,7 +121,7 @@ class UserController extends HomeController {
             $userInfo = $user->login($username, $password,I('post.type'));
             if($userInfo['status'] == 'ok')
             {
-                $user -> setUserCache($user,$is_forver);        //设置用户缓存
+                $user -> setUserCache($userInfo['msg'],$is_forver);        //设置用户缓存
                 $this -> ajaxSuccess('登陆成功！');
             }else{
                 $this->ajaxError($userInfo['msg']);
@@ -167,8 +167,9 @@ class UserController extends HomeController {
     /* 退出登录 */
     public function logout(){
         if(is_login()){
-            D("Member")->logout();
-            $this->success("退出成功！");
+            $user = new UserApi();
+            $user->logout();
+            $this->ajaxSuccess("退出成功！");
         } else {
             $this->redirect("Index/index");
         }

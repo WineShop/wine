@@ -135,4 +135,13 @@ class UserApi extends Api{
         return $this->model->getUserCache();
     }
 
+    /**
+     * 注销当前用户
+     * @return mixed
+     */
+    public function logout()
+    {
+        return $this->model->logout();
+    }
+
 }

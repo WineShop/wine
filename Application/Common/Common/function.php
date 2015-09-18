@@ -28,7 +28,7 @@ function is_login(){
     if (empty($userCache)) {
         return 0;
     } else {
-        return empty($userCache['id']) ? $userCache['id'] : 0;
+        return empty($userCache['id']) ? 0 : $userCache['id'];
     }
 }
 function get_sdk_title($name){
@@ -163,8 +163,8 @@ function get_nav_url($url){
 }
 
 function get_index_url(){
-       $damain=$_SERVER['SERVER_NAME'];
-	    $url="http://".$damain.__ROOT__;
+    $damain=$_SERVER['SERVER_NAME'];
+    $url="http://".$damain.__ROOT__;
     return $url;
 }
 /**
@@ -457,43 +457,19 @@ return $info[1];
 }
 
 function get_regmobile($uid = 0){
- $User = new User\Api\UserApi();
-        $info = $User->info($uid);
-
-return $info[4];
+    $User = new User\Api\UserApi();
+    $info = $User->info($uid);
+    return $info[4];
 }
+
+
 function get_username($uid = 0){
-    static $list;
-    if(!($uid && is_numeric($uid))){ //获取当前登录用户名
-        return session('user_auth.username');
-    }
-
-    /* 获取缓存数据 */
-    if(empty($list)){
-        $list = S('sys_active_user_list');
-    }
-
-    /* 查找用户信息 */
-    $key = "u{$uid}";
-    if(isset($list[$key])){ //已缓存，直接使用
-        $name = $list[$key];
-    } else { //调用接口获取用户信息
-        $User = new User\Api\UserApi();
-        $info = $User->info($uid);
-        if($info && isset($info[1])){
-            $name = $list[$key] = $info[1];
-            /* 缓存用户 */
-            $count = count($list);
-            $max   = C('USER_MAX_CACHE');
-            while ($count-- > $max) {
-                array_shift($list);
-            }
-            S('sys_active_user_list', $list);
-        } else {
-            $name = '';
-        }
-    }
-    return $name;
+    $user     = new \User\Api\UserApi;
+    $userInfo = $user->getUserCache();
+    if(empty($userInfo))
+        return null;
+    else
+        return $userInfo['username'];
 }
  
 /**
@@ -871,7 +847,12 @@ $onlineip = $_SERVER[REMOTE_ADDR];
 return $onlineip;
  }
 
-/* 访问统计 */
+/**
+ * @param string $ip
+ * @param $tag
+ * @param $id   //表示标记，在哪一个页面访问
+ * @return mixed
+ */
 function IpLookup($ip='',$tag,$id){
   
     $arr=get_ip_address();
@@ -881,9 +862,8 @@ function IpLookup($ip='',$tag,$id){
 	 $data["province"]=$arr->region;
 	 $data["city"]=$arr->city;
 	 $data["isp"]=$arr->isp;        //电信 移动 联通
-     if(is_login()){
-		  $member=D("member");
-	      $data["uid"]=$member->uid();
+     if($uid = is_login()){         //$uid要么0要么是具体数
+	      $data["uid"] = $uid;
 	  }
        if(!empty($tag)){
            $data["tag"]=$tag;

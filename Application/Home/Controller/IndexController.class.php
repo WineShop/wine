@@ -22,35 +22,38 @@ class IndexController extends HomeController {
         /**首页统计代码实现**/
         $ip_tongji = C('IP_TONGJI');
         if(1 == $ip_tongji){
-            $id="index";
-            $record=IpLookup("",1,$id);
+            $id     = "index";
+            $record = IpLookup("",1,$id);
         }
-        $cate=M('Category');
-        $catelist=$this->menulist() ;
+        $cate     = M('Category');
+        $catelist = $this->menulist() ;
         $this->assign('categoryq', $catelist);
 
-        $user=M('category');
-        $id=$user->where('display=1 and pid=0')->getField('id',true);
+        $user = M('category');
+        $id   = $user->where('display=1 and pid=0')->getField('id',true);
         $this->assign('arrr',$id);
         /** 幻灯片调用* */
         $slide=get_slide();
-
         $this->assign('slide',$slide);
-        /** 限时抢购调用* */
 
+        /** 限时抢购调用* */
         $timelist=$this->timelist();
         $this->assign('timelist',$timelist);
+
         /** 最新上架调用**/
         $bytime=$this->bytime();
         $this->assign('bytime',$bytime);
-        $totalsales=$this->totalsales();
+
         /** 热卖调用*/
+        $totalsales=$this->totalsales();
         $this->assign('totalsales',$totalsales);
         $Carousel=$this->Carousel();
         $this->assign('carousel',$Carousel);
+
         /** 热词调用**/
         $hotsearch=$this->getHotsearch();
         $this->assign('hotsearch',$hotsearch);
+
         /**购物车调用**/
         $cart=R("shopcart/usercart");
         $this->assign('usercart',$cart);
@@ -63,8 +66,8 @@ class IndexController extends HomeController {
         $menulist=R('Service/AllMenu');
         $this->assign('footermenu',$menulist);
         $tree=$this->maketree() ;
-
         $this->assign ( 'category', $tree);
+
         /** 公告分类调用**/
         $notice=M('document')->order('id desc')->where("category_id='56'")->limit(8)->select();
         $this->assign('notice',$notice);

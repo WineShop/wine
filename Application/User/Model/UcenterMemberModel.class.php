@@ -373,4 +373,15 @@ class UcenterMemberModel extends Model{
         }
     }
 
+    /**
+     * 注销当前用户
+     */
+    public function  logout()
+    {
+        $token = cookie('WINE_USER_INFO_TICKET');
+        cookie('WINE_USER_INFO_TICKET',null);
+        S($token,null);
+        unset($_SESSION['cart']);
+    }
+
 }

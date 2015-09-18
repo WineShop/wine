@@ -59,7 +59,7 @@ $menulist=$this->AllMenu();
 		$this->display();
 	}
 
-/**
+    /**
      * 获取售后服务列表
      * @param  integer  $category 分类ID
      * @param  string   $order    排序规则
@@ -68,38 +68,41 @@ $menulist=$this->AllMenu();
      * @param  string   $field    字段 true-所有字段
      * @return array              文档列表
      */
-public function AllMenu(){
-/* 一级分类信息 */
-$menu=M("category")->where("ismenu='2' and pid='0'")->order("id asc")->select();
-$sonmenu=M("category");
-foreach($menu as $n=> $val){
-      $menu[$n]['id']=$sonmenu->where('pid=\''.$val['id'].'\'')->select();
- 
-     }
-return $menu;
+    public function AllMenu(){
+        /* 一级分类信息 */
+        $menu    = M("category")->where("ismenu='2' and pid='0'")->order("id asc")->select();
+        $sonmenu = M("category");
+        foreach($menu as $n=> $val)
+        {
+          $menu[$n]['id']=$sonmenu->where('pid=\''.$val['id'].'\'')->select();
 
-}
-public function add(){
-	$data=M("member")->limit(1)->find();
-	 $this->assign('info',$data);
-$this->display();
-}
+        }
+        return $menu;
+    }
 
-public function addmessage(){
-   if(IS_POST){
-	$message=M("message");
-    $message->create();
-	$data["content"]=$_POST["content"];
-	$data["goodid"]=$_POST["goodid"];
-    $data["uid"]=D('member')->uid();
-	 $data["create_time"]=NOW_TIME;
-	  $data["time"]=date("Y-m-d H:i:s",time());
-	 $data["status"]=1;
-    if($message->add($data)){	
-	$this->ajaxreturn($data);	
-	}
 
-	}
-  }
+    public function add(){
+        $data=M("member")->limit(1)->find();
+        $this->assign('info',$data);
+        $this->display();
+    }
+
+    public function addmessage(){
+        if(IS_POST){
+            $message=M("message");
+            $message->create();
+            $data["content"]=$_POST["content"];
+            $data["goodid"]=$_POST["goodid"];
+            $data["uid"]=D('member')->uid();
+            $data["create_time"]=NOW_TIME;
+            $data["time"]=date("Y-m-d H:i:s",time());
+            $data["status"]=1;
+            if($message->add($data))
+            {
+                $this->ajaxreturn($data);
+            }
+
+        }
+    }
 
 }

@@ -84,7 +84,6 @@ define(function(require, exports, module){
             var type   = checkFormPut();
             if(!type) return false;
             param.type = type;
-            console.log(param);
             $("button:submit").addClass("log-in").attr("disabled", true);
 
             T.restPost($("#loginform").attr('action'),param,function(success){
