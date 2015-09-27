@@ -10,33 +10,39 @@
         <h2><span class="grid"><img src="__IMG__/grid.png"></span> <span>商品分类</span><b></b></h2>
       </div>
        <div class="all-goods"  id="all-goods">
-<volist name="categoryq" id="cate">
-<div class="item">
+
+        <volist name="categoryq" id="cate">
+        <div class="item">
           <div class="product"><h4><a href="{:U('home/article/index/category/'.$cate['name'])}">{$cate.title}</a> </h4></div>
-            <if condition="$cate['child'] neq false">
-              <div class="product-wrap pos"> 
+
+          <if condition="$cate['child'] neq false">
+           <div class="product-wrap pos">
             <!--子分类-->
             <div class="cf">
               <div class="fl wd252 pr20">
+
                 <volist name="cate['child']" id="cate_sub">
-                 <ul class="cf"> <li><span><a href="{:U('home/article/lists/category/'.$cate_sub['name'])}">{$cate_sub.title}</a></span>
-                   <if condition="$cate_sub['child']">
- <volist name="cate_sub['child']" id="cate_sub_two">
-<a href="{:U('home/article/lists/category/'.$cate_sub_two['name'])}">{$cate_sub_two.title} </a>
+                 <ul class="cf">
+                   <li><span><a href="{:U('home/article/lists/category/'.$cate_sub['name'])}">{$cate_sub.title}</a></span>
+
+                    <if condition="$cate_sub['child']">
+                      <volist name="cate_sub['child']" id="cate_sub_two">
+                            <a href="{:U('home/article/lists/category/'.$cate_sub_two['name'])}">{$cate_sub_two.title} </a>
            
-                            </volist>
+                      </volist>
                        
-                    </if> 
-              
-                </li> </ul>
+                    </if>
+                    </li>
+                 </ul>
                 </volist>
                
-</div>
-            </div> </div>
-            </if>
+             </div>
+            </div> <!--/子分类-->
+          </div>
+          </if>
        
         </div>
-</volist>
+      </volist>
         
       </div></div>
 
@@ -121,7 +127,10 @@
 
 <div class="screen">
 <div class="LunBo">
-<ul class="LunBoslide"><volist name="slide" id="vo"> <li><a href="{$vo.url|get_nav_url}" > <img src="{$vo.icon|get_cover='path'}"/></a> </li></volist>
+<ul class="LunBoslide">
+    <volist name="slide" id="vo">
+        <li><a href="{$vo.url|get_nav_url}" ><img src="{$vo.icon|get_cover='path'}"/></a> </li>
+    </volist>
 </ul>
 <div class="LunBoNum">
 <span class="CurrentNum">1</span>
@@ -138,17 +147,29 @@
 
 
 <div  class="rside">
-<span><img data-img="2" src="http://img12.360buyimg.com/da/jfs/t307/47/730614248/16617/d99caa4b/542157edN66043046.jpg"  alt=""></span>
-<div class="note"><ul><li class="selected">公告</li><li>活动</li></ul></div>
-<div id="msg">
-<div class="message"><ul><volist name="notice" id="vo"><li><a href="{:U('Article/detail?id='.$vo['id'])}">
-                     {$vo.title}</a></li></volist> </ul></div>
-<div class="message"  style="display: none"><ul><volist name="activity"  id="vo" ><li><a href="{:U('Article/detail?id='.$vo['id'])}">
-                     {$vo.title}</a></li></volist></ul></div>
-<div class="message"  style="display: none"></div>
-</div>
-
-
+    <span>
+        <img data-img="2" src="__IMG__/article_tip.jpg"  alt="">
+    </span>
+    <div class="note">
+        <ul><li class="selected">公告</li><li>活动</li></ul>
+    </div>
+    <div id="msg">
+        <div class="message">
+            <ul>
+                <volist name="notice" id="vo">
+                    <li><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></li>
+                </volist>
+            </ul>
+        </div>
+        <div class="message"  style="display: none">
+            <ul>
+                <volist name="activity"  id="vo" >
+                    <li><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></li>
+                </volist>
+            </ul>
+        </div>
+        <div class="message"  style="display: none"></div>
+    </div>
 </div>
 
 </div><!--screen over-->
@@ -162,14 +183,14 @@ a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,fo
 
 <volist name="category" id="vo"  key="k" >
 <div class="list">
-<h3><span class="floor">{$k}F</span>{$vo.title}</h3>
-<div class="category">
-    <div class="icon">
-        <a href="{:U('Article/index?category='.$vo['name'])}" target="_blank"><img src="{$vo.icon|get_cover='path'}"  /></a>
-    </div>
+    <h3><span class="floor">{$k}F</span>{$vo.title}</h3>
+    <div class="category">
+        <div class="icon">
+            <a href="{:U('Article/index?category='.$vo['name'])}" target="_blank"><img src="{$vo.icon|get_cover='path'}"  /></a>
+        </div>
     <!--栏目推荐位调用结束-->
     <!--栏目文章调用开始-->
-    <ul class="article">
+        <ul class="article">
 
            <volist name="vo.doc" id="article">
                 <li>
@@ -185,8 +206,8 @@ a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,fo
                     </div>
                 </li>
            </volist>
-    </ul>
-</div>				<!--栏目文章调用开始-->
+        </ul>
+    </div>				<!--栏目文章调用开始-->
 </div>
 </volist>
 <!--循环结束-->

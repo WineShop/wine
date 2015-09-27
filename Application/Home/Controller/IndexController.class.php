@@ -25,34 +25,41 @@ class IndexController extends HomeController {
             $id     = "index";
             $record = IpLookup("",1,$id);
         }
-        $cate     = M('Category');
-        $catelist = $this->menulist() ;
+
+        /** 首页导航先从缓存取 **/
+        if(S('HOME_CATE_MENU')){
+            $catelist = S('HOME_CATE_MENU');
+        }else{
+            $cate     = M('Category');
+            $catelist = $this->menulist();
+            S('HOME_CATE_MENU',$catelist,3600*24*30);
+        }
         $this->assign('categoryq', $catelist);
 
-        $user = M('category');
+        /*$user = M('category');
         $id   = $user->where('display=1 and pid=0')->getField('id',true);
-        $this->assign('arrr',$id);
+        $this->assign('arrr',$id);*/
         /** 幻灯片调用* */
-        $slide=get_slide();
+        $slide  =  get_slide();
         $this->assign('slide',$slide);
 
         /** 限时抢购调用* */
-        $timelist=$this->timelist();
-        $this->assign('timelist',$timelist);
+        /*$timelist=$this->timelist();
+        $this->assign('timelist',$timelist);*/
 
         /** 最新上架调用**/
-        $bytime=$this->bytime();
-        $this->assign('bytime',$bytime);
+        /*$bytime=$this->bytime();
+        $this->assign('bytime',$bytime);*/
 
         /** 热卖调用*/
-        $totalsales=$this->totalsales();
+        /*$totalsales=$this->totalsales();
         $this->assign('totalsales',$totalsales);
         $Carousel=$this->Carousel();
-        $this->assign('carousel',$Carousel);
+        $this->assign('carousel',$Carousel);*/
 
         /** 热词调用**/
-        $hotsearch=$this->getHotsearch();
-        $this->assign('hotsearch',$hotsearch);
+//        $hotsearch=$this->getHotsearch();
+//        $this->assign('hotsearch',$hotsearch);
 
         /**购物车调用**/
         $cart=R("shopcart/usercart");
