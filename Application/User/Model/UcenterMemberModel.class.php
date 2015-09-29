@@ -198,17 +198,17 @@ class UcenterMemberModel extends Model{
             /** 验证是否是不是管理员 */
             if($is_admin != $user['is_admin'])
             {
-                return -10;
+                return array('status'=>'error','msg'=>'你不是管理员！'); //密码错误
             }
             /* 验证用户密码 */
             if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
-                $this->updateLogin($user['id']); //更新用户登录信息
-                return $user['id']; //登录成功，返回用户ID
+                $this->updateLogin($user['id']);                      //更新用户登录信息
+                return array('status'=>'ok','msg'=>$user);             //登录成功，返回用户信息
             } else {
-                return -2; //密码错误
+                return array('status'=>'error','msg'=>'密码错误！');    //密码错误
             }
         } else {
-            return -1; //用户不存在或被禁用
+            return array('status'=>'error','msg'=>'用户不存在或被禁用'); //用户不存在或被禁用
         }
     }
 

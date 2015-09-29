@@ -22,8 +22,8 @@ define(function(require, exports, module){
                 password    : $("input[name=password]").val()
             };
             T.restPost(url,param,function(success){
-                main.modalAlert('操作成功','success');
-                window.location.href = success.data;
+                main.modalAlert(success.msg,'success');
+                main.redirect('/Admin/Index/index',2000);
             },function(error){
                 main.modalAlert(error.msg,'danger');
             })

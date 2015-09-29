@@ -27,12 +27,12 @@ class IndexController extends HomeController {
         }
 
         /** 首页导航先从缓存取 **/
-        if(S('HOME_CATE_MENU')){
-            $catelist = S('HOME_CATE_MENU');
+        if(S(C('HOME_CATE_MENU'))){
+            $catelist = S(C('HOME_CATE_MENU'));
         }else{
             $cate     = M('Category');
             $catelist = $this->menulist();
-            S('HOME_CATE_MENU',$catelist,3600*24*30);
+            S(C('HOME_CATE_MENU'),$catelist,3600*24*30);
         }
         $this->assign('categoryq', $catelist);
 
@@ -57,9 +57,9 @@ class IndexController extends HomeController {
         $Carousel=$this->Carousel();
         $this->assign('carousel',$Carousel);*/
 
-        /** 热词调用**/
-//        $hotsearch=$this->getHotsearch();
-//        $this->assign('hotsearch',$hotsearch);
+        /** 热词调用 热门搜索**/
+        $hotsearch=$this->getHotsearch();
+        $this->assign('hotsearch',$hotsearch);
 
         /**购物车调用**/
         $cart=R("shopcart/usercart");

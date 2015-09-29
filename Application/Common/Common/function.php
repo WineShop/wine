@@ -972,7 +972,6 @@ function ubb($data){
  * @param int $record_id 触发行为的记录id
  * @param int $user_id 执行行为的用户id
  * @return boolean
- * @author huajie <banhuajie@163.com>
  */
 function action_log($action = null, $model = null, $record_id = null, $user_id = null){
 
@@ -1529,7 +1528,8 @@ function addintocart($uid){
      }
 }
   /* 记录登录历史信息 ,会员模型函数 */
- function history($uid){
+ function history($uid)
+ {
       
 	 $arr=get_ip_address();
 	  $data["uid"]=$uid;
@@ -1540,10 +1540,10 @@ function addintocart($uid){
 	  $data["login_isp"]=$arr->isp;
 	  $data["login_time"]=NOW_TIME;
       /* 登录方式 */
-	  $data["login_way"]=isMobil();     
-	  $history=M("history");
-	   $history->create();
-       $history->add($data);
+	  $data["login_way"] = isMobil();
+	  $history           = M("history");
+	  $history->create();
+      $history->add($data);
 }
 
 

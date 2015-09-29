@@ -34,14 +34,7 @@ class AdminController extends Controller {
             S('DB_CONFIG_DATA',$config);
         }
         C($config); //添加配置
-        // 是否是超级管理员
-        define('IS_ROOT',   is_administrator());
-        if(!IS_ROOT && C('ADMIN_ALLOW_IP')){
-            // 检查IP地址访问
-            if(!in_array(get_client_ip(),explode(',',C('ADMIN_ALLOW_IP')))){
-                $this->error('403:禁止访问');
-            }
-        }
+
         // 检测访问权限
         $access =   $this->accessControl();
         if ( $access === false ) {
