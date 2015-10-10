@@ -113,6 +113,7 @@ class CategoryController extends AdminController {
 
         //判断该分类下有没有内容
         $document_list = M('Document')->where(array('category_id'=>$cate_id))->field('id')->select();
+//        ppd($document_list);
         if(!empty($document_list)){
             $this->error('请先删除该分类下的文章（包含回收站）');
         }
@@ -221,5 +222,15 @@ class CategoryController extends AdminController {
             $this->error('合并分类失败！');
         }
 
+    }
+
+    /**
+     * 清除分类的缓存
+     */
+    public function clean()
+    {
+       S(C('HOME_CATE_MENU'),null);
+        S('DOCUMENT_MODEL_LIST',null)    //后台模型缓存
+       $this->success('清除分类缓存成功！');
     }
 }

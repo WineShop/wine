@@ -649,14 +649,11 @@ function get_category($id, $field = null){
         S('sys_category_list', $list); //更新缓存
     }
 	if (is_null($field))
-	{return  $list[$id];
-	}
-	else{
-		
-   
+	{
+         return  $list[$id];
+	}else{
 		 return $list[$id][$field];
-		 }
-	
+    }
 	
 }
 

@@ -14,50 +14,56 @@ namespace Home\Controller;
 class ArticleController extends HomeController {
 		/* 频道封面页 */
  public function index(){
-		$cateid= $id ? $id : I('get.category', 0);//获取分类的英文名称
+		$cateid     = $id ? $id : I('get.category', 0);//获取分类的英文名称
 
-		$category = D('Category')->info($cateid);
-		$id=$category['id'];
-		
-		$cid = D('Category')->getChildrenId($id);
-		$map['category_id']=array("in",$cid);
-		$map['status']=1;
+		$category   = D('Category')->info($cateid);
+		$id         = $category['id'];
+		$cid        = D('Category')->getChildrenId($id);
+		$map['category_id'] = array("in",$cid);
+		$map['status']      = 1;
+
        //推荐商品
-		$pos=M('Document')->where("position!=0")->select();
+		$pos = M('Document')->where("position!=0")->select();
 		$this->assign("poslist",$pos);
-		 $key=I('get.order');
-		 $sort=I('get.sort');  
+
+        $key  = I('get.order');
+		$sort = I('get.sort');
        if(isset($key)){
 		  
-		if($key=="1"){   $listsort="view"." ".$sort;}  
-		if($key=="2"){ $listsort="id"." ".$sort;} 
-		if($key=="3"){  $listsort="price"." ".$sort;} 
-		if($key=="4"){  $listsort="sale"." ".$sort;}  	
-		   } 
-	if(empty($key)){$key="1";$see="asc";
-			$order="view";$sort="asc";
+		    if($key=="1"){  $listsort="view"." ".$sort;}
+            if($key=="2"){  $listsort="id"." ".$sort;}
+            if($key=="3"){  $listsort="price"." ".$sort;}
+            if($key=="4"){  $listsort="sale"." ".$sort;}
+	   }
+	   if(empty($key)){
+            $key    = "1";
+            $see    = "asc";
+			$order  = "view";
+            $sort   = "asc";
 		    $listsort=$order." ".$sort;			
-			}
+	   }
 		
-    if($sort=="asc"){$see="desc";}
+      if($sort=="asc"){$see="desc";}
       if($sort=="desc"){$see="asc";}
-       $this->assign('see',$see);
+      $this->assign('see',$see);
       $this->assign('order',$key);
 	  $this->assign('value',$sort);
-		$count=M('Document')->where($map)->count();
-		$Page= new \Think\Page($count,15);
+
+		$count = M('Document')->where($map)->count();
+		$Page  = new \Think\Page($count,15);
 		$Page->setConfig('prev','上一页');
 		$Page->setConfig('next','下一页');
 		$Page->setConfig('first','第一页');
 		$Page->setConfig('last','尾页');
 		$Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-		$show= $Page->show();
-		$list= M('Document')->where($map)->order( $listsort)->limit($Page->firstRow.','.$Page->listRows)->select();
+		$show = $Page->show();
+		$list = M('Document')->where($map)->order( $listsort)->limit($Page->firstRow.','.$Page->listRows)->select();
 		$this->assign('list',$list);// 赋值数据集
 		$this->assign('page',$show);//
+
 		//获取分类的id
-		$name=$category['name'];
-		$child=M('Category')->where("pid='$id'")->select();
+		$name  = $category['name'];
+		$child = M('Category')->where("pid='$id'")->select();
 		$this->assign('num', $count);
 		$this->assign('childlist', $child);
 		/* 左侧菜单 */
@@ -68,13 +74,13 @@ class ArticleController extends HomeController {
 		*/
 		$cart=R("shopcart/usercart");
 		$this->assign('usercart',$cart);
-		if(!session('user_auth')){$usercart=$_SESSION['cart'];
-		$this->assign('usercart',$usercart);
-
+		if(!session('user_auth')){
+            $usercart=$_SESSION['cart'];
+		    $this->assign('usercart',$usercart);
 		}
 		/*栏目页统计代码实现，tag=2*/
 		if(1==C('IP_TONGJI')){
-		$record=IpLookup("",2,$name);
+		   $record = IpLookup("",2,$name);
 		}
 		/* 底部分类调用*/
 		$menulist=R('Service/AllMenu');
@@ -97,7 +103,7 @@ class ArticleController extends HomeController {
 		$this->assign('category', $category);
 
 		$this->display($category['template_index']);
-		}
+ }
 
 
 

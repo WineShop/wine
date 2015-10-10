@@ -65,6 +65,7 @@ class DocumentModel extends Model{
         /* 获取模型数据 */
         $logic  = $this->logic($info['model_id']);
         $detail = $logic->detail($id); //获取指定ID的数据
+
         if(!$detail){
             $this->error = $logic->getError();
             return false;

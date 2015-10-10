@@ -130,20 +130,27 @@ ul.menu-list a:hover{height: 40px; background-color: #474747; text-decoration: n
 
 .all-goods{clear:right; position: absolute;top: 40px;left: 0;width: 186px;
 background: #ff3300;border: solid #E23C3D;border-width: 0 2px 2px;overflow: visible; z-index:1000}
-.all-goods .item{width: 186px;height: 36px;border-top: 1px solid #FFF;background: #fff;}
+.all-goods .item{width: 186px;height: 50px;border-top: 1px solid #e4e4e4;background:#fff;}
 .all-goods .btnone{ border-top:none;}
 .all-goods .item .product{ position: absolute;z-index: 999; width: 186px;}
-.all-goods .item .product h4{width: 157px;height: 34px;padding-left: 28px;
-border-width: 1px 0;font-weight: normal;line-height: 36px;
+.all-goods .item .product h4{
+    width: 137px;height: 50px;padding-left: 48px;
+    border-width: 1px 0;font-weight: normal;line-height: 50px;
+    background:url("../images/menu_ico.png") 20px center no-repeat;
 }
 .all-goods .item .product h4 a{ color: #666666; font-size:14px; font-family:"宋体";}
 .all-goods .item .product h4 a:hover{ text-decoration:none;}
 .all-goods .item .product s{display: block;position: absolute;top: 13px;left: 173px;width: 6px;height: 9px; background: url(../images/indexSprite.png) no-repeat 0px 0px;}
-.all-goods .active .product h4{line-height:32px;background-position:-12px -185px;
-background-color:#ffffff;border:1px solid #FF6347; border-width:2px 0;width: 160px;}
+.all-goods .active .product h4{
+    line-height:50px;
+    background:url("../images/menu_ico.png") 20px center no-repeat #f7f7f7;
+    border:1px solid #FF6347; border-width:2px 0;width: 140px;
+}
 .all-goods .active .product h4 a{ color: #E23C3D;}
-.all-goods .product-wrap{ position: absolute; width: 478px; z-index: 99; 
-border:2px solid #FF6347; background: #ffffff;padding: 10px; display: none;
+.all-goods .product-wrap{
+    position: absolute; width: 120px; z-index: 99;
+    border:2px solid #FF6347; background: #f7f7f7;
+    padding: 10px 20px; display: none;
     box-shadow: 4px 3px 5px rgba(0, 0, 0, 0.5);
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;

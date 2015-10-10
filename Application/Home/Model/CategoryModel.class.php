@@ -150,20 +150,23 @@ $list[]= $arr[$i];//$list是个新的数组用于接收3级分类。
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function getChildrenId($id){
-       $field = 'id,name,pid,title,link_id';
-$category = D('Category')->getTree($id, $field);
-$ids = array();
-$ids[]='in';array_push($ids,$id);
-foreach ($category['_'] as $key => $value) {
-$ids[] = $value['id'];
-$id=$value['id'];
-$list=D('Category')->where("status='1'and ismenu='1' and  pid='$id' ")->select();
-foreach ($list as $key => $v)
-	{
-array_push($ids,$v['id']);}
-}
-$ids[]=$id;
-return implode(',', $ids);
+        $field      = 'id,name,pid,title,link_id';
+        $category   = D('Category')->getTree($id, $field);
+
+        $ids        = array();
+        $ids[]      = 'in';
+        array_push($ids,$id);
+        foreach ($category['_'] as $key => $value) {
+            $ids[]  = $value['id'];
+            $id     = $value['id'];
+            $list   = D('Category')->where("status='1'and ismenu='1' and  pid='$id' ")->select();
+            foreach ($list as $key => $v)
+            {
+                array_push($ids,$v['id']);
+            }
+        }
+        $ids[]=$id;
+        return implode(',', $ids);
     }
 
     /**

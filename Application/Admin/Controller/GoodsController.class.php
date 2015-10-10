@@ -153,7 +153,6 @@ class GoodsController extends AdminController {
     public function index($cate_id = null, $model_id = null, $position = null,$group_id=null){
         //获取左边菜单
        $this->getMenu(1);
-
         if($cate_id===null){
             $cate_id = $this->cate_id;
         }
@@ -170,6 +169,7 @@ class GoodsController extends AdminController {
             }else{ // 子文档列表
                 $models     =   get_category($cate_id, 'model_sub');
             }
+
             if(is_null($model_id) && !is_numeric($models)){
                 // 绑定多个模型 取基础模型的列表定义
                 $model = M('Model')->getByName('document');
@@ -177,10 +177,12 @@ class GoodsController extends AdminController {
                 $model_id   =   $model_id ? : $models;
                 //获取模型信息
                 $model = M('Model')->getById($model_id);
+
                 if (empty($model['list_grid'])) {
                     $model['list_grid'] = M('Model')->getFieldByName('document','list_grid');
                 }                
             }
+
             $this->assign('model', explode(',', $models));
         }else{
             // 获取基础模型信息
@@ -386,6 +388,7 @@ class GoodsController extends AdminController {
         // 获取详细数据 
         $Document = D('Document');
         $data = $Document->detail($id);
+
         if(!$data){
             $this->error($Document->getError());
         }
