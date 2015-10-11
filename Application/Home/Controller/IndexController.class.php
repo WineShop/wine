@@ -175,4 +175,9 @@ class IndexController extends HomeController {
         return $category;
 
     }
+
+    public function shopCenter()
+    {
+        $this->display();
+    }
 }
