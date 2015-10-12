@@ -76,6 +76,13 @@ $(function(){
     });
 
 
+    $(".ztlist_style_item_w1").each(function(){
+        $(this).find('.ztlist_style_item').eq(2).addClass('mr0');   //第3个
+        $(this).find('.ztlist_style_item').eq(5).addClass('mr0');   //第6个
+        $(this).find('.ztlist_style_item').eq(3).addClass('mb0');   //第4个
+        $(this).find('.ztlist_style_item').eq(4).addClass('mb0');   //第5个
+        $(this).find('.ztlist_style_item').eq(5).addClass('mb0');   //第6个
+    });
 
 });	
 

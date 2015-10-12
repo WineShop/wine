@@ -144,13 +144,13 @@ class IndexController extends HomeController {
                 }
             }
             $category [$k] ['doc'] = array ();
-            $map['category_id']=array("in",$cid);
-            $map['status']=1;
-            $category [$k] ['chi']= array ();
-            $condition['pid'] = array('in',$arr);
-            $condition['ismenu'] = 1;
-            $category [$k] ['chi']= M('category')->where($condition)->limit(10)->order("id desc")->select();
-            $category [$k]['doc'] = M('Document')->where($map)->order("id desc")->limit(10)->select();
+            $map['category_id']    = array("in",$cid);
+            $map['status']         = 1;
+            $category [$k] ['chi'] = array ();
+            $condition['pid']      = array('in',$arr);
+            $condition['ismenu']   = 1;
+            $category [$k] ['chi'] = M('category')->where($condition)->field('id,name,title,pid,ismenu')->limit(18)->order("id desc")->select();
+            $category [$k]['doc']  = M('Document')->where($map)->field('id,title,category_id,price,pid')->order("id desc")->limit(18)->select();
         }
         return $category;
 
@@ -187,6 +187,15 @@ class IndexController extends HomeController {
 
     public function shopCenter()
     {
+        /**   主体商品内容    **/
+        if(S(C('HOME_SHOP_CENTER')))
+        {
+            $tree = S(C('HOME_SHOP_CENTER'));
+        }else{
+            $tree = $this->maketree() ;
+            S(C('HOME_SHOP_CENTER'),$tree,3600*24*5);
+        }
+        $this->assign ( 'category', $tree);
         $this->display();
     }
 }
