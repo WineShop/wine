@@ -149,8 +149,8 @@ class IndexController extends HomeController {
                 }
             }
             $category [$k] ['doc'] = array ();
-            $map['category_id']=array("in",$cid);
-            $map['status']=1;
+            $map['category_id']    = array("in",$cid);
+            $map['status']         = 1;
             $category [$k] ['doc'] = M('Document')->where($map)->order("id desc")->limit(10)->select();
         }
         return $category;

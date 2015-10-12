@@ -804,22 +804,44 @@ function get_category_title($id){
     return get_category($id, 'title');
 }
  ////获取ip地址信息，返回操作对象
- function get_ip_address(){
-	    $ip=getip();
-        $json=@file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);//根据taobao ip
-   		$jsonarr=json_decode($json);
-   		if($jsonarr->code==0)
-   		{
-   			$data =$jsonarr->data;
-            return $data;
-   		}
-   		else
-   		{
-   			return false;
-   		} 
- } 
-  
- ////根据ip138获得本地真实IP
+/*function get_ip_address(){
+       $ip=getip();
+       $json=@file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);//根据taobao ip
+          $jsonarr=json_decode($json);
+       if($jsonarr->code==0)
+          {
+              $data =$jsonarr->data;
+           ppd($data);
+           return $data;
+          }
+          else
+          {
+              return false;
+          }
+}*/
+
+function get_ip_address($queryIP){
+    $url = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip='.$queryIP;
+    $ch  = curl_init($url);
+    //curl_setopt($ch,CURLOPT_ENCODING ,'utf8');
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true) ; // 获取数据返回
+    $location = curl_exec($ch);
+    $location = json_decode($location);
+    curl_close($ch);
+
+    $loc = "";
+    if($location===FALSE) return "";
+    if (empty($location->desc)) {
+        $location->ip = $queryIP;
+        return $location;
+    }else{
+        $loc = $location->desc;
+    }
+    return $loc;
+}
+
+////根据ip138获得本地真实IP
  function get_onlineip() {
      $mip = @file_get_contents("http://www.ip138.com/ip2city.asp");
   if($mip){
@@ -831,17 +853,17 @@ function get_category_title($id){
     }
 //从服务器获取访客ip
 function getip(){
- $onlineip = "";
-if(getenv(HTTP_CLIENT_IP) && strcasecmp(getenv(HTTP_CLIENT_IP), unknown)) {
-$onlineip = getenv(HTTP_CLIENT_IP);
-} elseif(getenv(HTTP_X_FORWARDED_FOR) && strcasecmp(getenv(HTTP_X_FORWARDED_FOR), unknown)) {
-$onlineip = getenv(HTTP_X_FORWARDED_FOR);
-} elseif(getenv(REMOTE_ADDR) && strcasecmp(getenv(REMOTE_ADDR), unknown)) {
-$onlineip = getenv(REMOTE_ADDR);
-} elseif(isset($_SERVER[REMOTE_ADDR]) && $_SERVER[REMOTE_ADDR] && strcasecmp($_SERVER[REMOTE_ADDR], unknown)) {
-$onlineip = $_SERVER[REMOTE_ADDR];
-}
-return $onlineip;
+    $onlineip = "";
+    if(getenv(HTTP_CLIENT_IP) && strcasecmp(getenv(HTTP_CLIENT_IP), unknown)) {
+        $onlineip = getenv(HTTP_CLIENT_IP);
+    } elseif(getenv(HTTP_X_FORWARDED_FOR) && strcasecmp(getenv(HTTP_X_FORWARDED_FOR), unknown)) {
+        $onlineip = getenv(HTTP_X_FORWARDED_FOR);
+    } elseif(getenv(REMOTE_ADDR) && strcasecmp(getenv(REMOTE_ADDR), unknown)) {
+        $onlineip = getenv(REMOTE_ADDR);
+    } elseif(isset($_SERVER[REMOTE_ADDR]) && $_SERVER[REMOTE_ADDR] && strcasecmp($_SERVER[REMOTE_ADDR], unknown)) {
+        $onlineip = $_SERVER[REMOTE_ADDR];
+    }
+    return $onlineip;
  }
 
 /**
@@ -851,51 +873,45 @@ return $onlineip;
  * @return mixed
  */
 function IpLookup($ip='',$tag,$id){
-  
-    $arr=get_ip_address();
-     $ip=$arr->ip;
-     $data["ip"]=$arr->ip;	
-	 $data["country"]=$arr->country;
-	 $data["province"]=$arr->region;
-	 $data["city"]=$arr->city;
-	 $data["isp"]=$arr->isp;        //电信 移动 联通
-     if($uid = is_login()){         //$uid要么0要么是具体数
-	      $data["uid"] = $uid;
-	  }
-       if(!empty($tag)){
-           $data["tag"]=$tag;
-       }
-	   if(!empty($id)){
-           $data["page"]=$id;
-       }
-	   $data["time"]    = NOW_TIME;
-	   $data["referer"] = $_SERVER['HTTP_REFERER'];
-	   $data["url"]     = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	   $record = M("records");
+    $cookie_key = 'ipkey_'.$tag.$id;
+    $queryIP    = getip();
+    if(cookie($cookie_key) != $queryIP){
+         $arr              = get_ip_address($queryIP);
+         $ip               = $arr->ip;
+         $data["ip"]       = $arr->ip;
+         $data["country"]  = $arr->country;
+         $data["province"] = $arr->province;
+         $data["city"]     = $arr->city;
+         $data["isp"]      = $arr->isp;        //电信 移动 联通
+         if($uid = is_login()){         //$uid要么0要么是具体数
+              $data["uid"] = $uid;
+          }
+           if(!empty($tag)){
+               $data["tag"]=$tag;
+           }
+           if(!empty($id)){
+               $data["page"]=$id;
+           }
+           $data["time"]    = NOW_TIME;
+           $data["referer"] = $_SERVER['HTTP_REFERER'];
+           $data["url"]     = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+           $record = M("records");
 
-        $cookie_key = 'ipkey_'.$tag.$id;
-        if(cookie($cookie_key) != $arr->ip){
-			   //有访问记录
-              $now          = NOW_TIME;
-              $recordtime   = date("YmdH",$now);//当前时间点
-              $time         = $record->where("ip='$ip' and tag='$tag' and page='$id'")->limit(1)->order("id desc")->getField("time");
-              $visittime    = date("YmdH",$time);//获取最近一次访问点
-              $chazhi       = $recordtime-$visittime;//小时差值
-              if($chazhi>C('LAG')){
-                  $record->add($data);
-                  //存四个小时，记录一次
-                  cookie($cookie_key,$arr->ip,array('expire'=>60*60*4,'prefix'=>C('COOKIE_IP')));
-              }//每隔四个小时记录一次
-              else{
 
-              }//不记录
+           //有访问记录
+        /*$now          = NOW_TIME;
+        $recordtime   = date("YmdH",$now);//当前时间点
+        $time         = $record->where("ip='$ip' and tag='$tag' and page='$id'")->limit(1)->order("id desc")->getField("time");
+        $visittime    = date("YmdH",$time);//获取最近一次访问点
+        $chazhi       = $recordtime-$visittime;//小时差值*/
 
-		}else{//没有访问记录
-	        $record->add($data);
-            cookie($cookie_key,$arr->ip,array('expire'=>60*60*4,'prefix'=>C('COOKIE_IP')));
-	    }
+          $record->add($data);
+          //存四个小时，记录一次
+          cookie($cookie_key,$arr->ip,array('expire'=>60*60*4,'prefix'=>C('COOKIE_IP')));
 
-	  return $tag;
+    }
+
+	return $tag;
 }
 /**
  * 获取顶级模型信息
@@ -1675,27 +1691,27 @@ function checkCsf()
     //代理IP直接退出
     empty($_SERVER['HTTP_VIA']) or exit('Access Denied');
     //防止快速刷新
-    session_start();
     $seconds = '3'; //时间段[秒]
     $refresh = '20'; //刷新次数
     //设置监控变量
     $cur_time = time();
-    if(isset($_SESSION['last_time'])){
-        $_SESSION['refresh_times'] += 1;
+    if(session('last_time')){
+        $times = session('refresh_times') + 1;
+        session('refresh_times',$times);
     }else{
-        $_SESSION['refresh_times'] = 1;
-        $_SESSION['last_time'] = $cur_time;
+        session('refresh_times',1);
+        session('last_time',$cur_time);
     }
     //处理监控结果
-    if($cur_time - $_SESSION['last_time'] < $seconds){
-        if($_SESSION['refresh_times'] >= $refresh){
+    if($cur_time - session('last_time') < $seconds){
+        if(session('refresh_times') >= $refresh){
             //跳转至攻击者服务器地址
             header(sprintf('Location:%s', 'http://127.0.0.1'));
             exit('Sorry,Access Denied');
         }
     }else{
-        $_SESSION['refresh_times'] = 0;
-        $_SESSION['last_time'] = $cur_time;
+        session('refresh_times',0);
+        session('last_time',$cur_time);
     }
 }
 

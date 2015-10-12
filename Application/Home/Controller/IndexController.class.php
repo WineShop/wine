@@ -26,21 +26,17 @@ class IndexController extends HomeController {
             $record = IpLookup("",1,$id);
         }
 
-        /** 首页导航先从缓存取 **/
-        if(S(C('HOME_CATE_MENU'))){
-            $catelist = S(C('HOME_CATE_MENU'));
-        }else{
-            $cate     = M('Category');
-            $catelist = $this->menulist();
-            S(C('HOME_CATE_MENU'),$catelist,3600*24*30);
-        }
-        $this->assign('categoryq', $catelist);
-
         /*$user = M('category');
         $id   = $user->where('display=1 and pid=0')->getField('id',true);
         $this->assign('arrr',$id);*/
+
         /** 幻灯片调用* */
-        $slide  =  get_slide();
+        if(S(C('HOME_SLIDE_BANNER'))){
+            $slide = S(C('HOME_SLIDE_BANNER'));
+        }else{
+            $slide  =  get_slide();
+            S(C('HOME_SLIDE_BANNER'),$slide,3600*24*30);
+        }
         $this->assign('slide',$slide);
 
         /** 限时抢购调用* */
@@ -58,40 +54,35 @@ class IndexController extends HomeController {
         $this->assign('carousel',$Carousel);*/
 
         /** 热词调用 热门搜索**/
-        $hotsearch=$this->getHotsearch();
+        $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
 
-        /**购物车调用**/
-        $cart=R("shopcart/usercart");
-        $this->assign('usercart',$cart);
-        if(!session('user_auth')){
-            $usercart=$_SESSION['cart'];
-            $this->assign('usercart',$usercart);
 
-        }
         /** 底部分类调用**/
-        $menulist=R('Service/AllMenu');
+        if(S(C('HOME_FOOT_MENU')))
+        {
+            $menulist = S(C('HOME_FOOT_MENU'));
+        }else{
+            $menulist = R('Service/AllMenu');
+            S(C('HOME_FOOT_MENU'),$menulist,3600*24*30);
+        }
         $this->assign('footermenu',$menulist);
-        $tree=$this->maketree() ;
-        $this->assign ( 'category', $tree);
 
-        /** 公告分类调用**/
-        $notice=M('document')->order('id desc')->where("category_id='56'")->limit(8)->select();
-        $this->assign('notice',$notice);
-        /** 活动分类调用**/
-        $activity=M('document')->order('id desc')->where("category_id='70'")->limit(8)->select();
-        $this->assign('activity',$activity);
+
+        /**   主体商品内容    **/
+        if(S(C('HOME_SHOP_CENTER')))
+        {
+            $tree = S(C('HOME_SHOP_CENTER'));
+        }else{
+            $tree = $this->maketree() ;
+            S(C('HOME_SHOP_CENTER'),$tree,3600*24*5);
+        }
+        $this->assign ( 'category', $tree);
 
         $this->meta_title = '首页';
         $this->display();
     }
-    /**无限极分类菜单调用**/
-    public function menulist(){
-        $field = 'id,name,pid,title';
-        $categoryq = D('Category')->field($field)->order('sort desc')->where('display="1"and ismenu="1" ')->select();
-        $catelist = $this->unlimitedForLevel($categoryq);
-        return $catelist;
-    }
+
     /**限时抢购**/
     public function timelist(){
 
@@ -128,18 +119,7 @@ class IndexController extends HomeController {
         return $totalsales;
 
     }
-    public function unlimitedForLevel($cate,$name = 'child',$pid = 0){
-        $arr = array();
-        foreach ($cate as $key => $v) {
-            //判断，如果$v['pid'] == $pid的则压入数组Child
-            if ($v['pid'] == $pid) {
-                //递归执行
-                $v[$name] = self::unlimitedForLevel($cate,$name,$v['id']);
-                $arr[] = $v;
-            }
-        }
-        return $arr;
-    }
+
 
     /**分类商品**/
     public function goodlist(){
@@ -174,6 +154,35 @@ class IndexController extends HomeController {
         }
         return $category;
 
+    }
+
+    /**
+     * 获取首页的活动
+     */
+    public function ajaxActive()
+    {
+        $activity = M('document')->order('id desc')->where("category_id='70'")->field('id,title')->limit(8)->select();
+        if(empty($activity))
+        {
+            $this->ajaxError('暂无记录');
+        }else{
+            $this->ajaxSuccess($activity);
+        }
+
+    }
+
+    /**
+     * 获取首页的公告
+     */
+    public function ajaxNotice()
+    {
+        $notice = M('document')->order('id desc')->where("category_id='56'")->field('id,title')->limit(8)->select();
+        if(empty($notice))
+        {
+            $this->ajaxError('暂无记录');
+        }else{
+            $this->ajaxSuccess($notice);
+        }
     }
 
     public function shopCenter()

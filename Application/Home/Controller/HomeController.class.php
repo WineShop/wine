@@ -25,13 +25,13 @@ class HomeController extends Controller {
     protected function _initialize(){
         //防止QCC攻击
         checkCsf();
-        /* 读取站点配置 */
-        $config = api('Config/lists');
+        /* 读取站点配置  有点慢故注释掉*/
+       /*$config = api('Config/lists');
         C($config); //添加配置
 
         if(!C('WEB_SITE_CLOSE')){
             $this->error('站点已经关闭，请稍后访问~');
-        }
+        }*/
     }
 
 	/* 用户登录检测 */

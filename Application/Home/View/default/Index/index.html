@@ -2,127 +2,10 @@
 <block name="body">
 <!--container begin-->
 <div class="flexcontainer">
-<!--menu begin-->
-<div class="nav-wrap">
- <!--fenlei begin--> <div class="nava">
-    <div class="goods">
-      <div>
-        <h2><span class="grid"><img src="__IMG__/grid.png"></span> <span>商品分类</span><b></b></h2>
-      </div>
-       <div class="all-goods"  id="all-goods">
+    <!--导航和购物车-->
+    {:W('Menu/nav')}
+    <!--//导航和购物车-->
 
-        <volist name="categoryq" id="cate">
-        <div class="item">
-          <div class="product"><h4><a href="{:U('home/article/index/category/'.$cate['name'])}">{$cate.title}</a> </h4></div>
-
-          <if condition="$cate['child'] neq false">
-           <div class="product-wrap pos">
-            <!--子分类-->
-            <div class="cf">
-              <div class="fl wd252 pr20">
-
-                <volist name="cate['child']" id="cate_sub">
-                 <ul class="cf">
-                   <li><span><a href="{:U('home/article/lists/category/'.$cate_sub['name'])}">{$cate_sub.title}</a></span>
-
-                    <if condition="$cate_sub['child']">
-                      <volist name="cate_sub['child']" id="cate_sub_two">
-                            <a href="{:U('home/article/lists/category/'.$cate_sub_two['name'])}">{$cate_sub_two.title} </a>
-           
-                      </volist>
-                       
-                    </if>
-                    </li>
-                 </ul>
-                </volist>
-               
-             </div>
-            </div> <!--/子分类-->
-          </div>
-          </if>
-       
-        </div>
-      </volist>
-        
-      </div></div>
-
-    <!--fenlei over-->
-    <ul class="menu">
-            <think:nav name="nav">
-              <eq name="nav.pid" value="0">
-              <li>
-                    <a href="{$nav.url|get_nav_url}" target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
-              </li>
-              </eq>
-            </think:nav>
-
-            <li class="top_right">
-                <div rel="nofollow" href="{:U('shopcart/index')}" class="shopping_cart" id="shopping_cart" style="display:">(0件 | <font color="#FDF657">0.0</font>元)</div>
-                <if condition="is_login()">
-                    <empty name="usercart">
-                        <div class="sc_goods"  id="goods" style="display:none;">
-                            <ul class="sc_goods_ul">
-                                <p class="sc_goods_none" >您的购物车还是空的，赶紧行动吧！</p>
-                            </ul>
-                            <div class="sc_goods_foot" style="display: none;">
-                                <a rel="nofollow" href="{:U('shopcart/index')}" class="my_shopping_cart_btn">查看我的购物车</a>
-                            </div>
-                        </div>
-                    <else/>
-                        <div class="sc_goods" id="goods" style="display:none;">
-                            <ul class="sc_goods_ul">
-                                <volist name="usercart" id="vo">
-                                    <li>
-                                        <dl>
-                                            <dt class="mini-img"><a  href="{:U('Article/detail?id='.$vo['goodid'])}"><img src="{$vo.goodid|get_cover_id|get_cover='path'}" width='40' height='40'/> </a></dt>
-                                            <dd><span class="mini_title"><a href="{:U('Article/detail?id='.$vo['goodid'])}">{$vo.goodid|get_good_name}</a> </span><span class="mini-cart-count red">¥{$vo.price}<em class="{$vo.sort}">*{$vo.num}</em></span></dd>
-                                            <dd><span class="mini-cart-info">{$vo.parameters}</span><span class="mini-cart-del"><a name="{$vo.sort}" rel="del" href="javascript:vod(0);"   onclick="delcommon(event)">删除</a></span></dd>
-                                        </dl>
-                                    </li>
-                                </volist>
-                            </ul>
-                            <div class="sc_goods_foot" style="display:block;">
-                                <a rel="nofollow" href="{:U('shopcart/index')}" class="my_shopping_cart_btn">查看我的购物车</a>
-                            </div>
-                        </div>
-                    </empty>
-
-                <else/>
-                    <empty name="usercart">
-
-                        <div id="goods" class="sc_goods" style="display:none;">
-                            <ul class="sc_goods_ul">
-                                <p class="sc_goods_none" >您的购物车还是空的，赶紧行动吧！</p>
-
-                            </ul>
-                            <div class="sc_goods_foot" style="display:none;">
-                                <a rel="nofollow" href="{:U('shopcart/index')}" class="my_shopping_cart_btn">查看我的购物车</a>
-                            </div>
-                        </div>
-                   <else/>
-                        <div id="goods" class="sc_goods" style="display:none;">
-                            <ul class="sc_goods_ul">
-                                <foreach name="usercart" item="vo">
-                                    <li> <dl>
-                                        <dt class="mini-img"><a  href="{:U('Article/detail?id='.$vo['id'])}"><img src="{$vo.id|get_cover_id|get_cover='path'}" width='40' height='40'/> </a></dt>
-                                        <dd><span class="mini_title"><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.id|get_good_name}</a> </span><span class="mini-cart-count red">¥{$vo.price}<em class="{$vo.sort}">*{$vo.num}</em></span></dd>
-                                        <dd><span class="mini-cart-info">{$vo.parameters}</span><span class="mini-cart-del"><a name="{$vo.sort}" rel="del" href="javascript:vod(0);"   onclick="delcommon(event)">删除</a></span></dd>
-                                    </dl>
-                                    </li>
-                                </foreach>
-                            </ul>
-                            <div class="sc_goods_foot" style="display:block;">
-                                <a rel="nofollow" href="{:U('shopcart/index')}"  class="my_shopping_cart_btn">查看我的购物车</a>
-                            </div>
-                        </div>
-                    </empty>
-                </if>
-            </li>
-    </ul>
-    
-  </div>
-</div><!--menu over-->
-    
 <!--pic begin--><!--幻灯片首个li设置class为CurrentPic-->
 
 <div class="screen">
@@ -140,9 +23,6 @@
 <span>5</span>
 </div>
 </div>
-
-
-
  <!--pic over-->
 
 
@@ -155,17 +35,13 @@
     </div>
     <div id="msg">
         <div class="message">
-            <ul>
-                <volist name="notice" id="vo">
-                    <li><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></li>
-                </volist>
+            <ul class="home_notice">
+
             </ul>
         </div>
         <div class="message"  style="display: none">
-            <ul>
-                <volist name="activity"  id="vo" >
-                    <li><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></li>
-                </volist>
+            <ul class="home_active">
+
             </ul>
         </div>
         <div class="message"  style="display: none"></div>
@@ -213,8 +89,11 @@ a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,fo
 <!--循环结束-->
  
 <script type="text/javascript">
-
-    seajs.use(['Index'])
+    var aurl = "{:U('Index/ajaxActive')}";     //活动
+    var nurl = "{:U('Index/ajaxNotice')}";     //公告
+    seajs.use(['Index'],function(Index){
+        Index.getArticle(aurl,nurl);
+    })
 
 </script>
 

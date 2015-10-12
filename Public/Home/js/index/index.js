@@ -112,6 +112,39 @@ define(function (require, exports, module) {
     }*/
 
 
+    //获取活动和公告
+    var getArticle = function(aurl,nurl){
+        //活动
+        T.restPost(aurl,{},function(success){
+            if(success.code == 1000){
+                var str = '';
+                var data = success.data;
+                for(var i in data){
+                    str += '<li><a href="/Article/detail?id='+data[i].id+'">'+data[i].title+'</a></li>';
+                }
+                $(".home_active").html(str);
+            }
+        },function(error){
 
+        });
 
+        //公告
+        T.restPost(nurl,{},function(success){
+            if(success.code == 1000){
+                var str = '';
+                var data = success.data;
+                for(var i in data){
+                    str += '<li><a href="/Article/detail?id='+data[i].id+'">'+data[i].title+'</a></li>';
+                }
+                $(".home_notice").html(str);
+            }
+        },function(error){
+
+        });
+
+    }
+
+    module.exports = {
+        getArticle : getArticle
+    };
 })
