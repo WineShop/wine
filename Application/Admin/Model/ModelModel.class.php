@@ -64,7 +64,7 @@ class ModelModel extends Model{
         S('DOCUMENT_MODEL_LIST', null);
 
         //记录行为
-        action_log('update_model','model',$data['id'] ? $data['id'] : $id,UID);
+        // action_log('update_model','model',$data['id'] ? $data['id'] : $id,UID);
 
         //内容添加或更新完成
         return $data;

@@ -39,7 +39,6 @@ class ModelController extends AdminController {
     public function add(){
         //获取所有的模型
         $models = M('Model')->where(array('extend'=>0))->field('id,title')->select();
-
         $this->assign('models', $models);
         $this->meta_title = '新增模型';
         $this->display();
@@ -58,11 +57,13 @@ class ModelController extends AdminController {
         /*获取一条记录的详细数据*/
         $Model = M('Model');
         $data = $Model->field(true)->find($id);
+
         if(!$data){
             $this->error($Model->getError());
         }
 
         $fields = M('Attribute')->where(array('model_id'=>$data['id']))->field('id,name,title,is_show')->select();
+
         //是否继承了其他模型
         if($data['extend'] != 0){
             $extend_fields = M('Attribute')->where(array('model_id'=>$data['extend']))->field('id,name,title,is_show')->select();
@@ -97,7 +98,6 @@ class ModelController extends AdminController {
                 }
             }
         }
-
         $this->assign('fields', $fields);
         $this->assign('info', $data);
         $this->meta_title = '编辑模型';

@@ -230,7 +230,7 @@ class CategoryController extends AdminController {
     public function clean()
     {
        S(C('HOME_CATE_MENU'),null);
-        S('DOCUMENT_MODEL_LIST',null)    //后台模型缓存
+        S('DOCUMENT_MODEL_LIST',null);    //后台模型缓存
        $this->success('清除分类缓存成功！');
     }
 }

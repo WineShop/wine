@@ -125,7 +125,7 @@ class DocumentModel extends Model{
 
         //行为记录
         if($id){
-            action_log('add_document', 'document', $id, UID);
+            //action_log('add_document', 'document', $id, UID);
         }
 
         //内容添加或更新完成
