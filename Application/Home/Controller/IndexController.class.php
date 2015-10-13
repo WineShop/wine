@@ -150,7 +150,7 @@ class IndexController extends HomeController {
             $condition['pid']      = array('in',$arr);
             $condition['ismenu']   = 1;
             $category [$k] ['chi'] = M('category')->where($condition)->field('id,name,title,pid,ismenu')->limit(18)->order("id desc")->select();
-            $category [$k]['doc']  = M('Document')->where($map)->field('id,title,category_id,price,pid')->order("id desc")->limit(18)->select();
+            $category [$k]['doc']  = M('Document')->where($map)->field('id,title,category_id,price,pid,cover_id')->order("id desc")->limit(18)->select();
         }
         return $category;
 

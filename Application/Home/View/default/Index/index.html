@@ -1,6 +1,6 @@
 <extend name="Base/common"/>
 <block name="body">
-<!--container begin-->
+<!--flexcontainer begin-->
 <div class="flexcontainer">
     <!--导航和购物车-->
     {:W('Menu/nav')}
@@ -9,44 +9,44 @@
 <!--pic begin--><!--幻灯片首个li设置class为CurrentPic-->
 
 <div class="screen">
-<div class="LunBo">
-<ul class="LunBoslide">
-    <volist name="slide" id="vo">
-        <li><a href="{$vo.url|get_nav_url}" ><img src="{$vo.icon|get_cover='path'}"/></a> </li>
-    </volist>
-</ul>
-<div class="LunBoNum">
-<span class="CurrentNum">1</span>
-<span>2</span>
-<span>3</span>
-<span>4</span>
-<span>5</span>
-</div>
-</div>
+    <div class="LunBo">
+        <ul class="LunBoslide">
+            <volist name="slide" id="vo">
+                <li><a href="{$vo.url|get_nav_url}" ><img src="{$vo.icon|get_cover='path'}"/></a> </li>
+            </volist>
+        </ul>
+        <div class="LunBoNum">
+            <span class="CurrentNum">1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+        </div>
+    </div>
  <!--pic over-->
 
 
-<div  class="rside">
-    <span>
-        <img data-img="2" src="__IMG__/article_tip.jpg"  alt="">
-    </span>
-    <div class="note">
-        <ul><li class="selected">公告</li><li>活动</li></ul>
-    </div>
-    <div id="msg">
-        <div class="message">
-            <ul class="home_notice">
-
-            </ul>
+    <div  class="rside">
+        <span>
+            <img data-img="2" src="__IMG__/article_tip.jpg"  alt="">
+        </span>
+        <div class="note">
+            <ul><li class="selected">公告</li><li>活动</li></ul>
         </div>
-        <div class="message"  style="display: none">
-            <ul class="home_active">
+        <div id="msg">
+            <div class="message">
+                <ul class="home_notice">
 
-            </ul>
+                </ul>
+            </div>
+            <div class="message"  style="display: none">
+                <ul class="home_active">
+
+                </ul>
+            </div>
+            <div class="message"  style="display: none"></div>
         </div>
-        <div class="message"  style="display: none"></div>
     </div>
-</div>
 
 </div><!--screen over-->
 </div><!--flexcontainer over-->
@@ -55,7 +55,7 @@
 a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,font,form,h1,h2,h3,h4,h5,h6,html,i,iframe,img,ins,label,legend,li,ol,p,pre,small,span,strong,u,ul,var{margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block} 
 	 
 	 hr{ -moz-box-sizing:content-box;box-sizing:content-box;height:0;}</style>
-<!--循环开始-->
+<!--商品内容循环开始-->
 
 <volist name="category" id="vo"  key="k" >
 <div class="list">
