@@ -90,12 +90,12 @@ class MemberModel extends Model{
 
     }
   
-public  function uid() {
-       $user = session("user_auth");
-	   $uid  = $user["uid"];
-	   return $uid;
-		 
-}
+    public  function uid() {
+        $user       = new UserApi();
+        $userCache  = $user->getUserCache();
+        $uid        = $userCache['id'];
+        return $uid;
+    }
 
 
 

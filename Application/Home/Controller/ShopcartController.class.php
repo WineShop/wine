@@ -20,77 +20,73 @@ class ShopcartController extends HomeController {
           int $num 购物数量
     */
 	public  function addItem($id) {
-		$num=$_POST['num'];
-		$id=$_POST['id'];
-		$price=$_POST['price'];
-		 $parameters=$_POST['i'];
-		 $sort=$_POST['sort'];
-		if(!isset($_SESSION['cart'])){
-		$_SESSION['cart'] = array();
+		$num        = $_POST['num'];
+		$id         = $_POST['id'];
+		$price      = $_POST['price'];
+		$parameters = $_POST['i'];
+		$sort       = $_POST['sort'];
+		if(!isset($_SESSION['cart']))
+        {
+		    $_SESSION['cart'] = array();
 		}
-      
-	;
+
 		//如果该商品已存在则直接加其数量
 		if(isset($_SESSION['cart'][$sort])) {
-		$_SESSION['cart'][$sort]['num'] += $num;
-		$item['id'] = $id;
-		$item['price'] = $price;
-		$item['sort'] = $sort;
-	    $item['parameters'] = $parameters;
-		$item['num'] = $_SESSION['cart'][$sort]['num'];		
-		$_SESSION['cart'][$sort] = $item;
-        $exsit=$_SESSION['cart'][$sort]?1:0;
-		}
-		else{
-		$item['id'] = $id;
-		$item['price'] = $price;
-		$item['num'] = $num;
-		$item['sort'] = $sort;
-		$item['parameters'] = $parameters;
-		$_SESSION['cart'][$sort] = $item;
-		$exsit="0";
-
+            $_SESSION['cart'][$sort]['num'] += $num;
+            $item['id']         = $id;
+            $item['price']      = $price;
+            $item['sort']       = $sort;
+            $item['parameters'] = $parameters;
+            $item['num']        = $_SESSION['cart'][$sort]['num'];
+            $_SESSION['cart'][$sort] = $item;
+            $exsit  = $_SESSION['cart'][$sort]?1:0;
+		}else{
+            $item['id']     = $id;
+            $item['price']  = $price;
+            $item['num']    = $num;
+            $item['sort']   = $sort;
+            $item['parameters'] = $parameters;
+            $_SESSION['cart'][$sort] = $item;
+            $exsit="0";
 		}
 		//登录用户，处理详情页ajaxt提交的数据保存到数据库
 		if(is_login()){
-		$table=D("shopcart");
-		$data['goodid']=$id;
-		$member=D("member");
-		$uid=$member->uid();
-		$data['uid']=$uid;
-		$data['price']=$price;
-		$data['sort']=$sort;
-		$data['parameters']=$parameters;
-		$datanum=M("shopcart")->where("goodid='$id'and uid='$uid' and parameters='$parameters'")->getField("num");
-		if($datanum)
-		{$exsit="1";
-		$data['num']=$datanum+$num;
-		$table->where("goodid='$id'and uid='$uid' and parameters='$parameters'")->save($data);
-		}
-		else{
-		
-		$data['num']=$num;
-		$table->add($data);
-		$exsit="0";
-		}
-		$data['sql'] ='sql';
-		$data['status'] =1;
-		$data['num'] = M("shopcart")->where("goodid='$id'and uid='$uid' and parameters='$parameters'")->getField("num");
-		$data['msg'] = '已添加到购物车';
-		$data['exsit'] = $exsit;
-		$data['sum']=D("shopcart")->getNumByuid();
-		$data['fee']=$table->getPriceByuid(); /* 购物车中商品的总金额*/
-		$this->ajaxReturn($data);
-		}
-		else{    
-	$data['exsit'] = $exsit;
-		  $data['fee']=$this->getPrice(); /* 购物车中商品的总金额*/
-		  $data['status'] = 1;
-		 $itemid= $this->getItem($sort);
-		$data['num']=$itemid['num'];
-		$data['sum'] =$this->getNum();
-		$data['msg'] = '已添加到购物车';
-		$this->ajaxReturn($data);}
+            $table          = D("shopcart");
+            $data['goodid'] = $id;
+            $member         = D("member");
+            $uid            = $member->uid();
+            $data['uid']    = $uid;
+            $data['price']  = $price;
+            $data['sort']   = $sort;
+            $data['parameters']=$parameters;
+            $datanum=M("shopcart")->where("goodid='$id'and uid='$uid' and parameters='$parameters'")->getField("num");
+            if($datanum)
+            {
+                $exsit="1";
+                $data['num']=$datanum+$num;
+                $table->where("goodid='$id'and uid='$uid' and parameters='$parameters'")->save($data);
+            }else{
+                $data['num']=$num;
+                $table->add($data);
+                $exsit="0";
+            }
+            $data['sql'] ='sql';
+            $data['status'] =1;
+            $data['num'] = M("shopcart")->where("goodid='$id'and uid='$uid' and parameters='$parameters'")->getField("num");
+            $data['msg'] = '已添加到购物车';
+            $data['exsit'] = $exsit;
+            $data['sum']=D("shopcart")->getNumByuid();
+            $data['fee']=$table->getPriceByuid(); /* 购物车中商品的总金额*/
+            $this->ajaxReturn($data);
+		}else{
+            $data['exsit']  = $exsit;
+            $data['fee']    =$this->getPrice(); /* 购物车中商品的总金额*/
+            $data['status'] = 1;
+            $itemid         = $this->getItem($sort);
+            $data['num']    = $itemid['num'];
+            $data['sum']    = $this->getNum();
+            $data['msg']    = '已添加到购物车';
+            $this->ajaxReturn($data);}
 		}
      /*
     添加商品  添加商品

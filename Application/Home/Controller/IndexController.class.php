@@ -198,4 +198,5 @@ class IndexController extends HomeController {
         $this->assign ( 'category', $tree);
         $this->display();
     }
+
 }
