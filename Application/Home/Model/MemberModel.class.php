@@ -91,8 +91,8 @@ class MemberModel extends Model{
     }
   
 public  function uid() {
-       $user=session("user_auth");
-	   $uid=$user["uid"]; 
+       $user = session("user_auth");
+	   $uid  = $user["uid"];
 	   return $uid;
 		 
 }

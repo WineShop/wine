@@ -40,67 +40,56 @@
 			<img src="__IMG__/btn_mobile_next_cur.jpg" />
 		</div>
     </div>
-</div><!-- wwww over--> <!-- 商品参数-->
+</div><!-- wwww over-->
+<!-- 商品参数-->
 <div class="dl_goods_info">
-<h2 class="dginfo_h2" >{$info.title}</h2>
-<p >价格：<span class="dginfo_price">￥<em class="price" id="resetprice"><php>
- if(!empty($info['groupprice'])){ $price= explode('、',$info['groupprice']);}else{
-
- $price="";}</php>
- <notempty name="price">
+    <h2 class="dginfo_h2" >{$info.title}</h2>
+    <p >价格：<span class="dginfo_price">￥
+        <em class="price" id="resetprice">
+        <php>
+            if(!empty($info['groupprice'])){ $price= explode('、',$info['groupprice']);}else{  $price=""; }
+        </php>
+        <notempty name="price">
              <volist name="price" id="v"  key="k" offset="0" length="1">
                    {$v}
              </volist>
         </notempty>
 		<empty name="price">
            {$info['price']}
-        </empty></em></span></p>
+        </empty>
+        </em>
+    </span></p>
 
-<ul class="dginfo_info">
-<li>销量：{$info.sale}</li>
- <li class="dginfo_info_last">品牌：{$info.brand}<span ></span></li>
-<li>
-<form action="{:U("Shopcart/order")}" name="orderform" id="orform" method="post" onsubmit="return trySubmit()">
-<input type="hidden" name="id[]" value="{$info.id}"/>
-<input type="hidden" name="price[]" id="inputprice" value="{$info.price}"/>
-<input type="hidden" name="sort[]" id="inputsort" value="{$info.id}"/>
-<input type="hidden" name="parameters[]" id="inputparameters" />
-<p class=""><span class="quantity">数量：</span><span class="quantity-form"><a href="javascript:void(0)" class="jia"  onclick="add()" >+</a>
-         <input type="text" class="goodnum" value="1"  name="num[]" /><a onclick="reduce()" id="oneA" href="javascript:void(0)" class="jian">-</a></span></p>
+    <ul class="dginfo_info">
+        <li>销量：{$info.sale}</li>
+        <li class="dginfo_info_last">品牌：{$info.brand}<span ></span></li>
+        <li>
+            <form action="{:U('Shopcart/order')}" name="orderform" id="orform" method="post" onsubmit="return trySubmit()">
+                <input type="hidden" name="id[]" value="{$info.id}"/>
+                <input type="hidden" name="price[]" id="inputprice" value="{$info.price}"/>
+                <input type="hidden" name="sort[]" id="inputsort" value="{$info.id}"/>
+                <input type="hidden" name="parameters[]" id="inputparameters" />
+                <p class=""><span class="quantity">数量：</span><span class="quantity-form"><a id="oneA" href="javascript:void(0)" class="jian">-</a>
+                <input type="text" class="goodnum" value="1"  name="num[]" /><a href="javascript:void(0)" class="jia" >+</a></span></p>
+            </form>
+        </li>
+          <notempty name="info['parameters_value']">
+          <li class="weight pp_prop_wrap">{$info.parameters}： <php>
+         if(!empty($info['parameters_value'])){ $datalist= explode('、',$info['parameters_value']);}else{  $datalist=""; }</php>
+                <notempty name="datalist">
+                     <volist name="datalist" id="v"  key="k">
+                           <a href="javascript:void(0)" class="<if condition="$k eq 1">cur<else /></if>" title="{$v}" onclick="setprice({$k});return false;">{$v} </a>
+                     </volist>
+                </notempty>
+          </li>
+          </notempty>
 
- </form></li>
-  <notempty name="info['parameters_value']">
-  <li class="weight pp_prop_wrap">{$info.parameters}： <php>
- if(!empty($info['parameters_value'])){ $datalist= explode('、',$info['parameters_value']);}else{
+    </ul>
 
- $datalist="";}</php>
- <notempty name="datalist">
-             <volist name="datalist" id="v"  key="k">
-				   <a href="javascript:void(0)" class="<if condition="$k eq 1">cur<else /></if>" title="{$v}" onclick='setprice({$k});return false;'">{$v} </a>
-             </volist>
-        </notempty></li>
-		</notempty>
-
-<script>
-
-function setprice(num){
- price=null;
-var str='{$info.groupprice}';
-var value=str.split("、");
-var i=num-1;
-$("#resetprice").text(value[i]);
-$("#inputprice").val(value[i])
-$(".weight a").eq(i).addClass("cur").siblings().removeClass("cur");;
-var para=$(".weight a").eq(i).text();
-$("#inputparameters").val(para);
-
-}
-</script>
-
-</ul>
 <!-- buy-->
-<div  class="addcart_box"><a rel="nofollow" href="javascript:void(0)"  onclick='order({$info.id});return false;' class="dginfo_btn">立刻购买</a>
-<a  rel="nofollow" href="javascript:void(0)" onclick='buy({$info.id});return false;' class="dginfo_btn"  >加入购物车</a>
+<div  class="addcart_box">
+    <a rel="nofollow" href="javascript:void(0)"  class="dginfo_btn lj_order">立刻购买</a>
+    <a  rel="nofollow" href="javascript:void(0)" onclick='buy({$info.id});return false;' class="dginfo_btn"  >加入购物车</a>
 
   <!-- 购物车计算浮动层 begin -->
  <div id="showIncludeCart" style="display:none;">
@@ -109,7 +98,7 @@ $("#inputparameters").val(para);
  <div class="buy_pop_top"><div class="title">此商品已成功放入购物车</div>
  <div class="font">购物车共 <font id="totalnum" class="red"></font> 件宝贝<span>合计 <font class="red" id="fee"></font></span></div>
  <div class="btn_continue">
- <div class="pop_btn_r" ><a onclick="jQuery('#showIncludeCart').hide();return false;" href="javascript:vod(0);">继续购物</a></div>
+ <div class="pop_btn_r" ><a onclick="jQuery('#showIncludeCart').hide();return false;" href="javascript:;">继续购物</a></div>
  <div class="btn_cart"><a href="{:U('shopcart/index')}">去购物车结算</a></div>
  </div>
  </div>
@@ -118,7 +107,7 @@ $("#inputparameters").val(para);
    </div>
 <!-- buy-->
 <p>
-<span>收藏产品：<a href="javascript:vod(0);" onclick="favor();return false;"><img title="收藏按钮" src="__IMG__/icon_favorite_pro.jpg" ></a>
+<span>收藏产品：<a href="javascript:;" class="lj_favor"><img title="收藏按钮" src="__IMG__/icon_favorite_pro.jpg" ></a>
 </span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;&nbsp;&nbsp;分享到：<a title="分享到新浪微博" target="_blank" href="http://service.t.sina.com.cn/share/share.php?title={$info.title}。（来自{:C('SITENAME')}）&amp;url={:C('DOMAIN')}{:U('Article/detail?id='.$info['id'])}&amp;pic={:C('DOMAIN')}{$info.cover_id|get_cover='path'}" data-item="sina" class="J_vivo_share">
             <img alt="新浪微博" src="__IMG__/icon_sina_weibo.jpg" app="b2c">        </a>
@@ -481,7 +470,7 @@ $(document).ready(function () {
 
    <div class="question_add">
    <div class="text"><textarea rows="3" cols="50" name="question" id="question"></textarea></div>
-   <p><a href="javascript:vod(0);" class="btn_submit" onclick="quote();return false;">提交</a></p>
+   <p><a href="javascript:;" class="btn_submit" onclick="quote();return false;">提交</a></p>
    <script>
 
   function quote(){
@@ -609,64 +598,15 @@ $(document).ready(function() {
             if (this.submitFlag == 1) {
                 alert('数据已经提交，请勿再次提交。');
                 return false;
-            }
-            else {
+            }else {
                 this.submitFlag = 1;
                 return true;
             }
         }
-    </script>
+</script>
     <script type="text/javascript">
-//立即购买
- function order(i)
-{
 
-var uexist="{:get_username()}";
 
-if(uexist){
-var gprice=$("em.price").eq(0).text();//价格
-var parameters=$("a.cur").text();//参数
-if($(".weight").length>0){
-var s=$(".weight .cur").index()+1;
-var string=String(gid)+String(s);
-}
-else{
-var string=String(gid);
-}
-$("#inputprice").val(gprice);
-$("#inputsort").val(string);
-$("#inputparameters").val(parameters);
-document.orderform.submit();
-}
-
-else{showBg();
-
-}
-}
-//收藏
-function favor() {
-	var uexist="{:get_username()}";
-if(uexist){
-var favorid='{$info.id}';
-	$.ajax({
-type:'post', //传送的方式,get/post
-url:'{:U("User/favor")}', //发送数据的地址
-data:{id:favorid},
- dataType: "json",
-success:function(data){
-	alert(data.msg)
-	}
-	,
-error:function (event, XMLHttpRequest, ajaxOptions, thrownError) {
-alert(XMLHttpRequest+thrownError); }
-})
-}
-
-else{
-showBg();
-}
-
-	}
 
 //加入购物车
 function buy(i)
@@ -720,26 +660,9 @@ error:function (XMLHttpRequest, ajaxOptions, thrownError) {
 alert(XMLHttpRequest+thrownError); }
 		})
 }
- //增加数量
-function add() {
 
- var num = $(".goodnum").val();
-num++;
-     $(".goodnum").val(num);
-}
-//减少数量
-function reduce() {
 
- var num = $(".goodnum").val();
 
-if(num>1)
-      { num--;
-    $(".goodnum").val(num);
-      }
-	  else{
-		  $("#oneA").addClass("important");alert("数量最少为1") }
-
-}
  //登录后刷新页面，载入数据
 $("#login_btn").click(function(){
 
@@ -748,7 +671,7 @@ $("#login_btn").click(function(){
 
 	$.ajax({
 type:'post', //传送的方式,get/post
-url:'{:U("User/loginfromdialog")}', //发送数据的地址
+url:'{:U("User/login")}', //发送数据的地址
 data:{username:yourname,password:yourword},
  dataType: "json",
 success:function(data)
@@ -765,9 +688,34 @@ error:function (event, XMLHttpRequest, ajaxOptions, thrownError) {
 alert(XMLHttpRequest+thrownError); }
 });});
 
-       seajs.use(['Detail'],function(detail){
-           detail.detail_init();
-       })
+
+var uexist = "{:get_username()}";
+var id     = {$info.id};
+seajs.use(['Detail'],function(detail){
+    var instance = detail(id,uexist);
+    instance.dt_init();
+
+    //立即购买
+    $(".lj_order").click(function(){ instance.detail_order(); });
+    //立即收藏
+    $(".lj_favor").click(function(){ instance.detail_favor(); });
+
+
+})
+
+//计算套餐价格
+function setprice(num){
+    price=null;
+    var str='{$info.groupprice}';
+    var value=str.split("、");
+    var i=num-1;
+    $("#resetprice").text(value[i]);
+    $("#inputprice").val(value[i])
+    $(".weight a").eq(i).addClass("cur").siblings().removeClass("cur");;
+    var para=$(".weight a").eq(i).text();
+    $("#inputparameters").val(para);
+
+}
 </script>
 
 

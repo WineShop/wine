@@ -132,36 +132,7 @@ class UserController extends HomeController {
         }
     }
 
-    public function loginfromdialog($username = "", $password = ""){
-        if(IS_POST){ //登录验证
-            /* 调用UC登录接口登录 */
-            $user = new UserApi;
-            $uid = $user->login($username, $password);
-            if(0 < $uid){ //UC登录成功
-                /* 登录用户 */
-                $Member = D("Member");
-                if($Member->login($uid)){ //登录用户
-                    //TODO:跳转到登录前页面
-                    $data["status"] =1;
-                    $data["info"] = "登录成功";
-                    $this->ajaxReturn($data);
-                } else {
-                    $this->error($Member->getError());
-                }
 
-            } else { //登录失败
-                switch($uid) {
-                    case -1: $error = "用户不存在或被禁用！"; break; //系统级别禁用
-                    case -2: $error = "密码错误！"; break;
-                    default: $error ="未知错误！"; break; // 0-接口参数错误（调试阶段使用）
-                }
-                $this->error($error);
-            }
-
-        } else { //显示登录表单
-            $this->display();
-        }
-    }
 
 
     /* 退出登录 */
@@ -177,27 +148,22 @@ class UserController extends HomeController {
 
     public function favor(){
         if(IS_AJAX ){
-            $id=$_POST["id"];
+            $id         = $_POST["id"];
             $data["id"] = $id;
-            $uid=D("Member")->uid();
-            $data["uid"]=$uid;
-            $fav=M("favortable");
-            $exsit=$fav->where("goodid='$id' and uid='$uid'")->getField("id");
+            $user       = new UserApi();
+            $userCache  = $user->getUserCache();
+            $uid        = $userCache['id'];
+            $data["uid"]= $uid;
+            $fav        = M("favortable");
+            $exsit      = $fav->where("goodid='$id' and uid='$uid'")->getField("id");
             if(isset($exsit)){
-                $data["status"] = 1;
-                $data["msg"] = "已收藏过";
-                $this->ajaxReturn($data);
-            }
-            else{
-                $fav->goodid=$id;
-                $fav->uid=$uid;
+                $this->ajaxError('已收藏过');
+            }else{
+                $fav->goodid = $id;
+                $fav->uid    = $uid;
                 $fav->add();
-                $data["status"] = 1;
-                $data["msg"] = "已收藏";
-                $this->ajaxReturn($data);
+                $this->ajaxSuccess('已收藏');
             }
-
-
         }
 
     }

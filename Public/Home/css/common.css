@@ -198,57 +198,54 @@ margin-right: 10px;
 .floor {
 margin-top: 5px;
 }
-.clearfix {
-zoom: 1;
-}
+.clearfix {zoom: 1;}
 /*购物车表格*/
-#table td
-  {
- 
- 
-  padding:5px;
-  }
- .goodnum{position: absolute;
-left: 17px;
-top: 0;
-border: 1px solid #cacbcb;
-width: 42px;
-height: 18px;
-line-height: 18px;
-text-align: center;
-padding: 1px;
-margin: 0;
-font-size: 12px;
-font-family: verdana;
-color: #333;
--webkit-appearance: none;}
+#table td{padding:5px;}
+ .goodnum{
+     position: absolute;
+    left: 23px;
+    top: 0;
+    border: 1px solid #cacbcb;
+    width: 42px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    padding: 1px;
+    margin: 0;
+    font-size: 12px;
+    font-family: verdana;
+    color: #333;
+    -webkit-appearance: none;
+ }
  .quantity-form {
-position: relative;
-overflow: hidden;
-height: 22px;
-width: 80px;
+    position: relative;
+    overflow: hidden;
+    height: 22px;
+    width: 92px;
 }
-.jia{float: left;border: 1px solid #cacbcb;
-border-right: 0;
-height: 18px;
-line-height: 18px;
-padding: 1px 0;
-width: 16px;
-text-align: center;
-color: #666;
-margin: 0;
-background: #fff; }
- .jian{float: right;
- border: 1px solid #cacbcb;
-border-left: 0;
-height: 18px;
-line-height: 18px;
-padding: 1px 0;
-width: 16px;
-text-align: center;
-color: #666;
-margin: 0;
-background: #fff;}
+.jia{
+    float: right;border: 1px solid #cacbcb;
+    height: 18px;
+    line-height: 18px;
+    padding: 1px 3px;
+    width: 16px;
+    text-align: center;
+    color: #666;
+    margin: 0;
+    background: #fff;
+}
+.jian{
+    float: left;
+    border: 1px solid #cacbcb;
+    height: 18px;
+    line-height: 18px;
+    padding: 1px 3px;
+    width: 16px;
+    text-align: center;
+    color: #666;
+    margin: 0;
+    background: #fff;
+}
  .tb-rmb{
     font-size: 24px;
     font-weight: 700;
