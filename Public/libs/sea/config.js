@@ -21,6 +21,8 @@ seajs.config({
         ToolBar     : 'Home/js/index/toolBar.js',
         Login       : 'Home/js/index/login.js',
 
+        //详细内容页面
+        Detail      : 'Home/js/detail/detail.js',
 
         //后台登陆
         AdminLogin  : 'Admin/js/login/login.js'

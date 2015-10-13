@@ -221,9 +221,6 @@ class ArticleController extends HomeController {
          }
 		$this->assign('footermenu',$menulist);
 
-		/* 左侧分类列表*/
-		$mlist=R('Menu/menulist');
-		$this->assign('categoryq', $mlist);
 
 		/* 浏览量排行前7个商品*/
 		$view=M('Document')->where("display=1 and status=1")->order("view desc")->select();

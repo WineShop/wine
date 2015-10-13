@@ -32,15 +32,11 @@ ul.menu{ background-color:#333333;height: 40px;  font-family: "microsoft yahei";
   width: 1010px;
 }
 .all_class{ background: #E23C3D;border-right:3px solid #f50;}
-.all_class  h2 {overflow:hidden;height:40px; 
-}
-.goods{ background: #E23C3D;}
-.goods  h2 {overflow:hidden;height:40px; 
-}
-.goods  h2  .grid{overflow:hidden;width:57px;margin-left:15px; padding-top:10px;
-}
-.all_class  h2  .grid{overflow:hidden;width:57px;margin-left:15px; padding-top:10px;
-}
+.all_class  h2 {overflow:hidden;height:40px; }
+.goods{ background: #E23C3D;cursor: pointer;}
+.goods  h2 {overflow:hidden;height:40px; }
+.goods  h2  .grid{overflow:hidden;width:57px;margin-left:15px; padding-top:10px;}
+.all_class  h2  .grid{overflow:hidden;width:57px;margin-left:15px; padding-top:10px;}
 .grid img {
     width: 22px;
     height: 22px;

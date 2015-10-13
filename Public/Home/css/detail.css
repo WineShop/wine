@@ -11,6 +11,9 @@ z-index:99;background: #ff6600;
 }
 #comments,#canshu,#contents{display:block;overflow:hidden;}
 .choose{display:block;}
+
+#header1,#header2,#header3,#header4{width:100%;clear:both;overflow:hidden; }
+/*
 .nav-all {
 position: absolute;
 top: 0;
@@ -18,7 +21,7 @@ left: 0;
 width: 190px;
 height: 40px;
 }
-#header1,#header2,#header3,#header4{width:100%;clear:both;overflow:hidden; }
+
 .all_class h2 a {
 width: 190px;
 padding: 0 0 0 30px;
@@ -29,6 +32,7 @@ padding-left: 20px;
 line-height: 40px;
 padding-left: 45px;
 }
+
 .nav-wrap{ position:relative;*z-index:2;width: 100%;background-color: #ff6600; clear:both}
 .nava{ position: relative; width:100%; height:41px; margin: 0 auto; padding-left: 190px;}
 .goods{ position: absolute; top: 0;left: 0;width: 190px;height: 40px;}
@@ -74,8 +78,21 @@ background: #FAFAFA;border: solid #ff6600;border-width: 0 2px 2px;overflow: visi
 .all-goods .product-wrap ul li a{ padding-left: 5px; color: #666666;display: inline-block;line-height: 18px; text-decoration: none; font-weight:bold;}
 .all-goods .product-wrap ul li a:hover{ text-decoration: none; background-position: -8px -219px; color: #ff6600;}
 .all-goods .product-wrap div dd,.all-goods .product-wrap div dl a{ display:block; width:185px; height:120px; overflow:hidden;}
+*/
 
-
+.menu .detail_nav_right{
+    background: url("../images/cartbg.png") no-repeat;
+    cursor: pointer;
+    position: absolute;
+    color: #ffffff;
+    height: 47px;
+    width: 174px;
+    background-size: 100% 100%;
+    top: -8px;
+    right: 192px;
+    float: right;
+    z-index: 90;
+}
 .yellow {
 color: #ffe97f;
 }
