@@ -6,4 +6,4 @@ php>=5.3
 
 
 技术支持
-http://myblog365.xyz
+http://dayblog.cn
