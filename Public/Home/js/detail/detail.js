@@ -97,7 +97,7 @@ define(function (require, exports, module) {
             var gnum    = $(".goodnum").val();       //数量
             var gprice  = $(".price").eq(0).text(); //价格
             var src     = $(".img img").attr("src"); //图片
-            var image   = '<img src="'+src+'"width="40" height="40">';
+            var image   = '<img src="'+src+'" width="40" height="40">';
             var title   = $("#tit").text();         //名称
             var parameters=$(".weight .cur").text();//参数
 
@@ -108,7 +108,8 @@ define(function (require, exports, module) {
                 var string=String(gid);
             }
             var data    = {id:gid,num:gnum,price:gprice,i:parameters,sort:string };
-            T.restPost(url,data,function(data){
+            T.restPost(url,data,function(success){
+                var data = success.data
                 var html='<li><dl><dt class="mini-img">'+href+image+'</a><dd><span class="mini_title">'+href+title+'</a></span><span class="mini-cart-count red"> ￥'
                     +gprice+'<em class="'+string+'">*'+gnum+'</em></span>'+'</dd><dd><span class="mini-cart-info">'+parameters+'</span><span class="mini-cart-del"><a name="'+string+'" rel="del"  onclick="delcommon(event);return false;">删除</a></span></dd>'+'</dl></li>';//创建节点〉
 
@@ -133,9 +134,36 @@ define(function (require, exports, module) {
             });
         }
 
+
+        //提交问答
+        this.sub_question = function(){
+            var str=$("#question").val();
+            T.restPost('/service/addmessage',{content:str,goodid:gid},function(success){
+                    var data = success.data;
+                    var html='<div class="qa_cont clearfix"><div class="question"><span class="time">'+data.time+'</span><span><img src="/Public/Home/images/question.png">问：'+str+'？</span></div>            </div>';
+                    $("#header4").prepend(html);
+                    $(".btn_submit").text("提交成功");
+            },function(error){
+
+            });
+        }
+
+
+        //购买组合
+        this.buyFive =  function(){
+            if(uexist){
+                document.fiveform.submit();
+            } else{
+                showBg();
+            }
+        }
+
     }
 
-    var showBg = function(){
+
+
+    //显示灰色 jQuery 遮罩层
+    var showBg = function () {
         $("#dialog").fadeIn();
         var bh = $("body").height();
         var bw = $("body").width();
@@ -144,6 +172,11 @@ define(function (require, exports, module) {
             width:bw,
             display:"block"
         });
+
+    }
+    //关闭灰色 jQuery 遮罩
+    var closeBg = function () {
+        $("#fullbg,#dialog").hide();
     }
 
 

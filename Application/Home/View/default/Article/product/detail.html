@@ -89,8 +89,8 @@
 
     <!-- buy-->
     <div  class="addcart_box">
-        <a rel="nofollow" href="javascript:void(0)"  class="dginfo_btn lj_order">立刻购买</a>
-        <a  rel="nofollow" href="javascript:void(0)"  class="dginfo_btn lj_cart"  >加入购物车</a>
+        <a rel="nofollow" href="javascript:;"  class="dginfo_btn lj_order btn_submit">立刻购买</a>
+        <a  rel="nofollow" href="javascript:;"  class="dginfo_btn lj_cart btn_submit"  >加入购物车</a>
 
         <!-- 购物车计算浮动层 begin -->
         <div id="showIncludeCart" style="display:none;">
@@ -149,23 +149,24 @@ $(function(){
         _front:"#spec-right",
         _back:"#spec-left"
     });
+
 	$("#spec-list img").bind("mouseover",function(){
-	var src=$(this).attr("src");
-	$("#spec-n1 img").eq(0).attr({
-		src:src.replace("\/n5\/","\/n1\/"),
-		jqimg:src.replace("\/n5\/","\/n0\/")
-	});
-	$(this).css({
-		"border":"2px solid #ff6600",
-		"padding":"1px"
-	});
-}).bind("mouseout",function(){
-        $(this).css({
-            "border":"1px solid #ccc",
-        "padding":"2px"
+        var src=$(this).attr("src");
+        $("#spec-n1 img").eq(0).attr({
+            src:src.replace("\/n5\/","\/n1\/"),
+            jqimg:src.replace("\/n5\/","\/n0\/")
         });
-    });
-})
+        $(this).css({
+            "border":"2px solid #ff6600",
+            "padding":"1px"
+        });
+    }).bind("mouseout",function(){
+            $(this).css({
+                "border":"1px solid #ccc",
+            "padding":"2px"
+            });
+        });
+    })
 </SCRIPT>
 
 
@@ -182,13 +183,13 @@ $(function(){
          <a href="javascript:void(0);" class="on" id="pkname" value="1" style="" name="Partner_b2c_tab">最佳拍档</a>
      </h3>
     <div class="union">
-        <form action="{:U('Shopcart/order')}"  class="group_buy"name="fiveform" id="orform" method="post" onsubmit="return trySubmit()">
+        <form action="{:U('Shopcart/order')}"  class="group_buy" name="fiveform" id="orform" method="post">
 	    <div class="content bucket clearfix" id="pk" style="" value="1" name="Package_b2c" isloaded="1">
             <div class="bucket_cont">
                 <b><i class="red" id="buyto_total">{$info.unionid|get_group_count}</i>件商品组合购买</b><br>
                 <p>商城总价:<i class="d_price" id="total_sale_price">¥{$info.unionid|get_group_price}</i></p>
                 <p>市场总价:<i class="m_price"><em class="td_lh" id="total_original_price">¥{$info.unionid|get_group_marketprice}</em></i></p>
-                <p class="buyfive "><a id="buytogether_btn" href="javascript:void(0);" class="btn btn_pd " onclick="buyFive();return false;" >购买组合</a></p>
+                <p class="buyfive "><a id="buytogether_btn" href="javascript:void(0);" class="btn btn_pd" >购买组合</a></p>
                 <p><input class="checkbox check-all" type="checkbox" checked="">全选 </p>
             </div>
             <div class="tc pt5">
@@ -308,201 +309,241 @@ $(function(){
  </script>
 
 
-<ul class="item_wrap" id="commentbox">
-    <volist id='list' name='list'>   <!--内容输出-->
-      <li class="comment_items clearfix" style="border-top:none">
-<div class="items_left">
-<div class="items_left_pic">
-<a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>                <span class="user_level">V3</span>             </div>   <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}</p>               <p class="items_left_level">钻石会员</p>         </div>         <div class="items_right">             <div class="items_detail">                 <p class="describe_detail">                     </p><p class="describe_detail">{$list.content}</p><p></p>                              </div>             <div class="items_user">
-<div class="starline">
-<span class="time">
-{$list.create_time|date='Y-m-d H:i',###}</span>                     <span class="items_tips fr">                                                                  </span>                      </div>                                               </div>         </div>     </li>
+    <ul class="item_wrap" id="commentbox">
+        <volist id='list' name='list'>   <!--内容输出-->
+        <li class="comment_items clearfix" style="border-top:none">
+            <div class="items_left">
+                <div class="items_left_pic">
+                     <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                    <span class="user_level">V3</span>
+                </div>
+                <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}</p>
+                <p class="items_left_level">钻石会员</p>
+            </div>
 
-            </volist>
-            {$page}
-			<!--分页输出-->
- </ul>
+            <div class="items_right">
+                <div class="items_detail">
+                    <p class="describe_detail">  </p>
+                    <p class="describe_detail">{$list.content}</p>
+                    <p></p>
+                </div>
+                <div class="items_user">
+                    <div class="starline">
+                        <span class="time">{$list.create_time|date='Y-m-d H:i',###}</span>
+                        <span class="items_tips fr"> </span>
+                    </div>
+                </div>
+            </div>
+        </li>
 
+        </volist>
+         {$page}
+    <!--分页输出-->
+     </ul>
 
-	 </div>
-  <div id="tab2">
+ </div>
+
+ <div id="tab2">
    <script type="text/javascript">
- var gooid="{$info['id']}";
-            function commentgood(id){    //user函数名 一定要和action中的第三个参数一致上面有
-                 var id = id;
-                    $.get('{:U("article/commentgood")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
-                     $("ul#commentboxgood").replaceWith("<ul class='item_wrap' id='commentboxgood'>"+data+"</ul>"); //user一定要和tpl中的一致
-                });
-             }
+     var gooid="{$info['id']}";
+    function commentgood(id){    //user函数名 一定要和action中的第三个参数一致上面有
+         var id = id;
+            $.get('{:U("article/commentgood")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+             $("ul#commentboxgood").replaceWith("<ul class='item_wrap' id='commentboxgood'>"+data+"</ul>"); //user一定要和tpl中的一致
+        });
+     }
 
    </script>
 
 
-<ul class="item_wrap" id="commentboxgood">
-    <volist id='list' name='listbetter'>   <!--内容输出-->
-      <li class="comment_items clearfix" style="border-top:none">
-<div class="items_left">
-<div class="items_left_pic">
-<a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>                <span class="user_level">V3</span>             </div>   <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}</p>               <p class="items_left_level">钻石会员</p>         </div>         <div class="items_right">             <div class="items_detail">                 <p class="describe_detail">                     </p><p class="describe_detail">{$list.content}</p><p></p>                              </div>             <div class="items_user">
-<div class="starline">
-<span class="time">
-{$list.create_time|date='Y-m-d H:i',###}</span>                     <span class="items_tips fr">                                                                  </span>                      </div>                                               </div>         </div>     </li>
+    <ul class="item_wrap" id="commentboxgood">
+        <volist id='list' name='listbetter'>   <!--内容输出-->
+             <li class="comment_items clearfix" style="border-top:none">
+                 <div class="items_left">
+                    <div class="items_left_pic">
+                        <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                        <span class="user_level">V3</span>
+                    </div>
+                     <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}</p>
+                     <p class="items_left_level">钻石会员</p>
+                 </div>
 
-            </volist>
-            {$pagebetter}
-			<!--分页输出-->
- </ul>
+                 <div class="items_right">
+                     <div class="items_detail">
+                         <p class="describe_detail"> </p>
+                         <p class="describe_detail">{$list.content}</p>
+                         <p></p>
+                     </div>
+                     <div class="items_user">
+                        <div class="starline">
+                             <span class="time">{$list.create_time|date='Y-m-d H:i',###}</span>
+                            <span class="items_tips fr">  </span>
+                        </div>
+                     </div>
+                 </div>
+             </li>
+        </volist>
+        {$pagebetter}
+        <!--分页输出-->
+    </ul>
 
   </div>
+
+
   <div id="tab3">
   <script type="text/javascript">
  var gooid="{$info['id']}";
-            function commentmiddle(id){    //user函数名 一定要和action中的第三个参数一致上面有
-                 var id = id;
-                    $.get('{:U("article/commentmiddle")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
-                     $("ul#commentboxmiddle").replaceWith("<ul class='item_wrap' id='commentboxmiddle'>"+data+"</ul>"); //user一定要和tpl中的一致
-                });
-             }
+function commentmiddle(id){    //user函数名 一定要和action中的第三个参数一致上面有
+     var id = id;
+        $.get('{:U("article/commentmiddle")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+         $("ul#commentboxmiddle").replaceWith("<ul class='item_wrap' id='commentboxmiddle'>"+data+"</ul>"); //user一定要和tpl中的一致
+    });
+ }
 
-   </script>
-
-
-<ul class="item_wrap" id="commentboxmiddle">
-    <volist id='list' name='listmiddle' empty="无">   <!--内容输出-->
-      <li class="comment_items clearfix" style="border-top:none">
-<div class="items_left">
-<div class="items_left_pic">
-<a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>                <span class="user_level">V3</span>             </div>            <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}" ></p>             <p class="items_left_level">钻石会员</p>         </div>         <div class="items_right">             <div class="items_detail">                 <p class="describe_detail">                     </p><p class="describe_detail">{$list.content}</p><p></p>                              </div>             <div class="items_user">
-<div class="starline">
-<span class="time">
-{$list.create_time|date='Y-m-d H:i',###}</span>                     <span class="items_tips fr">                                                                  </span>                      </div>                                               </div>         </div>     </li>
-
-            </volist>
-            {$pagemiddle}
-			<!--分页输出-->
- </ul>
-
- </div>
-  <div id="tab4">
-  <script type="text/javascript">
- var gooid="{$info['id']}";
-            function commentworse(id){    //user函数名 一定要和action中的第三个参数一致上面有
-                 var id = id;
-                    $.get('{:U("article/commentworse")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
-                     $("ul#commentboxworse").replaceWith("<ul class='item_wrap' id='commentboxworse'>"+data+"</ul>"); //user一定要和tpl中的一致
-                });
-             }
-
-   </script>
+ </script>
 
 
-<ul class="item_wrap" id="commentboxworse">
-    <volist name='listworse' id='list' empty="无">   <!--内容输出-->
-      <li class="comment_items clearfix" style="border-top:none">
-<div class="items_left">
-<div class="items_left_pic">
-<a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>                 <span class="user_level">V3</span>             </div>             <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}" ></p>              <p class="items_left_level">钻石会员</p>         </div>         <div class="items_right">             <div class="items_detail">                 <p class="describe_detail">                     </p><p class="describe_detail">{$list.content}</p><p></p>                              </div>             <div class="items_user">
-<div class="starline">
-<span class="time">
-{$list.create_time|date='Y-m-d H:i',###}</span>                     <span class="items_tips fr">                                                                  </span>                      </div>                                               </div>         </div>     </li>
+    <ul class="item_wrap" id="commentboxmiddle">
+        <volist id='list' name='listmiddle' empty="无">   <!--内容输出-->
+             <li class="comment_items clearfix" style="border-top:none">
+                <div class="items_left">
+                    <div class="items_left_pic">
+                        <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                        <span class="user_level">V3</span>
+                    </div>
+                    <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}" ></p>
+                    <p class="items_left_level">钻石会员</p>
+                </div>
+                 <div class="items_right">
+                     <div class="items_detail">
+                         <p class="describe_detail">     </p>
+                         <p class="describe_detail">{$list.content}</p>
+                         <p></p>
+                     </div>
+                     <div class="items_user">
+                         <div class="starline">
+                            <span class="time">{$list.create_time|date='Y-m-d H:i',###}</span>
+                            <span class="items_tips fr"> </span>
+                         </div>
+                     </div>
+                 </div>
+             </li>
 
-            </volist>
+        </volist>
+        {$pagemiddle}
+        <!--分页输出-->
+    </ul>
 
-			{$pageworse}
-			<!--分页输出-->
- </ul>
- </div>
+</div>
+
+
+<div id="tab4">
+<script type="text/javascript">
+var gooid="{$info['id']}";
+function commentworse(id){    //user函数名 一定要和action中的第三个参数一致上面有
+     var id = id;
+        $.get('{:U("article/commentworse")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+         $("ul#commentboxworse").replaceWith("<ul class='item_wrap' id='commentboxworse'>"+data+"</ul>"); //user一定要和tpl中的一致
+    });
+ }
+
+</script>
+
+
+    <ul class="item_wrap" id="commentboxworse">
+        <volist name='listworse' id='list' empty="无">   <!--内容输出-->
+             <li class="comment_items clearfix" style="border-top:none">
+                <div class="items_left">
+                    <div class="items_left_pic">
+                        <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                        <span class="user_level">V3</span>
+                    </div>
+                    <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}" ></p>
+                    <p class="items_left_level">钻石会员</p>
+                </div>
+                 <div class="items_right">
+                     <div class="items_detail">
+                         <p class="describe_detail">   </p>
+                         <p class="describe_detail">{$list.content}</p>
+                         <p></p>
+                     </div>
+                     <div class="items_user">
+                       <div class="starline">
+                         <span class="time"> {$list.create_time|date='Y-m-d H:i',###}</span>
+                         <span class="items_tips fr"> </span>
+                       </div>
+                     </div>
+                 </div>
+             </li>
+
+        </volist>
+
+        {$pageworse}
+        <!--分页输出-->
+    </ul>
+</div>
 
   <!--精彩评论tabs-->
 <script src="__JS__/jquery.idTabs.min.js"></script>
-	<script type="text/javascript">
-  $(".comment_tabs").idTabs();
-</script>
-  <!--精彩评论tabs-->
-
-
 <script type="text/javascript">
-  $(".good-tabs").idTabs();
+$(".comment_tabs").idTabs();
+$(".good-tabs").idTabs();
 </script>
-</div>
-
 
 </div>
 
 
+</div>
 
-<script>
-//tab菜单切换
-$(document).ready(function () {
-
-	$(".good-tabs>a").click(function(){$(this)
-	  .addClass("on").siblings().removeClass("on")
-   });
- $(".good-tabs>a").click(function(){
-	 var numid=$(this).attr("rel");
- $("#"+numid).css("display", "block")
- .siblings().css("display", "none"); })
-        })</script>
+</div>
 
 
-
-
-		</div>
  <div id="header4" class="choose" style="display:none">
-	   <script type="text/javascript">
-   var gooid="{$info['id']}";
-            function quest(id){    //user函数名 一定要和action中的第三个参数一致上面有
-                 var id = id;
-                    $.get('{:U("article/quest")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
-                     $("#boxquest").replaceWith("<div class='item_wrap' id='boxquest'>"+data+"</div>"); //user一定要和tpl中的一致
-                });
-             }
+<script type="text/javascript">
+var gooid="{$info['id']}";
+function quest(id){    //user函数名 一定要和action中的第三个参数一致上面有
+     var id = id;
+        $.get('{:U("article/quest")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+         $("#boxquest").replaceWith("<div class='item_wrap' id='boxquest'>"+data+"</div>"); //user一定要和tpl中的一致
+    });
+ }
 
-   </script>
-   <div class="item_wrap" id="boxquest">
-	   <volist name="listquestion" id="m">
-        <div class="qa_cont clearfix">
-                    <div class="question"><span class="time">{$m.create_time|date='Y-m-d H:i',###}</span>
-					<span><img src="__IMG__/question.png">问：{$m.content}？</span></div>
+</script>
+    <div class="item_wrap" id="boxquest">
+        <volist name="listquestion" id="m">
+             <div class="qa_cont clearfix">
+                <div class="question">
+                    <span class="time">{$m.create_time|date='Y-m-d H:i',###}</span>
+                    <span><img src="__IMG__/question.png">问：{$m.content}？</span>
+                </div>
 
 
-		 <volist name="m['id']" id="re">
-  <div class="answer"><span class="time">{$re.create_time|date='Y-m-d H:i',###}</span><span><b><img src="__IMG__/anwser.png">商家：{$re.content}</b></span></div>
+                <volist name="m['id']" id="re">
+                <div class="answer">
+                    <span class="time">{$re.create_time|date='Y-m-d H:i',###}</span>
+                    <span><b><img src="__IMG__/anwser.png">商家：{$re.content}</b></span>
+                </div>
+                </volist>
+            </div>
+        </volist>
 
-		  </volist>
-		   </div>
-		   </volist>
-
-{$pagequestion}
-  </div>
+        {$pagequestion}
+    </div>
 
 
    <div class="question_add">
    <div class="text"><textarea rows="3" cols="50" name="question" id="question"></textarea></div>
-   <p><a href="javascript:;" class="btn_submit" onclick="quote();return false;">提交</a></p>
-   <script>
-
-  function quote(){
-  var id="{$info['id']}";
-   var str=$("#question").val();
-
-  $.post("{:U('service/addmessage')}", {
-    content:str,goodid:id
-  },function(data,status){
-    var html='<div class="qa_cont clearfix"><div class="question"><span class="time">'+data.time+'</span><span><img src="__IMG__/question.png">问：'+str+'？</span></div>            </div>';
-     $("#header4").prepend(html);
-    $(".btn_submit").text("提交成功");
-
-  });
-
-  }
+   <p><a href="javascript:;" class="btn_submit sub_question" >提交</a></p>
 
 
-   </script>
+<script>
 
-   </div>
 
-	</div>
+
+</script>
+
+</div>
+</div>
 </div>
 
 </div>
@@ -510,8 +551,18 @@ $(document).ready(function () {
 
 </div>
 
-<div class="details_right"><dl><dt>你可能喜欢</dt><volist name="viewlist" id="vo" offset="1" length="6">
-<dd><a class="details_right_img" href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}"><img src="{$vo.cover_id|get_cover='path'}"  alt="{$vo.title}" style="display: inline-block;"></a><a href="{:U('Article/detail?id='.$vo['id'])}" class="details_right_title" title="{$vo.title}">{$vo.title}</a><span class="fwb mcm_title_price">￥<span class="red">{$vo.id|get_good_price}</span></span></dd></volist></dl></div>
+<div class="details_right">
+    <dl>
+        <dt>你可能喜欢</dt>
+        <volist name="viewlist" id="vo" offset="1" length="6">
+            <dd>
+                <a class="details_right_img" href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}"><img src="{$vo.cover_id|get_cover='path'}"  alt="{$vo.title}" style="display: inline-block;"></a>
+                <a href="{:U('Article/detail?id='.$vo['id'])}" class="details_right_title" title="{$vo.title}">{$vo.title}</a>
+                <span class="fwb mcm_title_price">￥<span class="red">{$vo.id|get_good_price}</span></span>
+            </dd>
+        </volist>
+    </dl>
+</div>
 
 </div>
 
@@ -532,89 +583,42 @@ $(document).ready(function () {
 <div id="myModal" class="modal">
 
   <div class="modal-header">
-<A class="close" onclick="closeBg();"><img src="__IMG__/close.png"></A>
-<h3 id="myModalLabel">用户登录</h3>
-</div><div class="m_img">
+    <A class="close" onclick="closeBg();"><img src="__IMG__/close.png"></A>
+    <h3 id="myModalLabel">用户登录</h3>
+  </div>
+  <div class="m_img">
         <a class="" href="/index.php?s=/Home/Addons/execute/_addons/SyncLogin/_controller/Base/_action/login/type/qq.html"><img src="__IMG__/qq.png">&nbsp;用QQ账号登录</a></br></br>
         <a class="" href="/index.php?s=/Home/Addons/execute/_addons/SyncLogin/_controller/Base/_action/login/type/sina.html"><img src="__IMG__/weibo.png">&nbsp;用微博账号登录</a>
         <!--<a class="btn btn-warning btn-block" href="">用豆瓣账号登录</a>
         <a class="btn btn-primary btn-block" href="">用人人账号登录</a>-->
-    </div>
+  </div>
     <form class="form-horizontal" id="loginform" name="user" method="post">
-
-            <div class="form_login"><input type="text"   id="inputusername" name="username" placeholder="用户名">
-		<em><img src="__IMG__/u.png"></em>
- </div>
-    <div class="form_login">
+        <div class="form_login"><input type="text"   id="inputusername" name="username" placeholder="用户名">
+		    <em><img src="__IMG__/u.png"></em>
+        </div>
+        <div class="form_login">
              <input type="text"  id="inputpassword" name="password"  placeholder="密码">
-		<em><img src="__IMG__/p.png"></em>
-            </div>
+		     <em><img src="__IMG__/p.png"></em>
+        </div>
+        <span class="tips"></span>
+        <div class="form_login">
+                <a  class=""  id="login_btn" >登录</a>
+        </div>
+        <div class="control-group">
+            <p><span class="pull-right"><span>还没有账号? <a href="{:U("User/register")}" class="now">立即注册</a></span> </p>
 
-            <span class="tips"></span>
-
-
-
-						<div class="form_login">
- <a  class=""  id="login_btn" >登录</a> </div>
-    <div class="control-group">
-
-
-   <p><span class="pull-right"><span>还没有账号? <a href="{:U("User/register")}" class="now">立即注册</a></span> </p>
-
-    </div>
+        </div>
     </form>
 </div> <!-- Modal 对话框内容 -->
 </div><!-- 对话框 结束-->
 <!-- jQuery 遮罩层上方的对话框 -->
-<script type="text/javascript">
 
-//显示灰色 jQuery 遮罩层
-function showBg() {
-	$("#dialog").fadeIn();
-    var bh = $("body").height();
-    var bw = $("body").width();
-    $("#fullbg").css({
-        height:bh,
-        width:bw,
-        display:"block"
-    });
 
-}
-//关闭灰色 jQuery 遮罩
-function closeBg() {
-    $("#fullbg,#dialog").hide();
-}
-</script>
-<!--[if lte IE 6]>
-<script type="text/javascript">
-// 浮动对话框
-$(document).ready(function() {
-    var domThis = $('#dialog')[0];
-    var wh = $(window).height() / 2;
-    $("body").css({
-        "background-image": "url(about:blank)",
-        "background-attachment": "fixed"
-    });
-    domThis.style.setExpression('top', 'eval((document.documentElement).scrollTop + ' + wh + ') + "px"');
-});
-</script>
-<![endif]-->
+
 
 
 
  <script type="text/javascript">
-        function trySubmit() {
-            if (this.submitFlag == 1) {
-                alert('数据已经提交，请勿再次提交。');
-                return false;
-            }else {
-                this.submitFlag = 1;
-                return true;
-            }
-        }
-</script>
-    <script type="text/javascript">
-
 
  //登录后刷新页面，载入数据
 $("#login_btn").click(function(){
@@ -623,23 +627,24 @@ $("#login_btn").click(function(){
 	var yourword=$('#inputpassword').val();
 
 	$.ajax({
-type:'post', //传送的方式,get/post
-url:'{:U("User/login")}', //发送数据的地址
-data:{username:yourname,password:yourword},
- dataType: "json",
-success:function(data)
-{if(data.status=="1"){
-	$(".tips").html(data.info);
-document.orderform.submit();
-}
-else{$(".tips").html(data.info);
+        type:'post', //传送的方式,get/post
+        url:'{:U("User/login")}', //发送数据的地址
+        data:{username:yourname,password:yourword},
+        dataType: "json",
+        success:function(data){
+            if(data.status=="1"){
+	            $(".tips").html(data.info);
+                document.orderform.submit();
+            }else{
+                $(".tips").html(data.info);
 
-}
+            }
 
-},
-error:function (event, XMLHttpRequest, ajaxOptions, thrownError) {
-alert(XMLHttpRequest+thrownError); }
-});});
+        },
+        error:function (event, XMLHttpRequest, ajaxOptions, thrownError) {
+                alert(XMLHttpRequest+thrownError); }
+        });
+    });
 
 
 var uexist = "{:get_username()}";
@@ -656,19 +661,13 @@ seajs.use(['Detail'],function(detail){
     var href= "{:U('Article/detail?id='.$info['id'])}";
     $(".lj_cart").click(function(){ instance.detail_cart(href); });
 
+    //提交问答
+    $(".sub_question").click(function(){ instance.sub_question();})
+    //购买组合
+    $("#buytogether_btn").click(function(){ instance.buyFive();})
 })
 
- function buyFive()
- {
-     var uexist="{:get_username()}";
-     if(uexist){
-         document.fiveform.submit();
-     }
 
-     else{showBg();
-
-     }
- }
 
 //计算套餐价格
 function setprice(num){
@@ -683,7 +682,42 @@ function setprice(num){
     $("#inputparameters").val(para);
 
 }
+
+ //显示灰色 jQuery 遮罩层
+ function showBg() {
+     $("#dialog").fadeIn();
+     var bh = $("body").height();
+     var bw = $("body").width();
+     $("#fullbg").css({
+         height:bh,
+         width:bw,
+         display:"block"
+     });
+
+ }
+ //关闭灰色 jQuery 遮罩
+function closeBg() {
+     $("#fullbg,#dialog").hide();
+ }
+
+
 </script>
+
+
+<!--[if lte IE 6]>
+<script type="text/javascript">
+    // 浮动对话框
+    $(document).ready(function() {
+        var domThis = $('#dialog')[0];
+        var wh = $(window).height() / 2;
+        $("body").css({
+            "background-image": "url(about:blank)",
+            "background-attachment": "fixed"
+        });
+        domThis.style.setExpression('top', 'eval((document.documentElement).scrollTop + ' + wh + ') + "px"');
+    });
+</script>
+<![endif]-->
 
 
 </block>

@@ -1242,16 +1242,16 @@ a.btn_submit {
   line-height: 41px;
   color: #fff;
   font-size: 18px;
-  background: #ff460a;
+  background: #FF6347;
   cursor: pointer;
 }
 a.btn_submit:hover {
-background: #e73b03;
+background: #E23C3D;
 text-decoration: none;color:#ffffff;
 }
 #form{margin: 5px 0;overflow:hidden}
 a.btn_submit_pay:hover {
-background: #e73b03;
+background: #E23C3D;
 text-decoration: none;color:#ffffff;
 }
 a.btn_submit_pay {
@@ -1263,7 +1263,7 @@ a.btn_submit_pay {
   line-height: 41px;
   color: #fff;
   font-size: 18px;
-  background: #ff460a;
+  background: #FF6347;
   cursor: pointer;
 }
 input.btn_submit_pay {

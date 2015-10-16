@@ -93,8 +93,11 @@ class MemberModel extends Model{
     public  function uid() {
         $user       = new UserApi();
         $userCache  = $user->getUserCache();
-        $uid        = $userCache['id'];
-        return $uid;
+        if($userCache){
+            return  $userCache['id'];
+        }else{
+            return 0;
+        }
     }
 
 

@@ -25,6 +25,7 @@ class ShopcartController extends HomeController {
 		$price      = $_POST['price'];
 		$parameters = $_POST['i'];
 		$sort       = $_POST['sort'];
+
 		if(!isset($_SESSION['cart']))
         {
 		    $_SESSION['cart'] = array();
@@ -77,7 +78,7 @@ class ShopcartController extends HomeController {
             $data['exsit'] = $exsit;
             $data['sum']=D("shopcart")->getNumByuid();
             $data['fee']=$table->getPriceByuid(); /* 购物车中商品的总金额*/
-            $this->ajaxReturn($data);
+            $this->ajaxSuccess($data);
 		}else{
             $data['exsit']  = $exsit;
             $data['fee']    =$this->getPrice(); /* 购物车中商品的总金额*/
@@ -86,8 +87,10 @@ class ShopcartController extends HomeController {
             $data['num']    = $itemid['num'];
             $data['sum']    = $this->getNum();
             $data['msg']    = '已添加到购物车';
-            $this->ajaxReturn($data);}
-		}
+            $this->ajaxSuccess($data);
+        }
+    }
+
      /*
     添加商品  添加商品
     param int $id 商品主键

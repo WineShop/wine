@@ -91,15 +91,15 @@ $menulist=$this->AllMenu();
         if(IS_POST){
             $message=M("message");
             $message->create();
-            $data["content"]=$_POST["content"];
-            $data["goodid"]=$_POST["goodid"];
-            $data["uid"]=D('member')->uid();
+            $data["content"]  = $_POST["content"];
+            $data["goodid"]   = $_POST["goodid"];
+            $data["uid"]      = D('member')->uid();
             $data["create_time"]=NOW_TIME;
-            $data["time"]=date("Y-m-d H:i:s",time());
-            $data["status"]=1;
+            $data["time"]     = date("Y-m-d H:i:s",time());
+            $data["status"]   = 1;
             if($message->add($data))
             {
-                $this->ajaxreturn($data);
+                $this->ajaxSuccess($data);
             }
 
         }
