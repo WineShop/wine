@@ -126,6 +126,8 @@ define(function (require, exports, module) {
                 }else{
                     $("div.sc_goods_foot").show();
                 }
+                var car_str = '('+data.sum+'件 | <font color="#FDF657">'+data.fee+'</font>元)';
+                $('#shopping_cart').html(car_str);
                 $('#totalnum').text(data.sum);
                 $('#fee').text(data.fee);
                 $('#showIncludeCart').fadeIn();

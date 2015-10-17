@@ -20,8 +20,8 @@ class ShopcartModel extends Model{
     查询购物车
     */  
 public  function getcart() {
-	    $user=D("member");
-	    $uid=$user->uid();
+	    $user = D("member");
+	    $uid  = $user->uid();
 		$map["uid"]= $uid;
 	    $cartlist=$this->where($map)->select();
 		return $cartlist; 

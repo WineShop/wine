@@ -483,7 +483,7 @@ function get_username($uid = 0){
 }
 
 function get_address($uid){
-    $row = M('transport')->where("status='1' and uid='$uid'")->find();;
+    $row = M('transport')->where("status='1' and uid='$uid'")->find();
     return $row['address'];
 }
 function get_addressid($uid){

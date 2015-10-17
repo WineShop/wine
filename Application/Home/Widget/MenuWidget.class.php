@@ -30,11 +30,12 @@ class MenuWidget extends Controller{
         $this->assign('categoryq', $catelist);
 
         /**购物车调用**/
-        $cart=R("shopcart/usercart");
-        $this->assign('usercart',$cart);
         if(!session('user_auth')){
             $usercart=$_SESSION['cart'];
             $this->assign('usercart',$usercart);
+        }else{
+            $cart = R("Shopcart/usercart");
+            $this->assign('usercart',$cart);
         }
 
         $this->display('Index/menu');

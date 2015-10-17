@@ -55,7 +55,7 @@
         </think:nav>
 
         <li class="top_right">
-            <div rel="nofollow" href="{:U('shopcart/index')}" class="shopping_cart" id="shopping_cart" style="display:">(0件 | <font color="#FDF657">0.0</font>元)</div>
+            <div rel="nofollow" href="{:U('shopcart/index')}" class="shopping_cart" id="shopping_cart" style="display:">({$usercart['total_num']}件 | <font color="#FDF657">{$usercart['total_price']}</font>元)</div>
             <if condition="is_login()">
                 <empty name="usercart">
                     <div class="sc_goods"  id="goods" style="display:none;">

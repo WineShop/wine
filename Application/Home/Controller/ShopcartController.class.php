@@ -50,6 +50,8 @@ class ShopcartController extends HomeController {
             $_SESSION['cart'][$sort] = $item;
             $exsit="0";
 		}
+        $_SESSION['cart']['total_num']   = 0;
+        $_SESSION['cart']['total_price'] = 0;
 		//登录用户，处理详情页ajaxt提交的数据保存到数据库
 		if(is_login()){
             $table          = D("shopcart");
@@ -76,16 +78,16 @@ class ShopcartController extends HomeController {
             $data['num'] = M("shopcart")->where("goodid='$id'and uid='$uid' and parameters='$parameters'")->getField("num");
             $data['msg'] = '已添加到购物车';
             $data['exsit'] = $exsit;
-            $data['sum']=D("shopcart")->getNumByuid();
-            $data['fee']=$table->getPriceByuid(); /* 购物车中商品的总金额*/
+            $_SESSION['cart']['total_num']   = $data['sum'] = D("shopcart")->getNumByuid();
+            $_SESSION['cart']['total_price'] = $data['fee']=$table->getPriceByuid(); /* 购物车中商品的总金额*/
             $this->ajaxSuccess($data);
 		}else{
             $data['exsit']  = $exsit;
-            $data['fee']    =$this->getPrice(); /* 购物车中商品的总金额*/
             $data['status'] = 1;
             $itemid         = $this->getItem($sort);
             $data['num']    = $itemid['num'];
-            $data['sum']    = $this->getNum();
+            $_SESSION['cart']['total_num']   = $data['sum']    = $this->getNum();
+            $_SESSION['cart']['total_price'] = $data['fee']    = $this->getPrice(); /* 购物车中商品的总金额*/
             $data['msg']    = '已添加到购物车';
             $this->ajaxSuccess($data);
         }
@@ -98,10 +100,10 @@ class ShopcartController extends HomeController {
           int $num 购物数量
     */
     public  function addgood($id) {
-            $tag=$_POST['tag'];
-			$num=1;
-            $id=$_POST['id'];
-            $price=get_good_price($id); 
+        $tag=$_POST['tag'];
+        $num=1;
+        $id=$_POST['id'];
+        $price=get_good_price($id);
 	  
 	   if(!isset($_SESSION['cart'])){
             $_SESSION['cart'] = array();
@@ -109,63 +111,61 @@ class ShopcartController extends HomeController {
 	    $item = array();
 	    //如果该商品已存在则直接加其数量
         if (isset($_SESSION['cart'][$id])) {
-             $_SESSION['cart'][$id]['num'] += $num;
+            $_SESSION['cart'][$id]['num'] += $num;
          
-         $item['id'] = $id;
-        $item['price'] = $price;
-        $item['num'] = $_SESSION['cart'][$id]['num'];
-        $_SESSION['cart'][$id] = $item;
-		$exsit="1";
+            $item['id']             = $id;
+            $item['price']          = $price;
+            $item['num']            = $_SESSION['cart'][$id]['num'];
+            $_SESSION['cart'][$id]  = $item;
+            $exsit                  ="1";
 		
-		}
-		else{
-			 $item['id'] = $id;
-        $item['price'] = $price;
-        $item['num'] = $num;
-        $_SESSION['cart'][$id] = $item;
-		$exsit="0";
+		}else{
+            $item['id']            = $id;
+            $item['price']         = $price;
+            $item['num']           = $num;
+            $_SESSION['cart'][$id] = $item;
+            $exsit                 = "0";
 			
-			}
- $data['status'] = 1;
-$data['price']=get_good_price($id);
-$coverid=get_cover_id($id);
-$data['src']=get_good_img($coverid);
-$data['title']=get_good_name($id);
+	    }
+        $data['status']     = 1;
+        $data['price']      = get_good_price($id);
+        $coverid            = get_cover_id($id);
+        $data['src']        = get_good_img($coverid);
+        $data['title']      = get_good_name($id);
 
-//登录用户，处理详情页ajaxt提交的数据保存到数据库
-if(is_login()){ 
- $table=D("shopcart");
- $data['goodid']=$id;
- $data['num']=$num;
-$member=D("member");
-$uid=$member->uid();
- $data['uid']=$uid;
-$pnum=M("shopcart")->where("goodid='$id'and uid='$uid'")->getField("num");
-if($pnum)
-	 {$exsit="1";
-	$data['num']=$pnum+$num;
-$table->where("goodid='$id'and uid='$uid'")->save($data);
-}
-else{
-$data['num']=$num;
-$table->add($data);
-$exsit="0";
-}
-$data['sql'] ='sql';
+        //登录用户，处理详情页ajaxt提交的数据保存到数据库
+        if(is_login()){
+            $table=D("shopcart");
+            $data['goodid']=$id;
+            $data['num']=$num;
+            $member=D("member");
+            $uid=$member->uid();
+            $data['uid']=$uid;
+            $pnum=M("shopcart")->where("goodid='$id'and uid='$uid'")->getField("num");
+            if($pnum)
+            {
+                $exsit="1";
+                $data['num']=$pnum+$num;
+                $table->where("goodid='$id'and uid='$uid'")->save($data);
+            }else{
+                $data['num']=$num;
+                $table->add($data);
+                $exsit="0";
+            }
+            $data['sql'] ='sql';
 	
-	$data['num'] = M("shopcart")->where("goodid='$id'and uid='$uid'")->getField("num");
-       $data['msg'] = '添加成功';
-	     $data['exsit'] = $exsit;
-      $this->ajaxReturn($data);
-  }
- //非登陆用户
-else{	 $data['exsit'] = $exsit;
-		
-		 $data['num'] = $item['num'];
-       $data['msg'] = '添加成功';
-      $this->ajaxReturn($data);
-	  }
-		  
+            $data['num'] = M("shopcart")->where("goodid='$id'and uid='$uid'")->getField("num");
+            $data['msg'] = '添加成功';
+            $data['exsit'] = $exsit;
+            $this->ajaxReturn($data);
+        }else{ //非登陆用户
+
+            $data['exsit'] = $exsit;
+
+            $data['num'] = $item['num'];
+            $data['msg'] = '添加成功';
+            $this->ajaxReturn($data);
+	    }
 			
     }
     /*
@@ -189,15 +189,14 @@ else{	 $data['exsit'] = $exsit;
             $_SESSION['cart'][$sort]['num'] += $num;
 			   
         }
-		 $count=$this->getCnt(); /*查询购物车中商品的种类 */
-     $sum= $this->getNum();/* 查询购物车中商品的个数*/
-     $price=$this->getPrice(); /* 购物车中商品的总金额*/
-	  $data['count'] =$count;
-	 	 $data['price'] =$price;
-		 $data['sum'] =  $sum;
-       $data['status'] = 1;
-       $this->ajaxReturn($data);
-		
+        $count=$this->getCnt(); /*查询购物车中商品的种类 */
+        $sum= $this->getNum();/* 查询购物车中商品的个数*/
+        $price=$this->getPrice(); /* 购物车中商品的总金额*/
+        $data['count'] =$count;
+        $data['price'] =$price;
+        $data['sum'] =  $sum;
+        $data['status'] = 1;
+        $this->ajaxReturn($data);
 		
     }
  
@@ -214,14 +213,14 @@ else{	 $data['exsit'] = $exsit;
         if ($_SESSION['cart'][$sort]['num'] <1) {
             unset($_SESSION['cart'][$sort]);
         }
-		 $count=$this->getCnt(); /*查询购物车中商品的种类 */
-     $sum= $this->getNum();/* 查询购物车中商品的个数*/
-     $price=$this->getPrice(); /* 购物车中商品的总金额*/
-	  $data['count'] =$count;
-	 	 $data['price'] =$price;
-		 $data['sum'] =  $sum;
-       $data['status'] = 1;
-       $this->ajaxReturn($data);
+        $count=$this->getCnt(); /*查询购物车中商品的种类 */
+        $sum= $this->getNum();/* 查询购物车中商品的个数*/
+        $price=$this->getPrice(); /* 购物车中商品的总金额*/
+        $data['count'] =$count;
+        $data['price'] =$price;
+        $data['sum'] =  $sum;
+        $data['status'] = 1;
+        $this->ajaxReturn($data);
    
    
     }
@@ -239,48 +238,38 @@ else{	 $data['exsit'] = $exsit;
 		
 		$this->display();
     }
- public function index() {
-	 
- /* 底部分类调用*/
-   $menulist=R('Service/AllMenu');
-   $this->assign('footermenu',$menulist);
+    public function index() {
+         /** 热词调用 热门搜索**/
+         $hotsearch = C('HOT_SEARCH');
+         $this->assign('hotsearch',$hotsearch);
+        /*查询购物车*/
+        if(is_login())
+        {
+            $cart     = D("Shopcart");
+            $result   = $cart->getcart();
 
-	 //分类遍历
-    $menu=R('index/menulist');
-	$this->assign('categoryq', $menu);
-	 /* 热词调用*/
-    $hotsearch=R("Index/getHotsearch");
-    $this->assign('hotsearch',$hotsearch);
- /*查询购物车*/
-      $count=count($_SESSION['cart']); 
-	 if(is_login())
-		 { 
-	
-	  $cart=D("shopcart");
-     $result= $cart->getcart();
-	   
-     $this->assign('sqlcart',$result); 
-	   $count=$cart->getCntByuid(); /*查询购物车中商品的种类 */
-        $sum= $cart->getNumByuid();/* 查询购物车中商品的个数*/
-        $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
-	  $member=D("member");
-     $uid=$member->uid();
-	  }
-	  else{
-		  $uid="";
-		$count=$this->getCnt(); /*查询购物车中商品的种类 */
-        $sum= $this->getNum();/* 查询购物车中商品的个数*/
-        $price=$this->getPrice(); /* 购物车中商品的总金额*/
-	    $usercart=$_SESSION['cart'];
-        $this->assign('usercart',$usercart);
+            $this->assign('sqlcart',$result);
+            $count    = $cart->getCntByuid(); /*查询购物车中商品的种类 */
+            $sum      = $cart->getNumByuid();/* 查询购物车中商品的个数*/
+            $price    = $cart->getPriceByuid(); /* 购物车中商品的总金额*/
+            $member   = D("Member");
+            $uid      = $member->uid();
+        }else{
+            $uid="";
+            $count    = $this->getCnt(); /*查询购物车中商品的种类 */
+            $usercart = $_SESSION['cart'];
+            $sum      = $usercart['total_num'];  /* 查询购物车中商品的个数*/
+            $price    = $usercart['total_price']; /* 购物车中商品的总金额*/
+            $this->assign('usercart',$usercart);
 		
 		}
-		$this->assign('uid',$uid);
-		$address=get_address($uid);
+        $address = get_address($uid);
+        $this->assign('uid',$uid);
 		$this->assign('address',$address);
 		$this->assign('count',$count);
         $this->assign('sum', $sum);
-	    $this->assign('price',$price); $this->meta_title = '我的购物车';
+	    $this->assign('price',$price);
+        $this->meta_title = '我的购物车';
 		$this->display();
     }
 
@@ -297,7 +286,7 @@ else{	 $data['exsit'] = $exsit;
 		$data['sum'] =  $sum;
 		$data['status'] = 1;
 		$this->ajaxReturn($data);
-		}
+  }
 
     /*
     获取单个商品
@@ -310,27 +299,29 @@ else{	 $data['exsit'] = $exsit;
     查询购物车中商品的种类
     */
     public function getCnt() {
-        return count($_SESSION['cart']);
+        $data = $_SESSION['cart'];
+        unset($data['total_num']);
+        unset($data['total_price']);
+        return count($data);
     }
      
     /*
     查询购物车中商品的个数
     */
-		/*
-		查询购物车中商品的个数
-		*/
-		public function getNum(){
-		if ($this->getCnt() == 0) {
-		//种数为0，个数也为0
-		return 0;
-		}
-		$sum = 0;
-		$data = $_SESSION['cart'];
-		foreach ($data as $item) {		
-  $sum += $item['num'];
-		}
-		return $sum;
-		}
+    public function getNum(){
+        if ($this->getCnt() == 0) {
+            //种数为0，个数也为0
+            return 0;
+        }
+        $sum = 0;
+        $data = $_SESSION['cart'];
+        unset($data['total_num']);
+        unset($data['total_price']);
+        foreach ($data as $item) {
+            $sum += $item['num'];
+        }
+        return $sum;
+    }
  
     /*
     购物车中商品的总金额
@@ -342,6 +333,8 @@ else{	 $data['exsit'] = $exsit;
         }
         $price = 0.00;
         $data = $_SESSION['cart'];
+        unset($data['total_num']);
+        unset($data['total_price']);
         foreach ($data as $item) {
             $price += $item['num'] * $item['price'];
         }
@@ -608,126 +601,131 @@ function ordersn(){
     return $orderSn;
 }
  public function savemsg() {
-           $User = M("member"); // 实例化User对象
-          $Transport = M("transport"); // 实例化transport对象
-    // 要修改的数据对象属性赋值
-	$user=session('user_auth');
-//方式一：只能输出值value不能输出key
-	$id=$_POST["id"];
-	$uid=$user["uid"];
-	$data['address'] = $_POST["posi"];
-    $data['cellphone'] = $_POST["pho"];
-	$data['realname'] = $_POST["rel"];
-	if($_POST["msg"]=="yes"){
+        $User = M("member"); // 实例化User对象
+        $Transport = M("transport"); // 实例化transport对象
+        // 要修改的数据对象属性赋值
+        $user=session('user_auth');
+        //方式一：只能输出值value不能输出key
+        $id=$_POST["id"];
+        $uid=$user["uid"];
+        $data['address'] = $_POST["posi"];
+        $data['cellphone'] = $_POST["pho"];
+        $data['realname'] = $_POST["rel"];
+	    if($_POST["msg"]=="yes"){
             //默认地址更新会员
-       $result=$User->where("uid='$uid'")->save($data); // 根据条件保存修改的数据
-if($Transport->where("uid='$uid' and status='1'")->getField("id"))
-		{  $data['status'] = 0;
-	$Transport->where("uid='$uid'")->save($data);      
+            $result=$User->where("uid='$uid'")->save($data); // 根据条件保存修改的数据
+            if($Transport->where("uid='$uid' and status='1'")->getField("id"))
+		    {
+                $data['status'] = 0;
+	            $Transport->where("uid='$uid'")->save($data);
 	
-}
+            }
 
-	//地址库有默认地址，有则保存
-	   $data['status'] = 1;
-       $data['time']=NOW_TIME;
-	   $data['orderid'] = $id;
-	   $data['uid'] = $uid;
-       $Transport->add($data); 
-	   $data['value'] = "default";
-	   $data['addressid']=$Transport->where("uid='$uid' and status='1'")->getField("id");
-	  $data['msg'] = 'yes'; }
-	else{
-		$data['status'] = 0;
-		$data['time']=NOW_TIME;
-	    $data['orderid'] = $id;
-        $result=$Transport->add($data); // 根据条件保存修改的数据
-	   $data['addressid'] = M("transport")->where("orderid='$id'")->getField("id");
-	// 返回新增标识
-	 $data['msg'] = 'no';}
+            //地址库有默认地址，有则保存
+               $data['status'] = 1;
+               $data['time']=NOW_TIME;
+               $data['orderid'] = $id;
+               $data['uid'] = $uid;
+               $Transport->add($data);
+               $data['value'] = "default";
+               $data['addressid']=$Transport->where("uid='$uid' and status='1'")->getField("id");
+              $data['msg'] = 'yes';
+        }else{
+            $data['status'] = 0;
+            $data['time']=NOW_TIME;
+            $data['orderid'] = $id;
+            $result=$Transport->add($data); // 根据条件保存修改的数据
+            $data['addressid'] = M("transport")->where("orderid='$id'")->getField("id");
+            // 返回新增标识
+            $data['msg'] = 'no';
+        }
    
-    $this->ajaxReturn($data);
+        $this->ajaxReturn($data);
 	}
 
 	public function delorder() 
-		{
+    {
 		if(is_login())
-			{		
-		$map["tag"]=array("in",$tag);
-		$map["uid"]=D("member")->uid();
-		$map["status"]=array("gt",2);
-		M("order")->where($map)->delete();		
-		$data=M("shoplist")->where($map)->delete();	
-		if($data) 
-			{ $this->success('删除成功！');
-		}
-		else{
-		$this->error('删除失败！订单未完成');
-		}
-	}
-}
-public function usercart(){
-		$cart=D("shopcart");
-		$result= $cart->getcart();
-       return $result;
-}
-public function incNumByuid(){
-		$sort=$_POST['sort'];
-		$cart=D("Shopcart");
-        $result= $cart->inc($sort);
-       $count=$cart->getCntByuid(); /*查询购物车中商品的种类 */
-        $sum= $cart->getNumByuid();/* 查询购物车中商品的个数*/
-        $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
+		{
+            $map["tag"]=array("in",$tag);
+            $map["uid"]=D("member")->uid();
+            $map["status"]=array("gt",2);
+            M("order")->where($map)->delete();
+            $data=M("shoplist")->where($map)->delete();
+            if($data)
+            {
+                $this->success('删除成功！');
+            }else{
+            $this->error('删除失败！订单未完成');
+            }
+        }
+    }
+    public function usercart(){
+            $cart=D("Shopcart");
+            $result= $cart->getcart();
+            return $result;
+    }
 
-		if($result){
-			$data['new'] ='新个数'.$result;
-			$data['count'] = $count;
-			$data['status'] = 1;
-			$data['price'] =$price;
-		 $data['sum'] = $sum;
-        $data['msg'] = '处理成功';
-		 $this->ajaxReturn($data);
-		}
- 
-}
-public function decNumByuid(){
-		$cart=D("shopcart");
-		$sort=$_POST['sort'];
-		$result= $cart->dec($sort);
-		$count=$cart->getCntByuid(); /*查询购物车中商品的种类 */
-        $sum= $cart->getNumByuid();/* 查询购物车中商品的个数*/
-        $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
-    
-		if($result){$data['new'] ='新个数'.$result;
-			$data['count'] = $count;
-			$data['status'] = 1;
-			$data['price'] =$price;
-		 $data['sum'] = $sum;
-       $data['msg'] = '处理成功';
-		 $this->ajaxReturn($data);
-		}
+    public function incNumByuid(){
+            $sort=$_POST['sort'];
+            $cart=D("Shopcart");
+            $result= $cart->inc($sort);
+           $count=$cart->getCntByuid(); /*查询购物车中商品的种类 */
+            $sum= $cart->getNumByuid();/* 查询购物车中商品的个数*/
+            $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
 
-}
-public function delItemByuid(){
-		$cart=D("shopcart");
-		$sort=$_POST['sort'];
-		 $user=D("member");
-	    $uid=$user->uid();
-	     if($result= $cart->where("sort='$sort'and uid='$uid'")->delete()){
-		$count=$cart->getCntByuid(); /*查询购物车中商品的种类 */
-        $sum= $cart->getNumByuid();/* 查询购物车中商品的个数*/
-        $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
-		 $data['status'] = 1;
-		 $data['goodid'] =$id;
-		  $data['price'] =$price;
-		 $data['count'] = $count;
-		 $data['num'] =  $sum;
-		  $data['sum'] =  $sum;
-         $data['msg'] = '处理成功';
-		 $this->ajaxReturn($data);}
-		
+            if($result){
+                $data['new'] ='新个数'.$result;
+                $data['count'] = $count;
+                $data['status'] = 1;
+                $data['price'] =$price;
+                $data['sum'] = $sum;
+                $data['msg'] = '处理成功';
+                $this->ajaxReturn($data);
+            }
 
-}
- public function getPricetotal($tag) { 
+    }
+
+    public function decNumByuid(){
+            $cart=D("shopcart");
+            $sort=$_POST['sort'];
+            $result= $cart->dec($sort);
+            $count=$cart->getCntByuid(); /*查询购物车中商品的种类 */
+            $sum= $cart->getNumByuid();/* 查询购物车中商品的个数*/
+            $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
+
+            if($result){$data['new'] ='新个数'.$result;
+                $data['count'] = $count;
+                $data['status'] = 1;
+                $data['price'] =$price;
+                $data['sum'] = $sum;
+                $data['msg'] = '处理成功';
+                $this->ajaxReturn($data);
+            }
+
+    }
+    public function delItemByuid(){
+            $cart=D("shopcart");
+            $sort=$_POST['sort'];
+            $user=D("member");
+            $uid=$user->uid();
+             if($result= $cart->where("sort='$sort'and uid='$uid'")->delete()){
+                $count=$cart->getCntByuid(); /*查询购物车中商品的种类 */
+                $sum= $cart->getNumByuid();/* 查询购物车中商品的个数*/
+                $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
+                $data['status'] = 1;
+                $data['goodid'] =$id;
+                $data['price'] =$price;
+                $data['count'] = $count;
+                $data['num'] =  $sum;
+                $data['sum'] =  $sum;
+                $data['msg'] = '处理成功';
+                $this->ajaxReturn($data);
+             }
+
+
+    }
+    public function getPricetotal($tag) {
 
         $data = M("shoplist")->where("tag='$tag'")->select();
         foreach ($data as $k=>$val) {
@@ -737,13 +735,13 @@ public function delItemByuid(){
         return sprintf("%01.2f", $total);
     }
  
-public function getpriceNum($id) { 
+    public function getpriceNum($id) {
 	 
         $price = 0.00;
         $data = M("shoplist")->where("tag='$id'")->select();
          foreach ($data as $k=>$item) {
             $sum += $item['num'];
-        }
+         }
         return  $sum;
     }
 

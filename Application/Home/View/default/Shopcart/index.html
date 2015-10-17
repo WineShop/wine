@@ -3,112 +3,167 @@
 <block name="body">
 <div class="cartname">全部商品&nbsp;&nbsp;<span id="sum" class="red">{$sum}</span></div>
 <if condition="is_login()">
-<empty name="sqlcart"><div class="shopcart_main_none"><div class="shopcart_main_none_img"></div><div class="shopcart_main_none_main"><p>你的购物车还是空的哦赶紧行动吧 !</p><a rel="nofollow" href="{:U("Index/index")}">马上购物</a></div></div></empty>
+    <empty name="sqlcart">
+        <div class="shopcart_main_none">
+            <div class="shopcart_main_none_img">   </div>
+            <div class="shopcart_main_none_main">
+                <p>你的购物车还是空的哦赶紧行动吧 !</p>
+                <a rel="nofollow" href="{:U("Index/index")}">马上购物</a>
+            </div>
+        </div>
+    </empty>
 
-<notempty name="sqlcart"><form action='{:U("Shopcart/order")}'method="post" name="myform" id="form">
-<table  id="table" class="gridtable" >
+    <notempty name="sqlcart">
+        <form action='{:U("Shopcart/order")}'method="post" name="myform" id="form">
+        <table  id="table" class="gridtable" >
         <thead>
-            <tr><th class="row-selected">
+            <tr>
+                <th class="row-selected">
 					 <input class="checkbox check-all" checked="checked"type="checkbox">全选
-					</th>
+			    </th>
                 <th >商品名</th>
                 <th >价格</th>
                 <th >数量</th>
                 <th >操作</th>
             </tr>
         </thead>
-        
-        <tbody>
+
     
           <volist name="sqlcart" id="vo">  
-          <tr class="cart_bottom"><td><input class="ids row-selected" checked="checked" type="checkbox" name="id[]" value="{$vo.goodid}"></td>
-                <td> <span class="c5"><A href="{:U('Article/detail?id='.$vo['goodid'])}" class="dl"> <img src="{$vo.goodid|get_cover_id|get_cover='path'}"  width="70" height="70"/></a>
-		  <span class="dd"><a href="{:U('Article/detail?id='.$vo['goodid'])}"  class="dd"> {$vo.goodid|get_good_name}</a></span>
-		 <span class="dd">{$vo.parameters}</span>
-		  </span></td>
+          <tr class="cart_bottom">
+              <td><input class="ids row-selected" checked="checked" type="checkbox" name="id[]" value="{$vo.goodid}"></td>
+              <td>
+                   <span class="c5">
+                       <A href="{:U('Article/detail?id='.$vo['goodid'])}" class="dl"> <img src="{$vo.goodid|get_cover_id|get_cover='path'}"  width="70" height="70"/></a>
+		                <span class="dd"><a href="{:U('Article/detail?id='.$vo['goodid'])}"  class="dd"> {$vo.goodid|get_good_name}</a></span>
+		                <span class="dd">{$vo.parameters}</span>
+		           </span>
+               </td>
                
-                <td align="center">¥{$vo.price}</td>
-                 <td  align="center"><div class="quantity-form"><a rel="jia"  class="jia" onclick="myfunction(event)">+</a><input type="text"  class="goodnum"  id="{$vo.sort}" name="num[]"value="{$vo.num}"/><a rel="jian" onclick="myfunction(event)"  class="jian" id="oneA">-</a>
-				  <input type="hidden" value="{$vo.price}" name="price[]"/>
-				  <input type="hidden" value="{$vo.sort}" name="sort[]"/>
-				 <input type="hidden" value="{$vo.parameters}" name="parameters[]"/>
-				 </div></td>
+              <td align="center">¥{$vo.price}</td>
+              <td  align="center">
+                   <div class="quantity-form">
+                         <a rel="jia"  class="jia" onclick="myfunction(event)">+</a>
+                         <input type="text"  class="goodnum"  id="{$vo.sort}" name="num[]"value="{$vo.num}"/>
+                         <a rel="jian" onclick="myfunction(event)"  class="jian" id="oneA">-</a>
+                          <input type="hidden" value="{$vo.price}" name="price[]"/>
+                          <input type="hidden" value="{$vo.sort}" name="sort[]"/>
+                          <input type="hidden" value="{$vo.parameters}" name="parameters[]"/>
+                    </div>
+               </td>
                 
-               <td><a  name="{$vo.sort}" rel="del" onclick="myfunction(event)">删除</a>&nbsp;<a href="javascript:vod(0);" onclick="favor({$vo.goodid})">移到收藏</a></td>
+               <td><a  name="{$vo.sort}" rel="del" onclick="myfunction(event)">删除</a>&nbsp;<a href="javascript:void(0);" onclick="favor({$vo.goodid})">移到收藏</a></td>
             </tr>
          </volist>
-        </table> <table class="cart_info"> 
-   <td colspan="4">  <input class="checkbox check-all"checked="checked" type="checkbox">全选  <a  name="{$vo.id}" rel="del" href='{:U("index/index")}'>继续购物</a>    </td><td align="right"></td> </tr>
-			  <tr><td colspan="5" align="right">种类：<span id="count">{$count}</span>种</td>
-			  <tr><td colspan="5" align="right">总计（不含运费）：¥<em class="price" id="total"> {$price}</em></td>
+        </table>
+
+        <table class="cart_info">
+
+            <tr>
+                <td colspan="4">
+                    <input class="checkbox check-all"checked="checked" type="checkbox">全选  <a  name="{$vo.id}" rel="del" href='{:U("index/index")}'>继续购物</a>
+                </td>
+                <td align="right"></td>
+            </tr>
+			<tr>
+                <td colspan="5" align="right">种类：<span id="count">{$count}</span>种</td>
+            </tr>
+			<tr>
+                <td colspan="5" align="right">总计（不含运费）：¥<em class="price" id="total"> {$price}</em></td>
 			</tr>
-        </tbody>
-      <tr><td colspan="5" align="right">
- 
- <a class="btn_submit_pay"   href="javascript:void(0)" onclick="checklogin();return false" >去结算</a>
- </td> </tr>
-    </table> 
+
+            <tr>
+                <td colspan="5" align="right">
+                    <a class="btn_submit_pay"   href="javascript:void(0)" onclick="checklogin();return false" >去结算</a>
+                </td>
+            </tr>
+        </table>
       
  
-  </form>
+        </form>
     </notempty>
 	<else/>
-<empty name="usercart"><div class="shopcart_main_none"><div class="shopcart_main_none_img"></div><div class="shopcart_main_none_main"><p>你的购物车还是空的哦赶紧行动吧 !</p><a rel="nofollow" href="{:U("Index/index")}">马上购物</a></div><div class="cb"></div></div></empty>
 
-<notempty name="usercart">  
-<form action='{:U("Shopcart/order")}'method="post" name="myform" id="form"><table  id="table" class="gridtable" width="100%">
-        <thead>
-            <tr><th class="row-selected">
-					 <input class="checkbox check-all" type="checkbox" checked="">全选
-					</th>
-                <th >商品名</th>
-                <th >价格</th>
-                <th >数量</th>
-                <th >操作</th>
-            </tr>
-        </thead>
+    <empty name="usercart">
+        <div class="shopcart_main_none">
+            <div class="shopcart_main_none_img"></div>
+            <div class="shopcart_main_none_main">
+                <p>你的购物车还是空的哦赶紧行动吧 !</p>
+                <a rel="nofollow" href="{:U("Index/index")}">马上购物</a>
+            </div>
+            <div class="cb"> </div>
+        </div>
+    </empty>
+
+    <notempty name="usercart">
+        <form action='{:U("Shopcart/order")}'method="post" name="myform" id="form">
+            <table  id="table" class="gridtable" width="100%">
+                <thead>
+                    <tr><th class="row-selected">
+                             <input class="checkbox check-all" type="checkbox" checked="">全选
+                            </th>
+                        <th >商品名</th>
+                        <th >价格</th>
+                        <th >数量</th>
+                        <th >操作</th>
+                    </tr>
+                </thead>
       
-        <tbody>
+                <tbody>
     
-          <foreach name="usercart" item="vo">  
-          <tr><td align="center"><input class="ids row-selected"  checked="" type="checkbox" name="id[]" value="{$vo.id}"></td>
-          <td> <span class="c5"><A href="{:U('Article/detail?id='.$vo['id'])}" class="dl"> <img src="{$vo.id|get_cover_id|get_cover='path'}"  width="70" height="70"/></a>
-		  <span class="dd"><a href="{:U('Article/detail?id='.$vo['id'])}"  class="dd"> {$vo.id|get_good_name}</a></span>
-		 <span class="dd">{$vo.parameters}</span>
-		  </span></td>
+                <foreach name="usercart" item="vo">
+                    <tr>
+                        <td align="center"><input class="ids row-selected"  checked="" type="checkbox" name="id[]" value="{$vo.id}"></td>
+                        <td>
+                            <span class="c5"><A href="{:U('Article/detail?id='.$vo['id'])}" class="dl"> <img src="{$vo.id|get_cover_id|get_cover='path'}"  width="70" height="70"/></a>
+                                <span class="dd"><a href="{:U('Article/detail?id='.$vo['id'])}"  class="dd"> {$vo.id|get_good_name}</a></span>
+                                <span class="dd">{$vo.parameters}</span>
+                            </span>
+                        </td>
                
-                <td align="center">{$vo.price}元</td>
-                <td  align="center"><div class="quantity-form">
-				<a rel="jia"  class="jia" onclick="myfunction(event)">+</a>
-				<input type="text"  class="goodnum"  id="{$vo.sort}" name="num[]" value="{$vo.num}"/>
-				<a rel="jian" onclick="myfunction(event)"  class="jian" id="oneA">-</a>
-				 <input type="hidden" value="{$vo.price}" name="price[]"/>
-				  <input type="hidden" value="{$vo.sort}" name="sort[]"/>
-				 <input type="hidden" value="{$vo.parameters}" name="parameters[]"/>
-				 </div></td>
+                        <td align="center">{$vo.price}元</td>
+                        <td  align="center">
+                            <div class="quantity-form">
+                                <a rel="jia"  class="jia" onclick="myfunction(event)">+</a>
+                                <input type="text"  class="goodnum"  id="{$vo.sort}" name="num[]" value="{$vo.num}"/>
+                                <a rel="jian" onclick="myfunction(event)"  class="jian" id="oneA">-</a>
+                                <input type="hidden" value="{$vo.price}" name="price[]"/>
+                                <input type="hidden" value="{$vo.sort}" name="sort[]"/>
+                                <input type="hidden" value="{$vo.parameters}" name="parameters[]"/>
+				            </div>
+                        </td>
                 
-                <td><a  name="{$vo.sort}" rel="del" onclick="myfunction(event)">删除</a>&nbsp;<a href="javascript:vod(0);" onclick="favor({$vo.id})">移到收藏</a></td>
-            </tr></foreach>
-			<tr>
-			  <td colspan="4">  <input class="checkbox check-all"  checked="" type="checkbox">全选 <a  name="{$vo.id}" rel="del" href="{:U("index/index")}">继续购物</a>    </td><td align="right"></td></tr>
-			  <tr><td colspan="5" align="right">种类：<span id="count">{$count}</span>种</td>
-			  <tr><td colspan="5" align="right">金额小计：<span id="total">{$price}</span>元</td>
-			</tr>
+                        <td><a  name="{$vo.sort}" rel="del" onclick="myfunction(event)">删除</a>&nbsp;<a href="javascript:void(0);" onclick="favor({$vo.id})">移到收藏</a></td>
+                    </tr>
+                </foreach>
+
+                    <tr>
+                      <td colspan="4" style="padding-left: 10px;">  <input class="checkbox check-all"  checked="" type="checkbox">全选 <a  name="{$vo.id}" rel="del" href="{:U("index/index")}">继续购物</a>    </td>
+                      <td align="right" style="padding-right: 10px;">种类：<span id="count">{$count}</span>种</td>
+                    </tr>
+               
+                    <tr>
+                        <td colspan="5" align="right">金额小计：<span id="total">{$price}</span>元</td>
+                    </tr>
          
         
-        </tbody>
+                 </tbody>
       
-    </table> 
-  <div class="text" style="float:right">
+            </table>
+            <div class="text" style="float:right">
  
-总计（不含运费）：<em class="price" id="total"> {$price}</em>元 <a class="btn_submit_pay"   href="javascript:void(0)" onclick="checklogin();return false" >去结算</a>
-  </div> <input type="hidden" value="{$uid}" id="uid"/> 
+                总计（不含运费）：<em class="price" id="total"> {$price}</em>元 <a class="btn_submit_pay"   href="javascript:void(0)" onclick="checklogin();return false" >去结算</a>
+            </div>
 
- </form>
-  </notempty>
+            <input type="hidden" value="{$uid}" id="uid"/>
+
+        </form>
+     </notempty>
 	
 	</if>     
-   <!-- jQuery 遮罩层 begin -->
+
+
+<!-- jQuery 遮罩层 begin -->
 <div id="fullbg"></div>
 <!-- end jQuery 遮罩层 -->
 <!-- 对话框 -->
@@ -150,6 +205,9 @@
     </form>
 </div> <!-- Modal 对话框内容 -->
 </div><!-- 对话框 结束-->
+
+
+
 <!-- jQuery 遮罩层上方的对话框 -->
     <script type="text/javascript">
 //显示灰色 jQuery 遮罩层

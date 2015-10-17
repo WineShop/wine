@@ -250,13 +250,13 @@ margin-top: 5px;
     font-size: 24px;
     font-weight: 700;
     font-family: Tahoma,Arial,Helvetica,sans-serif;
-    color: #F40;font-style: normal;
+    color: #E23C3D;font-style: normal;
 }
  .price{
     font-size: 24px;
     font-weight: 700;
     font-family: Tahoma,Arial,Helvetica,sans-serif;
-    color: #F40;font-style: normal;
+    color: #E23C3D;font-style: normal;
 }
 .important{disabled:true;cursor:not-allowed;}
 
@@ -290,13 +290,14 @@ line-height: 35px;color: #323232;font-weight:400;border-bottom:2px solid #fa5000
 div.name{overflow:hidden; clear:both; display:block;line-height:20px;height:20px;text-align:center;position:relative;z-index:399; margin-bottom:0px;font: 14px/1.5 arial,}
 
 ul li .price{line-height:20px;text-align:center;font: 16px/1.5 arial;padding-bottom:15px;}
-.cartname{ width:150px;height:30px; border-bottom:3px solid #f50;line-height:30px; font-size:16px; padding:5px 0; clear:both; margin-top:15px;}
+.cartname{ width:150px;height:30px; border-bottom:3px solid #E23C3D;line-height:30px; font-size:16px; padding:5px 0; clear:both; margin-top:15px;}
 table.gridtable {
 	font-family: verdana,arial,sans-serif;
 	font-size:14px;
 	color:#333333;
-  border: 5px solid #eee;width:950px;
+     border: 5px solid #eee;width:910px;
 	clear:both;
+    margin-bottom: 15px;
 }
 .cart_bottom{ border-bottom: 1px solid #eee;}
 .cart_info{width:950px;background-color: #fafbf8;overflow:hidden;padding:5px 0; }
@@ -443,10 +444,7 @@ padding: 0 10px;
 }
 
 a.red:link, a.red:visited, a.red:hover, a.red:active {
-color: #ff3c00;
-}
-a.red:link, a.red:visited, a.red:hover, a.red:active {
-color: #ff3c00;
+color: #E23C3D;
 }
 .dginfo_function {
 text-align: center;
@@ -628,7 +626,7 @@ line-height: 33px;
 padding-left: 31px;
 color: #fff;
 font-size: 14px;
-background: url("../images/ui_img8.png") no-repeat -269px -789px #ff3c00;
+background: url("../images/ui_img8.png") no-repeat -269px -789px #E23C3D;
 text-align: left;
 margin-top: 16px;
 border: 1px solid #e5433f;
@@ -644,7 +642,7 @@ line-height: 33px;
 padding-left: 31px;
 color: #fff;
 font-size: 14px;
-background: url("../images/ui_img8.png") no-repeat -269px -789px #ff3c00;
+background: url("../images/ui_img8.png") no-repeat -269px -789px #E23C3D;
 text-align: left;
 margin-top: 16px;
 border: 1px solid #e5433f;
@@ -664,9 +662,7 @@ color:#595959;
 display: inline;
 padding: 0 10px;color:#595959;
 }
-.main_nav a:hover{color:#ff3c00;
-
-}
+.main_nav a:hover{color:#E23C3D;}
 .main_center {
 width: 100%;
 overflow:hidden;
@@ -730,12 +726,12 @@ padding-left:3px;width:195px;overflow:hidden;
 }
 .center_left dd a:hover{
 width:195px;padding-left:0px;
-border-left:3px solid #FF3C00;
+border-left:3px solid #E23C3D;
 background:#efefef;
 color:#000;
 }
 .center_left .current{width:195px;padding-left:0px;
-border-left:3px solid #FF3C00;
+border-left:3px solid #E23C3D;
 background:#efefef;
 color:#000;}
 .center_left dd  .center_left .home{vertical-align:top;margin-top:0px;}
@@ -745,7 +741,7 @@ position: absolute;
 top: 21px;
 right: 16px;
 height: 16px;
-background: #ff3c00;
+background: #E23C3D;
 color: #fff;
 text-align: center;
 line-height: 16px;
@@ -847,8 +843,8 @@ border-color: #7a7a7a;
 color: #595959;
 height: 22px;
 line-height: 22px;
-border-left: 4px solid #ff3c00;
-color: #ff3c00;
+border-left: 4px solid #E23C3D;
+color: #E23C3D;
 margin:5px;
 _margin:5px;
 padding-left: 10px;
@@ -875,7 +871,7 @@ line-height: 33px;
 padding-left: 31px;
 color: #fff;
 font-size: 14px;
-background: url("../images/ui_img8.png") no-repeat -269px -789px #ff3c00;
+background: url("../images/ui_img8.png") no-repeat -269px -789px #E23C3D;
 text-align: left;
 margin-top: 16px;
 border: 1px solid #e5433f;
@@ -892,7 +888,7 @@ line-height: 33px;
 padding-left: 31px;
 color: #fff;
 font-size: 14px;
-background: url("../images/ui_img8.png") no-repeat -269px -789px #ff3c00;
+background: url("../images/ui_img8.png") no-repeat -269px -789px #E23C3D;
 text-align: left;
 margin-top: 16px;
 border: 1px solid #e5433f;
@@ -1083,7 +1079,7 @@ background: url('../images/arrow-a.png') no-repeat -5px 0px;
 color: #f30; 
 }
 .ml_content_top li a:hover {
-color: #ff3c00;
+color: #E23C3D;
 background-color: #EBE8E8;
 text-decoration: none;
 }
@@ -1199,14 +1195,14 @@ padding-right:20px;margin-top:10px;
 .trans p{text-align:right;overflow:hidden;margin-right:15px;}
 .jiesuan{height:50px;line-height:50px;margin-right:15px;overflow:hidden;}
 .sc_goods_ul img{width:40px;height:40px;}
-table a:hover{color:#ff3c00}
+table a:hover{color:#E23C3D}
 table{font-size:14px;}
 
 .col_name{height:36px;line-height:36px;width:100%;padding:5px; overflow:hidden}
 ul.userhas{margin:10px 0px 20px 30px;;overflow:hidden;clear:both}
 .userhas li{float:left;margin-right:18px;}
 .userhas p{text-align:center;padding:5px;}
-.userhas .text{margin:0px 0px 0px 30px;width:100px;padding:5px; text-align:center;background:#ff3c00;display:block}
+.userhas .text{margin:0px 0px 0px 30px;width:100px;padding:5px; text-align:center;background:#E23C3D;display:block}
 .activity{
     width: 100%;
     overflow: hidden;
@@ -1265,6 +1261,8 @@ a.btn_submit_pay {
   font-size: 18px;
   background: #FF6347;
   cursor: pointer;
+  border-radius: 3px;
+  margin-left: 8px;
 }
 input.btn_submit_pay {
 
@@ -1295,7 +1293,7 @@ div.pay{ margin:6px;}
 }
 .top_main.toolbar{float:right
 }
-table .info{color:#ff3c00;font-size:15px;font-weight:bold}
+table .info{color:#E23C3D;font-size:15px;font-weight:bold}
 
 /*订单提交成功*/
 #success a{display: block;float:left;color:#fff;}
@@ -1323,7 +1321,7 @@ height: 40px;
 line-height: 40px;
 color: #fff;
 font-size: 18px;
-background: #ff3c00;margin:15px 20px 0px 20px ;
+background: #E23C3D;margin:15px 20px 0px 20px ;
 }
 .payform{margin-left:132px
 }
@@ -1379,7 +1377,7 @@ background-position: 0px 0px;
 }
 .v_dark_btn {
     border: medium none;
-    background: none repeat scroll 0% 0% #fe6e33;
+    background: none repeat scroll 0% 0% #E23C3D;
     font-size: 14px;
     color: #FFF;
     display: inline-block;
@@ -1394,7 +1392,7 @@ font-size: 18px;
 display: inline-block;
 overflow: hidden;
 text-align: center;}
-.v_dark_btn:hover{background: #FF4B01}
+.v_dark_btn:hover{background: #E23C3D}
 ul.dginfo_info{overflow:hidden}
 
 
@@ -1403,7 +1401,7 @@ ul.dginfo_info{overflow:hidden}
 font-weight: bold;
 }
 .red {
-color: #ff3c00;
+color: #E23C3D;
 }
 
 
@@ -1504,7 +1502,7 @@ clear: both;position: relative;
 z-index: 2;
 }
 .order_del{height: 30px;font-size:14px;line-height: 30px;
-text-indent:1em;color:#ff3c00;width:100%;
+text-indent:1em;color:#E23C3D;width:100%;
 border-top: 1px solid #fff;
 }
 .order_namelist  .active {
@@ -1514,7 +1512,7 @@ line-height:41px;
 text-align:center;
 font-weight: bold;
 height: 41px;
-border-top: 2px solid #FF3C00;
+border-top: 2px solid #E23C3D;
 z-index: 100;
 border-right: 1px solid #ccc;
 border-left: 1px solid #ccc;
@@ -1862,7 +1860,7 @@ font: 14px/20px "\5fae\8f6f\96c5\9ed1";
 }
 .verification_list .ver_error, .verification_btn02 .ver_error {
 float: left;
-color: #f40000;
+color: #E23C3D;
 margin: 0 0 0 5px;
 height: 22px;
 line-height: 23px;
