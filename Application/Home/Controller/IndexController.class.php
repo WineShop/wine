@@ -58,17 +58,6 @@ class IndexController extends HomeController {
         $this->assign('hotsearch',$hotsearch);
 
 
-        /** 底部分类调用**/
-        if(S(C('HOME_FOOT_MENU')))
-        {
-            $menulist = S(C('HOME_FOOT_MENU'));
-        }else{
-            $menulist = R('Service/AllMenu');
-            S(C('HOME_FOOT_MENU'),$menulist,3600*24*30);
-        }
-        $this->assign('footermenu',$menulist);
-
-
         /**   主体商品内容    **/
         if(S(C('HOME_SHOP_CENTER')))
         {

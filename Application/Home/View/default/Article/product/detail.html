@@ -79,7 +79,7 @@
          if(!empty($info['parameters_value'])){ $datalist= explode('、',$info['parameters_value']);}else{  $datalist=""; }</php>
                 <notempty name="datalist">
                      <volist name="datalist" id="v"  key="k">
-                           <a href="javascript:void(0)" class="<if condition="$k eq 1">cur<else /></if>" title="{$v}" onclick="setprice({$k});return false;">{$v} </a>
+                           <a href="javascript:void(0)" class="setprice <if condition="$k eq 1">cur<else /></if>" title="{$v}" data-price_num="{$k}">{$v} </a>
                      </volist>
                 </notempty>
           </li>
@@ -189,7 +189,7 @@ $(function(){
                 <b><i class="red" id="buyto_total">{$info.unionid|get_group_count}</i>件商品组合购买</b><br>
                 <p>商城总价:<i class="d_price" id="total_sale_price">¥{$info.unionid|get_group_price}</i></p>
                 <p>市场总价:<i class="m_price"><em class="td_lh" id="total_original_price">¥{$info.unionid|get_group_marketprice}</em></i></p>
-                <p class="buyfive "><a id="buytogether_btn" href="javascript:void(0);" class="btn btn_pd" >购买组合</a></p>
+                <p class="buyfive "><a id="buytogether_btn" href="javascript:void(0);" class="btn btn_pd btn_submit" >购买组合</a></p>
                 <p><input class="checkbox check-all" type="checkbox" checked="">全选 </p>
             </div>
             <div class="tc pt5">
@@ -553,14 +553,8 @@ function quest(id){    //user函数名 一定要和action中的第三个参数�
 
 <div class="details_right">
     <dl>
-        <dt>你可能喜欢</dt>
-        <volist name="viewlist" id="vo" offset="1" length="6">
-            <dd>
-                <a class="details_right_img" href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}"><img src="{$vo.cover_id|get_cover='path'}"  alt="{$vo.title}" style="display: inline-block;"></a>
-                <a href="{:U('Article/detail?id='.$vo['id'])}" class="details_right_title" title="{$vo.title}">{$vo.title}</a>
-                <span class="fwb mcm_title_price">￥<span class="red">{$vo.id|get_good_price}</span></span>
-            </dd>
-        </volist>
+        <dt id="left_shop"><font color="#dc0000"><b>你可能喜欢</b></font></dt>
+
     </dl>
 </div>
 
@@ -661,6 +655,12 @@ seajs.use(['Detail'],function(detail){
     var href= "{:U('Article/detail?id='.$info['id'])}";
     $(".lj_cart").click(function(){ instance.detail_cart(href); });
 
+    //计算价格
+    $(".setprice").click(function(){
+        var num = $(this).data('price_num');
+        var groupprice = '{$info.groupprice}';
+        instance.setprice(num,groupprice);
+    })
     //提交问答
     $(".sub_question").click(function(){ instance.sub_question();})
     //购买组合
@@ -668,20 +668,6 @@ seajs.use(['Detail'],function(detail){
 })
 
 
-
-//计算套餐价格
-function setprice(num){
-    price=null;
-    var str='{$info.groupprice}';
-    var value=str.split("、");
-    var i=num-1;
-    $("#resetprice").text(value[i]);
-    $("#inputprice").val(value[i])
-    $(".weight a").eq(i).addClass("cur").siblings().removeClass("cur");;
-    var para=$(".weight a").eq(i).text();
-    $("#inputparameters").val(para);
-
-}
 
  //显示灰色 jQuery 遮罩层
  function showBg() {

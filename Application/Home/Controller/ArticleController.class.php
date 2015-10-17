@@ -200,40 +200,18 @@ class ArticleController extends HomeController {
 /* 商品详情页 */
  public function detail($id = 0, $p = 1){
 		/* 热词调用*/
-        // unset($_SESSION['cart']);	
          $hotsearch = C('HOT_SEARCH');
          $this->assign('hotsearch',$hotsearch);
-         /** 购物车调用**/
-         $cart=R("Shopcart/usercart");
-         $this->assign('usercart',$cart);
-         if(!session('user_auth')){
-             $usercart=$_SESSION['cart'];
-             $this->assign('usercart',$usercart);
-         }
-
-        /** 底部分类调用**/
-         if(S(C('HOME_FOOT_MENU')))
-         {
-             $menulist = S(C('HOME_FOOT_MENU'));
-         }else{
-             $menulist = R('Service/AllMenu');
-             S(C('HOME_FOOT_MENU'),$menulist,3600*24*30);
-         }
-		$this->assign('footermenu',$menulist);
 
 
-		/* 浏览量排行前7个商品*/
-		$view=M('Document')->where("display=1 and status=1")->order("view desc")->select();
-		$this->assign('viewlist', $view);
-
-		/* 标识正确性检测 */
+     /* 标识正确性检测 */
 		if(!($id && is_numeric($id))){
 		    $this->error('文档ID错误！');
 		}	
 
 		/* 获取详细信息 */
 		$Document = D('Document');
-		$info = $Document->detail($id);
+		$info     = $Document->detail($id);
 		if(!$info){
 		    $this->error($Document->getError());
 		}
@@ -283,7 +261,7 @@ class ArticleController extends HomeController {
 		$this->assign('listbetter',$listbetter);
 		$this->assign('pagebetter',$pagebetter);
 
-      /*获取商品所有中评*/
+      /**获取商品所有中评**/
 		$comment        = M('comment');
 		$countmiddle    = $comment->where("status='1' and goodid='$id' and score='2'")->count(); //计算记录数
         $this->assign('countmiddle ', $countmiddle);
@@ -295,7 +273,7 @@ class ArticleController extends HomeController {
 		$this->assign('listmiddle',$datamiddle);
 		$this->assign('pagemiddle',$pagemiddle);
           
-		 /*获取商品所有差评*/
+		 /**获取商品所有差评**/
 		$comment        = M('comment');
 		$countworse     = $comment->where("status='1' and goodid='$id' and score='1'")->count(); //计算记录数
         $this->assign('countworse ', $countworse);
@@ -307,7 +285,7 @@ class ArticleController extends HomeController {
 		$pageworse      = $pworse->show(); // 产生分页信息，AJAX的连接在此处生成
 		$this->assign('listworse',$dataworse);
 		$this->assign('pageworse',$pageworse);
-    	/* 好评率 */
+    	/** 好评率 **/
 		$rate           = ($countbetter/$count)*100;
         $this->assign('rate', $rate);
 
@@ -334,9 +312,10 @@ class ArticleController extends HomeController {
 /* ajax评论-所有评论 */
  public function comment(){	
 	 if($_POST["goodid"])
-	 {  $goodid=$_POST["goodid"];	 	
-		$this->assign('goodid',$goodid);
-		}	
+	 {
+         $goodid=$_POST["goodid"];
+		 $this->assign('goodid',$goodid);
+	 }
 		 session('goodid',null);//ajax评论session
 	     session('goodid',$goodid);
         $comment = M('comment');
@@ -349,7 +328,7 @@ class ArticleController extends HomeController {
 		$this->assign('list',$data);
 		$this->assign('page',$page);
 		$this->display(); 
-        }
+}
 /* ajax评论-好评 */
  public function commentgood(){
 	  if($_POST["goodid"])
@@ -407,11 +386,13 @@ class ArticleController extends HomeController {
 		$this->assign('page',$page);
 		$this->display(); 
         }
-public function quest(){	
+
+    public function quest(){
 	  if($_POST["goodid"])
-	 {  $goodid=$_POST["goodid"];	 	
-		$this->assign('goodid',$goodid);
-		}	
+	  {
+         $goodid=$_POST["goodid"];
+		 $this->assign('goodid',$goodid);
+      }
 		 session('goodid',null);//ajax评论session
 	     session('goodid',$goodid);
         $message=M("message");
@@ -421,56 +402,75 @@ public function quest(){
 		$limit= $p->firstRow . "," . $p->listRows;
 		$page= $p->show();
 		$list=$message->where("goodid='42'")->order('id desc')->limit($limit)->select();
-		foreach($list as $n=> $val){
-		$list[$n]['id']=$reply->where('messageid=\''.$val['id'].'\'')->select();
+
+        foreach($list as $n=> $val){
+		    $list[$n]['id']=$reply->where('messageid=\''.$val['id'].'\'')->select();
 		}
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->display(); 
-        }
-/* 文档分类检测 */
- private function category($id = 0){
+    }
+
+    /* 文档分类检测 */
+     private function category($id = 0){
 		/* 标识正确性检测 */
 		$id = $id ? $id : I('get.category', 0);
 		if(empty($id)){
-		$this->error('没有指定文档分类！');
+		    $this->error('没有指定文档分类！');
 		}
 		/* 获取分类信息 */
 		$category = D('Category')->info($id);
 		if($category && 1 == $category['status']){
-		switch ($category['display']) {
-		case 0:
-		$this->error('该分类禁止显示！');
-		break;
-		//TODO: 更多分类显示状态判断
-		default:
-		return $category;
-		}
+            switch ($category['display']) {
+                case 0:
+                     $this->error('该分类禁止显示！');
+                     break;
+                    //TODO: 更多分类显示状态判断
+                     default:
+                     return $category;
+            }
 		} else {
-		$this->error('分类不存在或被禁用！');
-		}
-		}
+            $this->error('分类不存在或被禁用！');
+        }
+    }
 
 		//销量排行
-public function ranks($name){
-		//获取完整的url
+    public function ranks($name){
+        //获取完整的url
 
-		////获取商品访问来源来自url的商品数组，tag=3
-		$list=M('document')->limit(5)->order("sale desc")->select();
-		return $list;
-		}
+        ////获取商品访问来源来自url的商品数组，tag=3
+        $list=M('document')->limit(5)->order("sale desc")->select();
+        return $list;
+    }
 
 
-//最近浏览
- public function view_recent($name){
+    //最近浏览
+     public function view_recent($name){
 
-		//获取完整的url
-		//$url= 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-		//访客ip
-		$ip=getip();
-		////根据ip获取会员最近浏览商品，tag=3
-		$list=M('records')->where(" tag='3' and ip='$ip'")->limit(5)->order("id desc")->select();
-		return $list;
-		}
+        //获取完整的url
+        //$url= 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        //访客ip
+        $ip=getip();
+        ////根据ip获取会员最近浏览商品，tag=3
+        $list=M('records')->where(" tag='3' and ip='$ip'")->limit(5)->order("id desc")->select();
+        return $list;
+    }
+
+    //最左侧ajax请求7个
+    public function ajaxLeftShop(){
+        $field = "id,title,price,tuan_price,qg_price,ms_price,cover_id";
+        $view = M('Document')->where("display=1 and status=1")->field($field)->order("view desc")->limit(7)->select();
+
+        if(empty($view))
+        {
+            $this->ajaxError('尚无数据');
+        }else{
+            foreach($view as &$row)
+            {
+                $row['pic_path'] = get_cover($row['cover_id'],'path');
+            }
+            $this->ajaxSuccess($view);
+        }
+    }
 
 }

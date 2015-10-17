@@ -486,7 +486,7 @@ em.price{font-style: normal;}
   text-align: center;
   width: 100px;
   display: block;
-  background-color: #f60;
+  background-color: #FF6347;
   color: #fff;
   line-height: 36px;
 }
@@ -511,7 +511,7 @@ em.price{font-style: normal;}
 /*组合*/
 .allid{padding-top:70px;padding-left:50px;}
 .buyfive{ margin-bottom:17px;}
-.buyfive a{height:36px;text-align:center;width:100px;display:block;background-color:#f60;color:#fff; line-height:36px;}
+.buyfive a{height:41px;text-align:center;width:100px;display:block;background-color:#FF6347;color:#fff; line-height:41px;}
 #lean_overlay {
     position: fixed;
     z-index:100;
@@ -592,13 +592,14 @@ em.price{font-style: normal;}
 .group_buy .bucket_cont p {
   padding: 0 0 0 10px;
 }
-.group_buy .bucket .btn_pd {00
+.group_buy .bucket .btn_pd {
   float: none;
-  height: 33px;
+  height: 40px;
   vertical-align: middle;
   margin: 0 12px 0 0;
   width: 138px;
   _margin-top: -1px;overflow:hidden;
+  border-radius: 3px;
 }
 i{
 font-style:normal;}
@@ -702,7 +703,7 @@ font-style:normal;}
 }
 /*右侧*/
 .details_right  dl dt{padding:5px 10px}
-.details_right  dl dd{background-color:#fff;margin:10px}
+.details_right  dl dd{background-color:#fff;margin:10px;padding: 0px;box-shadow: 0 6px 12px rgba(0,0,0,0.275);}
 .details_right a{clear:both;overflow:hidden;display:block; text-align:center}
 .details_right_img img{width:260px;height:260px;}
 .mcm_title_price{ text-align:center;margin-left:100px}
@@ -817,16 +818,18 @@ font-style:normal;}
 .comment_new .commenting, .comment_new .commenting:hover {
   margin-top: -8px;
 }
-.mbox3 .commenting, .mbox3 .commenting:hover {
+.mbox3 .commenting{
   width: 104px;
-  height: 23px;
-  line-height: 23px;
-  background: url(../images/sprite.png) 0 -1310px;
+  height: 33px;
+  line-height: 33px;
+  background: #FF6347;
   float: right;
-  margin: 16px 10px 0 0;
+  margin: 5px 10px 5px 0;
   text-align: center;
   color: #fff;
+  border-radius: 3px;
 }
+.mbox3 .commenting:hover{background:#E23C3D; margin: 5px 10px 5px 0;}
 .comment_new .comment_rate_total {
   color: #404040;
   height: 16px;
@@ -939,7 +942,7 @@ font-style:normal;}
 }
  .comment_tabs_wrap a.selected {
   border: 0;
-  border-top: 2px solid #f44700;
+  border-top: 2px solid #E23C3D;
   background-color: #fff;
   height: 22px;
   font-weight: bold;
@@ -1242,7 +1245,7 @@ width: 167px;
 b {
 font-weight: bold;
 }
-.question_add{width:890px;overflow:hidden;background-color:#eee;}
+.question_add{width:885px;margin-left:7px; overflow: hidden;background-color:#eee;box-shadow: 0 6px 12px rgba(0,0,0,0.275);border-radius: 2px;}
 .question_add .text{margin:15px;}
 .question_add .text textarea{width:846px;height:50px;}
 .question_add p a{
@@ -1250,7 +1253,7 @@ font-weight: bold;
    padding: 5px 10px;
    background-color: #FF6347;
     border-radius: 4px;
-   color: #fff;margin:5px 10px;float:right;
+   color: #fff;margin:5px 10px 15px 0px;float:right;
    }
 .pp_prop_wrap  a{
   border: 1px solid #e2e1e3;

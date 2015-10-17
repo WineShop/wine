@@ -341,7 +341,7 @@ table.gridtable td {
 .gridtable img{ float:left; margin-right:3px;}
 @charset "utf-8";
 .select-id{width:150px; padding-left:10px;}
-a.pic{display: inline;padding-left:19px;
+a.pic{display: inline;padding-left:0px;
 float: left;
 margin: 5px 12px 0px 0px;
 width: 82px;

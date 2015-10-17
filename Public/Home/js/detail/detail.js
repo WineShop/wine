@@ -135,6 +135,21 @@ define(function (require, exports, module) {
         }
 
 
+
+        //计算套餐价格
+        this.setprice = function(num,groupprice){
+            price   = null;
+            var str = groupprice;
+            var value=str.split("、");
+            var i   = num-1;
+            $("#resetprice").text(value[i]);
+            $("#inputprice").val(value[i])
+            $(".weight a").eq(i).addClass("cur").siblings().removeClass("cur");;
+            var para=$(".weight a").eq(i).text();
+            $("#inputparameters").val(para);
+
+        }
+
         //提交问答
         this.sub_question = function(){
             var str=$("#question").val();
@@ -174,10 +189,25 @@ define(function (require, exports, module) {
         });
 
     }
-    //关闭灰色 jQuery 遮罩
-    var closeBg = function () {
-        $("#fullbg,#dialog").hide();
-    }
+
+
+    //获取最左侧七个
+    T.restPost('/Article/ajaxLeftShop',{},function(success){
+        var data = success.data;
+        var str = '';
+        for(var i in data)
+        {
+              str +='<dd>\
+                        <a class="details_right_img" href="/Article/detail?id='+data[i]['id']+'" title="'+data[i]['title']+'"><img src="'+data[i]['pic_path']+'"  alt="'+data[i]['title']+'" style="display: inline-block;"></a>\
+                        <a href="Article/detail?id='+data[i]['id']+'" class="details_right_title" title="'+data[i]['title']+'">'+data[i]['title']+'</a>\
+                        <span class="fwb mcm_title_price">￥<span class="red">'+data[i]['price']+'</span></span>\
+                    </dd>'
+        }
+        $("#left_shop").after(str);
+    },function(error){
+        var str ='<dd>'+error.msg+'</dd>';
+        $("#left_shop").after(str);
+    })
 
 
     var instance = function(gid,uexist){

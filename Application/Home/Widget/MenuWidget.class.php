@@ -62,4 +62,18 @@ class MenuWidget extends Controller{
         return $arr;
     }
 
+    /** 底部分类调用**/
+    public function footer(){
+
+        if(S(C('HOME_FOOT_MENU')))
+        {
+            $menulist = S(C('HOME_FOOT_MENU'));
+        }else{
+            $menulist = R('Service/AllMenu');
+            S(C('HOME_FOOT_MENU'),$menulist,3600*24*30);
+        }
+        $this->assign('footermenu',$menulist);
+        $this->display('Public/footer');
+    }
+
 }
