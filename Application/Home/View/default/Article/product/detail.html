@@ -571,41 +571,6 @@ function quest(id){    //user函数名 一定要和action中的第三个参数�
    <!-- jQuery 遮罩层 begin -->
 <div id="fullbg"></div>
 <!-- end jQuery 遮罩层 -->
-<!-- 对话框 -->
-<div id="dialog">
-   <!-- Modal 对话框内容 -->
-<div id="myModal" class="modal">
-
-  <div class="modal-header">
-    <A class="close" onclick="closeBg();"><img src="__IMG__/close.png"></A>
-    <h3 id="myModalLabel">用户登录</h3>
-  </div>
-  <div class="m_img">
-        <a class="" href="/index.php?s=/Home/Addons/execute/_addons/SyncLogin/_controller/Base/_action/login/type/qq.html"><img src="__IMG__/qq.png">&nbsp;用QQ账号登录</a></br></br>
-        <a class="" href="/index.php?s=/Home/Addons/execute/_addons/SyncLogin/_controller/Base/_action/login/type/sina.html"><img src="__IMG__/weibo.png">&nbsp;用微博账号登录</a>
-        <!--<a class="btn btn-warning btn-block" href="">用豆瓣账号登录</a>
-        <a class="btn btn-primary btn-block" href="">用人人账号登录</a>-->
-  </div>
-    <form class="form-horizontal" id="loginform" name="user" method="post">
-        <div class="form_login"><input type="text"   id="inputusername" name="username" placeholder="用户名">
-		    <em><img src="__IMG__/u.png"></em>
-        </div>
-        <div class="form_login">
-             <input type="text"  id="inputpassword" name="password"  placeholder="密码">
-		     <em><img src="__IMG__/p.png"></em>
-        </div>
-        <span class="tips"></span>
-        <div class="form_login">
-                <a  class=""  id="login_btn" >登录</a>
-        </div>
-        <div class="control-group">
-            <p><span class="pull-right"><span>还没有账号? <a href="{:U("User/register")}" class="now">立即注册</a></span> </p>
-
-        </div>
-    </form>
-</div> <!-- Modal 对话框内容 -->
-</div><!-- 对话框 结束-->
-<!-- jQuery 遮罩层上方的对话框 -->
 
 
 
@@ -613,33 +578,6 @@ function quest(id){    //user函数名 一定要和action中的第三个参数�
 
 
  <script type="text/javascript">
-
- //登录后刷新页面，载入数据
-$("#login_btn").click(function(){
-
-   var yourname=$('#inputusername').val();
-	var yourword=$('#inputpassword').val();
-
-	$.ajax({
-        type:'post', //传送的方式,get/post
-        url:'{:U("User/login")}', //发送数据的地址
-        data:{username:yourname,password:yourword},
-        dataType: "json",
-        success:function(data){
-            if(data.status=="1"){
-	            $(".tips").html(data.info);
-                document.orderform.submit();
-            }else{
-                $(".tips").html(data.info);
-
-            }
-
-        },
-        error:function (event, XMLHttpRequest, ajaxOptions, thrownError) {
-                alert(XMLHttpRequest+thrownError); }
-        });
-    });
-
 
 var uexist = "{:get_username()}";
 var id     = {$info.id};
@@ -669,41 +607,9 @@ seajs.use(['Detail'],function(detail){
 
 
 
- //显示灰色 jQuery 遮罩层
- function showBg() {
-     $("#dialog").fadeIn();
-     var bh = $("body").height();
-     var bw = $("body").width();
-     $("#fullbg").css({
-         height:bh,
-         width:bw,
-         display:"block"
-     });
-
- }
- //关闭灰色 jQuery 遮罩
-function closeBg() {
-     $("#fullbg,#dialog").hide();
- }
-
 
 </script>
 
-
-<!--[if lte IE 6]>
-<script type="text/javascript">
-    // 浮动对话框
-    $(document).ready(function() {
-        var domThis = $('#dialog')[0];
-        var wh = $(window).height() / 2;
-        $("body").css({
-            "background-image": "url(about:blank)",
-            "background-attachment": "fixed"
-        });
-        domThis.style.setExpression('top', 'eval((document.documentElement).scrollTop + ' + wh + ') + "px"');
-    });
-</script>
-<![endif]-->
 
 
 </block>

@@ -56,36 +56,7 @@
 
         <li class="top_right">
             <div rel="nofollow" href="{:U('shopcart/index')}" class="shopping_cart" id="shopping_cart" style="display:">({$total_num}件 | <font color="#FDF657">{$total_price}</font>元)</div>
-            <if condition="is_login()">
-                <empty name="usercart">
-                    <div class="sc_goods"  id="goods" style="display:none;">
-                        <ul class="sc_goods_ul">
-                            <p class="sc_goods_none" >您的购物车还是空的，赶紧行动吧！</p>
-                        </ul>
-                        <div class="sc_goods_foot" style="display: none;">
-                            <a rel="nofollow" href="{:U('shopcart/index')}" class="my_shopping_cart_btn">查看我的购物车</a>
-                        </div>
-                    </div>
-                    <else/>
-                    <div class="sc_goods" id="goods" style="display:none;">
-                        <ul class="sc_goods_ul">
-                            <volist name="usercart" id="vo">
-                                <li>
-                                    <dl>
-                                        <dt class="mini-img"><a  href="{:U('Article/detail?id='.$vo['goodid'])}"><img src="{$vo.goodid|get_cover_id|get_cover='path'}" width='40' height='40'/> </a></dt>
-                                        <dd><span class="mini_title"><a href="{:U('Article/detail?id='.$vo['goodid'])}">{$vo.goodid|get_good_name}</a> </span><span class="mini-cart-count red">¥{$vo.price}<em class="{$vo.sort}">*{$vo.num}</em></span></dd>
-                                        <dd><span class="mini-cart-info">{$vo.parameters}</span><span class="mini-cart-del"><a name="{$vo.sort}" rel="del" href="javascript:vod(0);"   onclick="delcommon(event)">删除</a></span></dd>
-                                    </dl>
-                                </li>
-                            </volist>
-                        </ul>
-                        <div class="sc_goods_foot" style="display:block;">
-                            <a rel="nofollow" href="{:U('shopcart/index')}" class="my_shopping_cart_btn">查看我的购物车</a>
-                        </div>
-                    </div>
-                </empty>
 
-                <else/>
                 <empty name="usercart">
 
                     <div id="goods" class="sc_goods" style="display:none;">
@@ -104,7 +75,7 @@
                                 <li> <dl>
                                     <dt class="mini-img"><a  href="{:U('Article/detail?id='.$vo['id'])}"><img src="{$vo.id|get_cover_id|get_cover='path'}" width='40' height='40'/> </a></dt>
                                     <dd><span class="mini_title"><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.id|get_good_name}</a> </span><span class="mini-cart-count red">¥{$vo.price}<em class="{$vo.sort}">*{$vo.num}</em></span></dd>
-                                    <dd><span class="mini-cart-info">{$vo.parameters}</span><span class="mini-cart-del"><a name="{$vo.sort}" rel="del" href="javascript:vod(0);"   onclick="delcommon(event)">删除</a></span></dd>
+                                    <dd><span class="mini-cart-info">{$vo.parameters}</span><span class="mini-cart-del"><a name="{$vo.sort}" rel="del" href="javascript:void(0);"   onclick="delcommon(event)">删除</a></span></dd>
                                 </dl>
                                 </li>
                             </foreach>
@@ -114,7 +85,6 @@
                         </div>
                     </div>
                 </empty>
-            </if>
         </li>
     </ul>
 

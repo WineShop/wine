@@ -2,87 +2,7 @@
 
 <block name="body">
 <div class="cartname">全部商品&nbsp;&nbsp;<span id="sum" class="red">{$sum}</span></div>
-<if condition="is_login()">
-    <empty name="sqlcart">
-        <div class="shopcart_main_none">
-            <div class="shopcart_main_none_img">   </div>
-            <div class="shopcart_main_none_main">
-                <p>你的购物车还是空的哦赶紧行动吧 !</p>
-                <a rel="nofollow" href="{:U('Index/index')}">马上购物</a>
-            </div>
-        </div>
-    </empty>
 
-    <notempty name="sqlcart">
-        <form action='{:U("Shopcart/order")}' method="post" name="myform" id="form">
-            <table  id="table" class="gridtable" >
-                <thead>
-                <tr>
-                    <th class="row-selected">
-                        <input class="checkbox check-all" checked="checked"type="checkbox">全选
-                    </th>
-                    <th >商品名</th>
-                    <th >价格</th>
-                    <th >数量</th>
-                    <th >操作</th>
-                </tr>
-                </thead>
-
-
-                <volist name="sqlcart" id="vo">
-                    <tr class="cart_bottom">
-                        <td><input class="ids row-selected" checked="checked" type="checkbox" name="id[]" value="{$vo.goodid}"></td>
-                        <td>
-                           <span class="c5">
-                               <A href="{:U('Article/detail?id='.$vo['goodid'])}" class="dl"> <img src="{$vo.goodid|get_cover_id|get_cover='path'}"  width="70" height="70"/></a>
-                                <span class="dd"><a href="{:U('Article/detail?id='.$vo['goodid'])}"  class="dd"> {$vo.goodid|get_good_name}</a></span>
-                                <span class="dd">{$vo.parameters}</span>
-                           </span>
-                        </td>
-
-                        <td align="center">¥{$vo.price}</td>
-                        <td  align="center">
-                            <div class="quantity-form">
-                                <a rel="jia"  data-url="" class="jia shopCarOpt">+</a>
-                                <input type="text"  class="goodnum"  id="{$vo.sort}" name="num[]"value="{$vo.num}"/>
-                                <a rel="jian"  data-url="" class="jian shopCarOpt" id="oneA">-</a>
-                                <input type="hidden" value="{$vo.price}" name="price[]"/>
-                                <input type="hidden" value="{$vo.sort}" name="sort[]"/>
-                                <input type="hidden" value="{$vo.parameters}" name="parameters[]"/>
-                            </div>
-                        </td>
-
-                        <td style="text-align: center"><span  data-id="{$vo.sort}" rel="del" data-url="" class="shopCarOpt del sm_btn">删除</span>&nbsp;<span class="favor sm_btn" data-id="{$vo.goodid}">移到收藏</span></td>
-                    </tr>
-                </volist>
-            </table>
-
-            <table class="cart_info">
-
-                <tr>
-                    <td colspan="4">
-                        <input class="checkbox check-all" checked="checked" type="checkbox">全选  <a  rel="del" href='{:U("index/index")}'>继续购物</a>
-                    </td>
-                    <td align="right"></td>
-                </tr>
-                <tr>
-                    <td colspan="5" align="right">种类：<span id="count">{$count}</span>种</td>
-                </tr>
-                <tr>
-                    <td colspan="5" align="right">总计（不含运费）：¥<em class="price" id="total"> {$price}</em></td>
-                </tr>
-
-                <tr>
-                    <td colspan="5" align="right">
-                        <a class="btn_submit_pay"   href="javascript:void(0)" >去结算</a>
-                    </td>
-                </tr>
-            </table>
-
-
-        </form>
-    </notempty>
-    <else/>
 
     <empty name="usercart">
         <div class="shopcart_main_none">
@@ -123,16 +43,16 @@
                         <td align="center">{$vo.price}元</td>
                         <td  align="center">
                             <div class="quantity-form">
-                                <a rel="jia" data-url=""  class="jia shopCarOpt">+</a>
+                                <a rel="jia" data-url='{:U("Shopcart/incNum")}'  class="jia shopCarOpt">+</a>
                                 <input type="text"  class="goodnum"  id="{$vo.sort}" name="num[]" value="{$vo.num}"/>
-                                <a rel="jian"  data-url="" class="jian shopCarOpt" id="oneA">-</a>
+                                <a rel="jian"  data-url='{:U("Shopcart/decNum")}' class="jian shopCarOpt" id="oneA">-</a>
                                 <input type="hidden" value="{$vo.price}" name="price[]"/>
                                 <input type="hidden" value="{$vo.sort}" name="sort[]"/>
                                 <input type="hidden" value="{$vo.parameters}" name="parameters[]"/>
                             </div>
                         </td>
 
-                        <td style="text-align: center"><span  data-id="{$vo.sort}" rel="del" data-url="" class="shopCarOpt del sm_btn">删除</span>&nbsp;&nbsp;<span data-id="{$vo.id}" class="favor sm_btn">移到收藏</span></td>
+                        <td style="text-align: center"><span  data-id="{$vo.sort}" rel="del" data-url="{:U('Shopcart/delItem')}" class="shopCarOpt del sm_btn">删除</span>&nbsp;&nbsp;<span data-id="{$vo.id}" class="favor sm_btn">移到收藏</span></td>
                     </tr>
                 </foreach>
 
@@ -156,8 +76,6 @@
         </form>
     </notempty>
 
-</if>
-
 
 
 
@@ -166,37 +84,10 @@
 
 <script type="text/javascript">
 
-
-
-    $(function(){
-        var uexist="{:get_username()}";
-        //全选的实现 定义加、减、删的发送路径
-        if(uexist){
-            var inc='{:U("Shopcart/incNumByuid")}';
-            var dec='{:U("Shopcart/decNumByuid")}';
-            var del='{:U("Shopcart/delItemByuid")}';
-        }else{
-            var inc='{:U("Shopcart/incNum")}';
-            var dec='{:U("Shopcart/decNum")}';
-            var del='{:U("Shopcart/delItem")}';
-        }
-        $('.del').attr('data-url',del);
-        $('.jian').attr('data-url',dec);
-        $('.jia').attr('data-url',inc);
-
-        function checklogin() {
-            if(uexist){
-                document.myform.submit();
-            }else{
-                $("#head_login").click();
-            }
-        }
-    })
-
-
     seajs.use(['Carlist'],function(car){
         var uexist="{:get_username()}";
-        $(".favor").click(function(){ alert('sds');car.collect(uexist,this);})
+        $(".favor").click(function(){ car.collect(uexist,this);})
+        $(".btn_submit_pay").click(function(){ car.showOrder(uexist)})
     });
 </script>
 

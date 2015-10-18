@@ -30,23 +30,11 @@ class MenuWidget extends Controller{
         $this->assign('categoryq', $catelist);
 
         /**购物车调用**/
-        if(!session('user_auth')){
-            $cart = $_SESSION['cart'];
-        }else{
-            $cart = R("Shopcart/usercart");
-        }
-        $total_num   = 0;
-        $total_price = 0.00;
-        if(isset($cart['total_num']))
-        {
-            $total_num = $cart['total_num'];
-            unset($cart['total_num']);
-        }
-        if(isset($cart['total_price']))
-        {
-            $total_price = $cart['total_price'];
-            unset($cart['total_price']);
-        }
+
+        $cart = $_SESSION['cart'];
+
+        $total_num   = $this->getNum();
+        $total_price = $this->getPrice();
         $this->assign('usercart',$cart);
         $this->assign('total_num',$total_num);
         $this->assign('total_price',$total_price);
@@ -74,6 +62,49 @@ class MenuWidget extends Controller{
         }
         return $arr;
     }
+
+
+   /**
+    * 查询购物车中商品的种类
+    */
+    public function getCnt() {
+        $data = $_SESSION['cart'];
+        return count($data);
+    }
+
+    /**
+     * 查询购物车中商品的个数
+     */
+    public function getNum(){
+        if ($this->getCnt() == 0) {
+            //种数为0，个数也为0
+            return 0;
+        }
+        $sum = 0;
+        $data = $_SESSION['cart'];
+        foreach ($data as $item) {
+            $sum += $item['num'];
+        }
+        return $sum;
+    }
+
+    /**
+     * 购物车中商品的总金额
+     */
+    public function getPrice() {
+        //数量为0，价钱为0
+        if ($this->getCnt() == 0) {
+            return 0.00;
+        }
+        $price = 0.00;
+        $data = $_SESSION['cart'];
+        foreach ($data as $item) {
+            $price += $item['num'] * $item['price'];
+        }
+        return sprintf("%01.2f", $price);
+    }
+
+
 
     /** 底部分类调用**/
     public function footer(){

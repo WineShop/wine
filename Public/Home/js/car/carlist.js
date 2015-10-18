@@ -64,13 +64,19 @@ define(function(require, exports, module){
         if(uexist){
             var favorid = $(obj).data('id');
             T.restPost('/User/favor',{id:favorid},function(success){
-                var data = success.data;
-                if(data.status == "1"){
-                    main.modalAlert(data.msg);
-                }
+                main.modalAlert(success.msg);
             },function(error){
 
             });
+        }else{
+            $("#head_login").click();
+        }
+    }
+
+
+    var showOrder = function(uexist){
+        if(uexist){
+           $("#form").submit();
         }else{
             $("#head_login").click();
         }
@@ -82,26 +88,6 @@ define(function(require, exports, module){
         shopCarOpt(this);
     })
 
-
-    //登录后刷新页面，载入数据
-    $("#login_btn").click(function(){
-
-        var yourname=$('#inputusername').val();
-        var yourword=$('#inputpassword').val();
-        /*T.restPost('/User/loginfromdialog',{username:yourname,password:yourword},function(success){
-            var data = success.data;
-            if(data.status=="1")
-            {
-                $(".tips").html(data.info);
-                window.location.reload();
-                $("#uid").val(data.uid);
-            }else{
-                $(".tips").html(data.info);
-            }
-        },function(error){
-
-        });*/
-    });
 
 
     //全选的实现
@@ -123,6 +109,7 @@ define(function(require, exports, module){
 
 
     module.exports = {
-        collect : collect
+        collect   : collect,
+        showOrder : showOrder
     }
 });

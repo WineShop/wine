@@ -86,7 +86,7 @@ define(function (require, exports, module) {
                     main.modalAlert(error.msg,'danger');
                 })
             }else{
-                showBg();
+                $("#head_login").click();
             }
         }
 
@@ -110,7 +110,7 @@ define(function (require, exports, module) {
             var data    = {id:gid,num:gnum,price:gprice,i:parameters,sort:string };
             T.restPost(url,data,function(success){
                 var data = success.data
-                var html='<li><dl><dt class="mini-img">'+href+image+'</a><dd><span class="mini_title">'+href+title+'</a></span><span class="mini-cart-count red"> ￥'
+                var html='<li><dl><dt class="mini-img"><a href="'+href+'" >'+image+'</a><dd><span class="mini_title"><a href="'+href+'" >'+title+'</a></span><span class="mini-cart-count red"> ￥'
                     +gprice+'<em class="'+string+'">*'+gnum+'</em></span>'+'</dd><dd><span class="mini-cart-info">'+parameters+'</span><span class="mini-cart-del"><a name="'+string+'" rel="del"  onclick="delcommon(event);return false;">删除</a></span></dd>'+'</dl></li>';//创建节点〉
 
                 if(data.exsit=="1"){
@@ -171,26 +171,13 @@ define(function (require, exports, module) {
             if(uexist){
                 document.fiveform.submit();
             } else{
-                showBg();
+                $("#head_login").click();
             }
         }
 
     }
 
 
-
-    //显示灰色 jQuery 遮罩层
-    var showBg = function () {
-        $("#dialog").fadeIn();
-        var bh = $("body").height();
-        var bw = $("body").width();
-        $("#fullbg").css({
-            height:bh,
-            width:bw,
-            display:"block"
-        });
-
-    }
 
 
     //获取最左侧七个

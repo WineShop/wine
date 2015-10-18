@@ -157,12 +157,12 @@ class UserController extends HomeController {
             $fav        = M("favortable");
             $exsit      = $fav->where("goodid='$id' and uid='$uid'")->getField("id");
             if(isset($exsit)){
-                $this->ajaxError('已收藏过');
+                $this->ajaxError('您之前已成功收藏过！');
             }else{
                 $fav->goodid = $id;
                 $fav->uid    = $uid;
                 $fav->add();
-                $this->ajaxSuccess('已收藏');
+                $this->ajaxSuccess('该物品已成功收藏！');
             }
         }
 
