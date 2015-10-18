@@ -93,15 +93,15 @@
         <a rel="nofollow" href="javascript:;"  class="dginfo_btn lj_cart btn_submit">加入购物车</a>
 
         <!-- 购物车计算浮动层 begin -->
-        <div id="showIncludeCart" style="display:none;">
-            <a class="buy_pop_close" onclick="jQuery('#showIncludeCart').hide();" title="关闭"></a>
+        <div id="showIncludeCart" class="modalBox">
+            <a class="buy_pop_close" onclick="jQuery('#showIncludeCart').modal('hide');" title="关闭"></a>
             <div class="buy_icon"></div>
             <div class="buy_pop_top">
                 <div class="title">此商品已成功放入购物车</div>
                 <div class="font">购物车共 <font id="totalnum" class="red"></font> 件宝贝<span>合计 <font class="red" id="fee"></font></span></div>
                 <div class="btn_continue">
-                    <div class="pop_btn_r" ><a onclick="jQuery('#showIncludeCart').hide();return false;" href="javascript:;">继续购物</a></div>
-                    <div class="btn_cart"><a href="{:U('shopcart/index')}">去购物车结算</a></div>
+                    <div class="pop_btn_r" ><a onclick="jQuery('#showIncludeCart').modal('hide');return false;" href="javascript:;">继续购物</a></div>
+                    <div class="btn_cart"><a href="{:U('Shopcart/index')}">去购物车结算</a></div>
                 </div>
             </div>
         </div>

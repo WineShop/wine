@@ -16,7 +16,7 @@ define(function(require, exports, module){
            $("button:submit").addClass("log-in").attr("disabled", true);
            T.restPost(url,param,function(success){
                main.modalAlert(success.msg);
-               main.redirect('/');
+               main.redirect('');
            },function(error){
                 main.modalAlert(error.msg,'danger');
                 $(".checkCode").click();
@@ -72,7 +72,7 @@ define(function(require, exports, module){
 
 
 
-    var login = function(b){
+    var login = function(){
         $(document).delegate('#login_btn_cart','click',function(){
             var param ={
                 username    : $.trim($("#inputusername").val()),
@@ -88,7 +88,7 @@ define(function(require, exports, module){
 
             T.restPost($("#loginform").attr('action'),param,function(success){
                 main.modalAlert(success.msg);
-                main.redirect('/');
+                main.redirect('');
             },function(error){
                 main.modalAlert(error.msg,'danger');
                 $(".checkCode").click();

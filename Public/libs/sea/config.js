@@ -24,6 +24,9 @@ seajs.config({
         //详细内容页面
         Detail      : 'Home/js/detail/detail.js',
 
+        //购物车
+        Carlist     : 'Home/js/car/carlist.js',
+
         //后台登陆
         AdminLogin  : 'Admin/js/login/login.js'
 

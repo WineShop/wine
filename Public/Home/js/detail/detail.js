@@ -130,7 +130,7 @@ define(function (require, exports, module) {
                 $('#shopping_cart').html(car_str);
                 $('#totalnum').text(data.sum);
                 $('#fee').text(data.fee);
-                $('#showIncludeCart').fadeIn();
+                $('#showIncludeCart').modal('show');
             },function(error){
 
             });

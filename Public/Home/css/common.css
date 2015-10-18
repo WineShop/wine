@@ -298,6 +298,7 @@ table.gridtable {
      border: 5px solid #eee;width:910px;
 	clear:both;
     margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.275);
 }
 .cart_bottom{ border-bottom: 1px solid #eee;}
 .cart_info{width:950px;background-color: #fafbf8;overflow:hidden;padding:5px 0; }
@@ -597,7 +598,7 @@ background-color:#E23C3D;
 color:#ffffff;height:40px;text-align:center;float:left;display:block;line-height:40px;color:#fff;
 }
 .shopcart_main_none {
-padding: 63px 0 137px 400px;
+padding: 63px 0 137px 270px;
 min-height:300px;
 }
 .shopcart_main_none_img {
@@ -642,13 +643,15 @@ line-height: 33px;
 padding-left: 31px;
 color: #fff;
 font-size: 14px;
-background: url("../images/ui_img8.png") no-repeat -269px -789px #E23C3D;
+background: url("../images/ui_img8.png") no-repeat -269px -789px #FF6347;
 text-align: left;
 margin-top: 16px;
-border: 1px solid #e5433f;
 -webkit-border-radius: 3px;
 -moz-border-radius: 3px;
 border-radius: 3px;
+}
+.shopcart_main_none_main a:hover{
+    background:url("../images/ui_img8.png") no-repeat -269px -789px #E23C3D;
 }
 .main_nav {
 height: 40px;
@@ -1377,7 +1380,7 @@ background-position: 0px 0px;
 }
 .v_dark_btn {
     border: medium none;
-    background: none repeat scroll 0% 0% #E23C3D;
+    background: none repeat scroll 0% 0% #FF6347;
     font-size: 14px;
     color: #FFF;
     display: inline-block;
@@ -1602,7 +1605,8 @@ float: right;
 background: url(../images/procedure_bg.gif) 2px 0 no-repeat;
 width: 658px;
 height: 32px;
-margin: 24px 0 0;
+margin-top: 24px;
+margin-right: 23px;
 line-height: 32px;
 font: bold 14px/32px "微软雅黑";
 color: #fff;
@@ -2123,4 +2127,16 @@ div.text{display:block;overflow:hidden;clear:both;}
 .wine_btn-blue:active {
     color: #ffffff;
     background-color: #fc5f16;
+}
+.sm_btn{
+    border-radius: 3px;
+    display: inline-block;
+    padding: 3px 10px;
+    background-color: #FF6347;
+    color: #fff;
+    cursor: pointer;
+}
+.sm_btn:hover{
+    background-color: #E23C3D;
+    color: #fff;
 }

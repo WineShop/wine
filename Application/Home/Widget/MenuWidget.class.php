@@ -31,13 +31,25 @@ class MenuWidget extends Controller{
 
         /**购物车调用**/
         if(!session('user_auth')){
-            $usercart=$_SESSION['cart'];
-            $this->assign('usercart',$usercart);
+            $cart = $_SESSION['cart'];
         }else{
             $cart = R("Shopcart/usercart");
-            $this->assign('usercart',$cart);
         }
-
+        $total_num   = 0;
+        $total_price = 0.00;
+        if(isset($cart['total_num']))
+        {
+            $total_num = $cart['total_num'];
+            unset($cart['total_num']);
+        }
+        if(isset($cart['total_price']))
+        {
+            $total_price = $cart['total_price'];
+            unset($cart['total_price']);
+        }
+        $this->assign('usercart',$cart);
+        $this->assign('total_num',$total_num);
+        $this->assign('total_price',$total_price);
         $this->display('Index/menu');
     }
 

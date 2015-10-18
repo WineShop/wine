@@ -50,8 +50,7 @@ class ShopcartController extends HomeController {
             $_SESSION['cart'][$sort] = $item;
             $exsit="0";
 		}
-        $_SESSION['cart']['total_num']   = 0;
-        $_SESSION['cart']['total_price'] = 0;
+
 		//登录用户，处理详情页ajaxt提交的数据保存到数据库
 		if(is_login()){
             $table          = D("shopcart");
@@ -189,14 +188,14 @@ class ShopcartController extends HomeController {
             $_SESSION['cart'][$sort]['num'] += $num;
 			   
         }
-        $count=$this->getCnt(); /*查询购物车中商品的种类 */
-        $sum= $this->getNum();/* 查询购物车中商品的个数*/
-        $price=$this->getPrice(); /* 购物车中商品的总金额*/
-        $data['count'] =$count;
-        $data['price'] =$price;
-        $data['sum'] =  $sum;
+        $count  = $this->getCnt(); /*查询购物车中商品的种类 */
+        $sum    = $this->getNum();/* 查询购物车中商品的个数*/
+        $price  = $this->getPrice(); /* 购物车中商品的总金额*/
+        $data['count']  = $count;
         $data['status'] = 1;
-        $this->ajaxReturn($data);
+        $_SESSION['cart']['total_price'] = $data['price'] =  $price;
+        $_SESSION['cart']['total_num']   = $data['sum']   =  $sum;
+        $this->ajaxSuccess($data);
 		
     }
  
@@ -213,25 +212,24 @@ class ShopcartController extends HomeController {
         if ($_SESSION['cart'][$sort]['num'] <1) {
             unset($_SESSION['cart'][$sort]);
         }
-        $count=$this->getCnt(); /*查询购物车中商品的种类 */
-        $sum= $this->getNum();/* 查询购物车中商品的个数*/
-        $price=$this->getPrice(); /* 购物车中商品的总金额*/
-        $data['count'] =$count;
-        $data['price'] =$price;
-        $data['sum'] =  $sum;
+        $count  = $this->getCnt(); /*查询购物车中商品的种类 */
+        $sum    = $this->getNum();/* 查询购物车中商品的个数*/
+        $price  = $this->getPrice(); /* 购物车中商品的总金额*/
+        $data['count'] = $count;
+        $_SESSION['cart']['total_price'] = $data['price'] =$price;
+        $_SESSION['cart']['total_num']   = $data['sum']   =  $sum;
         $data['status'] = 1;
-        $this->ajaxReturn($data);
-   
-   
+        $this->ajaxSuccess($data);
+
     }
  
     /*
     订单明细
     */
     public function detail() {
-        $count=$this->getCnt(); /*查询购物车中商品的种类 */
-        $sum= $this->getNum();/* 查询购物车中商品的个数*/
-        $money=$this->getPrice(); /* 购物车中商品的总金额*/	 
+        $count = $this->getCnt();            /*查询购物车中商品的种类 */
+        $sum   = $_SESSION['cart']['total_num'];/* 查询购物车中商品的个数*/
+        $money =$_SESSION['cart']['total_price']; /* 购物车中商品的总金额*/
         $this->assign('sum', $sum);
 		$this->assign('money',  $money);
         $this->assign('list',$_SESSION['cart']); 
@@ -260,6 +258,8 @@ class ShopcartController extends HomeController {
             $usercart = $_SESSION['cart'];
             $sum      = $usercart['total_num'];  /* 查询购物车中商品的个数*/
             $price    = $usercart['total_price']; /* 购物车中商品的总金额*/
+            unset($usercart['total_num']);
+            unset($usercart['total_price']);
             $this->assign('usercart',$usercart);
 		
 		}
@@ -274,18 +274,18 @@ class ShopcartController extends HomeController {
     }
 
   public function delItem() {
-		$sort=$_POST['sort'];
+		$sort = $_POST['sort'];
 		unset($_SESSION['cart'][$sort]);
-		$count=$this->getCnt(); /*查询购物车中商品的种类 */
-		$sum= $this->getNum();/* 查询购物车中商品的个数*/
-		$price=$this->getPrice(); /* 购物车中商品的总金额*/
+		$count = $this->getCnt(); /*查询购物车中商品的种类 */
+		$sum   = $this->getNum();/* 查询购物车中商品的个数*/
+		$price = $this->getPrice(); /* 购物车中商品的总金额*/
 		$data['count'] =$count;
-		$data['price'] =$price;
-		$Item=$this->getItem($sort);
+		$Item = $this->getItem($sort);
 		$data['num'] =$_SESSION['cart'][$sort]["num"];
-		$data['sum'] =  $sum;
 		$data['status'] = 1;
-		$this->ajaxReturn($data);
+        $_SESSION['cart']['total_price'] = $data['price'] =$price;
+        $_SESSION['cart']['total_num']   = $data['sum'] =  $sum;
+		$this->ajaxSuccess($data);
   }
 
     /*
@@ -329,7 +329,7 @@ class ShopcartController extends HomeController {
     public function getPrice() {
         //数量为0，价钱为0
         if ($this->getCnt() == 0) {
-            return 0;
+            return 0.00;
         }
         $price = 0.00;
         $data = $_SESSION['cart'];
@@ -640,7 +640,7 @@ function ordersn(){
             $data['msg'] = 'no';
         }
    
-        $this->ajaxReturn($data);
+        $this->ajaxSuccess($data);
 	}
 
 	public function delorder() 
@@ -678,10 +678,10 @@ function ordersn(){
                 $data['new'] ='新个数'.$result;
                 $data['count'] = $count;
                 $data['status'] = 1;
-                $data['price'] =$price;
-                $data['sum'] = $sum;
+                $_SESSION['cart']['total_price'] = $data['price'] =$price;
+                $_SESSION['cart']['total_num']   = $data['sum'] =  $sum;
                 $data['msg'] = '处理成功';
-                $this->ajaxReturn($data);
+                $this->ajaxSuccess($data);
             }
 
     }
@@ -697,10 +697,10 @@ function ordersn(){
             if($result){$data['new'] ='新个数'.$result;
                 $data['count'] = $count;
                 $data['status'] = 1;
-                $data['price'] =$price;
-                $data['sum'] = $sum;
+                $_SESSION['cart']['total_price'] = $data['price'] =$price;
+                $_SESSION['cart']['total_num']   = $data['sum'] =  $sum;
                 $data['msg'] = '处理成功';
-                $this->ajaxReturn($data);
+                $this->ajaxSuccess($data);
             }
 
     }
@@ -715,12 +715,12 @@ function ordersn(){
                 $price=$cart->getPriceByuid(); /* 购物车中商品的总金额*/
                 $data['status'] = 1;
                 $data['goodid'] =$id;
-                $data['price'] =$price;
                 $data['count'] = $count;
-                $data['num'] =  $sum;
-                $data['sum'] =  $sum;
-                $data['msg'] = '处理成功';
-                $this->ajaxReturn($data);
+                 $data['num'] =  $sum;
+                 $_SESSION['cart']['total_price'] = $data['price'] =$price;
+                 $_SESSION['cart']['total_num']   = $data['sum'] =  $sum;
+                 $data['msg'] = '处理成功';
+                $this->ajaxSuccess($data);
              }
 
 
