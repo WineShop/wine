@@ -549,7 +549,7 @@ function ordersn(){
     return $orderSn;
 }
  public function savemsg() {
-        $User = M("member"); // 实例化User对象
+        $User      = M("member"); // 实例化User对象
         $Transport = M("transport"); // 实例化transport对象
         // 要修改的数据对象属性赋值
         $user=session('user_auth');

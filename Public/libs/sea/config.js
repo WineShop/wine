@@ -26,6 +26,7 @@ seajs.config({
 
         //购物车
         Carlist     : 'Home/js/car/carlist.js',
+        Order       : 'Home/js/car/order.js',
 
         //后台登陆
         AdminLogin  : 'Admin/js/login/login.js'
