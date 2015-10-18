@@ -353,8 +353,6 @@ class UcenterMemberModel extends Model{
 
         /* 登录历史 */
         history($uid);
-        /* 登录购物车处理函数 */
-        addintocart($uid);
         //记录行为
         action_log("user_login", "member", $uid, $uid);
     }

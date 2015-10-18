@@ -343,7 +343,7 @@ class ShopcartController extends HomeController {
         }
         $defaultaddress=get_address($uid);
         $this->assign('address',$defaultaddress);
-        $a = M("shoplist")->where(" tag='$tag'")->select();
+        $a = M("Shoplist")->where(" tag='$tag'")->select();
         $total='';$num='';
         foreach ($a as $k=>$val) {
             $total += $val['total'] ;
@@ -354,8 +354,8 @@ class ShopcartController extends HomeController {
          }else{
             $trans  = 0;
          }
-        $all=$total+$trans;
-        $shoplist= M('shoplist')->where("tag='$tag'")->select();
+        $all      = $total+$trans;
+        $shoplist = M('Shoplist')->where("tag='$tag'")->select();
         $this->assign('shoplist',$shoplist);
         $this->assign('all', $all);
         $this->assign('num',$num);
@@ -368,227 +368,213 @@ class ShopcartController extends HomeController {
 	}
   }
 	
-public function createorder() { 
-	  /* 菜单调用*/
-	$menu=R('index/menulist');
-	$this->assign('categoryq', $menu);
-	/* 购物车调用*/
-    $cart=R("shopcart/usercart");
-    $this->assign('usercart',$cart);
-      if(!session('user_auth'))
-		{ 
-		 $usercart=$_SESSION['cart'];
-       $this->assign('usercart',$usercart); 
-	    }
-		   /* 底部分类调用*/
-   $menulist=R('Service/AllMenu');
-   $this->assign('footermenu',$menulist);
-  /* 热词调用*/
-    $hotsearch=R("Index/getHotsearch");
+public function createorder() {
+    /* 购物车调用*/
+    $this->assign('usercart',$_SESSION['cart']);
+    /* 热词调用*/
+    $hotsearch = C('HOT_SEARCH');
     $this->assign('hotsearch',$hotsearch);
-$order=D("order");
-$tag=$_POST["tag"];
-$value=$order->where("tag='$tag'")->getField('id');
-isset($value)&& $this->error('重复提交订单');
- //获取会员uid
-$uid=D("member")->uid();
-//根据订单id获取购物清单
-$del=M("shoplist")->where("tag='$tag'")->select();
+
+    $order = D("order");
+    $tag   = $_POST["tag"];
+    $value = $order->where("tag='$tag'")->getField('id');
+    isset($value)&& $this->error('重复提交订单');
+
+    //获取会员uid
+    $uid=D("Member")->uid();
+    //根据订单id获取购物清单
+//    $del=M("Shoplist")->where("tag='$tag'")->select();
 	
-//遍历购物清单，删除登录用户购物车中的货物id
-foreach($del as $k=>$val)
-	{
-//获取购物清单数据表产品id，字段goodid
-$delbyid=$val["goodid"];
-//删除购物车中用户的产品id
-M("shopcart")->where("goodid='$delbyid'and uid='$uid'")->delete();
- }
 
-//计算提交的订单的商品总额
-$total=$this->getPricetotal($tag);
+    //计算提交的订单的商品总额
+    $total=$this->getPricetotal($tag);
 
 
-//计算提交的订单的商品运费
-if($total<C('LOWWEST')){
-	$trans=C('SHIPMONEY');	 
-	 }
- else{$trans=0;
-	 }
-//计算提交的积分兑换
-if($_POST["score"]){
-$score=$_POST["score"];
-//读取配置，1000积分兑换1元
-$ratio= $score/C('RATIO');
-$data['score']=$score;
-	$user=session('user_auth');
-$uid=D("member")->uid();
-M("member")->where("uid='$uid'")->setField('score',0);
-}
-else{
-	$ratio=0;
-}
-//计算提交的优惠券
-$code=$_POST["couponcode"];
-//计算提交的订单的费用（含运费）
-$xfee=$total+$trans-$ratio;
-//计算优惠券可使用的金额,home/common/function
-$decfee=get_fcoupon_fee($code,$xfee);
-$data['codeid']=$code;
-$data['codemoney']=$defee;
-$senderid=$_POST ["sender"];
-$data['addressid']=$senderid;
-$data['total']=$total;
-$data['create_time']=NOW_TIME;
-$data['shipprice']=$trans;
-//计算提交的订单的总费用
-$all=$total+$trans-$ratio-$decfee;
-$data['pricetotal']=$all;
-$data['orderid']=$tag;
-$data['tag']=$tag;
-$data['uid']=$uid;
-//修改订单状态为用户已提交
+    //计算提交的订单的商品运费
+    if($total<C('LOWWEST')){
+          $trans = C('SHIPMONEY');
+     }else{
+          $trans  = 0;
+     }
 
-if($_POST["PayType"]=="1"){
-	  $pay=M("pay");
-	   $pay->create();       
-	   $pay->money=$all;
-		$pay->ratio=$ratio;
-		$pay->total=$total;
-		$pay->out_trade_no=$tag;
-		$pay->yunfee=$trans;
-		$pay->coupon=$deccode;
-		$pay->uid=$uid;
-		$pay->addressid=$senderid;
-       $pay->create_time=NOW_TIME;
+    //计算提交的积分兑换
+    if($_POST["score"]){
+        $score=$_POST["score"];
+        //读取配置，1000积分兑换1元
+        $ratio= $score/C('RATIO');
+        $data['score']=$score;
+        M("Member")->where("uid='$uid'")->setField('score',0);
+    }else{
+	    $ratio=0;
+    }
+    //计算提交的优惠券
+    $code=$_POST["couponcode"];
+    //计算提交的订单的费用（含运费）
+    $xfee=$total+$trans-$ratio;
+    //计算优惠券可使用的金额,home/common/function
+    $decfee=get_fcoupon_fee($code,$xfee);
+    $data['codeid']    = $code;
+    $data['codemoney'] = $defee;
+    $senderid          = $_POST ["sender"];
+    $data['addressid'] = $senderid;
+    $data['total']     = $total;
+    $data['create_time']=NOW_TIME;
+    $data['shipprice'] = $trans;
+
+    //计算提交的订单的总费用
+    $all=$total+$trans-$ratio-$decfee;
+    $data['pricetotal']  = $all;
+    $data['orderid']     = $tag;
+    $data['tag']         = $tag;
+    $data['uid']         = $uid;
+
+    //修改订单状态为用户已提交
+    if($_POST["PayType"]=="1"){
+        $pay=M("pay");
+        $pay->create();
+        $pay->money=$all;
+        $pay->ratio=$ratio;
+        $pay->total=$total;
+        $pay->out_trade_no=$tag;
+        $pay->yunfee=$trans;
+        $pay->coupon=$deccode;
+        $pay->uid=$uid;
+        $pay->addressid=$senderid;
+        $pay->create_time=NOW_TIME;
         $pay->type=2;//货到付款
-		$pay->status=1;
-		$pay->add();
- $data['status']=1;	
- $data['ispay']=-1;//货到付款
- $data['backinfo']="已提交等待发货";
-//增加取消订单
-//根据订单id保存对应的费用数据
-$orderid=$order->add($data);
-  M("shoplist")->where("tag='$tag'")->setField('orderid',$orderid);
- $this->assign('codeid',$tag);
- $mail=get_email($uid);//获取会员邮箱
- $title="交易提醒";
- $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>提交了订单，订单号'.$tag;
-   if( C('MAIL_PASSWORD'))              
-					{SendMail($mail,$title,$content);
-   }        			
- $this->meta_title = '提交成功';
-  $this->display('success');
-}
-if($_POST["PayType"]=="2")	{
-		//设置订单状态为用户为未能完成，不删除数据
-    $data['backinfo']="等待支付";
-	$data['ispay']="1";
-	$data['status']="-1";//待支付
-	//根据订单id保存对应的费用数据
-	
-     $orderid=$order->add($data);
-    M("shoplist")->where("tag='$tag'")->setField('orderid',$orderid);
-	    $pay=M("pay");
-	    $pay->create();       
-		$pay->money=$all;
-		$pay->ratio=$ratio;
-		$pay->total=$total;
-		$pay->out_trade_no=$tag;
-		$pay->yunfee=$trans;
-		$pay->coupon=$deccode;
-		$pay->uid=$uid;
-		$pay->addressid=$senderid;
-       $pay->create_time=NOW_TIME;
+        $pay->status=1;
+        $pay->add();
+        $data['status']=1;
+        $data['ispay']=-1;//货到付款
+        $data['backinfo']="已提交等待发货";
+        //增加取消订单
+        //根据订单id保存对应的费用数据
+        $orderid=$order->add($data);
+        M("shoplist")->where("tag='$tag'")->setField('orderid',$orderid);
+        $this->assign('codeid',$tag);
+        $mail=get_email($uid);//获取会员邮箱
+        $title="交易提醒";
+        $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>提交了订单，订单号'.$tag;
+
+        if( C('MAIL_PASSWORD'))
+        {
+            SendMail($mail,$title,$content);
+        }
+            $this->meta_title = '提交成功';
+            $this->display('success');
+    }
+
+
+    if($_POST["PayType"]=="2")	{
+        //设置订单状态为用户为未能完成，不删除数据
+        $data['backinfo']="等待支付";
+        $data['ispay']="1";
+        $data['status']="-1";//待支付
+        //根据订单id保存对应的费用数据
+
+        $orderid=$order->add($data);
+        M("shoplist")->where("tag='$tag'")->setField('orderid',$orderid);
+        $pay=M("pay");
+        $pay->create();
+        $pay->money=$all;
+        $pay->ratio=$ratio;
+        $pay->total=$total;
+        $pay->out_trade_no=$tag;
+        $pay->yunfee=$trans;
+        $pay->coupon=$deccode;
+        $pay->uid=$uid;
+        $pay->addressid=$senderid;
+        $pay->create_time=NOW_TIME;
         $pay->type=1;//在线支付
-		$pay->status=1;//待支付
-		$pay->add();
-     $this->meta_title = '订单支付';
+        $pay->status=1;//待支付
+        $pay->add();
+        $this->meta_title = '订单支付';
 
-    $this->assign('codeid',$tag);
-	 $this->assign('goodprice',$all);
-	 //支付页
-     $this->display('Pay/index');
+        $this->assign('codeid',$tag);
+        $this->assign('goodprice',$all);
+        //支付页
+        $this->display('Pay/index');
 
-}
-
-
+    }
 }
 
 public function payorder($tag) {
 
-       $pay=M("pay");
-	   $pay->create();       
-	   $pay->money=$all;
-		$pay->ratio=$ratio;
-		$pay->total=$total;
-		$pay->out_trade_no=$tag;
-		$pay->yunfee=$trans;
-		$pay->coupon=$deccode;
-		$pay->uid=$uid;
-		$pay->addressid=$senderid;
-       $pay->create_time=NOW_TIME;
+        $pay=M("pay");
+        $pay->create();
+        $pay->money=$all;
+        $pay->ratio=$ratio;
+        $pay->total=$total;
+        $pay->out_trade_no=$tag;
+        $pay->yunfee=$trans;
+        $pay->coupon=$deccode;
+        $pay->uid=$uid;
+        $pay->addressid=$senderid;
+        $pay->create_time=NOW_TIME;
         $pay->type=2;
-		$pay->status=1;//待支付
-		$pay->add();
+        $pay->status=1;//待支付
+        $pay->add();
 }
-public function buynow() {
-	$user=session('user_auth');
-$uid=$user["uid"];
 
-$buy=D("order");
-$buy->create();
-$buy->uid=$uid;
-$buy->goodclass='1';
-$buy->add();
-$this->display('success');
+public function buynow() {
+    $user=session('user_auth');
+    $uid=$user["uid"];
+
+    $buy=D("order");
+    $buy->create();
+    $buy->uid=$uid;
+    $buy->goodclass='1';
+    $buy->add();
+    $this->display('success');
 }
+
 function ordersn(){
     $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
     $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%04d%02d', rand(1000, 9999),rand(0,99));
     return $orderSn;
 }
+
+ /**
+  * 保存新增加地址
+  */
  public function savemsg() {
-        $User      = M("member"); // 实例化User对象
-        $Transport = M("transport"); // 实例化transport对象
+        $uid       = D('Member')->uid();
+        $User      = M("Member"); // 实例化User对象
+        $Transport = M("Transport"); // 实例化transport对象
         // 要修改的数据对象属性赋值
-        $user=session('user_auth');
-        //方式一：只能输出值value不能输出key
-        $id=$_POST["id"];
-        $uid=$user["uid"];
-        $data['address'] = $_POST["posi"];
+        $id  = $_POST["id"];
+        $data['address']   = $_POST["posi"];
         $data['cellphone'] = $_POST["pho"];
-        $data['realname'] = $_POST["rel"];
-	    if($_POST["msg"]=="yes"){
+        $data['realname']  = $_POST["rel"];
+	    if($_POST["msg"] == "yes"){
             //默认地址更新会员
             $result=$User->where("uid='$uid'")->save($data); // 根据条件保存修改的数据
             if($Transport->where("uid='$uid' and status='1'")->getField("id"))
 		    {
                 $data['status'] = 0;
 	            $Transport->where("uid='$uid'")->save($data);
-	
             }
 
             //地址库有默认地址，有则保存
-               $data['status'] = 1;
-               $data['time']=NOW_TIME;
+               $data['status']  = 1;
+               $data['time']    = NOW_TIME;
                $data['orderid'] = $id;
-               $data['uid'] = $uid;
+               $data['uid']     = $uid;
                $Transport->add($data);
-               $data['value'] = "default";
+               $data['value']   = "default";
                $data['addressid']=$Transport->where("uid='$uid' and status='1'")->getField("id");
-              $data['msg'] = 'yes';
+              $data['msg']      = 'yes';
         }else{
-            $data['status'] = 0;
-            $data['time']=NOW_TIME;
-            $data['orderid'] = $id;
+            $data['status']     = 0;
+            $data['time']       = NOW_TIME;
+            $data['orderid']    = $id;
             $result=$Transport->add($data); // 根据条件保存修改的数据
-            $data['addressid'] = M("transport")->where("orderid='$id'")->getField("id");
+            $data['addressid']  = M("transport")->where("orderid='$id'")->getField("id");
             // 返回新增标识
-            $data['msg'] = 'no';
+            $data['msg']        = 'no';
         }
    
-        $this->ajaxSuccess($data);
+        $this->ajaxSuccess($data,1000,'新地址已经添加成功！');
 	}
 
 	public function delorder() 

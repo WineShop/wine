@@ -257,38 +257,32 @@ class UserController extends HomeController {
         }
     }
 
+    /**
+     * 验证优惠券是否可用
+     */
     public function checkcode(){
         /***接受代码统计 */
-        $code=$_POST["couponid"];
-        $fcoupon=M("fcoupon");
-        $id=$fcoupon->where("code='$code' ")->getfield("id");
+        $code    = $_POST["couponid"];
+        $fcoupon = M("fcoupon");
+        $id = $fcoupon->where("code='$code' ")->getfield("id");
         /***获取优惠券id,优惠券存在 */
         if(isset($id)){
-            $member=D("member");
-            $uid=$member->uid();
-            $coupon=M("usercoupon");
+            $member = D("member");
+            $uid    = $member->uid();
+            $coupon = M("usercoupon");
             /***用户优惠券存在 */
             if($coupon->where("uid='$uid'and couponid='$id' and status='1'")->select()){
-                $data["info"] = "该优惠券可以使用";
-                $data["msg"] = "yes";
-                $data["status"] = "1";
-                $this->ajaxreturn($data);
-
+                $msg   = "该优惠券可以使用";
+                $this->ajaxSuccess($msg);
+            }else{
+                $msg    = "该优惠券已使用或未领取";
+                $this->ajaxError($msg);
             }
-            else{$data["info"] = "该优惠券已使用或未领取";
-                $data["msg"] = "no";
-                $data["status"] = "1";
-                $this->ajaxreturn($data);
+        } else{
+            /***获取优惠券id,优惠券不存在 */
 
-            }
-        }
-        /***获取优惠券id,优惠券不存在 */
-        else{
-            $data["info"] = "查询不到该优惠券";
-            $data["msg"] = "out of date";
-            $data["status"] = "1";
-            $this->ajaxreturn($data);
-
+            $msg      = "查询不到该优惠券";
+            $this->ajaxError($msg);
         }
 
     }
@@ -338,9 +332,6 @@ class UserController extends HomeController {
         }
         $this->meta_title = '修改图像';
         $this->display();
-
-
-
     }
 
 

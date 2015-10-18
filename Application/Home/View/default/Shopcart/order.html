@@ -3,61 +3,7 @@
     <div class="mt">
         <h2>填写并核对订单信息</h2>
     </div>
-<script type="text/javascript">
 
-	$(document).ready(function(){
-        $("#show").click(function(){
-            $("#formsender").toggle();
-        });
-    });
-
-function makeorder() {
-	//判断默认地址是否选中,获取地址id
-   if (document.getElementById("default").checked==true) {
-       document.getElementById("senderid").value=document.getElementById("default").value;
-	   document.myform.submit();
-    }	
-    var val=$('input:radio[name="sender"]:checked').val();
-	//判断新地址是否选中,获取地址id
-	  if(val==null){
-		 alert("请选择一个地址!");return false;
-	   }else{
-            document.getElementById("senderid").value=val;
-	        document.myform.submit();     
-       }
-}
-</script>
-
-<script type="text/javascript">  
-function checkcode()  //检查优惠券是否可以
-{
-	var str=$("input#code").val();
-if(str!==""){
-    $.ajax({
-type:'post',
-url:'{:U("User/checkcode")}', //发送数据的地址//
-data:{couponid:str},
- dataType: "json",
-success:function(data)
-{if(data.msg=="yes"){
-	$("span.tips").html(data.info);
-}
-else{$("span.tips").empty();
-	document.getElementById("code").value="";
-	$("span.tips").html(data.info);
-
-
-
-}
-} 
-});//ajax结束
-
-}//if结束
-	
-	}
-
-
-</script>  
 
       <div class="orderplace">
 
@@ -72,7 +18,7 @@ else{$("span.tips").empty();
                 <form id="formincart" name="form" >
                     <dl>
                          <dt><font color="red">*</font>详细地址：</dt>
-                         <dd><input type="text" class="cart_long" id="address" maxlength="40" data-input="text" value="" name="area"><font class="ml10 cleb6100" style="display: none;">详细地址不能为空</font></dd>
+                         <dd><input type="text" class="cart_long" id="address" maxlength="60" data-input="text" value="" name="area"><font class="ml10 cleb6100" style="display: none;">详细地址不能为空</font></dd>
                     </dl>
                     <dl>
                         <dt><font color="red">*</font>收 货 人：</dt>
@@ -95,21 +41,21 @@ else{$("span.tips").empty();
              <else/>
                         
             <div id="senderdetail">
-                <p id="f_default"><input type="radio" id="default" name="sender" checked="checked" value="{$uid|get_addressid}" />&nbsp;收件人：{$uid|get_realname}&nbsp;&nbsp;联系电话:{$uid|get_cellphone}&nbsp;&nbsp;收货地址：{$uid|get_address}  </p>
+                <p id="f_default"><input type="radio" id="default" name="sender" checked="checked" value="{$uid|get_addressid}" />&nbsp;&nbsp;收件人：{$uid|get_realname}&nbsp;&nbsp;联系电话:{$uid|get_cellphone}&nbsp;&nbsp;收货地址：{$uid|get_address}  </p>
  
             </div>
             <div id="formsender" style="display:none">
                 <form id="formincart" name="form" >
                     <dl>
-                        <dt>详细地址：</dt>
+                        <dt><font color="red">*</font>详细地址：</dt>
                         <dd><input type="text" class="cart_long"  id="address" maxlength="40" data-input="text" value="" name="area"><font class="ml10 cleb6100" style="display: none;">详细地址不能为空</font></dd>
                     </dl>
                     <dl>
-                        <dt><span>*</span>收 货 人：</dt>
+                        <dt><font color="red">*</font>收 货 人：</dt>
                         <dd><input type="text" class="cart_long"  id="realname" maxlength="20" data-input="text" value=""><font class="ml10 cleb6100" style="display: none;">收货人不能为空</font></dd>
                     </dl>
                     <dl>
-                        <dt><span></span>手&nbsp;&nbsp;&nbsp;&nbsp;机：</dt>
+                        <dt><font color="red">*</font>手&nbsp;&nbsp;&nbsp;&nbsp;机：</dt>
                         <dd><input type="text" class="cart_long"  id="phone" maxlength="11" data-msg="收货手机号码格式不正确" data-input="text" data-type="cellphone" value="">&nbsp;用于接收发货通知及送货前确认</dd>
                     </dl>
                     <dl>
@@ -117,7 +63,7 @@ else{$("span.tips").empty();
                     </dl>
                 
                     <dl>
-                        <dd><a href="javascript:void(0)" class="ncart_btn_on" onclick="savemsg();">保存</a></dd>
+                        <dd><a href="javascript:void(0)" class="ncart_btn_on saveAddress">保存</a></dd>
                     </dl>
                 </form>
             </div>
@@ -152,7 +98,7 @@ else{$("span.tips").empty();
                         <dl>
                             <dt>请输入优惠券代码：</dt>
                             <dd>
-                                <input type="text"  class="cart_long"  name="couponcode"  onblur="checkcode();" id="code" >   <span class="red tips"></span>
+                                <input type="text"  class="cart_long checkcode"  name="couponcode"  id="code" >   <span class="red tips"></span>
                             </dd>
                         </dl>
                     </div>
@@ -193,16 +139,16 @@ else{$("span.tips").empty();
 
                  <!--提交信息 开始-->
                   <div class="orderplace trans">
-                       <p><b >{$num}</b>件商品</p>
-                       <p>商品金额<b>{$total}</b>元 </p>
-                       <p>运费<b >{$trans}</b>元</p>
+                       <p><b style="color:#E23C3D">{$num}</b>件商品</p>
+                       <p>商品金额<b style="color:#E23C3D">{$total}</b>元 </p>
+                       <p>运费<b style="color:#E23C3D">{$trans}</b>元</p>
                        <p>
                            <input type="checkbox" name="score" id="huo" value="{$uid|get_score}">
-                           <b class="red" ><strong>积分{$uid|get_score}，可兑换成{$ratio}元</strong></b>
+                           <b style="color:#E23C3D"><strong>积分{$uid|get_score}，可兑换成{$ratio}元</strong></b>
                        </p>
                        <p class="jiesuan">应付总额
                            <span id="TotalNeedPay" class="red">￥{$all}</span>元
-                           <a class="btn_submit_pay"   onclick="makeorder();return false" >提交订单</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           <a class="btn_submit_pay makeorder" >提交订单</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                        </p>            <!--提交信息 结束-->
 
                    </div>
