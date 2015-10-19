@@ -100,6 +100,12 @@ class MemberModel extends Model{
         }
     }
 
+    public function getUserCache(){
+        $user       = new UserApi();
+        $userCache  = $user->getUserCache();
+        return $userCache;
+    }
+
 
 
 }

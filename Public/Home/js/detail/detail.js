@@ -1,6 +1,7 @@
 define(function (require, exports, module) {
     var T    = require('T');
     var main = require('main');
+    main.modalEvent();
 
     var detail_init = function(gid,uexist){
 

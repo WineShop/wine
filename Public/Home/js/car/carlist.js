@@ -4,6 +4,7 @@
 define(function(require, exports, module){
     var T    = require('T');
     var main = require('main');
+    main.modalEvent();
 
     //添加  减少  和删除
     var shopCarOpt = function(obj){

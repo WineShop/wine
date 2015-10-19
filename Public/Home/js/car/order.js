@@ -4,6 +4,7 @@
 define(function(require, exports, module){
     T    = require('T');
     main = require('main');
+    main.modalEvent();
 
     var saveAddress = function(){
         //判断是否是默认地址

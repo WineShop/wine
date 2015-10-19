@@ -340,7 +340,8 @@ class UcenterMemberModel extends Model{
           'username'            => $userInfo['username'],
           'email'               => $userInfo['email'],
           'last_login_time'     => $userInfo['last_login_time'],
-          'last_login_ip'       => $userInfo['last_login_ip']
+          'last_login_ip'       => $userInfo['last_login_ip'],
+          'mobile'              => $userInfo['mobile']
         );
         $token = md5($userInfo['email']);
         if($is_forever){

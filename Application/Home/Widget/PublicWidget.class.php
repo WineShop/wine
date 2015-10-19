@@ -14,7 +14,7 @@ use Think\Controller;
  * 用于动态调用菜单导航 和 购物车 信息
  */
 
-class MenuWidget extends Controller{
+class publicWidget extends Controller{
 
     /* 显示指定分类的同级分类或子分类列表 */
     public function nav(){
@@ -38,7 +38,7 @@ class MenuWidget extends Controller{
         $this->assign('usercart',$cart);
         $this->assign('total_num',$total_num);
         $this->assign('total_price',$total_price);
-        $this->display('Index/menu');
+        $this->display('Public/menu');
     }
 
 
@@ -64,9 +64,9 @@ class MenuWidget extends Controller{
     }
 
 
-   /**
-    * 查询购物车中商品的种类
-    */
+    /**
+     * 查询购物车中商品的种类
+     */
     public function getCnt() {
         $data = $_SESSION['cart'];
         return count($data);
@@ -105,6 +105,11 @@ class MenuWidget extends Controller{
     }
 
 
+    /** 搜索位置 **/
+
+    public function search(){
+        $this->display('Public/search');
+    }
 
     /** 底部分类调用**/
     public function footer(){

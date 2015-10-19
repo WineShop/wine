@@ -19,26 +19,25 @@
 	<!-- /工具条 -->
 	<!-- 头部 -->
 	<div class="yershop_wrapper">
-	<include file="Public/s1_header"/>
+        {:W('Public/search')}
 
-	<!-- /头部 -->
+        <!-- /头部 -->
 
-	<!-- 菜单 -->
-	<include file="Public/s1_menu"/>
-	<!-- /菜单 -->
+        <!--导航和购物车-->
+        {:W('Public/nav')}
+        <!--//导航和购物车-->
 
+        <!-- 主体 -->
+        <include file="Public/s1_body"/>
+        <!-- 主体 -->
 
-	<!-- 主体 -->
-	<include file="Public/s1_body"/>
-	<!-- 主体 -->
+        <!-- 购物车js -->
+        <include file="Public/cart_js"/>
+        <!-- /购物车js -->
 
-  <!-- 购物车js -->
-   <include file="Public/cart_js"/>
-   <!-- /购物车js -->
-
-	<!-- 底部 -->
-        {:W('Menu/footer')}
-     <!-- /底部 -->
+        <!-- 底部 -->
+        {:W('Public/footer')}
+        <!-- /底部 -->
     </div>
     <!--弹出框-->
     <div id="alterModal" class="modalBox"></div>

@@ -4,6 +4,7 @@
 define(function(require, exports, module){
     T    = require('T');
     main = require('main');
+    main.modalEvent();
 
     var pay_init = function(){
         //首页默认被选中
