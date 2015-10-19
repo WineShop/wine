@@ -94,7 +94,7 @@ class CenterController extends HomeController {
             $condition['status']=1;
             $ecount=M("personenvelope")->where($condition)->count();
             $this->assign('ecount', $ecount);
-            $this->meta_title = get_username().'的个人中心';
+            $this->meta_title = $ucache['username'].'的个人中心';
             $this->display();
         }else {
             $this->redirect('User/login');
