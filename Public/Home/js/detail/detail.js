@@ -112,7 +112,7 @@ define(function (require, exports, module) {
             T.restPost(url,data,function(success){
                 var data = success.data
                 var html='<li><dl><dt class="mini-img"><a href="'+href+'" >'+image+'</a><dd><span class="mini_title"><a href="'+href+'" >'+title+'</a></span><span class="mini-cart-count red"> ￥'
-                    +gprice+'<em class="'+string+'">*'+gnum+'</em></span>'+'</dd><dd><span class="mini-cart-info">'+parameters+'</span><span class="mini-cart-del"><a name="'+string+'" rel="del"  onclick="delcommon(event);return false;">删除</a></span></dd>'+'</dl></li>';//创建节点〉
+                    +gprice+'<em class="'+string+'">*'+gnum+'</em></span>'+'</dd><dd><span class="mini-cart-info">'+parameters+'</span><span class="mini-cart-del"><a name="'+string+'" rel="del"  class="nav_cat_del">删除</a></span></dd>'+'</dl></li>';//创建节点〉
 
                 if(data.exsit=="1"){
                     $("em."+string).text("*"+data.num);

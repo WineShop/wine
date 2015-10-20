@@ -1,4 +1,4 @@
-<extend name="Base/s2"/>
+<extend name="Base/article"/>
 
 <block name="body">
 <meta name="description" content="{:C('WEB_SITE_DESCRIPTION')}">
@@ -101,7 +101,7 @@
                 <div class="font">购物车共 <font id="totalnum" class="red"></font> 件宝贝<span>合计 <font class="red" id="fee"></font></span></div>
                 <div class="btn_continue">
                     <div class="pop_btn_r" ><a onclick="jQuery('#showIncludeCart').modal('hide');return false;" href="javascript:;">继续购物</a></div>
-                    <div class="btn_cart"><a href="{:U('Shopcart/index')}">去购物车结算</a></div>
+                    <div class="btn_cart"><a href="/showCart">去购物车结算</a></div>
                 </div>
             </div>
         </div>

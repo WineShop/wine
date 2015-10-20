@@ -1,4 +1,4 @@
-<extend name="Base/s1"/>
+<extend name="Base/center"/>
 <block name="body">
 
 <div class="main">
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label for="inputPassword" class="col-sm-2 control-label"></label>
                             <div class="col-sm-5">
-                                支付订单号：{$codeid}<input type="hidden"  name="orderid" class="form-control" id="orderid" value="{$codeid}">(<a Style="color:#E23C3D;font-size:14px;"href="{:U('order/detail?id='.$codeid)}" target=_blank>订单详情</a>)
+                                支付订单号：{$codeid}<input type="hidden"  name="orderid" class="form-control" id="orderid" value="{$codeid}">(<a Style="color:#E23C3D;font-size:14px;"href="{:U('Order/detail?id='.$codeid)}" target=_blank>订单详情</a>)
                             </div>
                         </div>
                         <div class="form-group">

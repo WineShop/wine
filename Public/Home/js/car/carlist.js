@@ -61,20 +61,21 @@ define(function(require, exports, module){
         });
     }
 
+    //收藏
     var collect = function(uexist,obj){
         if(uexist){
             var favorid = $(obj).data('id');
             T.restPost('/User/favor',{id:favorid},function(success){
                 main.modalAlert(success.msg);
             },function(error){
-
+                main.modalAlert(error.msg,'danger');
             });
         }else{
             $("#head_login").click();
         }
     }
 
-
+    //提交显示订单
     var showOrder = function(uexist){
         if(uexist){
            $("#form").submit();
@@ -108,6 +109,15 @@ define(function(require, exports, module){
     });
 
 
+    //头部搜索
+    $("a.search_btn").click(function(){
+        var words=$("input.search_input").val();
+        if(words){
+            document.Searchform.submit();
+        }else{
+            main.modalAlert("搜索内容不能为空",'danger');
+        }
+    });
 
     module.exports = {
         collect   : collect,

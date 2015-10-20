@@ -248,6 +248,7 @@ class ShopcartController extends HomeController {
 		$data['status'] = 1;
         $data['price'] =$price;
         $data['sum'] =  $sum;
+        $data['msg'] =  '你已成功删除！';
 		$this->ajaxSuccess($data);
   }
 

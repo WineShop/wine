@@ -301,6 +301,7 @@ table.gridtable {
 	color:#333333;
      border: 5px solid #eee;width:910px;
 	clear:both;
+    padding: 10px 0px;
     margin-bottom: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.275);
 }
@@ -1311,11 +1312,15 @@ div.pay{ margin:6px;}
 .payboxs{margin:30px 50px;text-align:center;}
 .form_loading{height:50px;padding:30px 0;}
 #btn_pay {
-  padding: 5px 20px;
+  padding: 7px 20px;
   width: 135px;
   text-align: center;
-  background-color: #F50;
+  background-color: #FF6347;
   color: #FFF;
+  border-radius: 3px;
+}
+#btn_pay:hover{
+    background: #E23C3D;
 }
 .top_main.toolbar{float:right
 }
@@ -1648,7 +1653,6 @@ background: url(../images/procedure_bg.gif) 4px -32px no-repeat;
 width: 658px;
 height: 32px;
 margin-top: 24px;
-margin-right: 23px;
 line-height: 32px;
 font: bold 14px/32px "微软雅黑";
 color: #fff;

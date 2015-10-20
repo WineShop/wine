@@ -17,51 +17,44 @@ class OrderController extends HomeController {
 
     /* 文档模型频道页 */
 	public function detail(){
-    $id= I('get.id');//获取id
-	$typeCom=M("order")->where("orderid='$id'")->getField("tool"); 
-	$typeNu=M("order")->where("orderid='$id'")->getField("toolid"); 
+    $id      = I('get.id');//获取id
+	$typeCom = M("order")->where("orderid='$id'")->getField("tool");
+	$typeNu  = M("order")->where("orderid='$id'")->getField("toolid");
     if(isset($typeCom)&&$typeNu){ 
-		$retData=$this->getkuaidi($typeCom,$typeNu );
-	 }
-	 else{$retData="";
+		$retData = $this->getkuaidi($typeCom,$typeNu );
+	 }else{
+        $retData = "";
 	 }
 	 $this->assign('kuaidata', $retData);
-	 /* 左侧菜单 */
-	 $menu=R('index/menulist');
-	 $this->assign('categoryq', $menu);
+
     /* 购物车调用*/
-     $cart=R("shopcart/usercart");
-    $this->assign('usercart',$cart);
-      if(!session('user_auth'))
-		{ 
-		 $usercart=$_SESSION['cart'];
-       $this->assign('usercart',$usercart); 
-	    }
-		   /* 底部分类调用*/
-   $menulist=R('Service/AllMenu');
-   $this->assign('footermenu',$menulist);
+     $cart  =  $_SESSION['cart'];
+     $this->assign('usercart',$cart);
+
     /* 热词调用*/
-    $hotsearch=R("Index/getHotsearch");
+    $hotsearch = C('HOT_SEARCH');
     $this->assign('hotsearch',$hotsearch);
-	 /* uid调用*/
-     $Member=D("member");
-	 $uid=$Member->uid();
-      $order=D("order");
-	  $detail=$order->where("orderid='$id'")->select(); 
-	  $list=M("shoplist");
+
+    /* uid调用*/
+    $Member = D("member");
+    $uid    = $Member->uid();
+    $order  = D("Order");
+    $detail = $order->where("orderid='$id'")->select();
+
+    $list=M("shoplist");
 	foreach($detail as $n=> $val){
        $detail[$n]['id']=$list->where('orderid=\''.$val['id'].'\'')->select();
       
      }
  
-	$addressid=$order->where("orderid='$id'")->getField("addressid"); 
-	   $trans=M("transport")->where("id='$addressid'")->select();
+    $addressid=$order->where("orderid='$id'")->getField("addressid");
+    $trans=M("transport")->where("id='$addressid'")->select();
 
-    $this->assign('translist',$trans); 
-	 $this->assign('detaillist',$detail); 
-	 $this->meta_title = '订单详情';
-		$this->display();
-	}
+    $this->assign('translist',$trans);
+    $this->assign('detaillist',$detail);
+    $this->meta_title = '订单详情';
+    $this->display();
+}
 
  /* 取消订单 */
 public function cancel(){$this->meta_title = '取消订单';

@@ -1,5 +1,12 @@
-<extend name="Base/s3-2"/>
-<block name="body"><div id="check">
+<extend name="Base/cartpay"/>
+<block name="body">
+
+<div class="header-wrap">
+    <a href="{:C('DOMAIN')}" class="logo" title="{:C('WEB_SITE_TITLE')}"><img src="__IMG__/logo.png" alt=""></a>
+
+    <div class="shopping_cart_procedure2"><span>1、我的购物车</span><span>   2、填写订单</span><span style="width:175px; padding:0;">3、完成订单</span>  </div>
+</div>
+ <div id="check">
     <div class="mt">
         <h2>填写并核对订单信息</h2>
     </div>
@@ -25,7 +32,7 @@
                         <dd><input type="text"  class="cart_long" id="realname" maxlength="20" data-input="text" value=""><font class="ml10 cleb6100" style="display: none;">收货人不能为空</font></dd>
                     </dl>
                     <dl>
-                        <dt><<font color="red">*</font>手&nbsp;&nbsp;&nbsp;&nbsp;机：</dt>
+                        <dt><font color="red">*</font>手&nbsp;&nbsp;&nbsp;&nbsp;机：</dt>
                         <dd><input type="text"  class="cart_long" id="phone" maxlength="11" data-msg="收货手机号码格式不正确" data-input="text" data-type="cellphone" value="">&nbsp;用于接收发货通知及送货前确认</dd>
                     </dl>
                     <dl>

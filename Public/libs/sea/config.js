@@ -20,6 +20,7 @@ seajs.config({
         Index       : 'Home/js/index/index.js',
         ToolBar     : 'Home/js/index/toolBar.js',
         Login       : 'Home/js/index/login.js',
+        Menu        : 'Home/js/index/menu.js',
 
         //详细内容页面
         Detail      : 'Home/js/detail/detail.js',

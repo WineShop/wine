@@ -55,7 +55,7 @@
         </think:nav>
 
         <li class="top_right">
-            <div rel="nofollow" href="{:U('shopcart/index')}" class="shopping_cart" id="shopping_cart" style="display:">({$total_num}件 | <font color="#FDF657">{$total_price}</font>元)</div>
+            <div rel="nofollow" href="{:U('Shopcart/index')}" class="shopping_cart" id="shopping_cart" style="display:">({$total_num}件 | <font color="#FDF657">{$total_price}</font>元)</div>
 
                 <empty name="usercart">
 
@@ -75,13 +75,13 @@
                                 <li> <dl>
                                     <dt class="mini-img"><a  href="{:U('Article/detail?id='.$vo['id'])}"><img src="{$vo.id|get_cover_id|get_cover='path'}" width='40' height='40'/> </a></dt>
                                     <dd><span class="mini_title"><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.id|get_good_name}</a> </span><span class="mini-cart-count red">¥{$vo.price}<em class="{$vo.sort}">*{$vo.num}</em></span></dd>
-                                    <dd><span class="mini-cart-info">{$vo.parameters}</span><span class="mini-cart-del"><a name="{$vo.sort}" rel="del" href="javascript:void(0);"   onclick="delcommon(event)">删除</a></span></dd>
+                                    <dd><span class="mini-cart-info">{$vo.parameters}</span><span class="mini-cart-del"><a name="{$vo.sort}" rel="del" href="javascript:void(0);"  class="nav_cat_del">删除</a></span></dd>
                                 </dl>
                                 </li>
                             </foreach>
                         </ul>
                         <div class="sc_goods_foot" style="display:block;">
-                            <a rel="nofollow" href="{:U('shopcart/index')}"  class="my_shopping_cart_btn">查看我的购物车</a>
+                            <a rel="nofollow" href="/showCart"  class="my_shopping_cart_btn">查看我的购物车</a>
                         </div>
                     </div>
                 </empty>
@@ -90,4 +90,10 @@
 
 </div>
 </div><!--menu over-->
-<script type="text/javascript"  charset="utf-8" src="__STATIC__/js/menudown.js"></script>
+
+<script>
+    seajs.use(['Menu'],function(menu){
+
+    });
+</script>
+

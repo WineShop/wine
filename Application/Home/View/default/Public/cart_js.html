@@ -31,13 +31,9 @@
 	    if(obj.rel=="del")
         {
             var str=obj.name;
-            var uexist="{:get_username()}";
             //全选的实现 定义删的发送路径
-            if(uexist){
-                var del='{:U("Shopcart/delItemByuid")}';
-            }else{
-                var del='{:U("Shopcart/delItem")}';
-            }
+            var del='{:U("Shopcart/delItem")}';
+
 
             $.ajax({
                 type:'post', //传送的方式,get/post
