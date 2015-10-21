@@ -589,19 +589,12 @@ function ordersn(){
             $data=M("shoplist")->where($map)->delete();
             if($data)
             {
-                $this->success('删除成功！');
+                $this->success('该物品已经删除成功！');
             }else{
             $this->error('删除失败！订单未完成');
             }
         }
     }
-    public function usercart(){
-            $cart=D("Shopcart");
-            $result= $cart->getcart();
-            return $result;
-    }
-
-
 
 
     public function getPricetotal($tag) {
