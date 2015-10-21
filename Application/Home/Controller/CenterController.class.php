@@ -309,7 +309,7 @@ class CenterController extends HomeController {
         $this->meta_title = '待发货订单';
         $this->display();
     }
-    /* 待发货订单*/
+    /* 待确认订单*/
     public  function tobeconfirmed(){
         /** 购物车调用**/
         $cart  = $_SESSION['cart'];
@@ -319,7 +319,7 @@ class CenterController extends HomeController {
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
         /* 数据分页*/
-        $Member=D("member");
+        $Member=D("Member");
         $uid=$Member->uid();
         $order=M("order");
         $detail=M("shoplist");
@@ -343,13 +343,7 @@ class CenterController extends HomeController {
     /*****购物车
      ***************/
     public  function shopcart() {
-
-        /* 底部分类调用*/
-        $menulist=R('Service/AllMenu');
-        $this->assign('footermenu',$menulist);
-        $uid=$this->uid();
-        $cart=D("shopcart");
-        $cartlist=$cart->getcart();
+        $cartlist = $_SESSION['cart'];
         return $cartlist;
     }
     /*****收藏夹

@@ -2,9 +2,11 @@
 
 /*分页*/
  .page{ float:right; padding:10px;overflow:hidden;clear:both;}
- .page div{border-left:1px solid #f63; overflow:hidden;}
- .page span,.page a{width:auto; overflow:hidden;float:left; height:32px; line-height:32px; padding:0px 10px;background:#fff; border:1px solid #f63; border-left:none; font-size:14px;}
+ .page div{ overflow:hidden;}
+ .page span,.page a,.order_page span,.order_page a{width:auto; overflow:hidden;float:left; height:32px; line-height:32px; padding:0px 10px;background:#efefef; border:1px solid #ccc; font-size:14px;}
  .page .current{ background:#f63; color:#fff;}
+ .order_del_all{padding: 10px;float: left;}
+ .order_page{ float:right; padding:10px;overflow:hidden;}
 img{border:0}
 /*public*/
 .cf:after {clear: both;display: block;height: 0;overflow: hidden}
@@ -318,7 +320,7 @@ table.gridtable {
 .three-area .cos{border:1px solid #daf3ff;padding:5px;display:block;clear:both;width:100%;}
 .c1 img{border:1px solid #eee;}
 .c1{width:54%;display:inline-block;vertical-align:top;text-indent:2px;overflow:hidden;}
-.c2{width:14%;display:inline-block;text-align:center; }
+.c2{width:14%;display:inline-block;text-align:center; line-height: 60px; }
 .c1 .dl{float:left;display:inline-block;}
 .c5{overflow:hidden;width:330px;height:70px;display:inline-block;}
 .c1 span{float:left;display:inline-block;width:224px;}
@@ -330,9 +332,10 @@ display:block;float:left;}
 .total-area p ,.deal-area{height:32px;line-height:32px;}
 .act-area p{height:30px;line-height:30px;}
 .deal-area{padding-top:5px;text-align:center; height:auto; width:10%; padding-bottom:9999px; margin-bottom:-9999px;line-height:auto;border:1px solid #daf3ff;float:left;}
-.act-area{padding-top:10px;text-align:center;height:auto; width:10%; padding-bottom:9999px; margin-bottom:-9999px;float:left;}
+.act-area{padding-top:10px;margin-left:20px;text-align:center;height:auto; width:10%; padding-bottom:9999px; margin-bottom:-9999px;float:left;}
 
-.confirm{padding:6px 12px;color:#fff;background-color:#f60;}
+.confirm{padding:6px 12px;color:#fff;background-color:#FF6347;border-radius: 3px;}
+.confirm:hover{background: #E23C3D}
 table.gridtable th {
 	height: 25px;
 background-color: #fafbf8;
@@ -1367,11 +1370,11 @@ width: 371px;
 display:inline-block;vertical-align:top
 }
 .detailtable th{
-background:#1EE219;
-border: 1px solid #75C2EF;
-color: #FFFFFF;
+background:#eee;
+border: 1px solid #DDDDDD;
+color: #000;
 font-size: 15px;
-font-weight: bold;
+font-weight: normal;
 height: 28px;
 line-height: 28px;padding:5px
 }

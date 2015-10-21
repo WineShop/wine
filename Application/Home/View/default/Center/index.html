@@ -41,7 +41,7 @@ $(document).ready(function(){
 </div>
 
 <div class="order_namelist">
-    <span><a href='{:U("Center/allorder")}' class="red">所有订单{$anum}</a></span>
+    <span class="active"><a href='{:U("Center/allorder")}' class="red">所有订单{$anum}</a></span>
     <span><a href='{:U("Center/needpay")}' class="red">待支付订单{$onum}</a></span>
     <span><a href='{:U("Center/tobeshipped")}' class="red">待发货订单{$dnum}</a></span>
     <span><a href='{:U("Center/tobeconfirmed")}' class="red">待确认订单{$cnum}</a></span>
@@ -58,7 +58,7 @@ $(document).ready(function(){
        
 <form action='{:U("Shopcart/delorder")}' method="post" name="delform" >
     <div class="order_del">
-        <span>  <input class="checkbox check-all" type="checkbox"> 全选 <a   href='javascript:void(0)' class="delorder">删除选中的订单</a> </span>
+        <span>  <input class="checkbox check-all" type="checkbox"> 全选</span>
     </div>
     <div class="good-canshu">
         <span class="good-name">商品名称</span>
@@ -136,18 +136,18 @@ $(document).ready(function(){
                 if($status==6){ echo "订单已取消";};
 			  </php>
                     </p>
-			        <p><a href="{:U('order/detail?id='.$po['orderid'])}" >订单详情</a></p>
+			        <p><a href="{:U('order/detail?id='.$po['orderid'])}" style="margin-top: 14px;" class="sm_btn">订单详情</a></p>
 			    </div>
 			    <div class="act-area">
 
                <php>
 
 			   $status=$po['status'];
-			   if($status==2){ echo " <p><a class=' confirm' href='index.php?s=/Home/order/complete/id/".$po['orderid']."'>确认收货</a> </p>";};
+			   if($status==2){ echo " <p><a class='confirm' href='index.php?s=/Home/order/complete/id/".$po['orderid']."'>确认收货</a> </p>";};
 			   $pay=$po['ispay'];
-			   if($pay==1&&$po['status']==-1){ echo " <p><A href='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a>&nbsp; &nbsp;&nbsp; &nbsp; </p>"." <p><A class='confirm' href='index.php?s=/Home/Pay/index/orderid/".$po['orderid']."'>前去支付</a> </p>";};
-			   if($pay==-1&&$po['status']==1 ){ echo " <p><A  href='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>";};
-               if($po['status']==2){ echo " <p><A class='red' href='index.php?s=/Home/order/detail/id/".$po['orderid']."'>查看物流</a> </p>";}
+			   if($pay==1&&$po['status']==-1){ echo " <p><A class='confirm' href='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a></p>"." <p><A class='confirm' href='index.php?s=/Home/Pay/index/orderid/".$po['orderid']."'>前去支付</a> </p>";};
+			   if($pay==-1&&$po['status']==1 ){ echo " <p><A class='confirm' href='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>";};
+               if($po['status']==2){ echo " <p><A class='red confirm' href='index.php?s=/Home/order/detail/id/".$po['orderid']."'>查看物流</a> </p>";}
 			  </php>
 			  
 		        </div>
@@ -158,22 +158,23 @@ $(document).ready(function(){
 </form>
 
     <!-- 分页 -->
-    <div class="page">
-    {$page}
+    <div class="order_del_all">
+        <a href='javascript:void(0)' class="delorder sm_btn" style="padding-top:8px;padding-bottom: 8px; ">删除选中的订单</a>
+    </div>
+    <div class="order_page">
+        {$page}
     </div>
 
 </empty>
 
+<!-- 个人中心 初始状态 end --></div></div>
 
 <script type="text/javascript">
 
-seajs.use(['Uorder','Ucenter'],function(uorder,ucenter){
-    ucenter.center_init();
-    uorder.order_index();
-})
+    seajs.use(['Uorder','Ucenter'],function(uorder,ucenter){
+        ucenter.center_init();
+        uorder.order_index();
+    })
 </script>
-<!-- 个人中心 初始状态 end --></div></div>
-
-      
 
 </block>

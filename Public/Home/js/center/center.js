@@ -20,14 +20,6 @@ define(function(require, exports, module){
             $("#all-goods").hide();
         });
 
-        //订单菜单
-        $(".order_namelist span").eq(0).addClass("active");
-        $(".order_namelist span").mouseenter(function(){
-            $(this).addClass("active").siblings().removeClass("active")
-        });
-
-
-
         //全选的实现
         $(".check-all").click(function(){
             $(".ids").prop("checked", this.checked);
@@ -43,6 +35,18 @@ define(function(require, exports, module){
                 }
             });
         });
+
+
+        /** 左边菜单高亮 **/
+        url = window.location.pathname + window.location.search;
+        url = url.replace(/(\/(p)\/\d+)|(&p=\d+)|(\/(id)\/\d+)|(&id=\d+)|(\/(group)\/\d+)|(&group=\d+)/, "");
+        console.log(url);
+        if(url == '/Center/needpay.html' || url=='/Center/tobeshipped.html' || url=='/Center/tobeconfirmed.html'){
+           console.log('222');
+            $("a[href='/Center/allorder.html']").addClass("current") ;
+        }else{
+            $("a[href='" + url + "']").addClass("current") ;
+        }
 
 
     }

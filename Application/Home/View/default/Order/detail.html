@@ -10,7 +10,7 @@
 
 </div><div class="center_right">
 
-	<span class="red" style="display: block;padding:15px;font-size:17px;">订单详情查看(发货，收货，快递查询)</span>
+	<span class="red" style="font-weight: bold;display: block;padding:15px;font-size:17px;">订单详情查看(发货，收货，快递查询)</span>
 
 	<empty name='detaillist'>
 	<div class="personal_info_none_goods">
@@ -23,7 +23,7 @@
     
         
       
-		<table style="display: block;padding:5px;" id="table" class="detailtable" width="99%">
+		<table style="padding:5px;" id="table" class="detailtable" width="100%">
         <volist name="detaillist" id="po"> 
          <tbody>
 		   <tr>
@@ -39,7 +39,7 @@
                 <td><span class="img_1 img1"><A href="{:U('Article/detail?id='.$vo['goodid'])}" > <img src="{$vo.goodid|get_cover_id|get_cover='path'}"  width="70" height="70"/><span class="img_1_h">{$vo.goodid|get_good_name}</span></span> </A></td>
                 <td align="center">规格：{$vo.parameters|default="无"}</td>
                 <td align="center">单价：{$vo.price}  元</td>
-                <td >数量： {$vo.num} 件</td>
+                <td align="center">数量： {$vo.num} 件</td>
                 
              
             </tr> </volist>

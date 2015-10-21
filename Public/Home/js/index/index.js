@@ -7,6 +7,8 @@ define(function (require, exports, module) {
 
     main.modalEvent();
 
+    //显示菜单分类
+    $("#all-goods").show();
 
     //banner切换
     var banner = function(){
