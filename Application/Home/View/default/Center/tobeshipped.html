@@ -94,8 +94,8 @@ if($vo['iscomment']==2){echo
 			  $status=$po['status']; 
 			   if($status==2){ echo " <p><a class='confirm' href='index.php?s=/Home/order/complete/id/".$po['orderid']."'>确认收货</a> </p>";};
 			  $pay=$po['ispay'];
-			  if($pay==1&&$po['status']==-1){ echo " <p><A class='confirm' href='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>"." <p><A class='confirm' href='index.php?s=/Home/Pay/index/orderid/".$po['orderid']."'>前去支付</a> </p>";};
-			  if($pay==-1&&$po['status']==1 ){ echo " <p><A  class='confirm' href='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>";}
+			  if($pay==1&&$po['status']==-1){ echo " <p><A class='confirm cancle_order'  href='javascript:;'  data-url='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>"." <p><A class='confirm' href='index.php?s=/Home/Pay/index/orderid/".$po['orderid']."'>前去支付</a> </p>";};
+			  if($pay==-1&&$po['status']==1 ){ echo " <p><A  class='confirm cancle_order'  href='javascript:;'  data-url='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>";}
 			  ; if($po['status']==2){ echo " <p><A class='red confirm' href='index.php?s=/Home/order/detail/id/".$po['orderid']."'>查看物流</a> </p>";}
 			  </php>
 			  
@@ -116,9 +116,9 @@ if($vo['iscomment']==2){echo
 
 
 <script type="text/javascript">
-    seajs.use(['Uorder','Ucenter'],function(uorder,ucenter){
+    seajs.use(['Ucenter'],function(ucenter){
         ucenter.center_init();
-        uorder.order_menage();
+        ucenter.center_order_action();
     })
 </script>
 <!-- 个人中心 初始状态 end --></div></div></div>

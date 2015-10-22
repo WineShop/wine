@@ -9,10 +9,7 @@ define(function(require, exports, module){
 
     //我的主页所显示订单
     var order_index = function(){
-        $(".delorder").click(function(){
-            document.delform.submit();
-        });
-
+        //签到
         $(".pf_qiandao").click(function(){
             T.restPost('/Center/enter',{},function(success){
                 main.modalAlert(success.msg);
@@ -26,17 +23,10 @@ define(function(require, exports, module){
 
     }
 
-    //订单管理
-    var order_menage = function(){
-        $(".delorder").click(function(){
-            document.delform.submit();
-        })
 
-    }
 
 
     module.exports = {
-        order_index   : order_index,
-        order_menage  : order_menage
+        order_index   : order_index
     }
 });

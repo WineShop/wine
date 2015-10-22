@@ -20,6 +20,21 @@ define(function(require, exports, module){
             $("#all-goods").hide();
         });
 
+
+
+        /** 左边菜单高亮 **/
+        url = window.location.pathname + window.location.search;
+        url = url.replace(/(\/(p)\/\d+)|(&p=\d+)|(\/(id)\/\d+)|(&id=\d+)|(\/(group)\/\d+)|(&group=\d+)/, "");
+        if(url == '/Center/needpay.html' || url=='/Center/tobeshipped.html' || url=='/Center/tobeconfirmed.html'){
+            $("a[href='/Center/allorder.html']").addClass("current") ;
+        }else{
+            $("a[href='" + url + "']").addClass("current") ;
+        }
+
+    }
+
+
+    var center_order_action = function(){
         //全选的实现
         $(".check-all").click(function(){
             $(".ids").prop("checked", this.checked);
@@ -37,22 +52,36 @@ define(function(require, exports, module){
         });
 
 
-        /** 左边菜单高亮 **/
-        url = window.location.pathname + window.location.search;
-        url = url.replace(/(\/(p)\/\d+)|(&p=\d+)|(\/(id)\/\d+)|(&id=\d+)|(\/(group)\/\d+)|(&group=\d+)/, "");
-        console.log(url);
-        if(url == '/Center/needpay.html' || url=='/Center/tobeshipped.html' || url=='/Center/tobeconfirmed.html'){
-           console.log('222');
-            $("a[href='/Center/allorder.html']").addClass("current") ;
-        }else{
-            $("a[href='" + url + "']").addClass("current") ;
-        }
+        //取消订单
+        $(".cancle_order").click(function(){
+            var url = $(this).data('url');
+            T.restPost(url,{},function(success){
+                main.modalAlert(success.msg);
+                if($(".cancle_order").length == '1'){
+                    main.redirect('/')
+                }
+                $(this).closest(".order-detail").parent().remove();
+            },function(error){
+                main.modalAlert(error.msg,'danger');
+            });
+        });
 
+        //订单管理  删除订单
+        $(".delorder").click(function(){
+            var url = $("form[name=delform]").attr('action');
+            var param = $("form[name=delform]").serialize();
+            T.restPost(url,param,function(success){
+                main.modalAlert(success.msg);
+                main.redirect('');
+            },function(error){
+                main.modalAlert(error.msg,'danger');
+            });
+        })
 
     }
 
-
     module.exports = {
-        center_init : center_init
+        center_init : center_init,
+        center_order_action : center_order_action
     }
 });

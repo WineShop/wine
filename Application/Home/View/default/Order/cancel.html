@@ -1,4 +1,4 @@
-<extend name="Base/s1"/>
+<extend name="Base/center"/>
 <block name="body">
 
 <div class="main"><div class="main_center"><div class="center_left">
@@ -43,8 +43,14 @@
 
 
 <!-- 个人中心 初始状态 end --></div><div id="memberInfo" style="display: none;"></div><div id="memberWealth" style="display: none;"></div><div id="myCollection" style="display: none;"></div><div id="myEarnings" style="display: none;"></div><div id="modifyPassword" style="display: none;"></div><div id="myCoupons" style="display: none;"></div><div class="cb"></div></div></div>
-    <script type="text/javascript">_init_area();</script>
+
         <hr/>
         {:hook('documentDetailAfter',$info)}
+
+    <script type="text/javascript">
+        seajs.use(['Ucenter'],function(center){
+            center.center_init();
+        });
+    </script>
    
 </block>

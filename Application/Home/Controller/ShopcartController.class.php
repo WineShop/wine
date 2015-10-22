@@ -12,6 +12,7 @@ namespace Home\Controller;
 ***************/
 class ShopcartController extends HomeController {
 
+
     /*
     添加商品
     param int $id 商品主键
@@ -580,18 +581,24 @@ function ordersn(){
 
 	public function delorder() 
     {
-		if(is_login())
-		{
-            $map["tag"]=array("in",$tag);
-            $map["uid"]=D("member")->uid();
+        if($uid = is_login())
+        {
+            $tag = I('post.tag');
+            if(empty($tag))
+                $this->ajaxError('对不起,请选择要删除的物品');
+
+            $map["tag"] = array("in",$tag);
+            $map["uid"] = $uid;
             $map["status"]=array("gt",2);
             M("order")->where($map)->delete();
             $data=M("shoplist")->where($map)->delete();
             if($data)
             {
-                $this->success('该物品已经删除成功！');
+                $this->ajaxSuccess('该物品已经删除成功！');
             }else{
-            $this->error('删除失败！订单未完成');
+                \Think\LogTool::instance()->setLogger('Ucenter/cart');
+                \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 删除物品失败了');
+                $this->AjaxError('删除失败！订单未完成');
             }
         }
     }
