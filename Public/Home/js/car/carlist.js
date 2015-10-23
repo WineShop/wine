@@ -71,7 +71,10 @@ define(function(require, exports, module){
                 main.modalAlert(error.msg,'danger');
             });
         }else{
-            $("#head_login").click();
+            main.modalAlert('对不起，请先登陆！','danger');
+            setTimeout(function(){
+                $("#head_login").click();
+            },2000);
         }
     }
 
@@ -80,7 +83,10 @@ define(function(require, exports, module){
         if(uexist){
            $("#form").submit();
         }else{
-            $("#head_login").click();
+            main.modalAlert('对不起，请先登陆！','danger');
+            setTimeout(function(){
+                $("#head_login").click();
+            },2000);
         }
     }
 

@@ -452,16 +452,16 @@ function time_format($time = NULL,$format='Y-m-d H:i'){
  * @return string       用户名
  */
 function get_regname($uid = 0){
- $User = new User\Api\UserApi();
-        $info = $User->info($uid);
+    $user     = new \User\Api\UserApi;
+    $userInfo = $user->getUserCache();
 
-return $info[1];
+    return $userInfo['username'];
 }
 
 function get_regmobile($uid = 0){
-    $User = new User\Api\UserApi();
-    $info = $User->info($uid);
-    return $info[4];
+    $user     = new \User\Api\UserApi;
+    $userInfo = $user->getUserCache();
+    return $info['mobile'];
 }
 
 
@@ -497,21 +497,24 @@ function get_realname($uid){
     $row = M('transport')->order("id desc")->field('realname')->limit(1)->getbyUid($uid);
     return $row['realname'];
 }function get_score($uid){
-    $row = M('member')->getbyUid($uid);
+    $row = M('member')->field('score')->getbyUid($uid);
     return $row['score'];
 }
 function get_cellphone($uid){
-    $row = M('transport')->order("id desc")->limit(1)->getbyUid($uid);
+    $row = M('transport')->order("id desc")->field('cellphone')->limit(1)->getbyUid($uid);
     return $row['cellphone'];
 }
 function get_lever($uid){
-    $row = M('member')->getbyUid($uid);
+    $row = M('member')->field('lever')->getbyUid($uid);
     return $row['lever'];
 }
 function get_nickname($uid = 0){
+
     static $list;
     if(!($uid && is_numeric($uid))){ //获取当前登录用户名
-        return session('user_auth.username');
+        $user     = new \User\Api\UserApi;
+        $userInfo = $user->getUserCache();
+        return $userInfo['username'];
     }
 
     /* 获取缓存数据 */

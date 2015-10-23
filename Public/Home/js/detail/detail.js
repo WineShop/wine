@@ -74,7 +74,11 @@ define(function (require, exports, module) {
                 $("#inputparameters").val(parameters);
                 document.orderform.submit();
             }else{
-                showBg();
+                main.modalAlert('请先登陆！','danger');
+                setTimeout(function(){
+                    $("#head_login").click();
+                },1500)
+
             }
         }
 
@@ -87,7 +91,10 @@ define(function (require, exports, module) {
                     main.modalAlert(error.msg,'danger');
                 })
             }else{
-                $("#head_login").click();
+                main.modalAlert('请先登陆！','danger');
+                setTimeout(function(){
+                    $("#head_login").click();
+                },1500)
             }
         }
 

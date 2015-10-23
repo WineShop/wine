@@ -148,11 +148,11 @@ class UserController extends HomeController {
 
     public function favor(){
         if(IS_AJAX ){
+            if (!($uid = is_login())) {
+                $this->ajaxError('您还没有登陆，请先登陆！');
+            }
             $id         = $_POST["id"];
             $data["id"] = $id;
-            $user       = new UserApi();
-            $userCache  = $user->getUserCache();
-            $uid        = $userCache['id'];
             $data["uid"]= $uid;
             $fav        = M("favortable");
             $exsit      = $fav->where("goodid='$id' and uid='$uid'")->getField("id");
@@ -164,6 +164,8 @@ class UserController extends HomeController {
                 $fav->add();
                 $this->ajaxSuccess('该物品已成功收藏！');
             }
+        }else{
+            $this->error('对不起，请求有误！');
         }
 
     }
@@ -213,27 +215,27 @@ class UserController extends HomeController {
                 $table->uid=$uid;
                 $table->partnerid=get_partnerid($uid);
                 $num=M("shopcart")->where("goodid='$id'")->getField("num");
-                if($num)
-                {$table->num=$val["num"]+$num;$table->save();
+                if($num){
+                    $table->num=$val["num"]+$num;$table->save();
                 }
                 else{
                     $table->num=$val["num"];$table->add();
                 }
             }
             return $uid;
-        }}
+        }
+    }
 
     /**
      * 修改密码提交
      * @author huajie <banhuajie@163.com>
      */
     public function profile(){
-        if ( !is_login() ) {
-            $this->error( "您还没有登陆",U("User/login") );
-        }
         if (IS_POST) {
+            if (!($uid = is_login())) {
+                $this->ajaxError( "您还没有登陆，请先登陆");
+            }
             //获取参数
-            $uid        =   is_login();
             $password   =   I("post.old");
             $repassword = I("post.repassword");
             $data["password"] = I("post.password");
@@ -252,7 +254,11 @@ class UserController extends HomeController {
             }else{
                 $this->error($res["info"]);
             }
-        }else{    $this->meta_title = '修改密码';
+        }else{
+            if (!($uid = is_login()) ) {
+                $this->error( "您还没有登陆，请先登陆",U('/'),2);
+            }
+            $this->meta_title = '修改密码';
             $this->display();
         }
     }
@@ -261,14 +267,15 @@ class UserController extends HomeController {
      * 验证优惠券是否可用
      */
     public function checkcode(){
+        if (!($uid = is_login()) ) {
+            $this->error( "您还没有登陆，请先登陆",U("/"),2);
+        }
         /***接受代码统计 */
         $code    = $_POST["couponid"];
         $fcoupon = M("fcoupon");
         $id = $fcoupon->where("code='$code' ")->getfield("id");
         /***获取优惠券id,优惠券存在 */
         if(isset($id)){
-            $member = D("member");
-            $uid    = $member->uid();
             $coupon = M("usercoupon");
             /***用户优惠券存在 */
             if($coupon->where("uid='$uid'and couponid='$id' and status='1'")->select()){
@@ -289,17 +296,18 @@ class UserController extends HomeController {
     /*****领优惠券
      ***************/
     public  function getcoupon() {
+        if (!($uid = is_login()) ) {
+            $this->error( "您还没有登陆，请先登陆",U("/"),2);
+        }
         $id=$_POST["couponid"];
-        $member=D("member");
-        $uid=$member->uid();
         $coupon=M("usercoupon");
         if($coupon->where("uid='$uid'and couponid='$id'")->select() )
         {
             $data["msg"] = "已领取过";
             $data["status"] = "0";
             $this->ajaxreturn($data);
-        }
-        else{ $data["uid"] = $uid;
+        }else{
+            $data["uid"] = $uid;
             $data["couponid"] = $id;
             $data["time"] = NOW_TIME;
             $data["status"] = "1";
@@ -314,7 +322,28 @@ class UserController extends HomeController {
     }
 
     public  function cut() {
+        if (!($uid = is_login()) ) {
+            $this->error( "您还没有登陆，请先登陆",U("/"),2);
+        }
+        $id=$_POST["couponid"];
+        $coupon=M("usercoupon");
+        if($coupon->where("uid='$uid' and couponid='$id'")->select() )
+        {
+            $data["msg"] = "已领取过";
+            $data["status"] = "0";
+            $this->ajaxreturn($data);
+        }else{
+            $data["uid"] = $uid;
+            $data["couponid"] = $id;
+            $data["time"] = NOW_TIME;
+            $data["status"] = "1";
+            $data["info"] = "未使用";
+            $coupon->add($data);
+            $data["msg"] = "已成功领取，请刷新查看";
 
+            $this->ajaxreturn($data);
+
+        }
         $uid=I("get.id");
         $cut=M("member")->where("uid='$uid'")->select();
         $this->assign('cut',$cut);
