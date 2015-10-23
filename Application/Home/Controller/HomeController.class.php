@@ -43,7 +43,11 @@ class HomeController extends Controller {
 	/* 用户登录检测 */
 	protected function login(){
 		/* 用户登录检测 */
-		is_login() || $this->error('您还没有登录，请先登录！');
+		if($uid = is_login()){
+            return $uid;
+        }else{
+            $this->error('您还没有登录，请先登录！',U('/'),2);
+        }
 	}
 
     /* 用于ajax返回错误信息 */

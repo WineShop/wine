@@ -367,7 +367,9 @@ class ShopcartController extends HomeController {
         $this->meta_title = '订单结算';
         $this->display();
 	
-	}
+	}else{
+        $this->error('错误访问！');
+    }
   }
 	
 public function createorder() {
@@ -541,41 +543,40 @@ function ordersn(){
   */
  public function savemsg() {
         $uid       = D('Member')->uid();
-        $User      = M("Member"); // 实例化User对象
-        $Transport = M("Transport"); // 实例化transport对象
+        $User      = M("member"); // 实例化User对象
+        $Transport = M("transport"); // 实例化transport对象
         // 要修改的数据对象属性赋值
-        $id  = $_POST["id"];
+        $data['orderid']   = $_POST["id"];
         $data['address']   = $_POST["posi"];
         $data['cellphone'] = $_POST["pho"];
         $data['realname']  = $_POST["rel"];
-	    if($_POST["msg"] == "yes"){
+	    if($_POST["msg"] == "yes"){   //是否设置默认地址
             //默认地址更新会员
             $result=$User->where("uid='$uid'")->save($data); // 根据条件保存修改的数据
-            if($Transport->where("uid='$uid' and status='1'")->getField("id"))
+            if($addressid = $Transport->where("uid='$uid' and status='1'")->field('id')->getField("id"))
 		    {
-                $data['status'] = 0;
 	            $Transport->where("uid='$uid'")->save($data);
+            }else{
+                //地址库有默认地址，有则保存
+                $data['status']  = 1;
+                $data['time']    = NOW_TIME;
+                $data['uid']     = $uid;
+                $addressid       = $Transport->add($data);
             }
+            $data['value']     = "default";
+            $data['addressid'] = $addressid;
+            $data['msg']       = 'yes';
 
-            //地址库有默认地址，有则保存
-               $data['status']  = 1;
-               $data['time']    = NOW_TIME;
-               $data['orderid'] = $id;
-               $data['uid']     = $uid;
-               $Transport->add($data);
-               $data['value']   = "default";
-               $data['addressid']=$Transport->where("uid='$uid' and status='1'")->getField("id");
-              $data['msg']      = 'yes';
         }else{
             $data['status']     = 0;
             $data['time']       = NOW_TIME;
             $data['orderid']    = $id;
-            $result=$Transport->add($data); // 根据条件保存修改的数据
-            $data['addressid']  = M("transport")->where("orderid='$id'")->getField("id");
+            $addressid          = $result=$Transport->add($data); // 根据条件保存修改的数据
+            $data['addressid']  = $addressid;
             // 返回新增标识
             $data['msg']        = 'no';
         }
-   
+
         $this->ajaxSuccess($data,1000,'新地址已经添加成功！');
 	}
 

@@ -31,6 +31,8 @@ function is_login(){
         return empty($userCache['id']) ? 0 : $userCache['id'];
     }
 }
+
+
 function get_sdk_title($name){
     $user = array(
             'qq'=>'QQ',
@@ -478,21 +480,21 @@ function get_username($uid = 0){
  * @return string       用户昵称
  */
  function get_qq($uid){
-    $row = M('member')->getbyUid($uid);
+    $row = M('member')->field('qq')->getbyUid($uid);
     return $row['qq'];
 }
 
 function get_address($uid){
     if(empty($uid))  return '';
-    $row = M('transport')->where("status='1' and uid='$uid'")->find();
+    $row = M('transport')->where("status='1' and uid='$uid'")->field('address')->find();
     return $row['address'];
 }
 function get_addressid($uid){
-    $row = M('transport')->where("status='1'")->order("id desc")->limit(1)->getbyUid($uid);
+    $row = M('transport')->where("status='1'")->field('id')->order("id desc")->limit(1)->getbyUid($uid);
     return $row['id'];
 }
 function get_realname($uid){
-    $row = M('transport')->order("id desc")->limit(1)->getbyUid($uid);
+    $row = M('transport')->order("id desc")->field('realname')->limit(1)->getbyUid($uid);
     return $row['realname'];
 }function get_score($uid){
     $row = M('member')->getbyUid($uid);
