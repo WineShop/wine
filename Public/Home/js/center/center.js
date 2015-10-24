@@ -55,10 +55,11 @@ define(function(require, exports, module){
         //取消订单
         $(".cancle_order").click(function(){
             var url = $(this).data('url');
-            T.restPost(url,{},function(success){
+            var id  = $(this).data('id');
+            T.restPost(url,{id:id},function(success){
                 main.modalAlert(success.msg);
                 if($(".cancle_order").length == '1'){
-                    main.redirect('/')
+                    main.redirect('')
                 }
                 $(this).closest(".order-detail").parent().remove();
             },function(error){

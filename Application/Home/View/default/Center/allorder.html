@@ -103,27 +103,31 @@
 			                            <php>
 
                                            $status=$po['status'];if($status==13){ echo "待支付";};
-                                           if($status==1){ echo "待发货";};
-                                           if($status==2){ echo "已发货";};
-                                           if($status==3){ echo "交易成功";};
-                                           if($status==4){ echo "申请取消订单";};
-                                           if($status==5){ echo "取消订单被拒绝";};
-                                           if($status==6){ echo "订单已取消";};
+                                           if($status==1){ echo "<span class='order_tip'>待发货</span>";};
+                                           if($status==2){ echo "<span class='order_tip'>已发货</span>";};
+                                           if($status==3){ echo "<span class='order_tip'>交易成功</span>";};
+                                           if($status==4){ echo "<span class='order_tip'>申请取消中</span>";};
+                                           if($status==5){ echo "<span class='order_tip'>取消被拒绝</span>";};
+                                           if($status==6){ echo "<span class='order_tip'>订单已取消</span>";};
                                         </php>
                                         </p>
-			                            <p><a href="{:U('order/detail?id='.$po['orderid'])}" class="sm_btn" style="margin-top:14px;">订单详情</a></p>
+			                            <p><a href="{:U('order/detail?id='.$po['orderid'])}" class="confirm" style="margin-top:14px;">订单详情</a></p>
 			                        </div>
 
                                     <div class="act-area">
-			                        <php>
-
-			  $status=$po['status']; 
-			  if($status==2){ echo " <p><a class='confirm' href='index.php?s=/Home/order/complete/id/".$po['orderid']."'>确认收货</a> </p>"; };
-			  $pay=$po['ispay'];
-			  if($pay==1&&$po['status']==-1){ echo " <p><A class='confirm cancle_order'  href='javascript:;' data-url='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>"." <p><A class='confirm' href='index.php?s=/Home/Pay/index/orderid/".$po['orderid']."'>前去支付</a> </p>"; };
-			  if($pay==-1&&$po['status']==1 ){ echo " <p><A  class='confirm cancle_order'  href='javascript:;'  data-url='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>"; };
-			  if($po['status']==2){ echo " <p><A class='red confirm' href='index.php?s=/Home/order/detail/id/".$po['orderid']."'>查看物流</a> </p>"; }
-                                   </php>
+                                        <if condition='$po.status eq 2'>
+                                            <p><a class='confirm' href='{:U("/order/complete",array("id"=>$po["orderid"]))}'>确认收货</a> </p>
+                                        </if>
+                                        <if condition='($po.status eq -1) and ($po.ispay eq 1)'>
+                                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
+                                            <p><A class='confirm' href="{:U('Pay/index',array('orderid'=>$po['orderid']))}">前去支付</a> </p>
+                                        </if>
+                                        <if condition='($po.status eq 1) and ($po.ispay eq -1)'>
+                                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
+                                        </if>
+                                        <if condition='$po.status eq 2'>
+                                            <p><a class='red confirm' href='{:U("/order/detail",array("id"=>$po["orderid"]))}'>查看物流</a> </p>
+                                        </if>
 
                                     </div>
 		                        </div>

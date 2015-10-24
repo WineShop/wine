@@ -64,11 +64,10 @@ class ShopcartController extends HomeController {
 
     }
 
-    /*
-   添加商品  添加商品
-   param int $id 商品主键
-
-         int $num 购物数量
+    /**
+     * 添加商品  添加商品     未用到
+     * param int $id 商品主键
+     * int $num 购物数量
    */
     public  function addgood($id) {
         $tag=$_POST['tag'];
@@ -167,9 +166,9 @@ class ShopcartController extends HomeController {
 
     }
 
-    /*
-    订单明细
-    */
+    /**
+     *订单明细  未用到
+     */
     public function detail() {
         $count = $this->getCnt();            /*查询购物车中商品的种类 */
         $sum   = $this->getNum();           /* 查询购物车中商品的个数*/
@@ -349,16 +348,11 @@ class ShopcartController extends HomeController {
 
         $order = D("order");
         $tag   = $_POST["tag"];
-        $value = $order->where("tag='$tag'")->getField('id');
+        $value = $order->where(array("tag"=>$tag,'uid'=>$uid))->getField('id');
         isset($value)&& $this->error('重复提交订单');
 
-        //根据订单id获取购物清单
-//    $del=M("Shoplist")->where("tag='$tag'")->select();
-
-
         //计算提交的订单的商品总额
-        $total=$this->getPricetotal($tag);
-
+        $total=$this->getPricetotal($tag,$uid);
 
         //计算提交的订单的商品运费
         if($total<C('LOWWEST')){
@@ -411,7 +405,7 @@ class ShopcartController extends HomeController {
             $pay->uid=$uid;
             $pay->addressid=$senderid;
             $pay->create_time=NOW_TIME;
-            $pay->type=2;//货到付款
+            $pay->type= 1;//货到付款
             $pay->status=1;
             $pay->add();
             $data['status']=1;
@@ -455,7 +449,7 @@ class ShopcartController extends HomeController {
             $pay->uid=$uid;
             $pay->addressid=$senderid;
             $pay->create_time=NOW_TIME;
-            $pay->type=1;//在线支付
+            $pay->type  = 2;//在线支付
             $pay->status=1;//待支付
             $pay->add();
             $this->meta_title = '订单支付';
@@ -570,9 +564,9 @@ class ShopcartController extends HomeController {
     }
 
 
-    public function getPricetotal($tag) {
+    public function getPricetotal($tag,$uid) {
 
-        $data = M("shoplist")->where("tag='$tag'")->select();
+        $data = M("shoplist")->where(array('uid'=>$uid,'tag'=>$tag))->field('num,price')->select();
         foreach ($data as $k=>$val) {
             $price=$val['price'];
             $total += $val['num'] * $price;

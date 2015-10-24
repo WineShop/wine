@@ -336,6 +336,7 @@ display:block;float:left;}
 
 .confirm{padding:6px 12px;color:#fff;background-color:#FF6347;border-radius: 3px;}
 .confirm:hover{background: #E23C3D}
+.order_tip{background: #FDF657;padding:6px 12px;color:#999;border-radius: 3px;}
 table.gridtable th {
 	height: 25px;
 background-color: #fafbf8;

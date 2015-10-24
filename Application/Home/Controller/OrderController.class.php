@@ -69,11 +69,12 @@ class OrderController extends HomeController {
 
 
         if(IS_POST){
-            $id= I('post.id');//获取orderid
-            $order=M("order");
-            $status=$order->where(array("orderid"=>$id,'uid'=>$uid))->getField("status");
-            $num=$order->where(array("orderid"=>$id,'uid'=>$uid))->getField("ispay");
-            $shopid=$order->where(array("orderid"=>$id,'uid'=>$uid))->getField("id");
+            $id   = I('post.id');//获取orderid
+            $order= M("order");
+            $info = $order->where(array("orderid"=>$id,'uid'=>$uid))->field('status,ispay,id')->select();
+            $status = $info["status"];
+            $num    = $info["ispay"];
+            $shopid = $info["id"];
             $data=$order->where("id='$shopid'")->select();
             $cash = 0;
             foreach ($data as $k=>$val) {
@@ -108,8 +109,8 @@ class OrderController extends HomeController {
                 if($order->where("orderid='$id'")->setField($data)) {
                     $this->ajaxSuccess('申请成功，订单已取消');
                 }else{
-                    \Think\LogTool::instance()->setLogger('Ucenter/order');
-                    \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 订单取消失败了：');
+//                    \Think\LogTool::instance()->setLogger('Ucenter/order');
+//                    \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 订单取消失败了：');
                     $this->ajaxError('申请失败，请重试');
                 }
             }else{  //订单已发货，或已支付未发货,需申请，申请状态码4，拒绝5，同意6
@@ -126,9 +127,9 @@ class OrderController extends HomeController {
                 if($order->where("orderid='$id'")->setField($data)) {
                     $this->ajaxSuccess('申请成功，你可以重亲购物');
                 }else{
-                    \Think\LogTool::instance()->setLogger('Ucenter/order');
-                    \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 订单取消失败了：');
-                    $this->ajaxError('申请失败，请重试');
+//                    \Think\LogTool::instance()->setLogger('Ucenter/order');
+//                    \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 订单取消失败了：');
+                    $this->ajaxError('申请失败，请重试!');
                 }
 
             }
