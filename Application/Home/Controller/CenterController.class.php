@@ -342,9 +342,6 @@ class CenterController extends HomeController {
      ***************/
     public  function collect() {   /* 购物车调用*/
         $uid = $this->login();
-        /** 购物车调用**/
-        $cart  = $_SESSION['cart'];
-        $this->assign('usercart',$cart);
 
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
@@ -367,10 +364,6 @@ class CenterController extends HomeController {
     }
     public  function coupon() {
         $uid = $this->login();
-        /** 购物车调用**/
-        $cart  = $_SESSION['cart'];
-        $this->assign('usercart',$cart);
-
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);

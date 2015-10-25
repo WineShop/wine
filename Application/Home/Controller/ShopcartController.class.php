@@ -345,8 +345,6 @@ class ShopcartController extends HomeController {
      */
     public function createorder() {
         $uid = $this->login();
-        /* 购物车调用*/
-        $this->assign('usercart',$_SESSION['cart']);
         /* 热词调用*/
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
@@ -561,8 +559,8 @@ class ShopcartController extends HomeController {
         {
             $this->ajaxSuccess('该物品已经删除成功！');
         }else{
-            \Think\LogTool::instance()->setLogger('Ucenter/cart');
-            \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 删除物品失败了');
+//            \Think\LogTool::instance()->setLogger('Ucenter/cart');
+//            \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 删除物品失败了');
             $this->AjaxError('删除失败！订单未完成');
         }
 

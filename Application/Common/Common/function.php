@@ -706,7 +706,7 @@ function get_partnerid_Byid($id){
 
 /* 店铺名称调用 */
 function get_shopname($partnerid){
-    $row = M('shop')->where("id='$partnerid'")->find();
+    $row = M('shop')->where("id='$partnerid'")->field('shopname')->find();
    if($row){
 	return $row['shopname'];//入住商家
 	}
@@ -724,85 +724,85 @@ function get_userqq($partnerid){
 
 /* 优惠券名称调用 */
 function get_coupon_name($id){
-    $row = M('fcoupon')->getbyId($id);
+    $row = M('fcoupon')->field('title')->getbyId($id);
     return $row['title'];
 }
 /* 优惠券价值调用 */
 function get_coupon_price($id){
-    $row = M('fcoupon')->getbyId($id);
+    $row = M('fcoupon')->field('price')->getbyId($id);
     return $row['price'];
 }
 /* 优惠券代码调用 */
 function get_coupon_code($id){
-    $row = M('fcoupon')->getbyId($id);
+    $row = M('fcoupon')->field('code')->getbyId($id);
     return $row['code'];
 }
 /* 商品重量调用 */
 function get_weight($id){
-    $row = M('document_product')->getbyId($id);
+    $row = M('document_product')->field('weight')->getbyId($id);
     return $row['weight'];
 }
 /* 商品名称调用 */
 function get_good_name($id){
-    $row = M('document')->getbyId($id);
+    $row = M('document')->field('title')->getbyId($id);
     return $row['title'];
 }
 function get_good_view($id){
-    $row = M('document')->getbyId($id);
+    $row = M('document')->field('view')->getbyId($id);
     return $row['view'];
 }
 /* 商品内容调用 */
 function get_docoment_content($id){
-    $row = M('document_article')->getbyId($id);
+    $row = M('document_article')->field('content')->getbyId($id);
     return $row['content'];
 }
 function get_sales($id){
-    $row = M('document')->getbyId($id);
+    $row = M('document')->field('sale')->getbyId($id);
     return $row['sale'];
 }
 /* 商品内容调用 */
 function get_good_content($id){
-    $row = M('document_product')->getbyId($id);
+    $row = M('document_product')->field('content')->getbyId($id);
     return $row['content'];
 }
 function get_good_tuanprice($id){
-    $row = M('document')->getbyId($id);
+    $row = M('document')->field('tuan_price')->getbyId($id);
     return $row['tuan_price'];
 }
 /* 商品价格调用 */
 function get_good_price($id){
-    $row = M('document')->getbyId($id);
+    $row = M('document')->field('price')->getbyId($id);
     return $row['price'];
 }
 /* 商品市场价 */
 function get_good_yprice($id){
-    $row = M('document_product')->getbyId($id);
+    $row = M('document_product')->field('marketprice')->getbyId($id);
     return $row['marketprice'];
 }
 /* 店铺id调用 */
 function get_shop_goodid($id){
-    $row = M('shoplist')->getbyId($id);
+    $row = M('shoplist')->field('goodid')->getbyId($id);
     return $row['goodid'];
 }
 /* 商品价格调用 */
 function get_shop_orderid($id){
-    $row = M('shoplist')->getbyId($id);
+    $row = M('shoplist')->field('goodid')->getbyId($id);
     return $row['goodid'];
 }
 function get_good_img($id){
-    $row = M('picture')->getbyId($id);
+    $row = M('picture')->field('path')->getbyId($id);
     return $row['path'];
 }
 function get_good_shorttitle($id){
-    $row = M('document_product')->getbyId($id);
+    $row = M('document_product')->field('shorttitle')->getbyId($id);
     return $row['shorttitle'];
 }
 function get_good_adid($id){
-    $row = M('document_product')->getbyId($id);
+    $row = M('document_product')->field('ads_pic_id')->getbyId($id);
     return $row['ads_pic_id'];
 }
 function get_order_total($id){
-    $row = M('order')->getbyId($id);
+    $row = M('order')->field('pricetotal')->getbyId($id);
     return $row['pricetotal'];
 }
 /* 根据ID获取分类名称 */

@@ -161,6 +161,7 @@ class UserController extends HomeController {
             }else{
                 $fav->goodid = $id;
                 $fav->uid    = $uid;
+                $fav->create_time = time();
                 $fav->add();
                 $this->ajaxSuccess('该物品已成功收藏！');
             }
@@ -297,15 +298,17 @@ class UserController extends HomeController {
      ***************/
     public  function getcoupon() {
         if (!($uid = is_login()) ) {
-            $this->error( "您还没有登陆，请先登陆",U("/"),2);
+            $this->ajaxError( "您还没有登陆，请先登陆");
         }
         $id=$_POST["couponid"];
+        if(empty($id))
+            $this->ajaxError('对不起，参数有误！');
+
         $coupon=M("usercoupon");
         if($coupon->where("uid='$uid'and couponid='$id'")->select() )
         {
-            $data["msg"] = "已领取过";
-            $data["status"] = "0";
-            $this->ajaxreturn($data);
+            $msg = "您之前已领取过";
+            $this->ajaxError($msg);
         }else{
             $data["uid"] = $uid;
             $data["couponid"] = $id;
@@ -313,9 +316,9 @@ class UserController extends HomeController {
             $data["status"] = "1";
             $data["info"] = "未使用";
             $coupon->add($data);
-            $data["msg"] = "已成功领取，请刷新查看";
+            $msg  = "恭喜您，已成功领取";
 
-            $this->ajaxreturn($data);
+            $this->ajaxSuccess($msg);
 
         }
 

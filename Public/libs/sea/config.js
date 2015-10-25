@@ -33,6 +33,7 @@ seajs.config({
         //用户中心
         Ucenter     : 'Home/js/center/center.js',
         Uorder      : 'Home/js/center/order.js',
+        Coupon      : 'Home/js/center/coupon.js',
         //后台登陆
         AdminLogin  : 'Admin/js/login/login.js'
 

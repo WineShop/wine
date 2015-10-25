@@ -72,10 +72,10 @@ class OrderController extends HomeController {
             $id       = I('post.id');//获取orderid
             $order    = M("order");
             $shoplist = M('shoplist');
-            $info     = $order->where(array("orderid"=>$id,'uid'=>$uid))->field('status,ispay,id')->select();
-            $status   = $info[0]["status"];
-            $num      = $info[0]["ispay"];
-            $orderid  = $info[0]["id"];
+            $info     = $order->where(array("orderid"=>$id,'uid'=>$uid))->field('status,ispay,id')->find();
+            $status   = $info["status"];
+            $num      = $info["ispay"];
+            $orderid  = $info["id"];
             $data     = $shoplist->where("orderid='$orderid'")->field('num,price')->select();
             if(empty($data)){
                 $this->ajaxError('取消有误，非法参数！');
@@ -109,7 +109,7 @@ class OrderController extends HomeController {
                 //设置订单为订单已取消
                 $data = array('status'=>'6','backinfo'=>'订单已关闭');
                 //更新订单列表订单状态为已取消，清空取消订单操作
-                if($order->where("orderid='$id'")->setField($data)) {
+                if($order->where("id='{$orderid}'")->setField($data)) {
                     $this->ajaxSuccess('申请成功，订单已取消');
                 }else{
 //                    \Think\LogTool::instance()->setLogger('Ucenter/order');
@@ -127,7 +127,7 @@ class OrderController extends HomeController {
                 $cancel->count = $count;//取消的种类
                 $cancel ->add();
                 $data = array('status'=>'4');//设置订单状态为已提交，发货等状态不变
-                if($order->where("orderid='$id'")->setField($data)) {
+                if($order->where("id='{$orderid}'")->setField($data)) {
                     $this->ajaxSuccess('申请成功，你可以重亲购物');
                 }else{
 //                    \Think\LogTool::instance()->setLogger('Ucenter/order');

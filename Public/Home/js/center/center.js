@@ -64,10 +64,23 @@ define(function(require, exports, module){
             });
         });
 
-        //订单管理  删除订单
+        //订单管理  删除订单 提交按钮方式
         $(".delorder").click(function(){
             var url = $("form[name=delform]").attr('action');
             var param = $("form[name=delform]").serialize();
+            T.restPost(url,param,function(success){
+                main.modalAlert(success.msg);
+                main.redirect('');
+            },function(error){
+                main.modalAlert(error.msg,'danger');
+            });
+        })
+
+
+        //删除一个订单
+        $(".del_one_order").click(function(){
+            var url = $(this).data('url');
+            var param = {tag:$(this).data('tag')}
             T.restPost(url,param,function(success){
                 main.modalAlert(success.msg);
                 main.redirect('');

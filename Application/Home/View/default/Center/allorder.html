@@ -50,7 +50,7 @@
                                     下单时间：<span>{$po.create_time|date='Y-m-d H:i:s',###}&nbsp;
 
                                     <gt name="po['status']" value="2">
-                                        <b><a href="{:U('Shopcart/delorder?tag='.$po['tag'])}" ><img src="__IMG__/iconfont-lajixiang.png" width="20" height="20"></a></b>
+                                        <b><a href="javascript:;" class="del_one_order" data-url="{:U('Shopcart/delorder')}" data-tag="{$po['tag']}"><img src="__IMG__/iconfont-lajixiang.png" width="20" height="20"></a></b>
                                     </gt>
 			                    </div>
                              <!-- 列表详情区域开始 -->

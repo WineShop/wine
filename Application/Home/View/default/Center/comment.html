@@ -12,9 +12,9 @@
 
 	
 	<div class="personal_info">
-				<p><span class="rate-icon rate-ok"><img src="__IMG__/ok.png">好评</span>{$best}个<span class="rate-icon rate-ok"><img src="__IMG__/bad.png">差评</span>{$bad}个<span class="rate-icon rate-ok"><img src="__IMG__/common.png">一般</span>{$common}个</p>
+				<p><span class="rate-icon rate-ok"><img src="__IMG__/ok.png">好评 {$best}个</span><span class="rate-icon rate-ok"><img src="__IMG__/bad.png">差评{$bad}个</span><span class="rate-icon rate-ok"><img src="__IMG__/common.png">一般{$common}个</span></p>
 			</div>
-	<h4><span>评价列表</span></h4>
+	<h4 style="margin-top: 10px;"><span>评价列表</span></h4>
        
 	    <table   class="col_name"  width="100%">
         <thead>
@@ -51,7 +51,13 @@
 
 
 <!-- 个人中心 初始状态 end --></div></div>
-    <script type="text/javascript">_init_area();</script>
+
+    <script type="text/javascript">
+
+        seajs.use(['Ucenter','Coupon'],function(ucenter,cpon){
+            ucenter.center_init();
+        })
+    </script>
        
    
    

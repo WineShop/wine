@@ -862,14 +862,14 @@ height: 22px;
 line-height: 22px;
 border-left: 4px solid #E23C3D;
 color: #E23C3D;
-margin:5px;
-_margin:5px;
+margin: 10px 5px;
 padding-left: 10px;
 font-size: 16px;clear:both;
 }
 .personal_info_none_goods {
-padding: 70px 0;
-position: relative;
+    padding: 18px 0;
+    position: relative;
+    overflow: hidden;
 }
 .personal_info_none_goods p {
 float: left;
@@ -1232,7 +1232,7 @@ table{font-size:14px;}
 ul.userhas{margin:10px 0px 20px 30px;;overflow:hidden;clear:both}
 .userhas li{float:left;margin-right:18px;}
 .userhas p{text-align:center;padding:5px;}
-.userhas .text{margin:0px 0px 0px 30px;width:100px;padding:5px; text-align:center;background:#E23C3D;display:block}
+.userhas .text{margin:0px 0px 0px 45px;width:100px;padding:5px; text-align:center;background:#FF6347;display:block}
 .activity{
     width: 100%;
     overflow: hidden;
@@ -1516,12 +1516,12 @@ padding-bottom: 10px;
 .qiandao{float:left;padding:52px 0 0 35px;}
 .shoucang{text-indent:2em;}
 .shoucang .out{border:1px solid #eee;padding:2px 0;margin:2px 0;}
-.shoucang .over{border:1px solid #f60;padding:2px 0;margin:2px 0;}
+.shoucang .over{border:1px solid #E23C3D;padding:2px 0;margin:2px 0;border-radius: 3px;}
 .shoucang li p span{overflow:hidden;display:inline-block;}
 .shoucang h3{font-size:16px;font-weight:400;line-height:30px;height:30px;}
 .shoucang img{vertical-align:top}
-.center_right h4{border-bottom: 2px solid #f50;height:30px;font-weight:400;line-height:30px;padding-left:20px;}
-.center_right h4 span{display:inline-block;padding:1px 10px;background-color:#f50;color:#fff}
+.center_right h4{border-bottom: 2px solid #E23C3D;height:30px;font-weight:400;line-height:30px;padding-left:20px;}
+.center_right h4 span{display:inline-block;padding:1px 10px;border-radius: 3px;background-color:#E23C3D;color:#fff}
 .comment_list{border-bottom: 2px solid #eee;width:100%}
 .comment_area{margin:0 auto;width:90%}
 .comment_area h5{font-size:14px;font-weight:400;line-height:10px;height:10px;background-color:#eee;}
@@ -2177,3 +2177,4 @@ div.text{display:block;overflow:hidden;clear:both;}
     background-color: #E23C3D;
     color: #fff;
 }
+.personal_info p span{margin-right: 15px;}
