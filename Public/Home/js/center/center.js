@@ -58,10 +58,7 @@ define(function(require, exports, module){
             var id  = $(this).data('id');
             T.restPost(url,{id:id},function(success){
                 main.modalAlert(success.msg);
-                if($(".cancle_order").length == '1'){
-                    main.redirect('')
-                }
-                $(this).closest(".order-detail").parent().remove();
+                main.redirect('');
             },function(error){
                 main.modalAlert(error.msg,'danger');
             });

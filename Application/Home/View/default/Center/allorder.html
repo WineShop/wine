@@ -71,25 +71,51 @@
 		                                    <span class="c2">￥{$vo.price}</span>
                                             <span class="c2">{$vo.num}</span>
                                             <span class="c2">
+                                                <if condition="($vo['status'] eq 1) or ($vo['status'] eq 2)">无</if>
+                                                <if condition="$vo['status'] eq 3">
+                                                    <a  href='{:U("/Order/back",array("id"=>$vo["id"]))}'>退货</a>&nbsp;/
+                                                    <a  href="{:U('/Order/change',array('id'=>$vo['id']))}">换货</a>
+                                                </if>
+                                                <if condition="$vo['status'] eq 4">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货审核中</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq 5">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>同意退货</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq 6">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货中</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq 7">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货被拒绝</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq 8">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货完成</a>&nbsp;
+                                                </if>
 
-                                            <php>
-			if($vo['status']==1||$vo['status']==2){ echo "无"; };
-			if($vo['status']==3){ echo "<a  href='index.php?s=/Home/order/back/id/".$vo['id']."'>退货</a>&nbsp;/"."<a  href='index.php?s=/Home/order/change/id/".$vo['id']."'>换货</a>"; };
 
-	        if($vo['status']==4){ echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货审核中</a>&nbsp;";};
-	        if($vo['status']==5){ echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>同意退货</a>&nbsp;";};
-            if($vo['status']==6){ echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货中</a>&nbsp;";};
-            if($vo['status']==7){ echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货被拒绝</a>&nbsp;";};
-            if($vo['status']==8){ echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货完成</a>&nbsp;";};
+                                                <if condition="$vo['status'] eq -4">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货审核中</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq -5">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>同意换货</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq -6">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货中</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq -7">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货被拒绝</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['status'] eq -8">
+                                                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货完成</a>&nbsp;
+                                                </if>
 
-            if($vo['status']==-4){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货审核中</a>&nbsp;";};
-            if($vo['status']==-5){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>同意换货</a>&nbsp;";};
-            if($vo['status']==-6){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货中</a>&nbsp;";};
-            if($vo['status']==-7){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货被拒绝</a>&nbsp;";};
-            if($vo['status']==-8){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货完成</a>&nbsp;";};
-            if($vo['iscomment']==1){ echo "<br/><a  href='index.php?s=/Home/comment/index/id/".$vo['id']."'>评价商品</a>";};
-            if($vo['iscomment']==2){ echo "<br/><a  href='index.php?s=/Home/comment/index/id/".$vo['id']."'>已评价</a>";};
-			  </php>
+                                                <if condition="$vo['iscomment'] eq 1">
+                                                    <a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}'>评价商品</a>&nbsp;
+                                                </if>
+                                                <if condition="$vo['iscomment'] eq 2">
+                                                    <a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}'>已评价</a>&nbsp;
+                                                </if>
+
                                             </span>
 		                                </div>
 		                          </volist>
@@ -102,7 +128,8 @@
 			                            <p class="red">
 			                            <php>
 
-                                           $status=$po['status'];if($status==13){ echo "待支付";};
+                                           $status=$po['status'];
+                                            if($status==13){ echo "<span class='order_tip'>待支付</span>";};
                                            if($status==1){ echo "<span class='order_tip'>待发货</span>";};
                                            if($status==2){ echo "<span class='order_tip'>已发货</span>";};
                                            if($status==3){ echo "<span class='order_tip'>交易成功</span>";};

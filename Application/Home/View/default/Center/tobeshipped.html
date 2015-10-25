@@ -44,28 +44,52 @@
 		  </span>
 		  <span class="c2">￥{$vo.price}</span>
 		  <span class="c2">{$vo.num}</span> 
-		    <span class="c2">  <php>
-			if($vo['status']==1||$vo['status']==2){echo "无"
-			  ;};
-			   if($vo['status']==3){echo "<a  href='index.php?s=/Home/order/back/id/".$vo['id']."'>退货</a>&nbsp;/"."<a  href='index.php?s=/Home/order/change/id/".$vo['id']."'>换货</a>"
-			  ;};
+		    <span class="c2">
+                <if condition="($vo['status'] eq 1) or ($vo['status'] eq 2)">无</if>
+                <if condition="$vo['status'] eq 3">
+                    <a  href='{:U("/Order/back",array("id"=>$vo["id"]))}'>退货</a>&nbsp;/
+                    <a  href="{:U('/Order/change',array('id'=>$vo['id']))}">换货</a>
+                </if>
+                <if condition="$vo['status'] eq 4">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货审核中</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq 5">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>同意退货</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq 6">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货中</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq 7">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货被拒绝</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq 8">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>退货完成</a>&nbsp;
+                </if>
 
-	 if($vo['status']==4){echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货审核中</a>&nbsp;";};
-	if($vo['status']==5){echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>同意退货</a>&nbsp;";}; 
-if($vo['status']==6){echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货中</a>&nbsp;";}; 
-  if($vo['status']==7){echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货被拒绝</a>&nbsp;";}; 
- if($vo['status']==8){echo "<a  href='index.php?s=/Home/order/backdetail/id/".$vo['id']."'>退货完成</a>&nbsp;";}; 
 
- if($vo['status']==-4){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货审核中</a>&nbsp;";};
-if($vo['status']==-5){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>同意换货</a>&nbsp;";}; 
-if($vo['status']==-6){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货中</a>&nbsp;";}; 
-  if($vo['status']==-7){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货被拒绝</a>&nbsp;";}; 
- if($vo['status']==-8){echo "<a  href='index.php?s=/Home/order/changedetail/id/".$vo['id']."'>换货完成</a>&nbsp;";};
-if($vo['iscomment']==1){echo 
-			   "<br/><a  href='index.php?s=/Home/comment/index/id/".$vo['id']."'>评价商品</a>";};
-if($vo['iscomment']==2){echo 
-			   "<br/><a  href='index.php?s=/Home/comment/index/id/".$vo['id']."'>已评价</a>";};
-			  </php></span>
+                <if condition="$vo['status'] eq -4">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货审核中</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq -5">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>同意换货</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq -6">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货中</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq -7">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货被拒绝</a>&nbsp;
+                </if>
+                <if condition="$vo['status'] eq -8">
+                    <a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}'>换货完成</a>&nbsp;
+                </if>
+
+                <if condition="$vo['iscomment'] eq 1">
+                    <a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}'>评价商品</a>&nbsp;
+                </if>
+                <if condition="$vo['iscomment'] eq 2">
+                    <a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}'>已评价</a>&nbsp;
+                </if>
+            </span>
 		  </div>
 		  </volist> 
 		  </div>
@@ -77,29 +101,33 @@ if($vo['iscomment']==2){echo
 		     <div class="deal-area">
 			<p class="red"> 
 			 <php>
-
-			  $status=$po['status'];if($status==13){ echo "待支付";};
-			  if($status==1){ echo "待发货";}; 
-			   if($status==2){ echo "已发货";};
-			   if($status==3){ echo "交易成功";};
-			    if($status==4){ echo "申请取消订单";};
-				if($status==5){ echo "取消订单被拒绝";};
-			   if($status==6){ echo "订单已取消";};
+                 $status=$po['status'];
+                 if($status==13){ echo "<span class='order_tip'>待支付</span>";};
+                 if($status==1){ echo "<span class='order_tip'>待发货</span>";};
+                 if($status==2){ echo "<span class='order_tip'>已发货</span>";};
+                 if($status==3){ echo "<span class='order_tip'>交易成功</span>";};
+                 if($status==4){ echo "<span class='order_tip'>申请取消中</span>";};
+                 if($status==5){ echo "<span class='order_tip'>取消被拒绝</span>";};
+                 if($status==6){ echo "<span class='order_tip'>订单已取消</span>";};
 			  </php> </p>
-			<p><a href="{:U('order/detail?id='.$po['orderid'])}" style="margin-top: 14" class="sm_btn">订单详情</a></p>
+			<p><a href="{:U('order/detail?id='.$po['orderid'])}" style="margin-top: 14" class="confirm">订单详情</a></p>
 			  </div>
-			   <div class="act-area"> 
-			   <php>
-
-			  $status=$po['status']; 
-			   if($status==2){ echo " <p><a class='confirm' href='index.php?s=/Home/order/complete/id/".$po['orderid']."'>确认收货</a> </p>";};
-			  $pay=$po['ispay'];
-			  if($pay==1&&$po['status']==-1){ echo " <p><A class='confirm cancle_order'  href='javascript:;'  data-url='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>"." <p><A class='confirm' href='index.php?s=/Home/Pay/index/orderid/".$po['orderid']."'>前去支付</a> </p>";};
-			  if($pay==-1&&$po['status']==1 ){ echo " <p><A  class='confirm cancle_order'  href='javascript:;'  data-url='index.php?s=/Home/order/cancel/id/".$po['orderid']."'>取消订单</a> </p>";}
-			  ; if($po['status']==2){ echo " <p><A class='red confirm' href='index.php?s=/Home/order/detail/id/".$po['orderid']."'>查看物流</a> </p>";}
-			  </php>
+			  <div class="act-area">
+                  <if condition='$po.status eq 2'>
+                      <p><a class='confirm' href='{:U("/order/complete",array("id"=>$po["orderid"]))}'>确认收货</a> </p>
+                  </if>
+                  <if condition='($po.status eq -1) and ($po.ispay eq 1)'>
+                      <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
+                      <p><A class='confirm' href="{:U('Pay/index',array('orderid'=>$po['orderid']))}">前去支付</a> </p>
+                  </if>
+                  <if condition='($po.status eq 1) and ($po.ispay eq -1)'>
+                      <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
+                  </if>
+                  <if condition='$po.status eq 2'>
+                      <p><a class='red confirm' href='{:U("/order/detail",array("id"=>$po["orderid"]))}'>查看物流</a> </p>
+                  </if>
 			  
-		    </div> 
+		      </div>
 		  </div>
        <!-- 列表详情区域结束 -->
 	   </div>

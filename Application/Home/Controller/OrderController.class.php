@@ -69,39 +69,42 @@ class OrderController extends HomeController {
 
 
         if(IS_POST){
-            $id   = I('post.id');//获取orderid
-            $order= M("order");
-            $info = $order->where(array("orderid"=>$id,'uid'=>$uid))->field('status,ispay,id')->select();
-            $status = $info["status"];
-            $num    = $info["ispay"];
-            $shopid = $info["id"];
-            $data=$order->where("id='$shopid'")->select();
+            $id       = I('post.id');//获取orderid
+            $order    = M("order");
+            $shoplist = M('shoplist');
+            $info     = $order->where(array("orderid"=>$id,'uid'=>$uid))->field('status,ispay,id')->select();
+            $status   = $info[0]["status"];
+            $num      = $info[0]["ispay"];
+            $orderid  = $info[0]["id"];
+            $data     = $shoplist->where("orderid='$orderid'")->field('num,price')->select();
+            if(empty($data)){
+                $this->ajaxError('取消有误，非法参数！');
+            }
             $cash = 0;
             foreach ($data as $k=>$val) {
-                $goodid=$val['goodid'];
-                $price=get_good_price($goodid);
                 /*取消的商品总额*/
-                $cash+= $val['num'] * $price;
+                $cash += $val['num'] * $val['price'];
                 /*退货中的商品件数*/
-                $num+=$val['num'];
+                $shop_num +=$val['num'];
                 /*退货中的商品种类数*/
-                $count+=1;
+                $count += 1;
 
             }
-            //订单已提交或未支付直接取消
+
+            //订单已提交或未支付直接取消   货到付款 已提交  || 在线支付未完成 待支付
             if(($num==-1&&$status==1)||($num==1&&$status==-1)){
                 //设置订单取消
 
                 //保存数据到取消表中后台调用
                 $cancel=D("cancel");
                 $cancel->create();
-                $cancel->create_time=NOW_TIME;
-                $cancel->status=3;
-                $cancel->orderid=$id;
-                $cancel->cash=$cash;//取消的金额
-                $cancel->num=$num;//取消的数量
-                $cancel->count=$count;//取消的种类
-                $cancel->info="自助取消";
+                $cancel->create_time = NOW_TIME;
+                $cancel->status  = 3;
+                $cancel->orderid = $id;
+                $cancel->cash    = $cash;//取消的金额
+                $cancel->num     = $shop_num;//取消的数量
+                $cancel->count   = $count;//取消的种类
+                $cancel->info    = "自助取消";
                 $cancel ->add();
                 //设置订单为订单已取消
                 $data = array('status'=>'6','backinfo'=>'订单已关闭');
@@ -119,9 +122,9 @@ class OrderController extends HomeController {
                 $cancel->time=NOW_TIME;
                 $cancel->status=1;
                 $cancel->orderid=$id;
-                $cancel->cash=$cash;//取消的金额
-                $cancel->num=$num;//取消的数量
-                $cancel->count=$count;//取消的种类
+                $cancel->cash  = $cash;//取消的金额
+                $cancel->num   = $shop_num;//取消的数量
+                $cancel->count = $count;//取消的种类
                 $cancel ->add();
                 $data = array('status'=>'4');//设置订单状态为已提交，发货等状态不变
                 if($order->where("orderid='$id'")->setField($data)) {
@@ -134,33 +137,32 @@ class OrderController extends HomeController {
 
             }
         }else{   //is_post
-            $id= I('get.id');//获取orderid
-            $msg="申请取消订单:";
-            $order=M("order");
-            $detail=$order->where("orderid='$id'")->select();
-            $num=$order->where("orderid='$id'")->getField("status");
+            $id    = I('get.id');//获取orderid
+            $msg   = "申请取消订单:";
+            $order = M("order");
+            $detail= $order->where(array('uid'=>$uid,'orderid'=>$id))->field('status,ispay')->find();
+            if(empty($detail))
+                $this->error('该订单不存在！');
 
-            if($num=="1"){
-                $paynum=$order->where("orderid='$id'")->getField("ispay");
+            $num  = $detail["status"];
 
-                if($paynum=="1"){
+            if($num == "1"){
+                $paynum = $detail["ispay"];
+
+                if($paynum == "1"){
                     $info="当前订单状态为未完成支付";
                 }
                 if(!$paynum){
                     $info="当前订单已提交等待发货中";
                 }
             }
-            if($num=="2"){
+            if($num == "2")
                 $info="当前提交的订单已发货,需审核通过后取消";
-            }
 
-            $list=M("shoplist");
-            foreach($detail as $n=> $val){
-                $detail[$n]['id']=$list->where('orderid=\''.$val['id'].'\'')->select();
+            if($num == '-1')
+                $info="当前订单的状态为待支付";
 
-            }
             $this->assign('info',$info);
-            $this->assign('detaillist',$detail);
             $this->assign('id',$id);
             $this->assign('msg',$msg);
             $this->display();

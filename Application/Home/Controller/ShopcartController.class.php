@@ -68,7 +68,7 @@ class ShopcartController extends HomeController {
      * 添加商品  添加商品     未用到
      * param int $id 商品主键
      * int $num 购物数量
-   */
+     */
     public  function addgood($id) {
         $tag=$_POST['tag'];
         $num=1;
@@ -266,14 +266,16 @@ class ShopcartController extends HomeController {
         return sprintf("%01.2f", $price);
     }
 
-    /*
-    清空购物车
-    */
+    /**
+     *清空购物车
+     */
     public function clear() {
         $_SESSION['cart'] = array();
     }
 
-
+    /**
+     * 加入shoplist中
+     */
     public function order() {
         /* uid调用*/
         $uid   = $this->login();
@@ -338,6 +340,9 @@ class ShopcartController extends HomeController {
         }
     }
 
+    /**
+     * 产生order  产生支付 pay
+     */
     public function createorder() {
         $uid = $this->login();
         /* 购物车调用*/

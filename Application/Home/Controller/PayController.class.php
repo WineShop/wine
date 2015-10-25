@@ -44,9 +44,9 @@ class PayController extends HomeController {
             $pay = new \Think\Pay($paytype, $payment[$paytype]);
            
 			if(!empty($_POST['orderid'])){ 
-		        $order_no=trim($_POST['orderid']);//未付款订单号
-                $body= C('SITENAME')."订单支付";//商品描述
-                $title=C('SITENAME')."订单支付";//设置商品名称
+		        $order_no = trim($_POST['orderid']);//未付款订单号
+                $body     = C('SITENAME')."订单支付";//商品描述
+                $title    = C('SITENAME')."订单支付";//设置商品名称
             }
 			//else{
 			// $order_no = $pay->createOrderNo(); //充值，生成订单号

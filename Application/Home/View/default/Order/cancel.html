@@ -7,14 +7,14 @@
 <!-- 左侧菜单 -->
 </div><div class="center_right" style="display: none;"><div class="center_right_loading"></div></div><div id="memberCenter" style="display: block;"><!-- 个人中心 初始状态 start -->
 <div class="center_right" id="MemberCenterCtrl" style="display: block;">
-<span  style="display: block;padding:15px;font-size:17px;text-align:center;color:red;margin:20px 0;">{$msg} &nbsp;&nbsp;{$id}</span>
+<span  style="display: block;padding:15px;font-size:17px;text-align:center;color:#E23C3D;margin:20px 0;font-weight: bold">{$msg} &nbsp;&nbsp;{$id}</span>
 
 	<form action='{:U()}' method="post" name="actform" style="float:left;;width:80%" >
 	<input type="hidden" name="id" value="{$id}">
        <div id="write">
 	   
 <ul> <li><div class="form-item">
-			<label class="item-label">提示:<span class="red">{$tip}</span> </label>
+			<label class="item-label">提示:<span class="red">{$info}</span> </label>
 		
 		</div></li>
 			<li><div class="form-item">
@@ -27,11 +27,11 @@
 			<div class="form-item">
 			<label class="item-label">描述<span class="check-tips"></span> </label>
 			<div class="controls">
-			<textarea rows="9" cols="60" name="reason"></textarea>				
+			<textarea style="height: 60px;" name="reason"></textarea>
 			</div>
 		</div></li>
 			 
-			 <li><span style="margin: 0 21px"></span><input type="submit" class="btn_submit_pay" value="提交" /></li>
+			 <li><input style="margin-top: 10px;" type="submit" class="btn_submit_pay one_cancel_shop" value="提交" /></li>
 			
 
 </ul> </div>
