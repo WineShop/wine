@@ -1,4 +1,4 @@
-<extend name="Base/s1"/>
+<extend name="Base/center"/>
 <block name="body">
 
 <div class="main"><div class="main_center"><div class="center_left">
@@ -9,7 +9,7 @@
 <div class="center_right account" id="MemberCenterCtrl" style="display: block;">
 <div class="account_right"  style="display: block;">
 	<!-- 安全中心 初始状态 start -->
-	<h4 class=""><a href="{:U("account/security")}">安全中心</a>>登录历史&nbsp;</h4>
+	<h4 class=""><a href="{:U('account/security')}" style="color: #E23C3D">安全中心</a> >> 登录历史&nbsp;</h4>
 
 	<div class="account_history">
             <h5>登录历史记录</h5>
@@ -22,19 +22,26 @@
 				</volist>
 				
 				
-				         </ul>
-        <!-- 分页 -->
-        <div class="page">
-{$page}
-        </div> </div>
-				 </div>
+			</ul>
+            <!-- 分页 -->
+            <div class="page">
+            {$page}
+            </div>
+    </div>
+
+ </div>
 
 </div>
 				 </div> </div>
 	<!-- 安全中心结束状态 end -->
 
 <!-- 个人中心 初始状态 end --></div></div></div>
-    <script type="text/javascript">_init_area();</script>
+    <script type="text/javascript">
+
+        seajs.use(['Ucenter'],function(ucenter){
+            ucenter.center_init();
+        })
+    </script>
        
    
    

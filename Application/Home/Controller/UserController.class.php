@@ -240,20 +240,21 @@ class UserController extends HomeController {
             $password   =   I("post.old");
             $repassword = I("post.repassword");
             $data["password"] = I("post.password");
-            empty($password) && $this->error("请输入原密码");
-            empty($data["password"]) && $this->error("请输入新密码");
-            empty($repassword) && $this->error("请输入确认密码");
+            empty($password) && $this->ajaxError("请输入原密码");
+            empty($data["password"]) && $this->ajaxError("请输入新密码");
+            empty($repassword) && $this->ajaxError("请输入确认密码");
 
             if($data["password"] !== $repassword){
-                $this->error("您输入的新密码与确认密码不一致");
+                $this->ajaxError("您输入的新密码与确认密码不一致");
             }
 
             $Api = new UserApi();
             $res = $Api->updateInfo($uid, $password, $data);
             if($res['status']){
-                $this->success("修改密码成功！");
+                $Api ->logout();
+                $this->ajaxSuccess("修改密码成功！请重新登录");
             }else{
-                $this->error($res["info"]);
+                $this->ajaxError($res["info"]);
             }
         }else{
             if (!($uid = is_login()) ) {

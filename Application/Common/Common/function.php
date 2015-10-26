@@ -1640,12 +1640,12 @@ function encrypt($string,$operation,$key=''){
 	$key=C('DATA_AUTH_KEY');
     $key=md5($key); 
     $key_length=strlen($key); 
-      $string=$operation=='D'?base64_decode($string):substr(md5($string.$key),0,8).$string; 
+    $string=$operation=='D'?base64_decode($string):substr(md5($string.$key),0,8).$string;
     $string_length=strlen($string); 
     $rndkey=$box=array(); 
     $result=''; 
     for($i=0;$i<=255;$i++){ 
-           $rndkey[$i]=ord($key[$i%$key_length]); 
+        $rndkey[$i]=ord($key[$i%$key_length]);
         $box[$i]=$i; 
     } 
     for($j=$i=0;$i<256;$i++){ 

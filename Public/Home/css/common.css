@@ -974,6 +974,7 @@ text-align: right;
 }
 .Validform_checktip {
 height: 20px;line-height: 20px;margin:5px; color: #E23C3D;
+font-weight: bold;
 }
 .login-other {overflow: hidden;
 display: inline;
@@ -991,9 +992,9 @@ font-weight: normal;
 color: #999999;
 }
 .loginform .hd strong {
-font-size: 30px;
+font-size: 24px;
 font-weight: bold;
-color: #000; margin-right:30px;
+color: #E23C3D; margin-right:30px;
 }
 .loginform  .hd a {
 margin-left: 6px;
@@ -1002,7 +1003,7 @@ vertical-align: -1px;
 }
 .loginform  .hd {
 height: 36px;
-line-height: 36px; padding-left:20px; margin-bottom:0px;
+line-height: 36px; padding-left:5px; margin-bottom:0px;
 }
 .other-account li a {
 display: inline-block;
@@ -1414,7 +1415,7 @@ color: #999;
 background-position: 0px 0px;
 }
 .v_dark_btn {
-    border: medium none;
+    border: none;
     background: none repeat scroll 0% 0% #FF6347;
     font-size: 14px;
     color: #FFF;
@@ -1422,7 +1423,7 @@ background-position: 0px 0px;
     cursor: pointer;
     border-radius: 3px;
     transition: all 0.3s ease-in-out 0s;
-width: 300px;
+width: 277px;
 height: 48px;
 line-height: 48px;
 color: #FFF;
@@ -1430,7 +1431,7 @@ font-size: 18px;
 display: inline-block;
 overflow: hidden;
 text-align: center;}
-.v_dark_btn:hover{background: #E23C3D}
+.v_dark_btn:hover{background: #E23C3D;border: none;}
 ul.dginfo_info{overflow:hidden}
 
 
@@ -1723,7 +1724,7 @@ padding: 0 30px;margin-right:100px;padding: 0 30px;}
 .account_right {
 float: left;
 padding-left: 10px;
-width: 780px;
+width: 98%;
 color: #404040;
 font: 12px "\5b8b\4f53";
 position: relative;
@@ -1731,7 +1732,7 @@ position: relative;
 .account_right h4 {
 font-size: 14px;
 font-weight: bold;
-border-bottom: 1px solid #a4d7ca;
+border-bottom: 2px solid #D7AFC7;
 height: 34px;
 padding: 6px 0 0 10px;
 line-height: 34px;
@@ -1748,6 +1749,7 @@ height: 76px;
 border: 1px solid #eee;
 margin-top: 10px;
 padding: 0 10px;
+border-radius: 4px;
 }
 
 .security_content_index ul li {
@@ -1937,9 +1939,10 @@ font-weight: bold;
 padding: 9px 0 4px;color: #404040;
 }
 .account_history {
-  width: 958px;
+  width: 98%;
   margin: 20px auto 0;
   border: 1px solid #e9e9e9;
+  border-radius: 4px;
 }
 .account_history h5 {
   height: 37px;
