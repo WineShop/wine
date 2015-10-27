@@ -40,7 +40,7 @@
             </empty>
                 <span class="title">邮箱验证</span><span class="tip">验证后，可用于邮箱找回登录密码，接收订单提醒服务</span>
             <empty name="emailid">
-                <a class="sm_btn"href="{:U('Account/checkemail')}">验证</a>
+                <a class="sm_btn" data-toggle="modal" data-target="#alterModal" href="{:U('Account/checkemail')}">验证</a>
 			<else/>
 				已验证
 			</empty>
@@ -54,7 +54,7 @@
                  <span class="title">手机验证</span>
                  <span class="tip">验证后，可用于手机号快速登录，修改登录密码，接收账户余额变动提醒</span>
 			 <empty name="mobile">
-                 <a class="sm_btn" href="{:U('Account/checkmobile')}">验证</a>
+                 <a class="sm_btn" data-toggle="modal" data-target="#alterModal" href="{:U('Account/checkmobile')}">验证</a>
 			 <else/>
 				  已验证
 			</empty>
@@ -66,7 +66,7 @@
 				<i class="success"></i>
 			</empty>
                 <span class="title">支付密码</span><span class="tip">设置支付密码后，在使用账户中余额或礼品卡等资金时，需输入支付密码</span>
-					<a class="sm_btn" href="{:U('Account/paykey')}">
+					<a class="sm_btn" data-toggle="modal" data-target="#alterModal" href="{:U('Account/paykey')}">
              <empty name="code">
                     设置
 			<else/>

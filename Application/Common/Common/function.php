@@ -1456,12 +1456,12 @@ function check_category_model($info){
 
     if(!$mail->Send())
     {
-        \Think\LogTool::instance()->setLogger('Ucenter/register');
-        \Think\LogTool::instance()->setLog('error',$to.'在'.date('Y-h-d H:i:s',time()).' 注册了失败了：'.$mail->ErrorInfo());
+//        \Think\LogTool::instance()->setLogger('Ucenter/register');
+//        \Think\LogTool::instance()->setLog('error',$to.'在'.date('Y-h-d H:i:s',time()).' 注册了失败了：'.$mail->ErrorInfo());
         return false;
     }else{
-        \Think\LogTool::instance()->setLogger('Ucenter/register');
-        \Think\LogTool::instance()->setLog('info',$to.'在'.date('Y-h-d H:i:s',time()).' 注册了');
+//        \Think\LogTool::instance()->setLogger('Ucenter/register');
+//        \Think\LogTool::instance()->setLog('info',$to.'在'.date('Y-h-d H:i:s',time()).' 注册了');
         return true;
     }
 }

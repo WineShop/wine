@@ -310,8 +310,8 @@ table.gridtable {
 .cart_bottom{ border-bottom: 1px solid #eee;}
 .cart_info{width:950px;background-color: #fafbf8;overflow:hidden;padding:5px 0; }
 .cart_info tr{clear:both;}
-.single{position:relative;background-color:#fafbf8;margin:5px 0;border:1px solid #daf3ff;overflow:hidden;}
-.singlehover{position:relative;background-color:#fafbf8;margin:5px 0;border:1px solid #BFC8CD;overflow:hidden;}
+.single{position:relative;background-color:#fafbf8;margin:5px 0;border:1px solid #daf3ff;overflow:hidden;border-radius: 4px;}
+.singlehover{position:relative;background-color:#fafbf8;margin:5px 0;border:1px solid #BFC8CD;overflow:hidden;border-radius: 4px;}
 .good-canshu span{width:10%;display:inline-block;text-align:center;}
 .good-canshu .good-name{width:35%;display:inline-block;text-align:center;}
 .order-detail{position: relative;width:100%;display:block;clear:both;height:35px;line-height:35px;text-indent:2em;}
@@ -1839,7 +1839,7 @@ margin: 36px 40px 0 0;
 font-size: 14px;  display: inline-block;position:absolute;
 font-weight: bold;height:30px;
 }
-#mobileform{height:144px;}
+#mobileform{height:67px;}
 #mobileform  .inputBg{height:30px;margin:10px;}
 .security_content_index p span.tip {
 margin: 36px 40px 0 64px;
@@ -1882,7 +1882,7 @@ line-height: 25px;
 overflow: hidden;padding-left: 77px;
 padding-top: 23px;
 }
-.verification{padding-top: 43px;}
+
 .ver_bottom_hint {
 position: absolute;
 top: 349px;
@@ -1923,7 +1923,7 @@ padding: 0 0 0 5px;
 border: 1px solid #7f9db9;
 background-color: #fff;
 }
-#send_num{display: block;padding:10px 20px;}
+
 .verification_list_btn .ver_send {
 width: 146px;color:#000;display: block;
 background-position: 0 -385px;
@@ -1931,7 +1931,7 @@ background-position: 0 -385px;
 .btn-check{padding:10px 10px;text-align:center;width: 146px;color:#fff;display: inline-block;}
 
 .verification_btn02 {
-padding: 0 0 0 358px;
+padding: 0 0 0 101px;
 }
 
 .ver_bottom_hint .title {

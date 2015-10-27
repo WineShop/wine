@@ -27,7 +27,21 @@ define(function(require, exports, module){
     })
 
 
+    //验证邮箱：
+    var checkmail = function(){
+        T.restPost('/Account/send_email',{},function(success){
+            var data = success.data;
+            $("#send_info").parent().show();
+            $("#send_info").html(data.msg);
+        },function(error){
+            $("#send_info").parent().show();
+            $("#send_info").html("发送失败,无效的邮箱地址");
+        });
+    }
 
+    $("#sendmail").click(function(){
+        checkmail();
+    })
 
     module.exports = {
 

@@ -1,64 +1,32 @@
-<extend name="Base/s1"/>
-<block name="body">
 
-<div class="main"><div class="main_center"><div class="center_left">
-<!-- 左侧菜单 -->
-	<include file="Public/leftmenu"/>
-<!-- 左侧菜单 -->
-</div><!-- 个人中心 初始状态 start -->
-<div class="center_right account" id="MemberCenterCtrl" style="display: block;">
-<div class="account_right"  style="display: block;">
+
+<div style="margin-top: 100px;overflow: hidden;margin-right: auto;margin-left: auto;padding:15px;border-radius:4px;background: #fff;width: 400px;" >
 	<!-- 安全中心 初始状态 start -->
-	<h4 class="">验证邮箱</h4>
+	<h4 style="color: #E23C3D">验证邮箱</h4>
 
 	<div class="verification">
                 
           <p class="verification_list verification_list02">
-                    <label>我的邮箱：</label>
-                   {$email}
-                    <span class="ver_hint" id="change_email_err_desc"></span>
-                </p> <p class="verification_list_btn verification_btn02" id="send_email"><a href="javascript:void(0)"  onclick="sendmail();"
-				class="btn-check orange">发送验证邮件</a><span id="send_num" style="width:230px;"></span></p>     
-	<script>
-
-function sendmail(){ 
-
-var yourcode="{:get_username()}";
+                   我的邮箱：{$email}
+              <span class="ver_hint" id="change_email_err_desc"></span>
+          </p>
+         <p style="padding-left:115px;font-weight:bold;display:none;color: #E23C3D;margin-bottom: 15px;"><span id="send_info"></span></p>
+          <p class="verification_list_btn verification_btn02" id="send_email">
+              <a href="javascript:void(0)"  id="sendmail" class="btn-check orange">发送验证邮件</a>
+          </p>
 
 
-$.ajax({
-url:'{:U("account/send_email")}', //发送数据的地址
+         <p class="title" style="margin-top: 25px;"><b>无法收到验证邮件？</b></p>
+         <p>&nbsp;&nbsp;·&nbsp;验证邮件可能在垃圾邮箱中</p>
+         <p>&nbsp;&nbsp;·&nbsp;由于网络原因，可能会有延迟。</p>
+         <p>&nbsp;&nbsp;·&nbsp;一个账号一天最多可以发送5封验证邮件</p>
 
-type: 'POST',
+       </div>
+</div>
 
-data:{code:yourcode},
+<script type="text/javascript">
 
-dataType: 'json',
+    seajs.use(['Passwd'],function(passwd){
 
-timeout: 1000,
-
-error: function(){$("#send_num").html("发送失败,无效的邮箱地址");},
-
-success: function(data){$("#send_num").html(data.msg);
-}
-
-});
-
-}</script>			
-				
-				<div class="ver_bottom_hint">
-                    <p class="title">无法收到验证邮件？</p>
-                    <p>·&nbsp;验证邮件可能在垃圾邮箱或广告邮箱中，请仔细查找</p>
-                    <p>·&nbsp;由于网络原因，可能会有延迟。如果您10分钟还没有收到，请再次发送验证邮件，一个账号一天最多可以发送5封验证邮件</p>
-                </div>   
-                </div>
-
-				 </div>
-	<!-- 安全中心结束状态 end -->
-
-<!-- 个人中心 初始状态 end --></div></div></div>
-    <script type="text/javascript">_init_area();</script>
-       
-   
-   
-</block>
+    })
+</script>
