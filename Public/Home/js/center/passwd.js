@@ -29,14 +29,20 @@ define(function(require, exports, module){
 
     //验证邮箱：
     var checkmail = function(){
+        $("#sendmail").attr('disabled','disabled');
+        $("#send_info").parent().hide();
         T.restPost('/Account/send_email',{},function(success){
             var data = success.data;
             $("#send_info").parent().show();
             $("#send_info").html(data.msg);
+            setTimeout(function(){
+                $("#alterModal").modal('hide');
+            },1500)
         },function(error){
             $("#send_info").parent().show();
-            $("#send_info").html("发送失败,无效的邮箱地址");
+            $("#send_info").html(error.msg);
         });
+        $("#sendmail").attr('disabled','');
     }
 
     $("#sendmail").click(function(){

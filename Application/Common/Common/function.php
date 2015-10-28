@@ -1436,7 +1436,6 @@ function check_category_model($info){
  * 邮件发送函数
  */
   function sendMail($to, $title, $content) {
-
     Vendor('PHPMailer.PHPMailer');
     $mail = new \vendor\PHPMailer\PHPMailer(); //实例化
     $mail->IsSMTP(); // 启用SMTP

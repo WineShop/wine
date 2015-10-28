@@ -156,23 +156,27 @@ class AccountController extends HomeController {
         if(IS_AJAX){
             $uid=is_login();
             if(!$uid)
-                $this->ajaxError('对不起，你还没有登陆');
+                $this->ajaxError('对不起，您还没有登陆');
 
             $user  = D('Member')->getUserCache();
-            $mail  = $user['emial'];
+            $mail  = $user['email'];
+
+            $verification = M("verification");
+            $ver_email    = $verification->where(array('uid'=>$uid,'email'=>$mail))->field('email')->find();
+            if(!empty($ver_email))
+                $this->ajaxError('您已验证过，无须重复验证！');
+
             $title = "邮箱验证";
-            $auth  = sha1(C('DATA_AUTH_KEY'));
+            $token = Md5("{$uid}_{$mail}_check");
             $name  = $_SERVER['SERVER_NAME'];
-            $url   = $_SERVER['SERVER_NAME'].U("wine/active/",array('regid'=>$uid,'type'=>"email",'auth'=>$auth));
-            $words = sha1($url);
+            $url   = $_SERVER['SERVER_NAME'].U("wine/check/".$token);
 
             $this->assign('mail',$mail);
             $this->assign('time',date('Y-m-d H:i:s'));
             $this->assign('url',$url);
             $content=$this->fetch('User:checkmail');
-
             if(SendMail($mail,$title,$content)){
-                $data['msg']      = '发送成功';
+                $data['msg']      = '已成功发送验证信息到您的邮件！';
                 $data['damain']   = $url;
                 $data['uid']      = $uid;
                 $data['content']  = $content;
@@ -184,10 +188,12 @@ class AccountController extends HomeController {
                 $data['status']   = 1;
                 $email->create();
                 $email->add($data);
+
+                S($token,array('email'=>$mail,'uid'=>$uid),3600*24*3);  //有效期3天
                 $this->ajaxSuccess($data);
 
             }else{
-                $this->ajaxError('发送失败');
+                $this->ajaxError('发送失败,无效的邮箱地址');
             }
         }else{
             $this->error('对不起，访问有误');
@@ -221,8 +227,10 @@ class AccountController extends HomeController {
                     $userModel = new UserApi;
                     $userModel->updateUserStatus($uid,1);
                     $title = '激活成功';
-                    $tip   = '恭喜您，激活成功';
+                    $tip   = '已激活成功';
                     $is_ok = 'yes';
+                    //清空本次的缓存key
+                    S($token,null);
                     $this->assign('email',$mail);
                 }
             }
@@ -232,18 +240,59 @@ class AccountController extends HomeController {
         $this->assign('is_ok',$is_ok);
         $this->assign('title',$title);
         $this->display('User/confirm_email');
-        /*if($type&&$regid){
-            $verification=M("verification");
-            $mail=get_email($uid);
-            $data['email']= $mail;
-            $data['create_time']=NOW_TIME;
-            $data['status']=1;
-            $data['tag']=1;
-            $data['uid']=$regid;
-            $verification->create();
-            $verification->add($data);
-            $this->display("success");
-        }*/
+
+    }
+
+    public function check_email()
+    {
+        $token = I("get.token");
+        if(empty($token))
+        {
+            $title = '验证失败';
+            $tip   = '验证链接地址参数有误！';
+            $is_ok = 'no';
+        }else{
+            $userInfo = S($token);
+            if(empty($userInfo))
+            {
+                $title = '验证失败';
+                $tip   = '验证链接地址已经过期';
+                $is_ok = 'no';
+            }else{
+                //验证用户
+                $user_email = $userInfo['email'];
+                $uid        = $userInfo['uid'];
+                $mail       = get_email($uid);
+                if($mail != $user_email)
+                {
+                    $title  = '验证失败';
+                    $tip    = '验证链接地址参数有误！';
+                    $is_ok  = 'no';
+                }else{
+                    $verification  = M("verification");
+                    $data['email'] = $mail;
+                    $data['create_time']=NOW_TIME;
+                    $data['status'] = 1;
+                    $data['tag']    = 1;
+                    $data['uid']    = $uid;
+                    $verification->create();
+                    $verification->add($data);
+
+                    $title = '验证成功';
+                    $tip   = '已验证成功';
+                    $is_ok = 'yes';
+
+                    //清空本次的缓存key
+                    S($token,null);
+                    $this->assign('email',$mail);
+                }
+            }
+        }
+
+        $this->assign('tip',$tip);
+        $this->assign('is_ok',$is_ok);
+        $this->assign('title',$title);
+        $this->display('User/confirm_email');
     }
 
     public function history() {
