@@ -1839,8 +1839,8 @@ margin: 36px 40px 0 0;
 font-size: 14px;  display: inline-block;position:absolute;
 font-weight: bold;height:30px;
 }
-#mobileform{height:67px;}
-#mobileform  .inputBg{height:30px;margin:10px;}
+.mobileform{height:67px;}
+.mobileform  .inputBg{height:30px;margin:10px;}
 .security_content_index p span.tip {
 margin: 36px 40px 0 64px;
 font-size: 14px;  display: inline-block;position:absolute;

@@ -8,11 +8,11 @@
 
 
     <form  method="post" name="formUser" >
-        <table width="100%"  border="0" id="mobileform" align="left" style="margin-bottom: 20px;">
+        <table width="100%"  border="0" class="mobileform" align="left" style="margin-bottom: 20px;">
             <tr >
                 <td align="right">手&nbsp;&nbsp;机:<td>
             <input id="mobile" name="mobile" type="text" size="25" class="inputBg" /><span style="color:#FF0000"> *</span>
-            <input id="zphone"  class="sm_btn" type="button" value=" 获取手机验证码 " onClick="get_mobile_code();"></td>
+           <span id="zphone"  class="sm_btn" data-status="1">获取手机验证码</span></td>
             </tr>
             <tr >
                 <td align="right">验证码:</td>

@@ -5,58 +5,83 @@
 
 	<div class="verification">
 
+        <empty name="code">
 
-        <form action="{:U('account/savepaykey')}" method="post" name="formUser" >
+        <form action="" method="post" id="paykeyform" >
             <table width="100%"  border="0" align="left" cellpadding="5" cellspacing="3" style="margin-bottom: 20px;">
-                <tr id="mobileform">
-                    <td align="right"><span style="color:#FF0000"> *</span>支付密码<td>
-                <input id="mobile" name="paykey" type="text" value="{$code}" size="25" class="inputBg" />
-              </td>
+                <tr class="mobileform">
+                    <td align="right"><span style="color:#FF0000"> *</span>支付密码</td>
+                    <td><input  name="paykey" type="password" value="" size="25" class="inputBg" /></td>
                 </tr>
 
-                <tr>
-                    <td align="right"></td>
-                    <td>&nbsp;&nbsp;&nbsp;<input type="button" value=" 设置 " onclick="" id="check" class="btn-check orange button"></td>
+                <tr class="mobileform">
+                    <td align="right"><span style="color:#FF0000"> *</span>确认密码</td>
+
+                    <td>
+                        <input  name="repaykey" type="password" value="" size="25" class="inputBg" />
+                        <input  name="is_add" type="hidden" value="1" size="25" class="inputBg" />
+                        <input  name="code" type="hidden" value=" " size="25" class="inputBg" />
+                    </td>
                 </tr>
-            </table><input type="hidden" name="uid" value="{$uid}">
+                <tr class="mobileform" id="show_paykey_info" style="display: none;color: #E23C3D;font-weight: bold;">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp;</td>
+                    <td>&nbsp;&nbsp;&nbsp;<input type="button" value=" 设置 " style="cursor: pointer" id="paykey_but" class="btn-check orange button"></td>
+                </tr>
+            </table>
             <p class="title"><b>支付密码设置失败</b></p>
 
             <p>&nbsp;&nbsp;·&nbsp;若多次操作未设置成功，请将问题反馈给客服：{:C("CONTACT")}</p>
         </form>
+
+        <else/>
+        <form action="" method="post" id="paykeyform">
+            <table width="100%"  border="0" align="left" cellpadding="5" cellspacing="3" style="margin-bottom: 20px;">
+                <tr class="mobileform">
+                      <td align="right"><span style="color:#FF0000"> *</span>原支付密码</td>
+                     <td><input  name="oldpaykey" type="password" value="" size="25" class="inputBg" /></td>
+                  </td>
+                </tr>
+                <tr class="mobileform">
+                    <td align="right"><span style="color:#FF0000"> *</span>新支付密码</td>
+                    <td><input  name="paykey" type="password" value="" size="25" class="inputBg" /></td>
+
+                </tr>
+                <tr class="mobileform">
+                    <td align="right"><span style="color:#FF0000"> *</span>确认&nbsp;&nbsp;密码</td>
+                    <td>
+                        <input  name="repaykey" type="password" value="" size="25" class="inputBg" />
+                        <input  name="is_add" type="hidden" value="0" size="25" class="inputBg" />
+                        <input  name="code" type="hidden" value="{$code}" size="25" class="inputBg" />
+                    </td>
+
+                </tr>
+                <tr class="mobileform" id="show_paykey_info" style="display: none;color: #E23C3D;font-weight: bold;">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="right"></td>
+                    <td>&nbsp;&nbsp;&nbsp;<input type="button" value=" 修改 " style="cursor: pointer" id="paykey_but" class="btn-check orange button"></td>
+                </tr>
+            </table>
+            <p class="title"><b>支付密码设置失败</b></p>
+
+            <p>&nbsp;&nbsp;·&nbsp;若多次操作未设置成功，请将问题反馈给客服：{:C("CONTACT")}</p>
+        </form>
+
+        </empty>
      </div>
 </div>
 
 
-<script>
 
-    function checkcode(){
+<script type="text/javascript">
 
-        var yourcode="{:get_username()}";
-        var m=jQuery.trim($('#mobile').val());
-        var code=jQuery.trim($('#smscode').val());
-        $.ajax({
-            url:'{:U("account/checksmscode")}', //发送数据的地址
+    seajs.use(['Passwd'],function(passwd){
 
-            type: 'POST',
-
-            data:{mobile:m,mobile_code:code;</php>},
-
-    dataType: 'json',
-
-            timeout: 1000,
-
-            error: function(){
-        $("#send_num").html(data.smg);
-    },
-
-    success: function(data){
-        document.getElementById("check').disabled = false;
-        alert(data.msg);
-
-
-    }
-
-    });
-
-    }
+    })
 </script>

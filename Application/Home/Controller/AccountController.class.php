@@ -70,14 +70,12 @@ class AccountController extends HomeController {
     public  function paykey() {
 
         $uid = $this->login();
-        $this->assign('uid', $uid);
 
         $user = D('Member')->getUserCache();
         $this->assign('email', $user['email']);
         $this->meta_title = '支付密码设置';
 
-        $str=D("member")->where("uid='$uid'")->getField('paykey');
-        $code= encrypt($str,'D',$key); //解密
+        $code = D("member")->where("uid='$uid'")->getField('paykey');
         $this->assign('code', $code);
         $this->display();
 
@@ -85,11 +83,25 @@ class AccountController extends HomeController {
 
     public  function savepaykey() {
         if(IS_POST){
-            $member=D("member");
+            $uid = is_login();
+            if(!$uid)
+                $this->ajaxError('对不起，请先登录！');
+
+            if(I('post.paykey') != I('post.repaykey'))
+                $this->ajaxError('对不起，两次密码不一致');
+
+            $data            = array();
+            $paykey          = encrypt(I('post.paykey'),'E');
+            $data['paykey']  = $paykey;
+            //说明是修改支付密码
+            if(I('post.is_add') != 1){
+                if(I('post.code') != $paykey){
+                    $this->ajaxError('对不起，输入的原来支付密码不对！');
+                }
+            }
+
+            $member = D("member");
             $member->create();
-            $uid=$_POST["uid"];
-            $str=$_POST["paykey"];
-            $data['paykey']=encrypt($str,'E',$key);
             if($member->where("uid='$uid'")->save($data)){
                 $this->ajaxSuccess("您已成功设置！") ;
             }else{
@@ -116,10 +128,10 @@ class AccountController extends HomeController {
     public  function send_sms() {
         if(IS_AJAX){
             //判断是否验证过
-            $mobile = $_POST['mobile'];
+            $mobile    = $_POST['mobile'];
             $send_code = $_POST['send_code'];//获取提交随机加密码
-            $content="您的验证码是：".$mobile_code."。请不要把验证码泄露给其他人。";
-            $result=sendsmscode($mobile,$content,$send_code);
+            $content   = "您的验证码是：".$mobile_code."。请不要把验证码泄露给其他人。";
+            $result    = sendsmscode($mobile,$content,$send_code);
 
             $this->ajaxReturn($result);
 

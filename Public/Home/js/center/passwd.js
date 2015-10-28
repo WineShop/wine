@@ -49,6 +49,60 @@ define(function(require, exports, module){
         checkmail();
     })
 
+
+    //设置或者修改支付密码
+    var setpaykey = function(){
+        $("#show_paykey_info").hide();
+        var paykey   = $.trim($("input[name=paykey]").val());
+        var repaykey = $.trim($("input[name=repaykey]").val());
+        if(paykey != repaykey){
+           $("#show_paykey_info").show();
+           $("#show_paykey_info td:last-child").html('对不起，两次密码不一致');
+            return false;
+        }
+        if(paykey == '' || repaykey=='' || paykey.length < 6 || repaykey.length < 6){
+            $("#show_paykey_info").show();
+            $("#show_paykey_info td:last-child").html('对不起，密码必须大于等于6位数！');
+            return false;
+        }
+        var is_add = $("input[name=is_add]").val();
+        var code   = $("input[name=code]").val();
+        var oldpaykey = '';
+
+        if(is_add != 1){
+            oldpaykey = $.trim($("input[name=oldpaykey]").val());
+            if(oldpaykey == ''){
+                $("#show_paykey_info").show();
+                $("#show_paykey_info td:last-child").html('对不起，原密码不能为空！');
+                return false;
+            }
+        }
+
+        var param = {
+            is_add    : is_add,
+            code      : code,
+            oldpaykey : oldpaykey,
+            paykey    : paykey,
+            repaykey  : repaykey
+        };
+        $("#paykey_but").attr('disabled',true);
+        T.restPost('/Account/savepaykey',param,function(success){
+            $("#show_paykey_info").show();
+            $("#show_paykey_info tr:last-child").html(success.msg);
+            setTimeout(function(){
+                $("#alterModal").modal('hide');
+            },1500)
+        },function(error){
+            $("#show_paykey_info").show();
+            $("#show_paykey_info tr:last-child").html(error.msg);
+        });
+        $("#paykey_but").attr('disabled',false);
+
+    }
+    $("#paykey_but").click(function(){
+        setpaykey();
+    });
+
     module.exports = {
 
     }

@@ -380,21 +380,19 @@ class CenterController extends HomeController {
      ***************/
     public  function information() {   /* 购物车调用*/
         $uid = $this->login();
-        /** 购物车调用**/
-        $cart  = $_SESSION['cart'];
-        $this->assign('usercart',$cart);
-
-        /** 热词调用 热门搜索**/
+       /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
 
-        $order=D("member");
-        $faceid=M('ucenter_member')->where("id='$uid'")->getField("face");
+        $member = D("Member");
+        $faceid = M('ucenter_member')->where("id='$uid'")->getField("face");
         $this->assign('faceid', $faceid);
 
-        $ucenter=$order->where("uid='$uid'")->select();
-        $this->meta_title = get_username().'个人中心';
+        $ucenter = $member->where("uid='$uid'")->field('uid,sex,qq,birthday,nickname')->find();
+        $user    = $member-> getUserCache();
+        $this->meta_title =$user['username'].'个人中心';
         $this->assign('information', $ucenter);
+        $this->assign('username', $user['username']);
         $this->display();
     }
 
