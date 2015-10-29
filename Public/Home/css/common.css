@@ -2181,3 +2181,12 @@ div.text{display:block;overflow:hidden;clear:both;}
     color: #fff;
 }
 .personal_info p span{margin-right: 15px;}
+.common_info input,.common_info select{
+    height: 28px;
+    line-height: 28px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #595959;
+}

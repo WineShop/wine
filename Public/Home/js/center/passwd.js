@@ -103,6 +103,22 @@ define(function(require, exports, module){
         setpaykey();
     });
 
+
+
+    //修改个人信息
+    var perserInfo = function(){
+        param = $("#information").serialize();
+        T.restPost('/Center/update',param,function(success){
+            main.modalAlert(success.msg);
+            main.redirect('');
+        },function(error){
+            main.modalAlert(error.msg,'danger');
+        });
+    };
+    $("#edit_person_info").click(function(){
+        perserInfo();
+    });
+
     module.exports = {
 
     }

@@ -150,21 +150,18 @@ class CenterController extends HomeController {
     public  function envelope() {
         $uid = $this->login();
 
-        /* 购物车调用*/
-        $cart  = $_SESSION['cart'];
-        $this->assign('usercart',$cart);
-
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
 
-        $table=D("personenvelope");
-        $condition['uid'] = $uid;
-        $condition['group'] ="2";
-        $condition['username'] =get_regname($uid);
+        $user = D('Member')->getUserCache();
+        $table                 =  D("personenvelope");
+        $condition['uid']      = $uid;
+        $condition['group']    = "2";
+        $condition['username'] = $user['username'];
         $condition['_logic'] = 'OR';
-        $count=$table->where($condition)->count();
-        $Page= new \Think\Page($count,10);
+        $count = $table->where($condition)->count();
+        $Page = new \Think\Page($count,10);
         $Page->setConfig('prev','上一页');
         $Page->setConfig('next','下一页');
         $Page->setConfig('first','第一页');
@@ -174,7 +171,7 @@ class CenterController extends HomeController {
         $list=$table->where($condition)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         $this->assign('list', $list);
         $this->assign('page',  $show);
-        $this->meta_title = '我的收藏';
+        $this->meta_title = '站内信';
         $this->display();
     }
     /***站内信读取***/
@@ -432,24 +429,21 @@ class CenterController extends HomeController {
     }
 
     public  function update() {
-        $uid = $this->login();
-        $uid=$m->uid();
-        $member=M("ucenter_member");
-        $data = $member->create();
-        $result =$member->where("id='$uid'")->save();
+        $uid    = $this->login();
+        $info   = $_POST;
+        $member = M("member");
+        $data   = $member->create();
+        $result = $member->where("uid='$uid'")->save($info);
         if($result) {
-            $this->success('修改成功！',U("center/information"));
+            $this->ajaxSuccess('您已成功修改！');
         }else{
-            $this->error('修改失败！');
+            $this->ajaxEerror('对不起，修改失败！');
         }
 
 
     }
     public  function address() {
         $uid = $this->login();
-        /** 购物车调用**/
-        $cart  = $_SESSION['cart'];
-        $this->assign('usercart',$cart);
 
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
@@ -458,15 +452,17 @@ class CenterController extends HomeController {
         if(IS_POST){
 
         }else{
-            $address=M("transport");
-            $list=$address->where("uid='$uid'")->select();
+            $address = M("transport");
+            $list    = $address->where("uid='$uid'")->select();
+            $user    = D('Member')->getUserCache();
             $this->assign('list', $list);
-            $this->meta_title = get_username().'的地址管理';
+            $this->meta_title = $user['username'].'的地址管理';
 
             $this->display();
         }
 
     }
+    //设置地址为默认
     public  function shezhi() {
         $uid = $this->login();
         if(IS_AJAX){
@@ -476,12 +472,12 @@ class CenterController extends HomeController {
             $id=$_POST["id"];
             $result=$Transport->where("uid='$uid' and id='$id'")->setField("status",1);
             if($result){
-                $msg = "设置成功";
-                $this->ajaxreturn($msg);
+                $this->ajaxSuccess('您已成功设置！');
             }else{
-                $msg = "设置失败";
-                $this->ajaxreturn($msg);
+                $this->ajaxError('对不起，设置失败！');
             }
+        }else{
+            $this->error('对不起，访问有误！');
         }
     }
 
@@ -503,19 +499,15 @@ class CenterController extends HomeController {
         }
     }
 
-// 删除地址
+   // 删除地址
     public  function deleteAddress() {
         $uid = $this->login();
         $Transport = M("transport"); // 实例化transport对象
-        $id=$_POST["id"];
+        $id  = $_POST["id"];
         if($Transport->where("uid='$uid' and id='$id'")->delete()){
-            $data['msg'] = "删除成功";
-            $data['status'] = 1;
-            $this->ajaxreturn($data);
+            $this->ajaxSuccess('您已成功删除！');
         }else{
-            $data['msg'] = "删除失败";
-            $data['status'] = 0;
-            $this->ajaxreturn($data);
+            $this->ajaxError('对不起，删除失败！');
         }
     }
 

@@ -12,11 +12,11 @@
 
 
        
-    <form method="post" class="person-info" id="information" action="{:U('Center/update')}">
+    <form method="post" class="person-info" id="information" >
         
 		
 <ul style="margin-left:40px;">
-		    <li>
+		    <li class="common_info">
                 <P>
                     <empty name='faceid'>
                         <img src="__IMG__/head_mail.png" width="100" height="100"/>
@@ -26,20 +26,19 @@
                 </p>
                 <p style="margin-bottom: 45px;margin-top: 15px; padding-left: 10px;"><a href="{:U('user/cut?id='.$information['uid'])}" class="sm_btn">修改图像</a></p>
 		   </li>
-          <li><span>昵称:</span><input type="text" name="nickname" value="{$information.nickname}" /> </li>
+          <li class="common_info"><span>昵称:</span><input type="text" name="nickname" value="{$information.nickname}" /> </li>
           <li><span>账号:</span>{$username} </li>
-         <li><span>QQ:</span><input type="text" name="qq" value="{$information.qq}" /> </li>
-          <li><span>性别：</span><php>
+         <li class="common_info"><span>QQ:</span><input type="text" name="qq" value="{$information.qq}" /> </li>
+          <li class="common_info"><span>性别：</span><php>
 		  if($information["sex"]=="1"){echo "男";};
 		  if($information["sex"]=="2"){echo "女";};
 		   if($information["sex"]==0){echo "<select name='sex'><option  value='1'>男</option><option name='sex' value='2'>女</option></select>";};
 		  </php>
 		  
 		  </li>
-           <li><span>生日：</span><input type="text" name="birthday" value="{$information.birthday}" /> </li>
-            
-             <li><input type="hidden" name="uid" value="{$information.uid}" /> </li><BR>
-             <li><input type="button" class="btn-xiugai orange"  value="修改" /> </li><BR>
+           <li class="common_info"><span>生日：</span><input type="text" name="birthday" value="{$information.birthday}" /> </li>
+
+             <li><span>&nbsp;</span><input type="button" id="edit_person_info" class="btn-xiugai orange"  value="修改" /> </li><BR>
 
 </ul> 
         </form>
@@ -50,7 +49,7 @@
 <!-- 个人中心 初始状态 end --></div></div>
     <script type="text/javascript">
 
-        seajs.use(['Ucenter'],function(ucenter){
+        seajs.use(['Ucenter','Passwd'],function(ucenter,Passwd){
             ucenter.center_init();
         })
     </script>

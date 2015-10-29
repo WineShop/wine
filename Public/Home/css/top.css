@@ -684,7 +684,7 @@ color: #666;
 margin: 0;
 background: #fff;}
 /*分类*/
-#login_btn{padding:5px 20px;width:135px;display:block;text-align:center;background-color:#F50;color:#FFF}
+#login_btn{padding:5px 20px;width:135px;display:block;text-align:center;background-color:#FF6347;color:#FFF}
  #ilarge{margin-right:10px;font-size:15px}
   #iarrow{margin-top:5px;font-size:9px}
   .yershop_wrapper{clear:both;margin:0 auto;display:block;width:1200px;overflow:hidden}
@@ -694,7 +694,7 @@ background: #fff;}
   padding: 10px 20px;
   height: 22px;font-size:20px;
   width: 155px;line-height:22px;
-  background-color: #F50;
+  background-color: #FF6347;
   color: #ffffff;}
 
   .btn-central {
@@ -705,10 +705,10 @@ background: #fff;}
   font-size: 20px;
   width: 155px;
   line-height: 17px;
-  background-color: #F50;
+  background-color: #FF6347;
   color: #ffffff;
 }
-  .btn-xiugai{padding:5px 20px;width:100px;background-color:#F50;color:#FFF}
+  .btn-xiugai{padding:5px 20px;width:100px;background-color:#FF6347;color:#FFF}
 /* orange */  
 .orange {
     border-radius: 4px;

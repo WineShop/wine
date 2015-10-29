@@ -35,6 +35,7 @@ seajs.config({
         Uorder      : 'Home/js/center/order.js',
         Coupon      : 'Home/js/center/coupon.js',
         Passwd      : 'Home/js/center/passwd.js',
+        Address      : 'Home/js/center/address.js',
         //后台登陆
         AdminLogin  : 'Admin/js/login/login.js'
 

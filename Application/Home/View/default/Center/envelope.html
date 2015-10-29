@@ -9,37 +9,32 @@
 <div class="center_right" id="MemberCenterCtrl" style="display: block;">
 
 	<empty name='list'>
-	<div class="personal_info_none_goods">
-				<p>没有站内信</p>
-			
-		
-			</div>
-	<else /><form action='{:U("Shopcart/delorder")}' method="post" name="delform" >
-        <div class="order_del">
-			  <span>  <input class="checkbox check-all" type="checkbox"> 全选 <a   href='javascript:vod(0)' onclick="delorder()">删除选中</a> </span></div>
-        <div class="good-canshu"><span class="good-name">站内信
-	  </span></div>
+	    <div class="personal_info_none_goods">
+		    <p>没有站内信</p>
+	    </div>
+	<else />
+        <form action='{:U("Shopcart/delorder")}' method="post" name="delform" >
+           <div class="order_del">
+			  <span>  <input class="checkbox check-all" type="checkbox"> 全选 <a   href='javascript:vod(0)' onclick="delorder()">删除选中</a> </span>
+           </div>
+            <div class="good-canshu"><span class="good-name">站内信</span></div>
 
 
           <volist name="list" id="vo"> 
 		 
-		<div ><span><input class="ids row-selected" type="checkbox" name="id[]" value="{$vo.id}"></span>&nbsp;<span><a href="{:U('center/msg?id='.$vo['id'])}" > {$vo.title}</a></div>
-         <!-- 列表详情区域开始 -->  
-		 
-		<!-- 左边商品区域开始 -->  
-		
-		 
-		
-		  <p  style="text-align:right">时间：{$vo.create_time|date='Y-m-d H:i:s',###}</p>
+            <div ><span>
+                <input class="ids row-selected" type="checkbox" name="id[]" value="{$vo.id}"></span>&nbsp;
+                <span><a href="{:U('Center/msg?id='.$vo['id'])}" > {$vo.title}</a>
+            </div>
+             <!-- 列表详情区域开始 -->
+
+            <!-- 左边商品区域开始 -->
+
+              <p  style="text-align:right">时间：{$vo.create_time|date='Y-m-d H:i:s',###}</p>
 		   
 		  </volist> 
 		
-		  <!-- 左边商品结束 -->  
-		  
-		  
-
-		 
-			  
+		  <!-- 左边商品结束 -->
 		
        <!-- 列表详情区域结束 -->
 	   		
@@ -49,7 +44,7 @@
 	
  <!-- 分页 -->
         <div class="page">
-{$page}
+        {$page}
         </div>
 <script type="text/javascript"> 
 
@@ -82,7 +77,12 @@
 	});
 </script>
 <!-- 个人中心 初始状态 end --></div></div></div>
-    <script type="text/javascript">_init_area();</script>
+    <script type="text/javascript">
+
+        seajs.use(['Ucenter'],function(ucenter){
+            ucenter.center_init();
+        })
+    </script>
       
    
 </block>
