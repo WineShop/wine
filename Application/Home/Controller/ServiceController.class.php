@@ -14,40 +14,28 @@ namespace Home\Controller;
 class ServiceController extends HomeController {
     /* 频道封面页 */
 	public function index(){
-   
-	/* 左侧菜单 */
-	 $menu=R('index/menulist');
-	 $this->assign('categoryq', $menu);
-	   	    /**
- * 购物车调用
- */
-   $cart=R("shopcart/usercart");
-   $this->assign('usercart',$cart);
-   if(!session('user_auth')){$usercart=$_SESSION['cart'];
-        $this->assign('usercart',$usercart);
-   
-   } 
+
     /*栏目页统计代码实现，tag=2*/
      if(1==C('IP_TONGJI')){
-	   $record=IpLookup("",2,$name); 
+	   $record=IpLookup("",2,'server');
 	 }
-	  /* 热词调用*/
-    $hotsearch=R("Index/getHotsearch");
-    $this->assign('hotsearch',$hotsearch);  
-		/* 分类信息id */
+    /** 热词调用 热门搜索**/
+    $hotsearch = C('HOT_SEARCH');
+    $this->assign('hotsearch',$hotsearch);
+    /** 分类信息id **/
 	$id= I('get.id');
-		//分类一维数组
-	$category=M("category")->where("id='$id'")->find();
-		;//获取最大的文章id
+    //分类一维数组
+	$category=M("category")->where("id='$id'")->field('id,name,pid,title')->find();
+	//获取最大的文章id
     $info=M("document")->where("category_id='$id'and model_id='2'")->order("id desc")->limit(1)->find();
 	
-   /*获取文章明细*/
+   /**获取文章明细**/
    if(!empty($info)){
-	 $data = D('Document')->detail($info['id']);
-	 }
-	/*设置网站标题，一维数组*/
-	$pid=$category['pid'];
-  $pcategory=M("category")->where("id='$pid'")->find();
+     	 $data = D('Document')->detail($info['id']);
+   }
+	/**设置网站标题，一维数组**/
+   $pid       = $category['pid'];
+   $pcategory = M("category")->where("id='$pid'")->find();
    
    $this->meta_title = $category['title']."-".$pcategory['title'];
 	$position="<p class='red fwb'>".$pcategory['title']."</p>><p class='red fwb'>".$category['title']."</p>";

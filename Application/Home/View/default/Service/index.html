@@ -1,4 +1,4 @@
-<extend name="Base/s1"/>
+<extend name="Base/center"/>
 <block name="body">
 
 <div class="main"><div class="main_center"><div class="center_left">
@@ -13,12 +13,15 @@
 </div><!-- 个人中心 初始状态 start -->
 <div class="center_right" id="MemberCenterCtrl" style="display: block;">
 
-	<span class="red" style="display: block;text-align:center;margin:20px 0 20px 37px;font-weight:bold;padding:10px;font-size:17px;">{$info.title}</span>
+	<span class="red" style="display: block;text-align:center;margin:20px 0 20px 37px;font-weight:bold;padding:10px;font-size:17px;">
+        {$info.title}
+    </span>
  
 
 
-<empty name='info.title'><i class="glyphicon glyphicon-search red"></i>
-aoh，暂无数据！（请到后台文章发布区添加，参数ismenu=2）<else/>
+<empty name='info.title'>
+    <p style="text-align: center;width: 100%"> <img src="__IMG__/nothing.png" style="width: 120px;vertical-align: middle"/><br/>aoh，暂无数据！</p>
+<else/>
 </empty>
   {$info.content}
 			
@@ -26,7 +29,12 @@ aoh，暂无数据！（请到后台文章发布区添加，参数ismenu=2）<el
 </div>
 
 <!-- 个人中心 初始状态 end --></div>
-    <script type="text/javascript">_init_area();</script>
+    <script type="text/javascript">
+
+        seajs.use(['Ucenter'],function(ucenter){
+            ucenter.center_init();
+        })
+    </script>
      
       
    
