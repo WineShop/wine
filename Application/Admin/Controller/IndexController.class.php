@@ -27,7 +27,7 @@ class IndexController extends AdminController {
         M("config")->where("name='DOMAIN'")->setField('value',$url);
   
 	     $this->meta_title = '管理首页';
-      
+
 		 $this->display();
     }
 
