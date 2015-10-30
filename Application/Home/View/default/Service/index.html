@@ -4,7 +4,7 @@
 <div class="main"><div class="main_center"><div class="center_left">
 <volist name="footermenu" id="vo">
 <dl><dt><a rel="nofollow">{$vo.title}</a></dt>
- <volist name="vo['id']" id="son"> 
+ <volist name="vo['id']" id="son">
 <dd><a rel="nofollow"  href="{:U('service/index?id='.$son['id'])}">{$son.title}</a></dd>
 </volist>
 </dl>
@@ -16,15 +16,18 @@
 	<span class="red" style="display: block;text-align:center;margin:20px 0 20px 37px;font-weight:bold;padding:10px;font-size:17px;">
         {$info.title}
     </span>
- 
+
 
 
 <empty name='info.title'>
     <p style="text-align: center;width: 100%"> <img src="__IMG__/nothing.png" style="width: 120px;vertical-align: middle"/><br/>aoh，暂无数据！</p>
 <else/>
 </empty>
-  {$info.content}
-			
+  <div style="padding-left: 15px; padding-right: 15px;">
+      {$info.content}
+  </div>
+
+
 
 </div>
 
