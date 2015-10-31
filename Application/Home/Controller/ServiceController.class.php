@@ -14,36 +14,46 @@ namespace Home\Controller;
 class ServiceController extends HomeController {
     /* 频道封面页 */
 	public function index(){
+        /** 分类信息id **/
+        $id= I('get.id');
+        if(empty($id))
+            $this->error('对不起，参数有误！');
 
-    /*栏目页统计代码实现，tag=2*/
-     if(1==C('IP_TONGJI')){
-	   $record=IpLookup("",2,'server');
-	 }
-    /** 热词调用 热门搜索**/
-    $hotsearch = C('HOT_SEARCH');
-    $this->assign('hotsearch',$hotsearch);
-    /** 分类信息id **/
-	$id= I('get.id');
-    //分类一维数组
-	$category=M("category")->where("id='$id'")->field('id,name,pid,title')->find();
-	//获取最大的文章id
-    $info=M("document")->where("category_id='$id'and model_id='2'")->order("id desc")->limit(1)->find();
-	
-   /**获取文章明细**/
-   if(!empty($info)){
-     	 $data = D('Document')->detail($info['id']);
-   }
-	/**设置网站标题，一维数组**/
-   $pid       = $category['pid'];
-   $pcategory = M("category")->where("id='$pid'")->find();
-   
-   $this->meta_title = $category['title']."-".$pcategory['title'];
-	$position="<p class='red fwb'>".$pcategory['title']."</p>><p class='red fwb'>".$category['title']."</p>";
-	 $this->assign('position',$position);
+        /*栏目页统计代码实现，tag=2*/
+         if(1==C('IP_TONGJI')){
+           $record=IpLookup("",2,'server');
+         }
+        /** 热词调用 热门搜索**/
+        $hotsearch = C('HOT_SEARCH');
+        $this->assign('hotsearch',$hotsearch);
 
-	 $this->assign('info',$data);
-$menulist=$this->AllMenu();
- $this->assign('footermenu',$menulist);
+        //分类一维数组
+        $category=M("category")->where("id='$id'")->field('id,name,pid,title')->find();
+        //获取最大的文章id
+        $info=M("document")->where("category_id='$id'and model_id='2'")->order("id desc")->field('id')->limit(1)->find();
+
+       /**获取文章明细**/
+       if(!empty($info)){
+             $data = D('Document')->detail($info['id']);
+       }
+        /**设置网站标题，一维数组**/
+       $pid       = $category['pid'];
+       $pcategory = M("category")->where("id='$pid'")->field('title')->find();
+
+       $this->meta_title = $category['title']."-".$pcategory['title'];
+       $position="<p class='red fwb'>".$pcategory['title']."</p>><p class='red fwb'>".$category['title']."</p>";
+       $this->assign('position',$position);
+        $this->assign('info',$data);
+
+        if(empty(S(C('HOME_SERVER_MENU'))))
+        {
+            $serverMenuList=$this->AllMenu();
+            S(C('HOME_SERVER_MENU'),$serverMenuList,3600*24*30);   //缓存一个月
+
+        }else{
+            $serverMenuList = S(C('HOME_SERVER_MENU'));
+        }
+        $this->assign('serverMenuList',$serverMenuList);
 		$this->display();
 	}
 
@@ -58,11 +68,12 @@ $menulist=$this->AllMenu();
      */
     public function AllMenu(){
         /* 一级分类信息 */
-        $menu    = M("category")->where("ismenu='2' and pid='0'")->order("id asc")->select();
+        $field   = "id,name,title,pid,sort,model,link_id,display,status,ismenu";
+        $menu    = M("category")->where("ismenu='2' and pid='0'")->field($field)->order("id asc")->select();
         $sonmenu = M("category");
         foreach($menu as $n=> $val)
         {
-          $menu[$n]['id']=$sonmenu->where('pid=\''.$val['id'].'\'')->select();
+            $menu[$n]['id']=$sonmenu->where('pid=\''.$val['id'].'\'')->field($field)->select();
 
         }
         return $menu;
