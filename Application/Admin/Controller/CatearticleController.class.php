@@ -226,4 +226,14 @@ class CatearticleController extends AdminController {
         }
 
     }
+
+    /**
+     * 清除分类的缓存
+     */
+    public function clean()
+    {
+        S(C('HOME_SERVER_MENU'),null);       // 首页服务菜单列表缓存
+        S(C('HOME_FOOT_MENU'),null);         // 首页 尾部菜单 缓存
+        $this->success('清除分类缓存成功！');
+    }
 }

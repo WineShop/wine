@@ -186,4 +186,13 @@ class ConfigController extends AdminController {
             $this->error('非法请求！');
         }
     }
+
+    /**
+     * 清除分类的缓存
+     */
+    public function clean()
+    {
+        S(C('HOME_SITE_CONFIG'),null);       //网站配置 缓存
+        $this->success('清除分类缓存成功！');
+    }
 }

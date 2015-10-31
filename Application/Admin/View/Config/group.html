@@ -3,6 +3,7 @@
 <block name="body">
 	<div class="main-title">
 		<h2>网站设置</h2>
+        <a class="btn" style="margin-left: 20px;" href="/adminWine.php?s=/Config/clean.html">清除缓存</a>
 	</div>
 		<div class="tab-wrap">
 		<ul class="tab-nav nav">
@@ -11,6 +12,7 @@
 			<li <eq name="id" value="$key">class="current"</eq>><a href="{:U('?id='.$key)}">{$group}配置</a></li>
 
 		</volist>
+
 		</ul>
 		<div class="tab-content">
 	<form action="{:U('save')}" method="post" class="form-horizontal">
