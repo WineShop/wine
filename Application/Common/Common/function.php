@@ -580,7 +580,7 @@ function get_nickname($uid = 0){
 	}
 	else{ $a=$list[$id][$field];//文章的category_id分类
 		 $NameOne=$list[$id]['name'];
-		 $UrlOne="index.php?s=/Home/Article/index/category/".$NameOne;
+		 $UrlOne="/Article/index/category/".$NameOne;
 		 $LeverOne='<a href="'.$UrlOne.'">'.$a.'</a>';
 		 
 		if(0!==$cate['pid']){//2级分类，第2级
@@ -592,7 +592,7 @@ function get_nickname($uid = 0){
 		 $TitleTWO=$cat->where("id='$pid'")->getField('title');
 		 $NameTWO=$cat->where("id='$pid'")->getField('name');
 		 //设置链接
-		 $UrlTwo="index.php?s=/Home/Article/index/category/".$NameTWO;
+		 $UrlTwo="/Article/index/category/".$NameTWO;
          
 		 $LeverTWO='<a href="'.$UrlTwo.'">'.$TitleTWO.'</a>';
 		// 获取当前分类的上级分类主键id
@@ -601,7 +601,7 @@ function get_nickname($uid = 0){
         $TitleThree=$cat->where("id='$Id'")->getField('title');
 		 $NameThree=$cat->where("id='$Id'")->getField('name');
 		 //设置链接
-		  $UrlThree="index.php?s=/Home/Article/index/category/".$NameThree;
+		  $UrlThree="/Article/index/category/".$NameThree;
 		  $LeverThree='<a href="'.$UrlThree.'">'.$TitleThree.'</a>';
 	
 		
@@ -644,7 +644,6 @@ function get_category($id, $field = null){
     if(empty($list)){
         $list = S('sys_category_list');
     }
-
     /* 获取分类名称 */
     if(!isset($list[$id])){
         $cate = M('Category')->find($id);

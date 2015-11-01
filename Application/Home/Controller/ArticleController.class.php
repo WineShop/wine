@@ -66,28 +66,16 @@ class ArticleController extends HomeController {
 		$child = M('Category')->where("pid='$id'")->select();
 		$this->assign('num', $count);
 		$this->assign('childlist', $child);
-		/* 左侧菜单 */
-		$menu=R('index/menulist');
-		$this->assign('categoryq', $menu);
-		/**
-		* 购物车调用
-		*/
-		$cart=R("shopcart/usercart");
-		$this->assign('usercart',$cart);
-		if(!session('user_auth')){
-            $usercart=$_SESSION['cart'];
-		    $this->assign('usercart',$usercart);
-		}
+
 		/*栏目页统计代码实现，tag=2*/
 		if(1==C('IP_TONGJI')){
 		   $record = IpLookup("",2,$name);
 		}
-		/* 底部分类调用*/
-		$menulist=R('Service/AllMenu');
-		$this->assign('footermenu',$menulist);
-		/* 热词调用*/
-		$hotsearch=R("Index/getHotsearch");
-		$this->assign('hotsearch',$hotsearch);
+
+         /* 热词调用*/
+         $hotsearch = C('HOT_SEARCH');
+         $this->assign('hotsearch',$hotsearch);
+
 		/* 分类信息 */
 		$category = $this->category();
 		//频道页循环3级分类
@@ -101,7 +89,6 @@ class ArticleController extends HomeController {
 		$this->assign('recent', $recent);
 		/* 模板赋值并渲染模板 */
 		$this->assign('category', $category);
-
 		$this->display($category['template_index']);
  }
 

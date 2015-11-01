@@ -39,7 +39,7 @@
                         <switch name="field.type">
 
          <case value="pictures">
-			  <!-- 多图上传 --> 
+			  <!-- 多图上传 -->
 			 <input type="file" id="upload_picture_{$field.name}">
       <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}" class="icon {$field.name}" />
   <php> if($data[$field['name']])
@@ -76,7 +76,7 @@ $valArr="";}
                 alert('未检测到兼容版本的Flash.');
             }
         });
-        
+
     })
     function uploadPicture{$field.name}(file, data){
         var data = $.parseJSON(data);
@@ -103,10 +103,10 @@ $valArr="";}
 
 function del(event)
 		{ //获取事件源
-event = event ? event : window.event; 
-var obj = event.srcElement ? event.srcElement : event.target; 
-//这时obj就是触发事件的对象，可以使用它的各个属性 
-//还可以将obj转换成jquery对象，方便选用其他元素 
+event = event ? event : window.event;
+var obj = event.srcElement ? event.srcElement : event.target;
+//这时obj就是触发事件的对象，可以使用它的各个属性
+//还可以将obj转换成jquery对象，方便选用其他元素
 str = obj.innerHTML.replace(/<\/?[^>]*>/g,''); //去除HTML tag
 
 	var $obj = $(obj);
@@ -117,8 +117,8 @@ $obj.parents(".upload-pre-item").remove();
                 picArr.push(picsbox.children('.upload-pre-item:eq('+i+')').find('img').attr('data-id'));
             };
             picStr = picArr.join(',');
-            $('.icon.{$field.name}').val(picStr);	
-	
+            $('.icon.{$field.name}').val(picStr);
+
 	}
 </script>
 		       </case>

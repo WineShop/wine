@@ -223,9 +223,11 @@ class GoodsController extends AdminController {
         $fields[] = 'pid';
         // 过滤重复字段信息
         $fields =   array_unique($fields);
+
         // 列表查询
        // $list   =   $this->getDocumentList($cate_id,$model_id,$position,$fields,$group_id);
        $list   =   $this->getDocumentList($cate_id, $model_id,$position,$fields);// $model_id用5替代
+
         // 列表显示处理
         $list   =   $this->parseDocumentList($list,$model_id);
         
@@ -302,6 +304,7 @@ class GoodsController extends AdminController {
 			$map['group_id']	=	$group_id;
 		}
 		  $map['model_id']  =array("gt",3);
+
         $list = $this->lists($Document,$map,'level DESC,DOCUMENT.id DESC',$field);
 
         if($map['pid']){
@@ -365,6 +368,7 @@ class GoodsController extends AdminController {
         //获取表单字段排序
         $fields = get_model_attribute($model['id']);
         $this->assign('info',       $info);
+
         $this->assign('fields',     $fields);
         $this->assign('type_list',  get_type_bycate($cate_id));
         $this->assign('model',      $model);
@@ -829,5 +833,15 @@ public function del(){
         }
 
 	}
+
+
+    /**
+     * 清除分类的缓存
+     */
+    public function clean()
+    {
+        S(C('HOME_SHOP_CENTER'),null);       //首页商品内容
+        $this->success('清除商品内容缓存成功！');
+    }
 
 }

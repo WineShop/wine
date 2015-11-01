@@ -12,7 +12,7 @@ z-index:99;background: #ff6600;
 #comments,#canshu,#contents{display:block;overflow:hidden;}
 .choose{display:block;}
 
-#header1,#header2,#header3,#header4{width:100%;clear:both;overflow:hidden; }
+#header1,#header2,#header3,#header4{width:100%;clear:both;overflow:hidden; padding: 10px;}
 /*
 .nav-all {
 position: absolute;

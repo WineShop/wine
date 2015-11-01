@@ -23,6 +23,7 @@
 			</foreach>
 		</notempty>
 		]
+            &nbsp;&nbsp;&nbsp;<a class="btn" target-form="ids" href="{:U('goods/clean')}">清除缓存</a>
 		<eq name="allow" value="0">（该分类不允许发布内容）</eq>
 		<if condition="count($model) gt 1">[ 模型：<empty name="model_id"><strong>全部</strong><else/><a href="{:U('goods/index',array('pid'=>$pid,'cate_id'=>$cate_id))}">全部</a></empty>
 			<volist name="model" id="vo">

@@ -1,0 +1,615 @@
+<extend name="Base/article"/>
+
+<block name="body">
+<meta name="description" content="{:C('WEB_SITE_DESCRIPTION')}">
+<meta name="keywords" content="{:C('WEB_SITE_KEYWORD')}"/>
+<div class="main">
+<div class="main_nav"><a rel="nofollow" href="{:C('DOMAIN')}"><i class="glyphicon glyphicon-home"></i>首页</a>&gt;{$info.category_id|get_location_name}&gt;<p  id="tit"><a class="red fwb"href="{:U('Article/detail?id='.$info['id'])}">{$info.title}</a></p></div>
+<div class="details">
+<div class="details_left">
+<!-- 商品描述-->
+<div class="details_left_top">
+<!-- jqzoom-->
+<div id="zoom">
+	<div class="jqzoom" id="spec-n1" ><IMG height="350" src="{$info.cover_id|get_cover='path'}" jqimg="{$info.cover_id|get_cover='path'}" width="350">
+	</div>
+	<div id="spec-n5">
+		<div class="control" id="spec-left">
+			<img src="__IMG__/btn_mobile_prev_cur.jpg" />
+		</div>
+		<div id="spec-list">
+			<ul class="list-h">
+                <php>
+                    if(!empty($info['pics'])){ $pics= explode(',',$info['pics']);}else{ $pics = "";}
+                </php>
+                <li class="img"><img src="{$info.cover_id|get_cover='path'}" height="50" width="50"/></li>
+                <notempty name="pics">
+                     <volist name="pics" id="v">
+                           <li><img src="__ROOT__{$v|get_cover='path'}" data-id="{$v}"/> </li>
+                     </volist>
+                </notempty>
+                <empty name="pics">
+                    <li><img src="__IMG__/2-1.jpg"> </li>
+                    <li><img src="__IMG__/2-2.jpg"> </li>
+                    <li><img src="__IMG__/2-3.jpg"> </li>
+                    <li><img src="__IMG__/2-4.jpg"> </li>
+                </empty>
+			</ul>
+		</div>
+		<div class="control" id="spec-right">
+			<img src="__IMG__/btn_mobile_next_cur.jpg" />
+		</div>
+    </div>
+</div><!-- wwww over-->
+
+<!-- 商品参数-->
+<div class="dl_goods_info">
+    <h2 class="dginfo_h2" >{$info.title}</h2>
+    <p >价格：<span class="dginfo_price">￥
+        <em class="price" id="resetprice">
+        <php>
+            if(!empty($info['groupprice'])){ $price= explode('、',$info['groupprice']);}else{  $price=""; }
+        </php>
+        <notempty name="price">
+             <volist name="price" id="v"  key="k" offset="0" length="1">
+                   {$v}
+             </volist>
+        </notempty>
+		<empty name="price">
+           {$info['price']}
+        </empty>
+        </em>
+    </span></p>
+
+    <ul class="dginfo_info">
+        <li>销量：{$info.sale}</li>
+        <li class="dginfo_info_last">品牌：{$info.brand}<span ></span></li>
+        <li>
+            <form action="{:U('Shopcart/order')}" name="orderform" id="orform" method="post" onsubmit="return trySubmit()">
+                <input type="hidden" name="id[]" value="{$info.id}"/>
+                <input type="hidden" name="price[]" id="inputprice" value="{$info.price}"/>
+                <input type="hidden" name="sort[]" id="inputsort" value="{$info.id}"/>
+                <input type="hidden" name="parameters[]" id="inputparameters" />
+                <p class=""><span class="quantity">数量：</span><span class="quantity-form"><a id="oneA" href="javascript:void(0)" class="jian">-</a>
+                <input type="text" class="goodnum" value="1"  name="num[]" /><a href="javascript:void(0)" class="jia" >+</a></span></p>
+            </form>
+        </li>
+          <notempty name="info['parameters_value']">
+          <li class="weight pp_prop_wrap">{$info.parameters}： <php>
+         if(!empty($info['parameters_value'])){ $datalist= explode('、',$info['parameters_value']);}else{  $datalist=""; }</php>
+                <notempty name="datalist">
+                     <volist name="datalist" id="v"  key="k">
+                           <a href="javascript:void(0)" class="setprice <if condition="$k eq 1">cur<else /></if>" title="{$v}" data-price_num="{$k}">{$v} </a>
+                     </volist>
+                </notempty>
+          </li>
+          </notempty>
+
+    </ul>
+
+    <!-- buy-->
+    <div  class="addcart_box">
+        <a rel="nofollow" href="javascript:;"  class="dginfo_btn lj_order btn_submit">立刻购买</a>
+        <a rel="nofollow" href="javascript:;"  class="dginfo_btn lj_cart btn_submit">加入购物车</a>
+
+        <!-- 购物车计算浮动层 begin -->
+        <div id="showIncludeCart" class="modalBox">
+            <a class="buy_pop_close" onclick="jQuery('#showIncludeCart').modal('hide');" title="关闭"></a>
+            <div class="buy_icon"></div>
+            <div class="buy_pop_top">
+                <div class="title">此商品已成功放入购物车</div>
+                <div class="font">购物车共 <font id="totalnum" class="red"></font> 件宝贝<span>合计 <font class="red" id="fee"></font></span></div>
+                <div class="btn_continue">
+                    <div class="pop_btn_r" ><a onclick="jQuery('#showIncludeCart').modal('hide');return false;" href="javascript:;">继续购物</a></div>
+                    <div class="btn_cart"><a href="/showCart">去购物车结算</a></div>
+                </div>
+            </div>
+        </div>
+       <!-- 购物车计算浮动层 over -->
+    </div>
+    <!-- buy-->
+
+    <p>
+        <span>收藏产品：<a href="javascript:;" class="lj_favor"><img title="收藏按钮" src="__IMG__/icon_favorite_pro.jpg" ></a></span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;&nbsp;&nbsp;分享到：<a title="分享到新浪微博" target="_blank" href="http://service.t.sina.com.cn/share/share.php?title={$info.title}。（来自{:C('SITENAME')}）&amp;url={:C('DOMAIN')}{:U('Article/detail?id='.$info['id'])}&amp;pic={:C('DOMAIN')}{$info.cover_id|get_cover='path'}" data-item="sina" class="J_vivo_share">
+            <img alt="新浪微博" src="__IMG__/icon_sina_weibo.jpg" app="b2c"></a>
+        <a title="分享到腾讯微博" target="_blank" href="http://v.t.qq.com/share/share.php?title={$info.title}（来自{:C('SITENAME')}）。&amp;url={:C('DOMAIN')}{:U('Article/detail?id='.$info['id'])}&amp;pic={:C('DOMAIN')}{$info.cover_id|get_cover='path'}" data-item="tencent" class="J_vivo_share">
+            <img alt="腾讯微博" src="__IMG__/icon_tencent_weibo.jpg" app="b2c"></a>
+        <a target="_blank" title="分享到人人网" href="http://widget.renren.com/dialog/share?resourceUrl={:C('DOMAIN')}{:U('Article/detail?id='.$info['id'])};srcUrl={:C('DOMAIN')}&amp;title={$info.title}。（来自{:C('SITENAME')}）&amp;pic={:C('DOMAIN')}{$info.cover_id|get_cover='path'}" data-item="renren" class="J_vivo_share">
+            <img alt="人人网" src="__IMG__/icon_renrenwang.jpg" app="b2c"></a>
+        </span>
+    </p>
+
+</div>
+<!-- 商品参数 结束-->
+</div>
+<!-- 商品描述结束details_left_top-->
+
+
+<SCRIPT src="__STATIC__/js/base.js" type=text/javascript></SCRIPT>
+<SCRIPT type=text/javascript>
+$(function(){
+   $(".jqzoom").jqueryzoom({
+        xzoom:400,
+        yzoom:400,
+        offset:10,
+        position:"right",
+        preload:1,
+        lens:1
+    });
+
+	$("#spec-list").jdMarquee({
+        deriction:"left",
+        width:371,
+        height:56,
+        step:2,
+        speed:4,
+        delay:10,
+        control:true,
+        _front:"#spec-right",
+        _back:"#spec-left"
+    });
+
+	$("#spec-list img").bind("mouseover",function(){
+        var src=$(this).attr("src");
+        $("#spec-n1 img").eq(0).attr({
+            src:src.replace("\/n5\/","\/n1\/"),
+            jqimg:src.replace("\/n5\/","\/n0\/")
+        });
+        $(this).css({
+            "border":"2px solid #ff6600",
+            "padding":"1px"
+        });
+    }).bind("mouseout",function(){
+            $(this).css({
+                "border":"1px solid #ccc",
+            "padding":"2px"
+            });
+        });
+    })
+</SCRIPT>
+
+
+<SCRIPT src="__STATIC__/js/jqueryzoom-jcarousel.js" type="text/javascript"></SCRIPT>
+<!-- js over-->
+<!-- jqzoom over-->
+
+
+<!-- 商品参数-->
+<div class="dl_goods_detail">
+    <php> if(!empty($info['unionid'])){ $unionid= explode('、',$info['unionid']);}else{   $unionid=""; }</php>
+     <notempty name="unionid">
+     <h3 class="group_buy_title">
+         <a href="javascript:void(0);" class="on" id="pkname" value="1" style="" name="Partner_b2c_tab">最佳拍档</a>
+     </h3>
+    <div class="union">
+        <form action="{:U('Shopcart/order')}"  class="group_buy" name="fiveform" id="orform" method="post">
+	    <div class="content bucket clearfix" id="pk" style="" value="1" name="Package_b2c" isloaded="1">
+            <div class="bucket_cont">
+                <b><i class="red" id="buyto_total">{$info.unionid|get_group_count}</i>件商品组合购买</b><br>
+                <p>商城总价:<i class="d_price" id="total_sale_price">¥{$info.unionid|get_group_price}</i></p>
+                <p>市场总价:<i class="m_price"><em class="td_lh" id="total_original_price">¥{$info.unionid|get_group_marketprice}</em></i></p>
+                <p class="buyfive "><a id="buytogether_btn" href="javascript:void(0);" class="btn btn_pd btn_submit" >购买组合</a></p>
+                <p><input class="checkbox check-all" type="checkbox" checked="">全选 </p>
+            </div>
+            <div class="tc pt5">
+                <div class="dp_slide_plug">
+                    <div class="over">
+                        <ul class="clearfix">
+
+                            <volist name="unionid" id="v" limit="4"  key="k" >
+                            <li id="1231944222-1">
+                                <div>
+                                    <a target="_blank" href="{:U('Article/detail?id='.$v)}" title="{$v|get_good_name}" class="pic" name="o_map_">
+                                        <img src="{$v|get_cover_id|get_cover='path'}" data-id="{$v}" width="100" height="100" alt="{$v|get_good_name}">
+                                    </a>
+                                    <a class="name" target="_blank" href="{:U('Article/detail?id='.$v)}" title="{$v|get_good_name}" name="__Package_name_b2c">{$v|get_good_name}</a>
+                                    <p>
+	                                    <input type="hidden" name="price[]"  value="{$v|get_good_price}"/>
+                                        <input type="hidden" name="sort[]"  value="{$v}"/>
+                                        <input type="hidden"  class="goodnum"   name="num[]" value="1"/>
+                                        <input class="ids row-selected"  checked="" type="checkbox" name="id[]" value="{$v}">
+                                        <span class="d_price">￥{$v|get_good_price}</span>
+                                    </p>
+                                </div>
+	        <!-- 判断是否是最后一个组合商品-->
+                            </li>
+                            </volist>
+
+                        </ul>
+                    </div> <!--over-->
+                </div> <!--dp_slide_plug-->
+            </div> <!--pt5-->
+        </div>
+        </form>
+    </div>
+    </notempty>
+
+
+
+
+<!-- 商品描述-->
+<div class="good-tabs">
+    <ul>
+        <a href="#header1" id="detail_tab" name="__tab_detail_b2c" rel="header1" class="on">商品详情</a>
+        <a href="#header2" id="detail_tab" name="__tab_detail_b2c" rel="header2" class="">商品参数</a>
+        <a href="#header3" id="detail_tab" name="__tab_detail_b2c" rel="header3"class="">商品评论({$info.id|get_comment_count}条)</a>
+        <a href="#header4" id="detail_tab" name="__tab_detail_b2c" rel="header4"class="">商品问答({$info.id|get_message_count}条)</a>
+    </ul>
+</div>
+<div class="tab-line"></div>
+<div id="goods_content">
+       <div id="header1" class="choose">{$info.content}</div>
+	   <div id="header2" class="choose" style="display:none">
+		 <p><span>品牌：{$info.brand|default='无'}</span><span>名称：{$info.title}</span></p>
+		 <p><span>重量：{$info.weight}g</span><span>单价：{$info.price}</span></p>
+		 <p><span>产地：{$info.area}</span><span>包装：{$info.package|default='无'}</span></p>
+         <p><span>配件：{$info.brand|default='无'}</span><span>属性：{$info.brand|default='无'}<span></p>
+	   </div>
+
+       <div id="header3" class="choose" style="display:none">
+	        <div class="mbox3 comment comment_new">
+                <h3 class="tit mb0">商品评论<i>（<a href="http://comm.dangdang.com/reviewlist/1161894824" id="comment_review_num_v4">{$count}</a>条）</i></h3>
+                <div class="comment_head">
+                    <div class="clearfix comment_head_top">
+                        <div class="comment_rate" id="comment_rate_v4">
+		                    <div id="myStat">
+		                        <p class="rate_num_line1">{$rate|default='98.2'}<i>%</i></p>
+		                        <p class="rate_num_line2">好评率</p>
+                            </div>
+                            <p class="comment_rate_total">共{$count}人评论</p>
+
+		                </div>
+
+                        <div class="comment_tag_wrap" id="comment_tag_list_v4">
+                             <div class="comment_tag_label">买过的人觉得</div>
+                            <div class="comment_tag_total">
+                                <span class="default"><a id="tag_132" href="javascript:;">整体感觉不错 (0)<em></em></a></span>
+                                <span class="default"><a id="tag_133" href="javascript:;">外观漂亮 (0)<em></em></a></span>                          <span class="default"><a id="tag_134" href="javascript:;">做工不错 (0)<em></em></a></span>                          <span class="default"><a id="tag_135" href="javascript:;">包装不错哦 (0)<em></em></a></span>                          <span class="default"><a id="tag_136" href="javascript:;">性价比很高 (0)<em></em></a></span>                          <span class="default"><a id="tag_137" href="javascript:;">很准确 (0)<em></em></a></span>                          <span class="default"><a id="tag_138" href="javascript:;">颜色好看 (0)<em></em></a></span>                          <span class="default"><a id="tag_139" href="javascript:;">做工不错 (0)<em></em></a></span>                                                    <span class="default"><a id="tag_140" href="javascript:;">质感一般 (0)<em></em></a></span>                          <span class="default"><a id="tag_141" href="javascript:;">防水性一般 (0)<em></em></a></span>             </div> </div>
+                    <!-- 评论打分区 -->
+                            </div>
+                        </div>
+
+                        <div class="commenting_single" id="commenting_single_v4" style="">
+                            <a target="_blank" href="{:U('center/comment')}" class="commenting">写评论，赚积分</a>
+                        </div>
+                        <div class="comment_body">
+                            <div class="comment_tabs">
+                                <ul class="clearfix comment_tabs_wrap" id="review_title_v4">
+                                    <a class="selected" id="type_1" href="#tab1">全部（{$count}）</a>
+                                    <a id="type_2" href="#tab2">好评（{$countbetter|default='0'}）</a>
+                                    <a id="type_3" href="#tab3">中评（{$countmiddle|default='0'}）</a>
+                                    <a id="type_4" href="#tab4">差评（{$countworse|default='0'}）</a>
+                                </ul>
+
+                                <div class="comment_sort">
+                                    <div class="comment_sort_sel_box">
+                                        <div class="comment_sel_box_inner">
+                                            <div style="display: none;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--精彩评论-->
+                                </div>
+                            </div>
+
+                         <!--精彩评论tabs-->
+                        <div id="tab1">
+
+ <script type="text/javascript">
+    var gooid="{$info['id']}";
+    function comment(id){    //user函数名 一定要和action中的第三个参数一致上面有
+         var id = id;
+            $.get('{:U("article/comment")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+             $("ul#commentbox").replaceWith("<ul class='item_wrap' id='commentbox'>"+data+"</ul>"); //user一定要和tpl中的一致
+        });
+     }
+
+ </script>
+
+
+    <ul class="item_wrap" id="commentbox">
+        <volist id='list' name='list'>   <!--内容输出-->
+        <li class="comment_items clearfix" style="border-top:none">
+            <div class="items_left">
+                <div class="items_left_pic">
+                     <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                    <span class="user_level">V3</span>
+                </div>
+                <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}</p>
+                <p class="items_left_level">钻石会员</p>
+            </div>
+
+            <div class="items_right">
+                <div class="items_detail">
+                    <p class="describe_detail">  </p>
+                    <p class="describe_detail">{$list.content}</p>
+                    <p></p>
+                </div>
+                <div class="items_user">
+                    <div class="starline">
+                        <span class="time">{$list.create_time|date='Y-m-d H:i',###}</span>
+                        <span class="items_tips fr"> </span>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        </volist>
+         {$page}
+    <!--分页输出-->
+     </ul>
+
+ </div>
+
+ <div id="tab2">
+   <script type="text/javascript">
+     var gooid="{$info['id']}";
+    function commentgood(id){    //user函数名 一定要和action中的第三个参数一致上面有
+         var id = id;
+            $.get('{:U("article/commentgood")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+             $("ul#commentboxgood").replaceWith("<ul class='item_wrap' id='commentboxgood'>"+data+"</ul>"); //user一定要和tpl中的一致
+        });
+     }
+
+   </script>
+
+
+    <ul class="item_wrap" id="commentboxgood">
+        <volist id='list' name='listbetter'>   <!--内容输出-->
+             <li class="comment_items clearfix" style="border-top:none">
+                 <div class="items_left">
+                    <div class="items_left_pic">
+                        <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                        <span class="user_level">V3</span>
+                    </div>
+                     <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}</p>
+                     <p class="items_left_level">钻石会员</p>
+                 </div>
+
+                 <div class="items_right">
+                     <div class="items_detail">
+                         <p class="describe_detail"> </p>
+                         <p class="describe_detail">{$list.content}</p>
+                         <p></p>
+                     </div>
+                     <div class="items_user">
+                        <div class="starline">
+                             <span class="time">{$list.create_time|date='Y-m-d H:i',###}</span>
+                            <span class="items_tips fr">  </span>
+                        </div>
+                     </div>
+                 </div>
+             </li>
+        </volist>
+        {$pagebetter}
+        <!--分页输出-->
+    </ul>
+
+  </div>
+
+
+  <div id="tab3">
+  <script type="text/javascript">
+ var gooid="{$info['id']}";
+function commentmiddle(id){    //user函数名 一定要和action中的第三个参数一致上面有
+     var id = id;
+        $.get('{:U("article/commentmiddle")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+         $("ul#commentboxmiddle").replaceWith("<ul class='item_wrap' id='commentboxmiddle'>"+data+"</ul>"); //user一定要和tpl中的一致
+    });
+ }
+
+ </script>
+
+
+    <ul class="item_wrap" id="commentboxmiddle">
+        <volist id='list' name='listmiddle' empty="无">   <!--内容输出-->
+             <li class="comment_items clearfix" style="border-top:none">
+                <div class="items_left">
+                    <div class="items_left_pic">
+                        <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                        <span class="user_level">V3</span>
+                    </div>
+                    <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}" ></p>
+                    <p class="items_left_level">钻石会员</p>
+                </div>
+                 <div class="items_right">
+                     <div class="items_detail">
+                         <p class="describe_detail">     </p>
+                         <p class="describe_detail">{$list.content}</p>
+                         <p></p>
+                     </div>
+                     <div class="items_user">
+                         <div class="starline">
+                            <span class="time">{$list.create_time|date='Y-m-d H:i',###}</span>
+                            <span class="items_tips fr"> </span>
+                         </div>
+                     </div>
+                 </div>
+             </li>
+
+        </volist>
+        {$pagemiddle}
+        <!--分页输出-->
+    </ul>
+
+</div>
+
+
+<div id="tab4">
+<script type="text/javascript">
+var gooid="{$info['id']}";
+function commentworse(id){    //user函数名 一定要和action中的第三个参数一致上面有
+     var id = id;
+        $.get('{:U("article/commentworse")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+         $("ul#commentboxworse").replaceWith("<ul class='item_wrap' id='commentboxworse'>"+data+"</ul>"); //user一定要和tpl中的一致
+    });
+ }
+
+</script>
+
+
+    <ul class="item_wrap" id="commentboxworse">
+        <volist name='listworse' id='list' empty="无">   <!--内容输出-->
+             <li class="comment_items clearfix" style="border-top:none">
+                <div class="items_left">
+                    <div class="items_left_pic">
+                        <a target="_blank" title="{$list.uid|get_regname}" ><img src="{$list.uid|get_face|get_cover='path'}"></a>
+                        <span class="user_level">V3</span>
+                    </div>
+                    <p class="items_left_name" title="{$list.uid|get_regname}">{$list.uid|get_regname}" ></p>
+                    <p class="items_left_level">钻石会员</p>
+                </div>
+                 <div class="items_right">
+                     <div class="items_detail">
+                         <p class="describe_detail">   </p>
+                         <p class="describe_detail">{$list.content}</p>
+                         <p></p>
+                     </div>
+                     <div class="items_user">
+                       <div class="starline">
+                         <span class="time"> {$list.create_time|date='Y-m-d H:i',###}</span>
+                         <span class="items_tips fr"> </span>
+                       </div>
+                     </div>
+                 </div>
+             </li>
+
+        </volist>
+
+        {$pageworse}
+        <!--分页输出-->
+    </ul>
+</div>
+
+  <!--精彩评论tabs-->
+<script src="__JS__/jquery.idTabs.min.js"></script>
+<script type="text/javascript">
+$(".comment_tabs").idTabs();
+$(".good-tabs").idTabs();
+</script>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+ <div id="header4" class="choose" style="display:none">
+<script type="text/javascript">
+var gooid="{$info['id']}";
+function quest(id){    //user函数名 一定要和action中的第三个参数一致上面有
+     var id = id;
+        $.get('{:U("article/quest")}', {p:id,goodid:gooid}, function(data){  //用get方法发送信息到UserAction中的user方法
+         $("#boxquest").replaceWith("<div class='item_wrap' id='boxquest'>"+data+"</div>"); //user一定要和tpl中的一致
+    });
+ }
+
+</script>
+    <div class="item_wrap" id="boxquest">
+        <volist name="listquestion" id="m">
+             <div class="qa_cont clearfix">
+                <div class="question">
+                    <span class="time">{$m.create_time|date='Y-m-d H:i',###}</span>
+                    <span><img src="__IMG__/question.png">问：{$m.content}？</span>
+                </div>
+
+
+                <volist name="m['id']" id="re">
+                <div class="answer">
+                    <span class="time">{$re.create_time|date='Y-m-d H:i',###}</span>
+                    <span><b><img src="__IMG__/anwser.png">商家：{$re.content}</b></span>
+                </div>
+                </volist>
+            </div>
+        </volist>
+
+        {$pagequestion}
+    </div>
+
+
+   <div class="question_add">
+   <div class="text"><textarea rows="3" cols="50" name="question" id="question"></textarea></div>
+   <p><a href="javascript:;" class="btn_submit sub_question" >提交</a></p>
+
+
+<script>
+
+
+
+</script>
+
+</div>
+</div>
+</div>
+
+</div>
+<!-- 商品描述结束-->
+
+</div>
+
+<div class="details_right">
+    <dl>
+        <dt id="left_shop"><font color="#dc0000"><b>你可能喜欢</b></font></dt>
+
+    </dl>
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+   <!-- jQuery 遮罩层 begin -->
+<div id="fullbg"></div>
+<!-- end jQuery 遮罩层 -->
+
+
+
+
+
+
+ <script type="text/javascript">
+
+var uexist = "{:get_username()}";
+var id     = {$info.id};
+seajs.use(['Detail'],function(detail){
+    var instance = detail(id,uexist);
+    instance.dt_init();
+
+    //立即购买
+    $(".lj_order").click(function(){ instance.detail_order(); });
+    //立即收藏
+    $(".lj_favor").click(function(){ instance.detail_favor(); });
+    //加入购物车
+    var href= "{:U('Article/detail?id='.$info['id'])}";
+    $(".lj_cart").click(function(){ instance.detail_cart(href); });
+
+    //计算价格
+    $(".setprice").click(function(){
+        var num = $(this).data('price_num');
+        var groupprice = '{$info.groupprice}';
+        instance.setprice(num,groupprice);
+    })
+    //提交问答
+    $(".sub_question").click(function(){ instance.sub_question();})
+    //购买组合
+    $("#buytogether_btn").click(function(){ instance.buyFive();})
+})
+
+
+
+
+</script>
+
+
+
+</block>

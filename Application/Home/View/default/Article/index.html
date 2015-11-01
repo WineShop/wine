@@ -1,4 +1,4 @@
-<extend name="Base/s1"/>
+<extend name="Base/center"/>
 
 
 
@@ -10,7 +10,7 @@
 <div class="goodlist-main">
 	  <div class="lists-position">
 	  <div class="category-title">
-	  <h4><span>{$category.title}({$num})</span></h4>
+	  <h4><span><b>{$category.title}({$num})</b></span></h4>
 	  <div class="category-child">
 	  <empty name="childlist"> 
 	 <else/>
@@ -20,7 +20,7 @@
 </div>
 
  <div class="salesrank">
-  <h5><span>销量排行</span></h5>
+  <h5><span><b>销量排行</b></span></h5>
   <ul><volist name="sales" id="vo"><li><a class="picture" href="{:U('Article/detail?id='.$vo['id'])}"><img src="{$vo.id|get_cover_id|get_cover='path'}"  ></a>
   <a class="title" href="{:U('Article/detail?id='.$vo['id'])}"> {$vo.id|get_good_name}</a>
   <span>￥{$vo.id|get_good_price} </span>
@@ -28,7 +28,7 @@
   
   </div>
   <div class="salesrank">
-  <h5><span>最近浏览</span></h5>
+  <h5><span><b>最近浏览</b></span></h5>
  <ul><volist name="recent" id="vo"><li><a class="picture" href="{:U('Article/detail?id='.$vo['page'])}"><img src="{$vo.page|get_cover_id|get_cover='path'}"  ></a>
   <a class="title" href="{:U('Article/detail?id='.$vo['page'])}"> {$vo.page|get_good_name}</a>
   <span>￥{$vo.page|get_good_price} </span>
@@ -42,9 +42,11 @@
 	  <ul class="goodlist">
       
          <volist name="list" id="list"  empty="暂时没有数据" >
-          <li class="face" onmouseover="this.className='facehover'" onmouseout="this.className='face'">
-                    <a href="{:U('Article/detail?id='.$list['id'])}" class="list-img"> <img src="{$list.cover_id|get_cover='path'}"/></a>
-             <p> <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a></p>     
+          <li class="face">
+              <div style="display: relative;height: 186px;">
+                <a style="position: absolute; top: 0px;height: 176px;"  href="{:U('Article/detail?id='.$list['id'])}" class="list-img"> <img  src="{$list.cover_id|get_cover='path'}"/></a>
+             </div>
+             <p> <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a></p>
                        <p><span class="red" title="预览：{$list.id|get_good_price}">价格：￥{$list.price}</span></p> 
 
               </li>      
@@ -52,7 +54,7 @@
 			</ul>
 		  	<!-- 分页 -->
         <div class="page">
-{$page}
+        {$page}
         </div>	
 			
 			</div>
@@ -62,5 +64,31 @@
 
          
         </section>
+
+    <script type="text/javascript">
+
+        seajs.use(['Ucenter'],function(ucenter){
+            ucenter.center_init();
+        })
+
+        //图片动画
+        $("li.face").mouseenter(function(e){
+            $(this).find("a.list-img").animate({
+                top:'-15px',height:'176px'
+            },'normal');
+            $(this).find("div").animate({
+                top:'-15px'
+            },'normal');
+        });
+        $("li.face").mouseleave(function(e){
+            $(this).find("a.list-img").animate({
+                top:'0px',height:'176px'
+            },'normal');
+            $(this).find("div").animate({
+                top:'0px'
+            },'normal');
+        });
+
+    </script>
  	
 </block>

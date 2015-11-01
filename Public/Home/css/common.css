@@ -42,7 +42,7 @@ font-size:16px;color: #000;
 .login-user{margin:0px 0px ;}
 .main-content .time{margin-top:5px;font-size:15px;text-align:center;color:#339;margin-bottom:25px;}
 .Articlelist h4 a{line-height: 30px;color: #333;padding-left: 20px;font-weight: 500;}
-h5{padding: 10px 0;color: #000000;padding-left: 20px;font-weight: 500;}
+h5{padding: 10px 0;color: #595959;padding-left: 20px;font-weight: 500;}
 h2{font-family: "microsoft yahei"; font-size: 14px;}
 
 .flexcontainer {
@@ -1071,6 +1071,7 @@ line-height: 20px;
 display:block;
 color: #595959;
 position:relative;
+font-weight: bold;
 }
 .ml_content_top li i{
     width: 17px;
@@ -1097,7 +1098,7 @@ top: 7px;
 background: url('../images/arrow-a.png') no-repeat -5px 0px;
 }
 .ml_content_top  .active a {
-color: #f30; 
+color: #E23C3D;
 }
 .ml_content_top li a:hover {
 color: #E23C3D;
@@ -1582,11 +1583,11 @@ font-family: "Microsoft YaHei";
   width: 100%;overflow:hidden;
   
 }
-.category-title h4{background-color:#BAA496;color:#fff}
+.category-title h4{background-color:#E23C3D;color:#fff}
 .goodlist-main{width:100%;clear:both;}
-.lists-position{float:left;padding-top:11px;margin-right:-3px;width:240px;margin-right:10px;}
+.lists-position{float:left;padding-top:11px;margin-right:-3px;width:240px;margin-right:10px; box-shadow: 0 6px 12px rgba(0,0,0,0.275);}
 .lists-position h4{width:100%;}
-.lists-position h4 span{width:240px;text-align:center;border-bottom:1px dashed #eee;display:inline-block;
+.lists-position h4 span{width:240px;text-align:center;font-weight:bold;border-bottom:1px dashed #eee;display:inline-block;
 padding:3px 0;height:30px;line-height:30px;font-weight:400;font-size:14px;}
 .lists-position .category{clear:both;
 border-top:3px solid #f60;
@@ -1597,10 +1598,10 @@ border-bottom:2px solid #eee;
 .lists-position .category-child{margin:5px 0;overflow:hidden;}
 .lists-position .category-child span {float:left;width:30%;}
 .lists-position .category-child span a{height:30px;line-height:30px;display:block;text-align:center;} 
-.lists-area{float:left;width:950px;overflow:hidden;}
+.lists-area{float:left;width:945px;overflow:hidden; box-shadow: 0 6px 12px rgba(0,0,0,0.275);}
 .lists-area ul{overflow:hidden;}
-.lists-area .goodlist{width:950px;overflow:hidden;text-indent:0em;}
-.lists-area .goodlist li{margin-bottom:3px;float:left;width:184px;margin-right:3px;position: relative;height: 270px;}
+.lists-area .goodlist{width:945px;overflow:hidden;text-indent:0em;}
+.lists-area .goodlist li{margin-bottom:3px;float:left;width:184px;margin-left:4px;position: relative;height: 270px;}
 
 .lists-area .goodlist li p{padding:2px 0;text-indent:2px;}
 .lists-area .goodlist li .t2{display:block;height:40px;overflow:hidden;}
@@ -1608,17 +1609,15 @@ border-bottom:2px solid #eee;
 .list-img{text-align:center;overflow:hidden;display:block;padding-top:5px;}
 .vew_buy{clear:both;}
 .salesrank{clear:both;margin:5px 0;border:1px solid #eee;}
-.salesrank h5{height:30px;line-height:30px;background-color:#eee;}
+.salesrank h5{height:30px;line-height:30px;background-color:#eee;font-weight: bold;margin-bottom: 10px;}
 .salesrank h5 span{text-indent:0em;border-bottom:1px dashed #eee;display:inline-block;
 padding:3px 0;height:30px;line-height:30px;font-weight:400;font-size:16px;}
 .salesrank li{clear:both;padding:5px 0;}
 .salesrank li .picture{margin:0 auto;overflow:hidden;text-align:center;clear:both;display:block;}
-.salesrank li a:hover{color:#f60}
-.salesrank li span{margin:0 auto;width:80%;color:#f50;text-align:center;clear:both;display:block;padding-bottom :8px;border-bottom:1px dashed #eee;}
-.salesrank li img{width:100px;height:100px;}
+.salesrank li a:hover{color:#E23C3D}
+.salesrank li span{margin:0 auto;width:80%;color:#E23C3D;text-align:center;clear:both;display:block;padding-bottom :8px;border-bottom:1px dashed #bbb;}
+.salesrank li img{width:#f60100px;height:100px;}
 .salesrank .title{clear:both;text-align:center;display:block;}
-.face{border:1px solid  #fff;}
-.facehover{border:1px solid  #f60;}
 .tab-content{margin:0 auto;width:80%;}
 .tab-content p{margin:0 auto;width:80%;height:37px;line-height:37px;}
 #tab1{width:780px;}
