@@ -40,8 +40,8 @@
 
          <case value="pictures">
 			  <!-- 多图上传 -->
-			 <input type="file" id="upload_picture_{$field.name}">
-      <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}" class="icon {$field.name}" />
+			 <input type="file" id="upload_picture_more">
+      <input type="hidden" name="morepics" value="{$data[$field['name']]}" class="morepics" />
   <php> if($data[$field['name']])
   {
   $valArr= explode(',',$data[$field['name']]);
@@ -62,64 +62,58 @@ $valArr="";}
     //多图上传图片
     $(function(){
         /* 初始化上传插件*/
-        $("#upload_picture_{$field.name}").uploadify({
+        $("#upload_picture_more").uploadify({
             "height"          : 30,
             "swf"             : "__STATIC__/uploadify/uploadify.swf",
-            "fileObjName"     : "download",
+            "fileObjName"     : "qiniu_file",
             "buttonText"      : "上传图片",
-            "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+            "uploader"        : "{:U('File/uploadPictureQiniu')}",
             "width"           : 120,
             'removeTimeout'   : 1,
             'fileTypeExts'    : '*.jpg; *.png; *.gif;',
-            "onUploadSuccess" : uploadPicture{$field.name},
+            "onUploadSuccess" : uploadPictureMore,
             'onFallback' : function() {
                 alert('未检测到兼容版本的Flash.');
             }
         });
 
     })
-    function uploadPicture{$field.name}(file, data){
+    function uploadPictureMore(file, data){
         var data = $.parseJSON(data);
-        var src = '';
-        if(data.status){
-            src = data.url || '__ROOT__' + data.path;
-            upload_img = "<div class='upload-pre-item'><img src=" + src +" title='点击显示大图' data-id="+data.id+"> <span class='btn-close btn-close-{$field.name}' title='删除图片' onclick='del(event);'></span></div>";
-            picsbox = $("#upload_picture_{$field.name}").siblings('.upload-img-box');
+
+        if(data.is_data == 'yes'){
+            var src = "{:C('QINIUDOMAIN')}/"+data.key;
+            var upload_img = "<div class='upload-pre-item'><img src='" + src +"' data-qiniu='"+ data.key +"'/> <span class='btn-close btn-close-{$field.name}' title='删除图片' onclick='del(this);'></span></div>";
+            var picsbox = $("#upload_picture_more").siblings('.upload-img-box');
             picsbox.append(upload_img)
-            picArr = [];
+            var picArr = [];
             for (var i = 0; i < picsbox.children().length ; i++) {
-                picArr.push(picsbox.children('.upload-pre-item:eq('+i+')').find('img').attr('data-id'));
+                picArr.push(picsbox.children('.upload-pre-item:eq('+i+')').find('img').attr('data-qiniu'));
             };
-            picStr = picArr.join(',');
-            $('.icon.{$field.name}').val(picStr);
+            var picStr = picArr.join(',');
+            $('.morepics').val(picStr);
         } else {
             updateAlert(data.info);
             setTimeout(function(){
                 $('#top-alert').find('button').click();
-                $(that).removeClass('disabled').prop('disabled',false);
+                $(this).removeClass('disabled').prop('disabled',false);
             },1500);
         }
     }
 
-function del(event)
-		{ //获取事件源
-event = event ? event : window.event;
-var obj = event.srcElement ? event.srcElement : event.target;
-//这时obj就是触发事件的对象，可以使用它的各个属性
-//还可以将obj转换成jquery对象，方便选用其他元素
-str = obj.innerHTML.replace(/<\/?[^>]*>/g,''); //去除HTML tag
+function del(obj)
+{ //获取事件源
+	var $obj = $(obj).prev();
+    $obj.parents(".upload-pre-item").remove();
+    var picsbox = $("#upload_picture_more").siblings('.upload-img-box');
+    var picArr = [];
+    for (var i = 0; i < picsbox.children().length ; i++) {
+        picArr.push(picsbox.children('.upload-pre-item:eq('+i+')').find('img').attr('data-qiniu'));
+    }
+    var picStr = picArr.join(',');
+    $('.morepics').val(picStr);
 
-	var $obj = $(obj);
-$obj.parents(".upload-pre-item").remove();
-   picsbox = $("#upload_picture_{$field.name}").siblings('.upload-img-box');
-            picArr = [];
-            for (var i = 0; i < picsbox.children().length ; i++) {
-                picArr.push(picsbox.children('.upload-pre-item:eq('+i+')').find('img').attr('data-id'));
-            };
-            picStr = picArr.join(',');
-            $('.icon.{$field.name}').val(picStr);
-
-	}
+}
 </script>
 		       </case>
 			   <case value="num">
@@ -175,8 +169,8 @@ $obj.parents(".upload-pre-item").remove();
                             </case>
                             <case value="picture">
                                 <div class="controls">
-									<input type="file" id="upload_picture_{$field.name}">
-									<input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
+									<input type="file" id="upload_picture_one">
+									<input type="hidden" name="fengmian" id="fengmian" value=""/>
 									<div class="upload-img-box">
 									<notempty name="data[$field['name']]">
 										<div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
@@ -186,43 +180,43 @@ $obj.parents(".upload-pre-item").remove();
 								<script type="text/javascript">
 								//上传图片
 							    /* 初始化上传插件 */
-								$("#upload_picture_{$field.name}").uploadify({
+								$("#upload_picture_one").uploadify({
 							        "height"          : 30,
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
-							        "fileObjName"     : "download",
-							        "buttonText"      : "上传图片",
-							        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+							        "fileObjName"     : "qiniu_file",
+							        "buttonText"      : "上传封面",
+							        "uploader"        : "{:U('File/uploadPictureQiniu')}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-							        "onUploadSuccess" : uploadPicture{$field.name},
+							        "onUploadSuccess" : uploadPictureOne,
 							        'onFallback' : function() {
 							            alert('未检测到兼容版本的Flash.');
 							        }
 							    });
-								function uploadPicture{$field.name}(file, data){
-							    	var data = $.parseJSON(data);
-							    	var src = '';
-							        if(data.status){
-							        	$("#cover_id_{$field.name}").val(data.id);
-							        	src = data.url || '__ROOT__' + data.path
-							        	$("#cover_id_{$field.name}").parent().find('.upload-img-box').html(
-							        		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
-							        	);
-							        } else {
-							        	updateAlert(data.info);
-							        	setTimeout(function(){
-							                $('#top-alert').find('button').click();
-							                $(that).removeClass('disabled').prop('disabled',false);
-							            },1500);
-							        }
+								function uploadPictureOne(file, data){
+                                    var data = $.parseJSON(data);
+                                    if(data.is_data == 'yes')
+                                    {
+                                       var src = "{:C('QINIUDOMAIN')}/"+data.key;
+                                        $("#fengmian").val(data.key);
+                                        $("#upload_picture_one").siblings('.upload-img-box').html(
+                                                '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                                        );
+                                    }else{
+                                        updateAlert(data.errorStr);
+                                        setTimeout(function(){
+                                            $('#top-alert').find('button').click();
+                                            $(this).removeClass('disabled').prop('disabled',false);
+                                        },1500);
+                                    }
 							    }
 								</script>
                             </case>
                             <case value="file">
 								<div class="controls">
-									<input type="file" id="upload_file_{$field.name}">
-									<input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
+									<input type="file" id="upload_file">
+									<input type="hidden" name="hide_upload_file" value="{$data[$field['name']]}"/>
 									<div class="upload-img-box">
 										<present name="data[$field['name']]">
 											<div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
@@ -232,32 +226,33 @@ $obj.parents(".upload-pre-item").remove();
 								<script type="text/javascript">
 								//上传图片
 							    /* 初始化上传插件 */
-								$("#upload_file_{$field.name}").uploadify({
+								$("#upload_file").uploadify({
 							        "height"          : 30,
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
-							        "fileObjName"     : "download",
+							        "fileObjName"     : "qiniu_file",
 							        "buttonText"      : "上传附件",
-							        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
+							        "uploader"        : "{:U('File/uploadPictureQiniu')}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
-							        "onUploadSuccess" : uploadFile{$field.name},
+                                    'fileTypeExts'	  : '*.doc; *.php; *.txt;',
+							        "onUploadSuccess" : uploadFile,
 							        'onFallback' : function() {
 							            alert('未检测到兼容版本的Flash.');
 							        }
 							    });
-								function uploadFile{$field.name}(file, data){
+								function uploadFile(file, data){
 									var data = $.parseJSON(data);
-							        if(data.status){
-							        	var name = "{$field.name}";
-							        	$("input[name="+name+"]").val(data.data);
-							        	$("input[name="+name+"]").parent().find('.upload-img-box').html(
-							        		"<div class=\"upload-pre-file\"><span class=\"upload_icon_all\"></span>" + data.info + "</div>"
+							        if(data.is_data=='yes'){
+                                        var file = "{:C('QINIUDOMAIN')}/"+data.key;
+							        	$("input[name=hide_upload_file]").val(data.key);
+							        	$("input[name=hide_upload_file]").parent().find('.upload-img-box').html(
+							        		"<div class=\"upload-pre-file\"><span class=\"upload_icon_all\"></span>" + file + "</div>"
 							        	);
 							        } else {
 							        	updateAlert(data.info);
 							        	setTimeout(function(){
 							                $('#top-alert').find('button').click();
-							                $(that).removeClass('disabled').prop('disabled',false);
+							                $(this).removeClass('disabled').prop('disabled',false);
 							            },1500);
 							        }
 							    }

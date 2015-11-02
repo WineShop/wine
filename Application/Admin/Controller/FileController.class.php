@@ -4,14 +4,26 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
+use Think\Upload\Driver\Qiniu\QiniuStorage;
 /**
  * 文件控制器
  * 主要用于下载模型的文件上传和下载
  */
 class FileController extends AdminController {
+
+    public function _initialize(){
+        $config = array(
+            'accessKey'  => C('ACCESS_KEY'),
+            'secrectKey' => C('SECRET_KEY'),
+            'bucket'     => C('BUCKET'),
+            'domain'     => C('QINIUDOMAIN'),
+        );
+        $this->qiniu = new QiniuStorage($config);
+        parent:: _initialize();
+    }
+
 
     /* 文件上传 */
     public function upload(){
@@ -51,6 +63,35 @@ class FileController extends AdminController {
         }
 
     }
+
+    public function uploadPictureQiniu()
+    {
+        $file = $_FILES['qiniu_file'];
+        $file = array(
+            'name'=>'file',
+            'fileName'=>$file['name'],
+            'fileBody'=>file_get_contents($file['tmp_name'])
+        );
+        $config = array();
+        $result = $this->qiniu->upload($config, $file);
+
+        if($result){
+           /* (
+                        [hash] => FkVJw_PXfSZihFMMW2gWzhh9nAsT
+                        [key] => 2015-11-01 23:09:52 的屏幕截图.png
+            )*/
+            $result['is_data'] = 'yes';
+            $this->ajaxReturn($result);
+        }else{
+            $this->ajaxReturn(array(
+                'is_data'    => 'no',
+                'error_code' =>$this->qiniu->error,
+                'errorStr'   =>$this->qiniu->errorStr
+            ));
+        }
+        exit;
+    }
+
 
     /**
      * 上传图片
