@@ -2,6 +2,9 @@
 
 <block name="style">
 	<style>
+        .sidebar {
+            padding-top: 0px;
+        }
 		.sidebar .right-cnt{
 			-webkit-border-radius: 6px;
 			-moz-border-radius: 6px;
@@ -23,7 +26,6 @@
 			font-size: 14px;
 			border-bottom: 1px solid #c9ccd0;
 			background-color: #dee0e6;
-			background-image: url(../../image/report/gradient-line.png);
 			background-position: top;
 			background-repeat: no-repeat;
 			-webkit-border-top-right-radius: 5px;
@@ -49,7 +51,7 @@
 			-moz-box-shadow: 0 0 2px rgba(120,120,120,0.5);
 			box-shadow: 0 0 2px rgba(120,120,120,0.5);
 		}
-	}
+
 	.sidebar .right-body-block .file-info-item {
 		margin-bottom: 8px;
 	}
@@ -76,7 +78,7 @@
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2>blackwhite的七牛空间</h2>
+		<h2>Kevin的七牛空间</h2>
 	</div>
 	<div>
 		<form action="__SELF__" method="post">
@@ -109,7 +111,7 @@
 							<td><input type="checkbox" name="key" value="{$vo.key}"></td>
 							<td>{$vo.key}</td>
 							<td>{$vo.mimeType} </td>
-							<td>{$vo.putTime|strval|substr=###,0,11|bcmul="1000000000"|date="Y-m-d H:i:s",###}</td>
+							<td>0</td>
 							<td>{$vo.fsize|format_bytes}</td>
 							<td>
 								<a href="javascript:;" data-href="{:U('rename?file='.$vo['key'])}" class="rename" title="{$vo.key}">重命名</a>

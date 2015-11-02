@@ -18,10 +18,10 @@ class QiniuController extends AdminController {
 
     public function _initialize(){
         $config = array(
-            'accessKey'=>'__ODsglZwwjRJNZHAu7vtcEf-zgIxdQAY-QqVrZD',
-            'secrectKey'=>'Z9-RahGtXhKeTUYy9WCnLbQ98ZuZ_paiaoBjByKv',
-            'bucket'=>'blackwhite',
-            'domain'=>'blackwhite.u.qiniudn.com'
+            'accessKey'=>'31BMePSLtnrquPr5uXgOiCii-_S8vVY0pIobQU9V',
+            'secrectKey'=>'9j4-N40OrKM7UelTtijcr9P5Ka_LgTcQfucHQjYG',
+            'bucket'=>'myblog',
+            'domain'=>'7xiuw8.com1.z0.glb.clouddn.com'
         );
         $this->qiniu = new QiniuStorage($config);
         parent:: _initialize();
@@ -29,7 +29,7 @@ class QiniuController extends AdminController {
 
     //获取文件列表
     public function index(){
-        $this->meta_title = '七牛云存储测试';
+        $this->meta_title = 'Kevin云存储';
         $map = array();
         $prefix = trim(I('post.prefix'));
         if($prefix)

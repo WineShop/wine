@@ -19,8 +19,6 @@ class AdminController extends Controller {
      * 后台控制器初始化
      */
     protected function _initialize(){
-        //防止QCC攻击
-        checkCsf();
         // 获取当前用户ID
         if(defined('UID')) return ;
         define('UID',is_login());
@@ -51,6 +49,7 @@ class AdminController extends Controller {
                 $this->error('未授权访问!');
             }
         }
+
         $this->assign('__MENU__', $this->getMenus());
     }
 
