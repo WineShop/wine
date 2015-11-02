@@ -64,6 +64,9 @@ class FileController extends AdminController {
 
     }
 
+    /**
+     * 将图片上传到七牛
+     */
     public function uploadPictureQiniu()
     {
         $file = $_FILES['qiniu_file'];

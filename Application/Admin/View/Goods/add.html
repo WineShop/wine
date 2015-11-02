@@ -41,7 +41,7 @@
          <case value="pictures">
 			  <!-- 多图上传 -->
 			 <input type="file" id="upload_picture_more">
-      <input type="hidden" name="morepics" value="{$data[$field['name']]}" class="morepics" />
+      <input type="hidden" name="pics" value="{$data[$field['name']]}" class="pics" />
   <php> if($data[$field['name']])
   {
   $valArr= explode(',',$data[$field['name']]);
@@ -53,7 +53,7 @@ $valArr="";}
              <volist name="valArr" id="v">
                 <div class="upload-pre-item">
                     <img src="{$v|get_cover='path'}" data-id="{$v}"/>
-                    <span class='btn-close btn-close-{$field.name}' title='删除图片'onclick='del(event);'></span>
+                    <span class='btn-close btn-close-{$field.name}' title='删除图片'onclick='del(this);'></span>
                 </div>
              </volist>
         </notempty>
@@ -70,7 +70,7 @@ $valArr="";}
             "uploader"        : "{:U('File/uploadPictureQiniu')}",
             "width"           : 120,
             'removeTimeout'   : 1,
-            'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+            'fileTypeExts'    : '*.jpg; *.png; *.gif; *.jpeg;',
             "onUploadSuccess" : uploadPictureMore,
             'onFallback' : function() {
                 alert('未检测到兼容版本的Flash.');
@@ -91,7 +91,7 @@ $valArr="";}
                 picArr.push(picsbox.children('.upload-pre-item:eq('+i+')').find('img').attr('data-qiniu'));
             };
             var picStr = picArr.join(',');
-            $('.morepics').val(picStr);
+            $('.pics').val(picStr);
         } else {
             updateAlert(data.info);
             setTimeout(function(){
@@ -111,7 +111,7 @@ function del(obj)
         picArr.push(picsbox.children('.upload-pre-item:eq('+i+')').find('img').attr('data-qiniu'));
     }
     var picStr = picArr.join(',');
-    $('.morepics').val(picStr);
+    $('.pics').val(picStr);
 
 }
 </script>
