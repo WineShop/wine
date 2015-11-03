@@ -69,11 +69,22 @@ class FileController extends AdminController {
      */
     public function uploadPictureQiniu()
     {
-        $file = $_FILES['qiniu_file'];
+        $tmp_file = $_FILES['qiniu_file'];
+
+        //文件不能过大大于2造
+        if($this->checkImgSize($tmp_file['size'])){
+            $this->ajaxReturn(array(
+                'is_data'    => 'no',
+                'error_code' => '1002',
+                'errorStr'   => '对不起，文件不能大于2M'
+            ));
+            exit;
+        }
+
         $file = array(
-            'name'=>'file',
-            'fileName'=>$file['name'],
-            'fileBody'=>file_get_contents($file['tmp_name'])
+            'name'     => 'file',
+            'fileName' => $this->setImgName($tmp_file['name']),
+            'fileBody' => file_get_contents($tmp_file['tmp_name'])
         );
         $config = array();
         $result = $this->qiniu->upload($config, $file);
@@ -95,6 +106,66 @@ class FileController extends AdminController {
         exit;
     }
 
+
+    public function editUploadQiniu()
+    {
+        $tmp_file = $_FILES['imgFile'];
+        if(empty($tmp_file)){
+            $return = array('error'=>1,'message'=>'对不起，你没有上传任何图片');
+            exit(json_encode($return));
+        }
+
+        //文件不能过大大于2造
+        if($this->checkImgSize($tmp_file['size'])){
+            $return = array('error'=>1,'message'=>'对不起，文件不能大于2M');
+            exit(json_encode($return));
+        }
+
+        $file = array(
+            'name'    => 'file',
+            'fileName'=> $this->setImgName($tmp_file['name']),
+            'fileBody'=> file_get_contents($tmp_file['tmp_name'])
+        );
+
+        $config = array();
+        $result = $this->qiniu->upload($config, $file);
+
+        if($result){
+            /* (
+                         [hash] => FkVJw_PXfSZihFMMW2gWzhh9nAsT
+                         [key] => 2015-11-01 23:09:52 的屏幕截图.png
+             )*/
+            $url = C("QINIUDOMAIN").'/'.$result['key'];
+            $return = array('error'=>0,'url'=>$url);
+            exit(json_encode($return));
+        }else{
+            $return = array('error'=>1,'message'=>$this->qiniu->errorStr);
+            exit(json_encode($return));
+        }
+
+    }
+
+    /**
+     * 设置文件名
+     * @param $img
+     * @return string
+     */
+    public function setImgName($img)
+    {
+        $imgArr     = explode('.',$img);
+        $houzui     = array_pop($imgArr);
+        $fileName   = date('YmdHis',time()).rand(100,999).uniqid().'.'.$houzui;
+        return $fileName;
+    }
+
+    public function checkImgSize($size)
+    {
+        $total = pow(1024,2)*2;
+        if($size > $total){
+           return true;
+        }
+        return false;
+    }
 
     /**
      * 上传图片

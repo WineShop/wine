@@ -93,7 +93,7 @@ $valArr="";}
             var picStr = picArr.join(',');
             $('.pics').val(picStr);
         } else {
-            updateAlert(data.info);
+            updateAlert(data.errorStr);
             setTimeout(function(){
                 $('#top-alert').find('button').click();
                 $(this).removeClass('disabled').prop('disabled',false);
