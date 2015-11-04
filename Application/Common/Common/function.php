@@ -675,6 +675,12 @@ function get_cover_id($id){
     $row = M('document')->getbyId($id);
     return $row['cover_id'];
 }
+/** 获取头像 */
+function get_face($face){
+    $faceUrl = C("QINIUDOMAIN").'/'.$face;
+    return $faceUrl;
+}
+
 /* 优惠券封面id调用 */
 function get_icon($id){
     $row = M('fcoupon')->getbyId($id);

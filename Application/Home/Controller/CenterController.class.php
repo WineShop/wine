@@ -76,8 +76,8 @@ class CenterController extends HomeController {
         $fav    = D("Favortable");
         $favor  = $fav->getfavor();
         $this->assign('favorlist', $favor);
-        $faceid = M('ucenter_member')->where("id='$uid'")->getField("face");
-        $this->assign('faceid', $faceid);
+        $uface = M('ucenter_member')->where("id='$uid'")->getField("face");
+        $this->assign('uface', $uface);
 
         /*优惠券数量*/
         $num = M("usercoupon")->where("uid='$uid'")->count();
@@ -382,7 +382,7 @@ class CenterController extends HomeController {
         $this->assign('hotsearch',$hotsearch);
 
         $member = D("Member");
-        $faceid = M('ucenter_member')->where("id='$uid'")->getField("face");
+        $uface  = M('ucenter_member')->where("id='$uid'")->getField("face");
         $this->assign('faceid', $faceid);
 
         $ucenter = $member->where("uid='$uid'")->field('uid,sex,qq,birthday,nickname')->find();
@@ -390,6 +390,7 @@ class CenterController extends HomeController {
         $this->meta_title =$user['username'].'个人中心';
         $this->assign('information', $ucenter);
         $this->assign('username', $user['username']);
+        $this->assign('uface', $uface);
         $this->display();
     }
 
@@ -430,6 +431,12 @@ class CenterController extends HomeController {
 
     public  function update() {
         $uid    = $this->login();
+        $face   = $_POST['user_face'];
+        if($face != ''){
+            $uface = M('ucenter_member')->where("id='$uid'")->setField("face",$face);
+        }
+        unset($_POST['user_face']);
+
         $info   = $_POST;
         $member = M("member");
         $data   = $member->create();

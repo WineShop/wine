@@ -4,10 +4,11 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: Kevin <Kevin.liu@yunzhihui.com> <http://www.dayblog.cn>
 // +----------------------------------------------------------------------
 
 namespace Home\Controller;
+use Think\Upload\Driver\Qiniu\QiniuStorage;
 
 /**
  * 文件控制器
@@ -15,7 +16,84 @@ namespace Home\Controller;
  */
 
 class FileController extends HomeController {
-	/* 文件上传 */
+
+    public function _initialize(){
+        $config = array(
+            'accessKey'  => C('ACCESS_KEY'),
+            'secrectKey' => C('SECRET_KEY'),
+            'bucket'     => C('BUCKET'),
+            'domain'     => C('QINIUDOMAIN'),
+        );
+        $this->qiniu = new QiniuStorage($config);
+        parent:: _initialize();
+    }
+
+    /**
+     * 将图片上传到七牛
+     */
+    public function uploadPictureQiniu()
+    {
+        $tmp_file = $_FILES['qiniu_file'];
+        //文件不能过大大于2造
+        if($this->checkImgSize($tmp_file['size'])){
+            $this->ajaxReturn(array(
+                'is_data'    => 'no',
+                'error_code' => '1002',
+                'errorStr'   => '对不起，文件不能大于2M'
+            ));
+            exit;
+        }
+
+        $file = array(
+            'name'     => 'file',
+            'fileName' => $this->setImgName($tmp_file['name']),
+            'fileBody' => file_get_contents($tmp_file['tmp_name'])
+        );
+        $config = array();
+        $result = $this->qiniu->upload($config, $file);
+
+        if($result){
+            /* (
+                         [hash] => FkVJw_PXfSZihFMMW2gWzhh9nAsT
+                         [key] => 2015-11-01 23:09:52 的屏幕截图.png
+             )*/
+            $result['is_data'] = 'yes';
+            $this->ajaxReturn($result);
+        }else{
+            $this->ajaxReturn(array(
+                'is_data'    => 'no',
+                'error_code' =>$this->qiniu->error,
+                'errorStr'   =>$this->qiniu->errorStr
+            ));
+        }
+        exit;
+    }
+
+
+    /**
+     * 设置文件名
+     * @param $img
+     * @return string
+     */
+    public function setImgName($img)
+    {
+        $imgArr     = explode('.',$img);
+        $houzui     = array_pop($imgArr);
+        $fileName   = date('YmdHis',time()).rand(100,999).uniqid().'.'.$houzui;
+        return $fileName;
+    }
+
+    public function checkImgSize($size)
+    {
+        $total = pow(1024,2)*2;
+        if($size > $total){
+            return true;
+        }
+        return false;
+    }
+
+
+    /* 文件上传 */
 	public function upload(){
 		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
 		/* 调用文件上传组件上传文件 */

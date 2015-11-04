@@ -23,10 +23,10 @@ $(document).ready(function(){
    <div class="count">
     <dl>
         <dt>
-            <empty name='faceid'>
+            <empty name='uface'>
                 <a href='{:U("Center/information")}'><img src="__IMG__/head_mail.png" width="100" height="100"/></a>
             <else />
-                <img src="{$faceid|get_cover='path'}"  />
+                <img src="{$uface|get_face}"  width="100" height="100" style="border-radius: 100px;"/>
             </empty>
         </dt>
 	    <dd>	<a href="" class="pinkred" title="{$ucache.username}">Hi,{$ucache.username}</a> 欢迎您光临{:C('SITENAME')}！</dd>

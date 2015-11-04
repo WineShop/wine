@@ -2189,3 +2189,13 @@ div.text{display:block;overflow:hidden;clear:both;}
     margin-bottom: 10px;
     color: #595959;
 }
+.my_face .uploadify-button-text{
+    background: #FF6347;
+    padding: 3px 12px;
+    border-radius: 4px;
+    width: 64px;
+    color: #fff;
+}
+.my_face .uploadify-button-text:hover{
+    background: #E23C3D;
+}
