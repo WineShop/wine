@@ -44,10 +44,10 @@
       <input type="hidden" name="pics" value="{$data[$field['name']]}" class="pics" />
   <php> if($data[$field['name']])
   {
-  $valArr= explode(',',$data[$field['name']]);
+        $valArr= explode(',',$data[$field['name']]);
+  }else{
+        $valArr="";
   }
-  else{
-$valArr="";}
  </php> <div class="upload-img-box">
         <notempty name="valArr">
              <volist name="valArr" id="v">
