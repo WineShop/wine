@@ -52,14 +52,6 @@ $number=count($array);
   
     return $number;
 }
-function get_face($uid){
-
-	$comment=M("ucenter_member");
-	$map['id']=$uid;
-	$count=$comment->where($map)->find();
-  
-    return $count["face"];
-}
 function get_comment_count($id){
 	$comment=M("comment");
 	$map['goodid']=$id;

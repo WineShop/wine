@@ -22,10 +22,6 @@ class ArticleController extends HomeController {
 		$map['category_id'] = array("in",$cid);
 		$map['status']      = 1;
 
-       //推荐商品
-		$pos = M('Document')->where("position!=0")->select();
-		$this->assign("poslist",$pos);
-
         $key  = I('get.order');
 		$sort = I('get.sort');
        if(isset($key)){
@@ -57,7 +53,8 @@ class ArticleController extends HomeController {
 		$Page->setConfig('last','尾页');
 		$Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
 		$show = $Page->show();
-		$list = M('Document')->where($map)->order( $listsort)->limit($Page->firstRow.','.$Page->listRows)->select();
+        $field = "id,title,category_id,price,pid,fengmian";
+		$list = M('Document')->where($map)->order( $listsort)->limit($Page->firstRow.','.$Page->listRows)->field($field)->select();
 		$this->assign('list',$list);// 赋值数据集
 		$this->assign('page',$show);//
 
@@ -97,7 +94,7 @@ class ArticleController extends HomeController {
 /* 列表页 */
  public function lists($p = 1){
 
-			$cateid= $id ? $id : I('get.category', 0);//获取分类的英文名称
+	    $cateid= $id ? $id : I('get.category', 0);//获取分类的英文名称
 
 		$category = D('Category')->info($cateid);
 		$id=$category['id'];
@@ -106,7 +103,7 @@ class ArticleController extends HomeController {
 		$map['category_id']=array("in",$cid);
 		$map['status']=1;
        //推荐商品
-		$pos=M('Document')->where("position!=0")->select();
+		$pos=M('Document')->where("position!=0")->field('id,title,category_id,price,pid,fengmian')->select();
 		$this->assign("poslist",$pos);
 		 $key=I('get.order');
 		 $sort=I('get.sort');  
@@ -426,7 +423,7 @@ class ArticleController extends HomeController {
         //获取完整的url
 
         ////获取商品访问来源来自url的商品数组，tag=3
-        $list=M('document')->limit(5)->order("sale desc")->select();
+        $list=M('document')->limit(5)->order("sale desc")->field('id,title,category_id,price,pid,fengmian')->select();
         return $list;
     }
 
@@ -445,7 +442,7 @@ class ArticleController extends HomeController {
 
     //最左侧ajax请求7个
     public function ajaxLeftShop(){
-        $field = "id,title,price,tuan_price,qg_price,ms_price,cover_id";
+        $field = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
         $view = M('Document')->where("display=1 and status=1")->field($field)->order("view desc")->limit(7)->select();
 
         if(empty($view))
@@ -454,7 +451,7 @@ class ArticleController extends HomeController {
         }else{
             foreach($view as &$row)
             {
-                $row['pic_path'] = get_cover($row['cover_id'],'path');
+                $row['pic_path'] = C('QINIUDOMAIN').'/'.$row['fengmian'];
             }
             $this->ajaxSuccess($view);
         }

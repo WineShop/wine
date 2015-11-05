@@ -62,7 +62,7 @@ a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,fo
     <h3><span class="floor">{$k}F</span>{$vo.title}</h3>
     <div class="category">
         <div class="icon">
-            <a href="{:U('Article/index?category='.$vo['name'])}" target="_blank"><img src="{$vo.icon|get_cover='path'}"  /></a>
+            <a href="{:U('Article/index?category='.$vo['name'])}" target="_blank"><img src="{:C('QINIUDOMAIN')}/{$vo.icon}"  /></a>
         </div>
     <!--栏目推荐位调用结束-->
     <!--栏目文章调用开始-->
@@ -72,7 +72,7 @@ a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,fo
                 <li>
                     <div class="pic" >
                         <a class="yershop_img" style="position: absolute" href="{:U('Article/detail?id='.$article['id'])}" target="_blank" title="{$article.title}">
-                            <img src="{$article.cover_id|get_cover='path'}" >
+                            <img src="{:C('QINIUDOMAIN')}/{$article.fengmian}" >
                         </a>
                     </div>
                     <div class="name"><a href="{:U('Article/detail?id='.$article['id'])}"  target="_blank" title="{$article.title}">{$article.title}</a></div>

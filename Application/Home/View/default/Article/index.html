@@ -21,10 +21,17 @@
 
  <div class="salesrank">
   <h5><span><b>销量排行</b></span></h5>
-  <ul><volist name="sales" id="vo"><li><a class="picture" href="{:U('Article/detail?id='.$vo['id'])}"><img src="{$vo.id|get_cover_id|get_cover='path'}"  ></a>
-  <a class="title" href="{:U('Article/detail?id='.$vo['id'])}"> {$vo.id|get_good_name}</a>
-  <span>￥{$vo.id|get_good_price} </span>
-  </li></volist></ul>
+  <ul>
+      <volist name="sales" id="vo">
+          <li>
+              <a class="picture" href="{:U('Article/detail?id='.$vo['id'])}">
+                <img src="{:C('QINIUDOMAIN')}/{$vo.fengmian}"  >
+              </a>
+              <a class="title" href="{:U('Article/detail?id='.$vo['id'])}"> {$vo.id|get_good_name}</a>
+             <span>￥{$vo.id|get_good_price} </span>
+          </li>
+      </volist>
+  </ul>
   
   </div>
   <div class="salesrank">
@@ -44,14 +51,18 @@
          <volist name="list" id="list"  empty="暂时没有数据" >
           <li class="face">
               <div style="display: relative;height: 186px;">
-                <a style="position: absolute; top: 0px;height: 176px;"  href="{:U('Article/detail?id='.$list['id'])}" class="list-img"> <img  src="{$list.cover_id|get_cover='path'}"/></a>
+                <a style="position: absolute; top: 0px;height: 176px;"  href="{:U('Article/detail?id='.$list['id'])}" class="list-img">
+                    <img  src="{:C('QINIUDOMAIN')}/{$list.fengmian}"/>
+                </a>
              </div>
-             <p> <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a></p>
-                       <p><span class="red" title="预览：{$list.id|get_good_price}">价格：￥{$list.price}</span></p> 
+             <p>
+                 <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a>
+             </p>
+             <p><span class="red" title="预览：{$list.id|get_good_price}">价格：￥{$list.price}</span></p>
 
-              </li>      
-            </volist>
-			</ul>
+          </li>
+         </volist>
+	  </ul>
 		  	<!-- 分页 -->
         <div class="page">
         {$page}

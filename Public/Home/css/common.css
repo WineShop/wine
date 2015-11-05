@@ -259,6 +259,7 @@ margin-top: 5px;
     color: #E23C3D;font-style: normal;
 }
  .price{
+     width: 160px;
     font-size: 24px;
     font-weight: 700;
     font-family: Tahoma,Arial,Helvetica,sans-serif;
@@ -293,7 +294,7 @@ line-height: 35px;color: #323232;font-weight:400;border-bottom:2px solid #E23C3D
 
 .wrapper{width:95%;;clear:both; margin:0 auto;overflow:hidden; }
 .navbar{width:100%; clear:both; margin:0 auto;overflow:hidden;  background: url('../images/topbg.gif') repeat-x scroll left top transparent;}
-div.name{overflow:hidden; clear:both; display:block;line-height:20px;height:20px;text-align:center;position:relative;z-index:399; margin-bottom:0px;font: 14px/1.5 arial,}
+div.name{overflow:hidden; clear:both; display:block;line-height:20px;height:20px;width:160px; text-align:center;position:relative;z-index:399; margin-bottom:0px;font: 14px/1.5 arial,}
 
 ul li .price{line-height:20px;text-align:center;font: 16px/1.5 arial;padding-bottom:15px;}
 .cartname{ width:150px;height:30px; border-bottom:3px solid #E23C3D;line-height:30px; font-size:16px; padding:5px 0; clear:both; margin-top:15px;}
