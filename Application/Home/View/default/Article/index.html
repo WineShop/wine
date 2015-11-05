@@ -35,11 +35,18 @@
   
   </div>
   <div class="salesrank">
-  <h5><span><b>最近浏览</b></span></h5>
- <ul><volist name="recent" id="vo"><li><a class="picture" href="{:U('Article/detail?id='.$vo['page'])}"><img src="{$vo.page|get_cover_id|get_cover='path'}"  ></a>
-  <a class="title" href="{:U('Article/detail?id='.$vo['page'])}"> {$vo.page|get_good_name}</a>
-  <span>￥{$vo.page|get_good_price} </span>
-  </li></volist></ul>
+      <h5><span><b>最近浏览</b></span></h5>
+     <ul>
+         <volist name="recent" id="vo">
+             <li>
+                 <a class="picture" href="{:U('Article/detail?id='.$vo['page'])}">
+                    <img src="{$vo.page|get_cover_id|get_cover='path'}"  >
+                 </a>
+                <a class="title" href="{:U('Article/detail?id='.$vo['page'])}"> {$vo.page|get_good_name}</a>
+                <span>￥{$vo.page|get_good_price} </span>
+             </li>
+         </volist>
+     </ul>
  </div>
 	  </div>
 	   <div class="lists-area">

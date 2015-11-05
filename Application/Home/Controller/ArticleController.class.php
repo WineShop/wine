@@ -190,7 +190,7 @@ class ArticleController extends HomeController {
 
      /* 标识正确性检测 */
 		if(!($id && is_numeric($id))){
-		    $this->error('文档ID错误！');
+		    $this->error('不存在该商品！');
 		}	
 
 		/* 获取详细信息 */
@@ -217,7 +217,7 @@ class ArticleController extends HomeController {
 		$map = array('id' => $id);
 		$Document->where($map)->setInc('view');
 		/*内容页统计代码实现，tag=3*/
-		if(1==C('IP_TONGJI')){
+		if(1 == C('IP_TONGJI')){
 		    $record=IpLookup("",3,$id);
 		}
 
@@ -434,10 +434,24 @@ class ArticleController extends HomeController {
         //获取完整的url
         //$url= 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         //访客ip
-        $ip=getip();
+        $ip = getip();
         ////根据ip获取会员最近浏览商品，tag=3
-        $list=M('records')->where(" tag='3' and ip='$ip'")->limit(5)->order("id desc")->select();
-        return $list;
+        $field = "distinct(page),id";
+        $list  = M('records')->where(" tag='3' and ip='$ip'")->limit(5)->order("time desc")->field($field)->select();
+        if(!empty($list))
+        {
+            $aIds = array();
+            foreach($list as $arr)
+            {
+                if(!in_array($arr['page'],$aIds))
+                      $aIds[] = $arr['page'];
+            }
+            $wh['id'] = array('in',$aIds);
+            $field    = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
+            $data     = M('Document')->where($wh)->field($field)->select();
+
+        }
+        return $data;
     }
 
     //最左侧ajax请求7个
