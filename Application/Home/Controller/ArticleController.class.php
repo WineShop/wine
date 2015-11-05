@@ -78,9 +78,6 @@ class ArticleController extends HomeController {
 		//频道页循环3级分类
 		$this->meta_title = $category['title'];
 
-		/*销量排行*/
-		$sales=$this->ranks();
-		$this->assign('sales', $sales);
 		/*最近访问*/
 		$recent=$this->view_recent();
 		$this->assign('recent', $recent);
@@ -468,6 +465,21 @@ class ArticleController extends HomeController {
                 $row['pic_path'] = C('QINIUDOMAIN').'/'.$row['fengmian'];
             }
             $this->ajaxSuccess($view);
+        }
+    }
+
+    //销量排行
+    public function ajaxHotSale(){
+        /*销量排行*/
+        $sales = $this->ranks();
+        if(empty($sales))
+        {
+            $this->ajaxError('暂无数据！');
+        }else{
+            foreach($sales as &$arr){
+                $arr['picUrl'] = C('QINIUDOMAIN').'/'.$arr['fengmian'];
+            }
+            $this->ajaxSuccess($sales);
         }
     }
 

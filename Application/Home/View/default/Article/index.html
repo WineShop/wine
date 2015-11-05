@@ -21,16 +21,8 @@
 
  <div class="salesrank">
   <h5><span><b>销量排行</b></span></h5>
-  <ul>
-      <volist name="sales" id="vo">
-          <li>
-              <a class="picture" href="{:U('Article/detail?id='.$vo['id'])}">
-                <img src="{:C('QINIUDOMAIN')}/{$vo.fengmian}"  >
-              </a>
-              <a class="title" href="{:U('Article/detail?id='.$vo['id'])}"> {$vo.id|get_good_name}</a>
-             <span>￥{$vo.id|get_good_price} </span>
-          </li>
-      </volist>
+  <ul id="hot_sale">
+
   </ul>
   
   </div>
@@ -85,7 +77,7 @@
 
     <script type="text/javascript">
 
-        seajs.use(['Ucenter'],function(ucenter){
+        seajs.use(['Ucenter','AtcIndex'],function(ucenter,arcIndex){
             ucenter.center_init();
         })
 

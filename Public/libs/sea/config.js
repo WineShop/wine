@@ -24,6 +24,7 @@ seajs.config({
 
         //详细内容页面
         Detail      : 'Home/js/detail/detail.js',
+        AtcIndex    : 'Home/js/article/index.js',
 
         //购物车
         Carlist     : 'Home/js/car/carlist.js',
