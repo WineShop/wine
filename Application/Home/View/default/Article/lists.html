@@ -22,14 +22,14 @@
 </div>
 
  <div class="salesrank">
-  <h5><span>销量排行</span></h5>
+  <h5><span><b>销量排行</b></span></h5>
   <ul id="hot_sale">
 
   </ul>
   
   </div>
   <div class="salesrank">
-  <h5><span>热门排行</span></h5>
+  <h5><span><b>热门排行</b></span></h5>
   <ul id="hot_view">
 
   </ul>
@@ -54,12 +54,18 @@
 	  <ul class="goodlist">
       
          <volist name="list" id="list"  empty="暂时没有数据" >
-            <li class="face" onmouseover="this.className='facehover'" onmouseout="this.className='face'">
-                <a href="{:U('Article/detail?id='.$list['id'])}" class="list-img"> <img src="{:C('QINIUDOMAIN')}/{$list.fengmian}"/></a>
-                <p> <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a></p>
-                <p><span class="red" title="预览：{$list.price}">价格：￥{$list.price}</span></p>
+             <li class="face">
+                 <div style="display: relative;height: 186px;">
+                     <a style="position: absolute; top: 0px;height: 176px;"  href="{:U('Article/detail?id='.$list['id'])}" class="list-img">
+                         <img  src="{:C('QINIUDOMAIN')}/{$list.fengmian}"/>
+                     </a>
+                 </div>
+                 <p>
+                     <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a>
+                 </p>
+                 <p><span class="red" title="预览：{$list.price}">价格：￥{$list.price}</span></p>
 
-            </li>
+             </li>
          </volist>
       </ul>
 		  	<!-- 分页 -->
