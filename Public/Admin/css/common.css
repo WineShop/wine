@@ -263,5 +263,9 @@ button.close {
     margin-right: 8px;
 }
 .upload-pre-item img{
-    max-height: 120px;
+    height: 105px;
+    width:120px;
+}
+#upload_picture_one,#upload_picture_more{
+    border-radius: 3px;
 }

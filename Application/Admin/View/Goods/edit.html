@@ -6,6 +6,8 @@
 </block>
 
 <block name="body">
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js?v=<php>echo rand(100,999)</php>"></script>
+<script type="text/javascript" src="__STATIC__/UploadImages.js"></script>
 
 <div class="main-title cf">
 		<h2>
@@ -52,8 +54,8 @@
         <notempty name="valArr">
              <volist name="valArr" id="v">
                 <div class="upload-pre-item">
-                    <img src="{$v|get_cover='path'}" data-id="{$v}"/>
-                    <span class='btn-close btn-close-{$field.name}' title='删除图' onclick='del(event);'></span>
+                    <img src="{:C('QINIUDOMAIN')}/{$v}" data-id="{$v}"/>
+                    <span class='btn-close btn-close-{$field.name}' title='删除图' onclick='del(this);'></span>
                 </div>
              </volist>
         </notempty>
@@ -70,7 +72,7 @@
             "uploader"        : "{:U('File/uploadPictureQiniu')}",
             "width"           : 120,
             'removeTimeout'   : 1,
-            'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+            'fileTypeExts'    : '*.jpg; *.png; *.gif; *.jpeg;',
             "onUploadSuccess" : uploadPictureMore,
             'onFallback' : function() {
                 alert('未检测到兼容版本的Flash.');
@@ -170,7 +172,7 @@ function del(obj)
 									<input type="hidden" name="fengmian" id="fengmian" value="{$data[$field['name']]}"/>
 									<div class="upload-img-box">
 									<notempty name="data[$field['name']]">
-										<div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
+										<div class="upload-pre-item"><img src="{:C('QINIUDOMAIN')}/{$data[$field['name']]}"/></div>
 									</notempty>
 									</div>
 								</div>
@@ -284,8 +286,6 @@ function del(obj)
 </block>
 
 <block name="script">
-<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js?v=<php>echo rand(100,999)</php>"></script>
-<script type="text/javascript" src="__STATIC__/UploadImages.js"></script>
 
 <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
 <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>

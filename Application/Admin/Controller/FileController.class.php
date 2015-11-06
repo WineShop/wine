@@ -86,6 +86,7 @@ class FileController extends AdminController {
             'fileName' => $this->setImgName($tmp_file['name']),
             'fileBody' => file_get_contents($tmp_file['tmp_name'])
         );
+
         $config = array();
         $result = $this->qiniu->upload($config, $file);
 

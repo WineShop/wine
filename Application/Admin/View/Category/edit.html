@@ -1,7 +1,8 @@
 <extend name="Public/base"/>
 
 <block name="body">
-	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js?v=<php>echo rand(100,999)</php>"></script>
+<script type="text/javascript" src="__STATIC__/UploadImages.js"></script>
 	<div class="main-title">
 		<h2>{:isset($info['id'])?'编辑':'新增'}商品  分类</h2>
 	</div>
@@ -99,7 +100,7 @@
 						<input type="hidden" name="icon" id="icon" value="{$info['icon']|default=''}"/>
 						<div class="upload-img-box">
 						<notempty name="info['icon']">
-							<div class="upload-pre-item"><img src="{$info.icon|get_cover='path'}"/></div>
+							<div class="upload-pre-item"><img src="{:C('QINIUDOMAIN')}/{$info.icon}"/></div>
 						</notempty>
 						</div>
 					</div>
@@ -109,33 +110,34 @@
 					$("#upload_picture").uploadify({
 				        "height"          : 30,
 				        "swf"             : "__STATIC__/uploadify/uploadify.swf",
-				        "fileObjName"     : "download",
+				        "fileObjName"     : "qiniu_file",
 				        "buttonText"      : "上传图片",
-				        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+				        "uploader"        : "{:U('File/uploadPictureQiniu')}",
 				        "width"           : 120,
 				        'removeTimeout'	  : 1,
-				        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+				        'fileTypeExts'	  : '*.jpg; *.png; *.gif; *.jpeg;',
 				        "onUploadSuccess" : uploadPicture,
 				        'onFallback' : function() {
 				            alert('未检测到兼容版本的Flash.');
 				        }
 				    });
 					function uploadPicture(file, data){
-				    	var data = $.parseJSON(data);
-				    	var src = '';
-				        if(data.status){
-				        	$("#icon").val(data.id);
-				        	src = data.url || '__ROOT__' + data.path;
-				        	$("#icon").parent().find('.upload-img-box').html(
-				        		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
-				        	);
-				        } else {
-				        	updateAlert(data.info);
-				        	setTimeout(function(){
-				                $('#top-alert').find('button').click();
-				                $(that).removeClass('disabled').prop('disabled',false);
-				            },1500);
-				        }
+                        var data = $.parseJSON(data);
+                        var src = '';
+                        if(data.is_data == 'yes')
+                        {
+                            var src = "{:C('QINIUDOMAIN')}/"+data.key;
+                            $("#icon").val(data.key);
+                            $("#upload_picture").siblings('.upload-img-box').html(
+                                    '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                            );
+                        }else{
+                            updateAlert(data.errorStr);
+                            setTimeout(function(){
+                                $('#top-alert').find('button').click();
+                                $(this).removeClass('disabled').prop('disabled',false);
+                            },1500);
+                        }
 				    }
 					</script>
 				</div>
