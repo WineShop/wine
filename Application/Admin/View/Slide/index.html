@@ -12,7 +12,9 @@
 	<div class="cf">
 		<a class="btn" href="{:U('add')}">新 增</a>
 		  <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
+        <a href="{:U('clean')}" class="btn">清除缓存</a>
        （位置：1-首页，2-频道页， 3-内容页)  <!-- 高级搜索 -->
+
         <div class="search-form fr cf">
             <div class="sleft">
                 <input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入幻灯片名称">
@@ -49,7 +51,7 @@
 
 						
 
-						 <td><img src="{$order.icon|get_cover='path'}"  width="100" height="50"/>（670*400） <a title="编辑" href="{$order.icon|get_cover='path'}" target='_blank'>查看大图</a></td>
+						 <td><img src="{:C('QINIUDOMAIN')}/{$order.icon}"  width="100" height="50"/>（670*400） <a title="编辑" href="{$order.icon|get_cover='path'}" target='_blank'>查看大图</a></td>
                         <td>{$order.status}</td>
                          <td>{$order.create_time|date='Y-m-d H:i:s',###}</td>
 					<td>

@@ -141,7 +141,8 @@ function get_shop_address($id){
  */
 function get_slide(){
     $slide      = M('slide');
-    $slidelist  = $slide->where('status=1')->limit(5)->select();
+    $field      = 'id,title,url,goodid,icon,pid';
+    $slidelist  = $slide->where('status=1')->limit(5)->field($field)->select();
     return  $slidelist;
 }
 

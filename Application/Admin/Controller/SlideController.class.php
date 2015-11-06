@@ -132,4 +132,11 @@ $this->assign('list',$list);
         } 
     }
 
+
+    public function clean()
+    {
+        S(C('HOME_SLIDE_BANNER'),null);       //首页banner内容
+        $this->success('清除缓存成功！');
+    }
+
 }
