@@ -78,9 +78,6 @@ class ArticleController extends HomeController {
 		//频道页循环3级分类
 		$this->meta_title = $category['title'];
 
-		/*最近访问*/
-		$recent=$this->view_recent();
-		$this->assign('recent', $recent);
 		/* 模板赋值并渲染模板 */
 		$this->assign('category', $category);
 		$this->display($category['template_index']);
@@ -213,6 +210,7 @@ class ArticleController extends HomeController {
 		/* 更新浏览数 */
 		$map = array('id' => $id);
 		$Document->where($map)->setInc('view');
+
 		/*内容页统计代码实现，tag=3*/
 		if(1 == C('IP_TONGJI')){
 		    $record=IpLookup("",3,$id);
@@ -427,21 +425,19 @@ class ArticleController extends HomeController {
 
     //最近浏览
      public function view_recent($name){
-
-        //获取完整的url
-        //$url= 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         //访客ip
         $ip = getip();
         ////根据ip获取会员最近浏览商品，tag=3
-        $field = "distinct(page),id";
-        $list  = M('records')->where(" tag='3' and ip='$ip'")->limit(5)->order("time desc")->field($field)->select();
-        if(!empty($list))
+        $field = "gid,id";
+        $list  = M('records')->where("gid > 0 and ip='$ip'")->limit(5)->order("time desc")->field($field)->select();
+        $data = '';
+         if(!empty($list))
         {
             $aIds = array();
             foreach($list as $arr)
             {
-                if(!in_array($arr['page'],$aIds))
-                      $aIds[] = $arr['page'];
+                if(!in_array($arr['gid'],$aIds))
+                      $aIds[] = $arr['gid'];
             }
             $wh['id'] = array('in',$aIds);
             $field    = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
@@ -468,7 +464,7 @@ class ArticleController extends HomeController {
         }
     }
 
-    //销量排行
+    //ajax销量排行
     public function ajaxHotSale(){
         /*销量排行*/
         $sales = $this->ranks();
@@ -482,5 +478,38 @@ class ArticleController extends HomeController {
             $this->ajaxSuccess($sales);
         }
     }
+
+    //ajax访问历史
+    public function ajaxViewHistory(){
+        /*最近访问*/
+        $recent=$this->view_recent();
+        if(empty($recent))
+        {
+            $this->ajaxError('暂无访问历史数据！');
+        }else{
+            foreach($recent as &$arr){
+                $arr['picUrl'] = C('QINIUDOMAIN').'/'.$arr['fengmian'];
+            }
+            $this->ajaxSuccess($recent);
+        }
+    }
+
+    //ajax热门排行
+    public function ajaxHotView()
+    {
+        $field     = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
+        $hotView   = M('document')->order('view desc')->field($field)->limit("5")->select();
+
+        if(empty($hotView))
+        {
+            $this->ajaxError('暂无访问历史数据！');
+        }else{
+            foreach($hotView as &$arr){
+                $arr['picUrl'] = C('QINIUDOMAIN').'/'.$arr['fengmian'];
+            }
+            $this->ajaxSuccess($hotView);
+        }
+    }
+
 
 }

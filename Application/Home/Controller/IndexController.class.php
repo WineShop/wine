@@ -26,9 +26,6 @@ class IndexController extends HomeController {
             $record = IpLookup("",1,$id);
         }
 
-        /*$user = M('category');
-        $id   = $user->where('display=1 and pid=0')->getField('id',true);
-        $this->assign('arrr',$id);*/
 
         /** 幻灯片调用* */
         if(S(C('HOME_SLIDE_BANNER'))){

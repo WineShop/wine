@@ -27,4 +27,27 @@ define(function (require, exports, module) {
     }
 
     hot_sale();
+
+
+    //热门排行
+    var hot_view = function(){
+        T.restPost('/Article/ajaxHotView',{},function(success){
+            var data = success.data;
+            var str = '';
+            for(var i in data)
+            {
+                str += "<li><a class='picture' href='/Article/detail/id/"+data[i]['id']+"'>\
+                        <img src='"+data[i]['picUrl']+"'/> \
+                    </a>\
+                    <a class='title' href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a>\
+                    <span>￥"+data[i]['price']+"</span>\
+                    </li>";
+            }
+            $("#hot_view").html(str);
+        },function(error){
+
+        })
+    }
+
+    hot_view();
 })

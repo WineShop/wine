@@ -855,13 +855,14 @@ function get_ip_address($queryIP){
 ////根据ip138获得本地真实IP
  function get_onlineip() {
      $mip = @file_get_contents("http://www.ip138.com/ip2city.asp");
-  if($mip){
-      preg_match("/\[.*\]/",$mip,$sip);
-      $p = array("/\[/","/\]/");
-      $iipp = preg_replace($p,"",$sip[0]);
-      return preg_replace($p,"",$sip[0]);
-  }else{return "获取本地IP失败！";}
-    }
+      if($mip){
+          preg_match("/\[.*\]/",$mip,$sip);
+          $p = array("/\[/","/\]/");
+          $iipp = preg_replace($p,"",$sip[0]);
+          return preg_replace($p,"",$sip[0]);
+      }else{return "获取本地IP失败！";}
+}
+
 //从服务器获取访客ip
 function getip(){
     $onlineip = "";
@@ -884,7 +885,7 @@ function getip(){
  * @return mixed
  */
 function IpLookup($ip='',$tag,$id){
-    $cookie_key = 'ipkey_'.$tag.$id;
+    $cookie_key = 'ipkey_'.$tag.'_'.$id;
     $queryIP    = getip();
     if(cookie($cookie_key) != $queryIP){
          $arr              = get_ip_address($queryIP);
@@ -906,19 +907,13 @@ function IpLookup($ip='',$tag,$id){
            $data["time"]    = NOW_TIME;
            $data["referer"] = $_SERVER['HTTP_REFERER'];
            $data["url"]     = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-           $record = M("records");
 
-
-           //有访问记录
-        /*$now          = NOW_TIME;
-        $recordtime   = date("YmdH",$now);//当前时间点
-        $time         = $record->where("ip='$ip' and tag='$tag' and page='$id'")->limit(1)->order("id desc")->getField("time");
-        $visittime    = date("YmdH",$time);//获取最近一次访问点
-        $chazhi       = $recordtime-$visittime;//小时差值*/
-
-          $record->add($data);
-          //存四个小时，记录一次
-          cookie($cookie_key,$arr->ip,array('expire'=>60*60*4,'prefix'=>C('COOKIE_IP')));
+        if(is_numeric($id))
+            $data['gid']  = $id;
+        $record = M("records");
+        $record->add($data);
+        //存四个小时，记录一次
+        cookie($cookie_key,$arr->ip,60*60*4);
 
     }
 
