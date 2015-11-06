@@ -50,4 +50,23 @@ define(function (require, exports, module) {
     }
 
     hot_view();
+
+
+    //图片动画
+    $("li.face").mouseenter(function(e){
+        $(this).find("a.list-img").animate({
+            top:'-15px',height:'176px'
+        },'normal');
+        $(this).find("div").animate({
+            top:'-15px'
+        },'normal');
+    });
+    $("li.face").mouseleave(function(e){
+        $(this).find("a.list-img").animate({
+            top:'0px',height:'176px'
+        },'normal');
+        $(this).find("div").animate({
+            top:'0px'
+        },'normal');
+    });
 })

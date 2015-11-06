@@ -51,7 +51,7 @@
              <p>
                  <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a>
              </p>
-             <p><span class="red" title="预览：{$list.id|get_good_price}">价格：￥{$list.price}</span></p>
+             <p><span class="red" title="预览：{$list.price}">价格：￥{$list.price}</span></p>
 
           </li>
          </volist>
@@ -74,24 +74,6 @@
         seajs.use(['Ucenter','AtcIndex'],function(ucenter,arcIndex){
             ucenter.center_init();
         })
-
-        //图片动画
-        $("li.face").mouseenter(function(e){
-            $(this).find("a.list-img").animate({
-                top:'-15px',height:'176px'
-            },'normal');
-            $(this).find("div").animate({
-                top:'-15px'
-            },'normal');
-        });
-        $("li.face").mouseleave(function(e){
-            $(this).find("a.list-img").animate({
-                top:'0px',height:'176px'
-            },'normal');
-            $(this).find("div").animate({
-                top:'0px'
-            },'normal');
-        });
 
     </script>
  	
