@@ -1597,8 +1597,21 @@ border-right:2px solid #eee;
 border-bottom:2px solid #eee;
 }
 .lists-position .category-child{margin:5px 0;overflow:hidden;}
-.lists-position .category-child span {float:left;width:30%;}
-.lists-position .category-child span a{height:30px;line-height:30px;display:block;text-align:center;} 
+.lists-position .category-child span {float:left;}
+.lists-position .category-child span a{
+    background:	#eee;
+    color:#595959;
+    padding:2px 7px;
+    margin-right:5px;
+    display:block;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    text-align:center;
+}
+.lists-position .category-child span a:hover{
+    background: #EBE8E8;
+    color:#E23C3D;
+}
 .lists-area{float:left;width:945px;overflow:hidden; box-shadow: 0 6px 12px rgba(0,0,0,0.275);}
 .lists-area ul{overflow:hidden;}
 .lists-area .goodlist{width:945px;overflow:hidden;text-indent:0em;}

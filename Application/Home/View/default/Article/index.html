@@ -13,8 +13,10 @@
 	  <h4><span><b>{$category.title}({$num})</b></span></h4>
 	  <div class="category-child">
 	  <empty name="childlist"> 
-	 <else/>
-	  <volist name="childlist" id="vo"><span> <a href="{:U('Article/lists/?category='.$vo['name'])}">{$vo.title}</a></span></volist>
+	  <else/>
+	     <volist name="childlist" id="vo">
+             <span> <a href="{:U('Article/lists/?category='.$vo['name'])}">{$vo.title}</a></span>
+         </volist>
 	  </empty>
 </div>
 </div>
