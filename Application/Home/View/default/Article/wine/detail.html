@@ -9,38 +9,26 @@
 <div class="details_left">
 <!-- 商品描述-->
 <div class="details_left_top">
-<!-- jqzoom-->
-<div id="zoom">
-	<div class="jqzoom" id="spec-n1" ><IMG height="350" src="{$info.cover_id|get_cover='path'}" jqimg="{$info.cover_id|get_cover='path'}" width="350">
-	</div>
-	<div id="spec-n5">
-		<div class="control" id="spec-left">
-			<img src="__IMG__/btn_mobile_prev_cur.jpg" />
-		</div>
-		<div id="spec-list">
-			<ul class="list-h">
-                <php>
-                    if(!empty($info['pics'])){ $pics= explode(',',$info['pics']);}else{ $pics = "";}
-                </php>
-                <li class="img"><img src="{$info.cover_id|get_cover='path'}" height="50" width="50"/></li>
-                <notempty name="pics">
-                     <volist name="pics" id="v">
-                           <li><img src="__ROOT__{$v|get_cover='path'}" data-id="{$v}"/> </li>
-                     </volist>
-                </notempty>
-                <empty name="pics">
-                    <li><img src="__IMG__/2-1.jpg"> </li>
-                    <li><img src="__IMG__/2-2.jpg"> </li>
-                    <li><img src="__IMG__/2-3.jpg"> </li>
-                    <li><img src="__IMG__/2-4.jpg"> </li>
-                </empty>
-			</ul>
-		</div>
-		<div class="control" id="spec-right">
-			<img src="__IMG__/btn_mobile_next_cur.jpg" />
-		</div>
+    <!--图片放大特效-->
+    <div class="left_pic">
+    <div id="preview" class="spec-preview"> <span class="jqzoom"><img src="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" jqimg="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" /></span> </div>
+    <!--缩图开始-->
+    <div class="spec-scroll"> <span class="pic_prev"></span> <span class="pic_next"></span>
+        <div class="items">
+            <ul>
+                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
+                <li><img bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
+                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" onmousemove="preview(this);"></li>
+                <li><img bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
+                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
+                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
+                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
+            </ul>
+        </div>
     </div>
-</div><!-- wwww over-->
+    <!--缩图结束-->
+    <!--图片放大特效-->
+    </div>
 
 <!-- 商品参数-->
 <div class="dl_goods_info">
@@ -111,12 +99,7 @@
 
     <p>
         <span>收藏产品：<a href="javascript:;" class="lj_favor"><img title="收藏按钮" src="__IMG__/icon_favorite_pro.jpg" ></a></span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;&nbsp;&nbsp;分享到：<a title="分享到新浪微博" target="_blank" href="http://service.t.sina.com.cn/share/share.php?title={$info.title}。（来自{:C('SITENAME')}）&amp;url={:C('DOMAIN')}{:U('Article/detail?id='.$info['id'])}&amp;pic={:C('DOMAIN')}{$info.cover_id|get_cover='path'}" data-item="sina" class="J_vivo_share">
-            <img alt="新浪微博" src="__IMG__/icon_sina_weibo.jpg" app="b2c"></a>
-        <a title="分享到腾讯微博" target="_blank" href="http://v.t.qq.com/share/share.php?title={$info.title}（来自{:C('SITENAME')}）。&amp;url={:C('DOMAIN')}{:U('Article/detail?id='.$info['id'])}&amp;pic={:C('DOMAIN')}{$info.cover_id|get_cover='path'}" data-item="tencent" class="J_vivo_share">
-            <img alt="腾讯微博" src="__IMG__/icon_tencent_weibo.jpg" app="b2c"></a>
-        <a target="_blank" title="分享到人人网" href="http://widget.renren.com/dialog/share?resourceUrl={:C('DOMAIN')}{:U('Article/detail?id='.$info['id'])};srcUrl={:C('DOMAIN')}&amp;title={$info.title}。（来自{:C('SITENAME')}）&amp;pic={:C('DOMAIN')}{$info.cover_id|get_cover='path'}" data-item="renren" class="J_vivo_share">
-            <img alt="人人网" src="__IMG__/icon_renrenwang.jpg" app="b2c"></a>
+&nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;&nbsp;&nbsp;
         </span>
     </p>
 
@@ -125,52 +108,6 @@
 </div>
 <!-- 商品描述结束details_left_top-->
 
-
-<SCRIPT src="__STATIC__/js/base.js" type=text/javascript></SCRIPT>
-<SCRIPT type=text/javascript>
-$(function(){
-   $(".jqzoom").jqueryzoom({
-        xzoom:400,
-        yzoom:400,
-        offset:10,
-        position:"right",
-        preload:1,
-        lens:1
-    });
-
-	$("#spec-list").jdMarquee({
-        deriction:"left",
-        width:371,
-        height:56,
-        step:2,
-        speed:4,
-        delay:10,
-        control:true,
-        _front:"#spec-right",
-        _back:"#spec-left"
-    });
-
-	$("#spec-list img").bind("mouseover",function(){
-        var src=$(this).attr("src");
-        $("#spec-n1 img").eq(0).attr({
-            src:src.replace("\/n5\/","\/n1\/"),
-            jqimg:src.replace("\/n5\/","\/n0\/")
-        });
-        $(this).css({
-            "border":"2px solid #ff6600",
-            "padding":"1px"
-        });
-    }).bind("mouseout",function(){
-            $(this).css({
-                "border":"1px solid #ccc",
-            "padding":"2px"
-            });
-        });
-    })
-</SCRIPT>
-
-
-<SCRIPT src="__STATIC__/js/jqueryzoom-jcarousel.js" type="text/javascript"></SCRIPT>
 <!-- js over-->
 <!-- jqzoom over-->
 
@@ -609,7 +546,8 @@ seajs.use(['Detail'],function(detail){
 
 
 </script>
-
-
+<script type="text/javascript" src="__JS__/detailPic/jquery-1.4.2.min.js"></script>
+<SCRIPT src="__JS__/detailPic/jquery.jqzoom.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="__JS__/detailPic/base.js" type="text/javascript"></SCRIPT>
 
 </block>

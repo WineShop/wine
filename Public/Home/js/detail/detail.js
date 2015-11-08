@@ -206,7 +206,6 @@ define(function (require, exports, module) {
         $("#left_shop").after(str);
     })
 
-
     var instance = function(gid,uexist){
         var obj = new detail_init(gid,uexist);
         return obj;

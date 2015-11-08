@@ -13,72 +13,6 @@ z-index:99;background: #ff6600;
 .choose{display:block;}
 
 #header1,#header2,#header3,#header4{width:100%;clear:both;overflow:hidden; padding: 10px;}
-/*
-.nav-all {
-position: absolute;
-top: 0;
-left: 0;
-width: 190px;
-height: 40px;
-}
-
-.all_class h2 a {
-width: 190px;
-padding: 0 0 0 30px;
-color: #fff;
-display: block;
-height: 40px;
-padding-left: 20px;
-line-height: 40px;
-padding-left: 45px;
-}
-
-.nav-wrap{ position:relative;*z-index:2;width: 100%;background-color: #ff6600; clear:both}
-.nava{ position: relative; width:100%; height:41px; margin: 0 auto; padding-left: 190px;}
-.goods{ position: absolute; top: 0;left: 0;width: 190px;height: 40px;}
-.goods h2 a {display: block;height: 40px;padding-left: 20px;line-height: 40px;color: #fff;}
-.goods h2 a:hover{ text-decoration:none;}
-
-.menu-list{ height: 41px;}
-.menu-list li{ float: left;height: 41px;}
-.menu-list a{ display: block; height: 41px; float: left; padding:0px 15px; text-align: center;color: #fff;font: bold 15px/40px "microsoft yahei";text-decoration: none;}
-.menu-list a:hover{height: 41px; background: #d25400; text-decoration: none;}
-.menu-list a.on{ background: #d25400;}
-.all-goods{ position: absolute;top: 40px;left: 0;width: 186px;
-background: #FAFAFA;border: solid #ff6600;border-width: 0 2px 2px;overflow: visible; z-index:9999}
-.all-goods .item{width: 186px;height: 36px;border-top: 1px solid #FFF;background: #f7f7f7;}
-.all-goods .btnone{ border-top:none;}
-.all-goods .item .product{ position: absolute;z-index: 999; width: 186px;}
-.all-goods .item .product h4{width: 157px;height: 34px;padding-left: 28px;border-width: 1px 0;font-weight: normal;line-height: 36px; background: url(../imges/indexSprite.png) no-repeat -12px 12px;}
-.all-goods .item .product h4 a{ color: #666666; font-size:14px; font-family:"宋体";}
-.all-goods .item .product h4 a:hover{ text-decoration:none;}
-.all-goods .item .product s{display: block;position: absolute;top: 13px;left: 173px;width: 6px;height: 9px; background: url(../imges/indexSprite.png) no-repeat 0px 0px;}
-.all-goods .active .product h4{line-height:32px;background-position:-12px -185px;background-color:#fff7f0;border:1px solid #ffb556; border-width:2px 0;width: 160px;}
-.all-goods .active .product h4 a{ color: #ff6600;}
-.all-goods .product-wrap{ position: absolute; width: 478px; z-index: 99; border:2px solid #ffb556; background: #fff7f0;padding: 10px; display: none;}
-.all-goods .product-wrap p{ color:#999999;}
-.all-goods .pos{left: 186px;}
-.all-goods .posone{left: 186px; top: 0px;}
-.all-goods .postwo{left: 186px; top: 37px;}
-.all-goods .posthree{left: 186px; top: 74px;}
-.all-goods .posfour{left: 186px; top: 111px;}
-.all-goods .posfive{left: 186px; top: 148px;}
-.all-goods .possix{left: 186px; top: 185px;}
-.all-goods .posseven{left: 186px; bottom: -2px;}
-.all-goods .poseight{left: 186px; bottom: -2px;}
-.all-goods .posnine{left: 186px; bottom: -2px;}
-.all-goods .posten{left: 186px; bottom: -2px;}
-.all-goods .poseleven{left: 186px; bottom: -2px;}
-.all-goods .product-wrap h2{ font-size: 16px;color: #333;font-weight: bold;}
-.all-goods .product-wrap h2 a{height: auto;line-height: 16px;color: #333;padding-left: 0;}
-.all-goods .product-wrap ul{line-height:30px;height:30px}
-.all-goods .product-wrap ul li{ float: left; display: inline; margin-right: 2px; }
-.all-goods .product-wrap ul li span a{color: #ff6600;}
-.all-goods .product-wrap ul li span a:hover{color: #ff6600;}
-.all-goods .product-wrap ul li a{ padding-left: 5px; color: #666666;display: inline-block;line-height: 18px; text-decoration: none; font-weight:bold;}
-.all-goods .product-wrap ul li a:hover{ text-decoration: none; background-position: -8px -219px; color: #ff6600;}
-.all-goods .product-wrap div dd,.all-goods .product-wrap div dl a{ display:block; width:185px; height:120px; overflow:hidden;}
-*/
 
 .menu .detail_nav_right{
     background: url("../images/cartbg.png") no-repeat;
@@ -1275,3 +1209,27 @@ font-weight: bold;
   text-decoration: none;background: url(../images/icon_chosen.png) right 16px no-repeat;
   
 }
+
+ /**放大图片css**/
+/* Clear Fix */
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-block;}
+/* Hide from IE Mac */
+.clearfix{display:block;}
+.left_pic{overflow: hidden;margin: 10px;float: left;}
+/*图片放大镜样式*/
+.jqzoom{float:left;border:none;position:relative;padding:0px;cursor:pointer;margin:0px;display:block;}
+.jqzoom img{width: 350px;height: 350px;}
+.zoomdiv{z-index:100;position:absolute;top:0px;left:0px;width:350px;height:350px;background:#ffffff;border:1px solid #CCCCCC;display:none;text-align:center;overflow:hidden;}
+.jqZoomPup{z-index:10;visibility:hidden;position:absolute;top:0px;left:0px;width:20px;height:20px;border:1px solid #aaa;background:#ffffff /*url(../images/zoom.png) 50% center no-repeat*/;opacity: 0.5;-moz-opacity: 0.5;-khtml-opacity: 0.5;filter: alpha(Opacity=50);}
+/*图片小图预览列表*/
+.spec-preview{width:350px;height:350px;border:1px solid #CCC;padding: 3px;}
+.spec-scroll{clear:both;margin-top:5px;width:358px;}
+.spec-scroll .pic_prev{float:left;margin-right:4px;}
+.spec-scroll .pic_next{float:right;}
+.spec-scroll .pic_prev,.spec-scroll .pic_next{display:block;font-family:"宋体";text-align:center;width:10px;height:54px; line-height:54px;border:1px solid #CCC;background:#EBEBEB;text-decoration:none;}
+.spec-scroll .items{float:left;position:relative;width:322px;height:56px;overflow:hidden;}
+.spec-scroll .items ul{position:absolute;width:999999px;height:56px;}
+.spec-scroll .items ul li{float:left;width:65px;text-align:center;}
+.spec-scroll .items ul li img{border:1px solid #CCC;padding:2px;width:50px;height:50px;}
+.spec-scroll .items ul li img:hover{border:2px solid #E23C3D;padding:1px;}
