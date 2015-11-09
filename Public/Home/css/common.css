@@ -42,7 +42,7 @@ font-size:16px;color: #000;
 .login-user{margin:0px 0px ;}
 .main-content .time{margin-top:5px;font-size:15px;text-align:center;color:#339;margin-bottom:25px;}
 .Articlelist h4 a{line-height: 30px;color: #333;padding-left: 20px;font-weight: 500;}
-h5{padding: 10px 0;color: #595959;padding-left: 20px;font-weight: 500;}
+h5{padding: 7px 0;color: #595959;padding-left: 20px;font-weight: 500;}
 h2{font-family: "microsoft yahei"; font-size: 14px;}
 
 .flexcontainer {
@@ -1623,14 +1623,13 @@ border-bottom:2px solid #eee;
 .list-img{text-align:center;overflow:hidden;display:block;padding-top:5px;}
 .vew_buy{clear:both;}
 .salesrank{clear:both;margin:5px 0;border:1px solid #eee;}
-.salesrank h5{height:30px;line-height:30px;background-color:#eee;font-weight: bold;margin-bottom: 10px;}
+.salesrank h5{height:30px;line-height:30px;background-color:#eee;font-weight: bold;}
 .salesrank h5 span{text-indent:0em;border-bottom:1px dashed #eee;display:inline-block;
 padding:3px 0;height:30px;line-height:30px;font-weight:400;font-size:16px;}
-.salesrank li{clear:both;padding:5px 0;}
+.salesrank li{clear:both;padding:10px;overflow: hidden;}
 .salesrank li .picture{margin:0 auto;overflow:hidden;text-align:center;clear:both;display:block;}
 .salesrank li a:hover{color:#E23C3D}
 .salesrank li span{margin:0 auto;width:80%;color:#E23C3D;text-align:center;clear:both;display:block;padding-bottom :8px;border-bottom:1px dashed #bbb;}
-.salesrank li img{width:#f60100px;height:100px;}
 .salesrank .title{clear:both;text-align:center;display:block;}
 .tab-content{margin:0 auto;width:80%;}
 .tab-content p{margin:0 auto;width:80%;height:37px;line-height:37px;}
@@ -2212,4 +2211,26 @@ div.text{display:block;overflow:hidden;clear:both;}
 }
 .my_face .uploadify-button-text:hover{
     background: #E23C3D;
+}
+.salesrank>ul{
+    border: 10px solid #eee;
+    border-top: none;
+}
+.salesrank > ul .li_left{
+    float: left;
+    width: 90px;
+}
+.salesrank > ul .li_right{
+   float: left;
+    width: 100px;
+}
+.salesrank >ul .li_left img{
+    width: 70px;
+    height: 80px;
+    border:1px solid #CCC;
+    padding: 2px;
+}
+.salesrank >ul .li_left img:hover{
+    border: 2px solid #E23C3D;
+    padding: 1px;
 }
