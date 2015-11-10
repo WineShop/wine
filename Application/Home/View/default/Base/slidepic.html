@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>{$meta_title}_{:C('WEB_SITE_TITLE')}</title>
+<head>
+<link href="__CSS__/top.css" rel="stylesheet">
+<link href="__CSS__/common.css" rel="stylesheet">
+<link href="__CSS__/side_pic.css" rel="stylesheet">
+<script src="__LIBS__/sea/sea.js"></script>
+<script src="__LIBS__/sea/config.js"></script>
+<script src="__STATIC__/jquery.min.js"></script>
+<script src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/public.js"></script>
+</head>
+<body>
+<!-- 工具条 -->
+	<include file="Public/toolbar"/>
+	<!-- /工具条 -->
+	<!-- 头部 -->
+	<div class="yershop_wrapper">
+        {:W('Public/search')}
+
+        <!-- /头部 -->
+
+        <!--导航和购物车-->
+        {:W('Public/nav')}
+        <!--//导航和购物车-->
+
+        <!-- 主体 -->
+        <include file="Public/centerbody"/>
+        <!-- 主体 -->
+
+        <!-- 底部 -->
+        {:W('Public/footer')}
+        <!-- /底部 -->
+    </div>
+    <!--弹出框-->
+    <div id="alterModal" class="modalBox"></div>
+</body>
+</html>

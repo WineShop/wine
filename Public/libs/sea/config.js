@@ -31,12 +31,14 @@ seajs.config({
         Order       : 'Home/js/car/order.js',
         Pay         : 'Home/js/car/pay.js',
 
+
         //用户中心
         Ucenter     : 'Home/js/center/center.js',
         Uorder      : 'Home/js/center/order.js',
         Coupon      : 'Home/js/center/coupon.js',
         Passwd      : 'Home/js/center/passwd.js',
         Address     : 'Home/js/center/address.js',
+
         //后台登陆
         AdminLogin  : 'Admin/js/login/login.js'
 

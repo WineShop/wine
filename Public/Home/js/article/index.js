@@ -37,14 +37,14 @@ define(function (require, exports, module) {
             var str = '';
             for(var i in data)
             {
-                str += "<li><a class='picture' href='/Article/detail/id/"+data[i]['id']+"'>\
-                        <img src='"+data[i]['picUrl']+"'/> \
-                    </a>\
-                    <a class='title' href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a>\
-                    <span>￥"+data[i]['price']+"</span>\
+                str += "<li class='clearfix drink-me'><h3><a href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a></h3>\
+                    <a href='/Article/detail/id/"+data[i]['id']+"'><img src='"+data[i]['picUrl']+"' width='90' height='90'/></a>\
+                    <p><a href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['description']+"</a></p>\
+                    <span class='tweet-detail-func cBlue'>￥"+data[i]['price']+"</span>\
                     </li>";
             }
             $("#hot_view").html(str);
+            sidePic();
         },function(error){
 
         })
@@ -70,4 +70,40 @@ define(function (require, exports, module) {
             top:'0px'
         },'normal');
     });
+
+
+
+    //左侧图片动画
+    var sidePic = function(){
+        $(document).ready(function(){
+            $(".list-tweet >li:first").removeClass("drink-me");
+            $(".list-tweet >li:first").addClass("eat-me");
+
+            $("#layout-t span:first").addClass("current");
+            $("#layout-t .tab-bd-con:gt(0)").hide();
+            $("#layout-t span").mouseover(function(){//mouseover 改为 click 将变成点击后才显示，mouseover是滑过就显示
+                $(this).addClass("current").siblings("span").removeClass("current");
+                $("#layout-t .tab-bd-con:eq("+$(this).index()+")").show().siblings(".tab-bd-con").hide().addClass("current");
+            });
+
+            $(".list-tweet >li").mouseover(function(){
+                $(this).removeClass("drink-me");
+                $(this).addClass("eat-me");
+                $(".list-tweet >li:first").removeClass("eat-me");
+                $(".list-tweet >li:first").addClass("drink-me");
+            });
+            $(".list-tweet >li").mouseout(function(){
+                $(this).removeClass("eat-me");
+                $(this).addClass("drink-me");
+                $(".list-tweet >li:first").addClass("eat-me");
+                $(".list-tweet >li:first").removeClass("drink-me");
+            });
+            $(".list-tweet >li").mouseover(function(){
+                $(this).removeClass("drink-me");
+                $(this).addClass("eat-me");
+            });
+        });
+    }
+
+
 })

@@ -484,7 +484,7 @@ class ArticleController extends HomeController {
     //ajax热门排行
     public function ajaxHotView()
     {
-        $field     = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
+        $field     = "id,title,price,tuan_price,qg_price,ms_price,fengmian,description";
         $hotView   = M('document')->order('view desc')->field($field)->limit("5")->select();
 
         if(empty($hotView))
@@ -492,7 +492,8 @@ class ArticleController extends HomeController {
             $this->ajaxError('暂无访问历史数据！');
         }else{
             foreach($hotView as &$arr){
-                $arr['picUrl'] = C('QINIUDOMAIN').'/'.$arr['fengmian'];
+                $arr['picUrl']      = C('QINIUDOMAIN').'/'.$arr['fengmian'];
+                $arr['description'] = mb_substr($arr['description'],0,30,'utf-8');
             }
             $this->ajaxSuccess($hotView);
         }

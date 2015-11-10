@@ -1622,14 +1622,13 @@ border-bottom:2px solid #eee;
 .lists-area .goodlist li img{width:176px;height:176px;}
 .list-img{text-align:center;overflow:hidden;display:block;padding-top:5px;}
 .vew_buy{clear:both;}
-.salesrank{clear:both;margin:5px 0;border:1px solid #eee;}
+.salesrank{clear:both;border:1px solid #eee;}
 .salesrank h5{height:30px;line-height:30px;background-color:#eee;font-weight: bold;}
 .salesrank h5 span{text-indent:0em;border-bottom:1px dashed #eee;display:inline-block;
 padding:3px 0;height:30px;line-height:30px;font-weight:400;font-size:16px;}
 .salesrank li{clear:both;padding:10px;overflow: hidden;}
 .salesrank li .picture{margin:0 auto;overflow:hidden;text-align:center;clear:both;display:block;}
 .salesrank li a:hover{color:#E23C3D}
-.salesrank li span{margin:0 auto;width:80%;color:#E23C3D;text-align:center;clear:both;display:block;padding-bottom :8px;border-bottom:1px dashed #bbb;}
 .salesrank .title{clear:both;text-align:center;display:block;}
 .tab-content{margin:0 auto;width:80%;}
 .tab-content p{margin:0 auto;width:80%;height:37px;line-height:37px;}
@@ -2232,6 +2231,7 @@ div.text{display:block;overflow:hidden;clear:both;}
     padding: 2px;
 }
 .salesrank >ul .li_left img:hover{
-    border: 2px solid #E23C3D;
+    border: 2px solid #DAB5CE;
     padding: 1px;
 }
+.mt15{margin-top: 15px;}
