@@ -2218,12 +2218,13 @@ div.text{display:block;overflow:hidden;clear:both;}
 }
 .salesrank > ul .li_left{
     float: left;
-    width: 90px;
+    width: 85px;
 }
 .salesrank > ul .li_right{
    float: left;
-    width: 100px;
+    width: 110px;
 }
+.salesrank>ul .li_right .tit{font-size: 12px;margin-bottom: 10px;}
 .salesrank >ul .li_left img{
     width: 70px;
     height: 80px;

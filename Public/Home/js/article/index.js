@@ -13,13 +13,14 @@ define(function (require, exports, module) {
             var str = '';
             for(var i in data)
             {
-                str += "<li><a class='picture' href='/Article/detail/id/"+data[i]['id']+"'>\
+                str += "<li><div class='li_left'><a title='"+data[i]['title']+"' href='/Article/detail/id/"+data[i]['id']+"'>\
                         <img src='"+data[i]['picUrl']+"'/> \
-                    </a>\
-                    <a class='title' href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a>\
-                    <span>￥"+data[i]['price']+"</span>\
+                    </a></div> \
+                    <div class='li_right'><p class='tit'><a  href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a></p>\
+                        <p class='red'>￥"+data[i]['price']+"</p></div> \
                     </li>";
             }
+
             $("#hot_sale").html(str);
         },function(error){
 
