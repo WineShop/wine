@@ -494,6 +494,7 @@ class ArticleController extends HomeController {
             foreach($hotView as &$arr){
                 $arr['picUrl']      = C('QINIUDOMAIN').'/'.$arr['fengmian'];
                 $arr['description'] = mb_substr($arr['description'],0,30,'utf-8');
+                $arr['title']       = mb_substr($arr['title'],0,16,'utf-8');
             }
             $this->ajaxSuccess($hotView);
         }

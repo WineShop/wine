@@ -1,4 +1,4 @@
-<extend name="Base/center"/>
+<extend name="Base/slidepic"/>
 
 
 
@@ -30,9 +30,21 @@
   </div>
   <div class="salesrank">
       <h5><span><b>热门排行</b></span></h5>
-     <ul id='hot_view'>
+      <!--侧边的图片-->
+      <div class="area-sub">
+          <div id="layout-t" class="tab-product tab-sub-3 ui-style-gradient">
+              <div class="tab-bd dom-display">
+                  <div class="tab-bd-con current">
+                      <ul class="m-list list-tweet" id="hot_view">
 
-     </ul>
+
+                      </ul>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+      <!--侧边的图片-->
  </div>
 	  </div>
 	   <div class="lists-area">
@@ -44,7 +56,7 @@
          <volist name="list" id="list"  empty="暂时没有数据" >
           <li class="face">
               <div style="display: relative;height: 186px;">
-                <a style="position: absolute; top: 0px;height: 176px;"  href="{:U('Article/detail?id='.$list['id'])}" class="list-img">
+                <a  href="{:U('Article/detail?id='.$list['id'])}" class="list-img">
                     <img  src="{:C('QINIUDOMAIN')}/{$list.fengmian}"/>
                 </a>
              </div>

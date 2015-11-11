@@ -285,18 +285,28 @@ line-height: 35px;color: #323232;font-weight:400;border-bottom:2px solid #E23C3D
 .category{width:1200px;clear:both;overflow:hidden;}
 .category .icon{width:240px;height:384px; float:left;overflow:hidden; margin-right:10px;}
 .category .article{width:950px; float:right; overflow:hidden}
-.category ul li{width:190px; float:left; margin:0px;  overflow:hidden;}
-.category ul li .pic{ display:block; overflow:hidden; height:auto; position:relative; z-index:34;height:140px; }
+.category ul li{    width: 162px;  padding: 5px;  float: left; margin-right: 18px;  overflow:hidden;}
+.category ul li:hover{
+    padding: 4px;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.275);
+    background-clip: padding-box;
+}
+.category ul li .pic{ display:block; overflow:hidden; height:auto; position:relative; z-index:34;height:170px; }
 .yershop_img{overflow:hidden;}
-.yershop_img img{width:160px;height:160px;}
-.sy{ display:block; overflow:hidden;position:relative; z-index:34;height:140px; clear:both;}
+.yershop_img img{width:160px;height:165px;}
+.sy{ display:block; overflow:hidden;position:relative; z-index:34;height:165px; clear:both;}
 .buy{ height:30px; overflow:hidden; clear:both; display:block;position:relative;z-index:399; margin-bottom:0px;}
 
 .wrapper{width:95%;;clear:both; margin:0 auto;overflow:hidden; }
 .navbar{width:100%; clear:both; margin:0 auto;overflow:hidden;  background: url('../images/topbg.gif') repeat-x scroll left top transparent;}
-div.name{overflow:hidden; clear:both; display:block;line-height:20px;height:20px;width:160px; text-align:center;position:relative;z-index:399; margin-bottom:0px;font: 14px/1.5 arial,}
+div.name{overflow:hidden; clear:both; display:block;line-height:20px;height:20px;width:160px; text-align:center;position:relative;z-index:399; margin-bottom:0px;font-size: 14px;}
 
-ul li .price{line-height:20px;text-align:center;font: 16px/1.5 arial;padding-bottom:15px;}
+ul li .price{line-height:20px;text-align:center;font-size: 16px;}
 .cartname{ width:150px;height:30px; border-bottom:3px solid #E23C3D;line-height:30px; font-size:16px; padding:5px 0; clear:both; margin-top:15px;}
 table.gridtable {
 	font-family: verdana,arial,sans-serif;
@@ -1615,12 +1625,22 @@ border-bottom:2px solid #eee;
 .lists-area{float:left;width:945px;overflow:hidden; box-shadow: 0 6px 12px rgba(0,0,0,0.275);}
 .lists-area ul{overflow:hidden;}
 .lists-area .goodlist{width:945px;overflow:hidden;text-indent:0em;}
-.lists-area .goodlist li{margin-bottom:3px;float:left;width:184px;margin-left:4px;position: relative;height: 270px;}
+.lists-area .goodlist li{margin-bottom:3px;float:left;width:170px;margin-left:8px;position: relative;height: 240px;margin-bottom:10px;padding: 5px;}
+.lists-area .goodlist li:hover{
+    padding: 4px;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.275);
+    background-clip: padding-box;
 
+}
 .lists-area .goodlist li p{padding:2px 0;text-indent:2px;}
-.lists-area .goodlist li .t2{display:block;height:40px;overflow:hidden;}
-.lists-area .goodlist li img{width:176px;height:176px;}
-.list-img{text-align:center;overflow:hidden;display:block;padding-top:5px;}
+.lists-area .goodlist li .t2{display:block;height:22px;overflow:hidden;}
+.lists-area .goodlist li img{width:170px;height:176px;}
+.list-img{text-align:center;overflow:hidden;display:block;}
 .vew_buy{clear:both;}
 .salesrank{clear:both;border:1px solid #eee;}
 .salesrank h5{height:30px;line-height:30px;background-color:#eee;font-weight: bold;}
@@ -2235,3 +2255,10 @@ div.text{display:block;overflow:hidden;clear:both;}
     padding: 1px;
 }
 .mt15{margin-top: 15px;}
+.goodlist li img,.article li img{
+    cursor:pointer;
+    -webkit-transform:scale(1);-moz-transform:scale(1);-o-transform:scale(1);transform:scale(1);-webkit-transition:all 2s ease;-moz-transition:all 2s ease;-o-transition:all 2s ease;transition:all 2s ease;
+}
+.goodlist li img:hover,.article li img:hover{
+    -webkit-transform:scale(1.15);-moz-transform:scale(1.15);-o-transform:scale(1.15);transform:scale(1.15);-webkit-transition:all 2s ease;-moz-transition:all 2s ease;-o-transition:all 2s ease;transition:all 2s ease;
+}

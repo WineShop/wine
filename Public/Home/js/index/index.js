@@ -55,9 +55,9 @@ define(function (require, exports, module) {
         $(".LunBoslide>li").eq(0).attr("class","CurrentPic");
 
         //首页图片动画
-        $("div.pic").mouseenter(function(e){
+        /*$("div.pic").mouseenter(function(e){
             $(this).find("a").animate({
-                top:'-15px',height:'140px'
+                top:'-15px',height:'165px'
             },'normal');
             $(this).find("div").animate({
                  top:'-15px'
@@ -65,53 +65,13 @@ define(function (require, exports, module) {
         });
         $("div.pic").mouseleave(function(e){
             $(this).find("a").animate({
-                top:'0px',height:'140px'
+                top:'0px',height:'165px'
              },'normal');
             $(this).find("div").animate({
                 top:'0px'
             },'normal');
-        });
+        });*/
     })
-
-/*
-   //首页添加到购物车
-   var AddProductToCart = function (i)
-    { var a='{$url}';
-        var goodid=i;
-        var url='{:U("Shopcart/addItem")}';//地址
-        $.ajax({
-            type:'post', //传送的方式,get/post
-            url:'{:U("Shopcart/addgood")}', //发送数据的地址
-            data:{
-                id:goodid,tag:1
-            },
-            dataType: "json",
-            success:function(data)
-            {
-
-                var html='<li><img src="'+data.src+'">'+data.title+'<span class="red" style="text-align:left"> '
-                    +data.price+'元</span>'+'<a name="'+goodid+'" rel="del" class="red" onclick="delcommon(event)">删除</a>'+'</li>';//创建节点
-                if(data.exsit=="1"){
-                    alert("购物车已存在该商品，数量+1");
-                    //后台返回数据，判断购物车中是否已存在，存在，不追加节点
-
-                }
-                else{
-                    alert(data.msg);//后台返回数据，判断购物车中是否已存在，不存在，追加节点
-                    $("p.sc_goods_none").remove();//移除节点
-                    $("ul.sc_goods_ul").append(html);//追加节点
-
-                }
-                if(data.num=="0"){ //判断数量是否为0，为0则隐藏底部查看工具
-                    $("div.sc_goods_foot").hide();
-                }
-                else{$("div.sc_goods_foot").show();}
-            },
-            error:function (XMLHttpRequest, ajaxOptions, thrownError) {
-                alert(XMLHttpRequest+thrownError);
-            }
-        })
-    }*/
 
 
     //获取活动和公告

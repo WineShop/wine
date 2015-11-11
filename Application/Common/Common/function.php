@@ -461,7 +461,7 @@ function get_regname($uid = 0){
 function get_regmobile($uid = 0){
     $user     = new \User\Api\UserApi;
     $userInfo = $user->getUserCache();
-    return $info['mobile'];
+    return $userInfo['mobile'];
 }
 
 
@@ -1548,8 +1548,8 @@ function addintocart($uid){
   /* 记录登录历史信息 ,会员模型函数 */
  function history($uid)
  {
-      
-	 $arr=get_ip_address();
+     $ip  = getip();
+	 $arr = get_ip_address($ip);
 	  $data["uid"]=$uid;
 	  $data["login_ip"]=$arr->ip;
       $data["login_country"]=$arr->country;

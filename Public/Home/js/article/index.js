@@ -54,7 +54,7 @@ define(function (require, exports, module) {
 
 
     //图片动画
-    $("li.face").mouseenter(function(e){
+    /*$("li.face").mouseenter(function(e){
         $(this).find("a.list-img").animate({
             top:'-15px',height:'176px'
         },'normal');
@@ -69,7 +69,7 @@ define(function (require, exports, module) {
         $(this).find("div").animate({
             top:'0px'
         },'normal');
-    });
+    });*/
 
 
 
