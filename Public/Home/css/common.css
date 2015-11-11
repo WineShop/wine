@@ -2262,3 +2262,4 @@ div.text{display:block;overflow:hidden;clear:both;}
 .goodlist li img:hover,.article li img:hover{
     -webkit-transform:scale(1.15);-moz-transform:scale(1.15);-o-transform:scale(1.15);transform:scale(1.15);-webkit-transition:all 2s ease;-moz-transition:all 2s ease;-o-transition:all 2s ease;transition:all 2s ease;
 }
+.price_pic{background: url("../images/slidepic_price.png") left center no-repeat; background-size: 18px 18px;padding-left: 20px;}

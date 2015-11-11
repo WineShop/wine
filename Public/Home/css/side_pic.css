@@ -57,7 +57,7 @@ address,cite,code,em,th,i{font-weight:normal; font-style:normal;}
 .eat-me h3{font-weight:bold; }
 .list-tweet li h3 a{color:#666;}
 .list-tweet li h3 a:hover{color:#E23C3D;}
-.tweet-detail-func{float:right;margin-right:18px;padding-left:20px;font-size:12px;line-height:28px;color:#E23C3D; height:28px; width:61px;background: url("../images/slidepic_price.png") left center no-repeat; background-size: 20px 20px;}
+.tweet-detail-func{float:right;margin-right:18px;padding-left:20px;font-size:12px;font-weight: bold;line-height:28px;color:#E23C3D; height:28px; width:61px;background: url("../images/slidepic_price.png") left center no-repeat; background-size: 18px 18px;}
 .tweet-detail-func a,.tweet-detail-func a:visited{display:block; color:#E23C3D;}
 .tweet-detail-func a:hover{font-weight:bold; text-decoration:none;}
 .tweet-xxl{color:#A62F3A;background-position:left -599px;}

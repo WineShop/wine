@@ -17,7 +17,7 @@ define(function (require, exports, module) {
                         <img src='"+data[i]['picUrl']+"'/> \
                     </a></div> \
                     <div class='li_right'><p class='tit'><a  href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a></p>\
-                        <p class='red'>￥"+data[i]['price']+"</p></div> \
+                        <p class='red'><b>￥"+data[i]['price']+"</b></p></div> \
                     </li>";
             }
 

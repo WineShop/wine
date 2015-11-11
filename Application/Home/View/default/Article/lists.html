@@ -67,15 +67,15 @@
       
          <volist name="list" id="list"  empty="暂时没有数据" >
              <li class="face">
-                 <div style="display: relative;height: 186px;">
-                     <a style="height: 176px;"  href="{:U('Article/detail?id='.$list['id'])}" class="list-img">
+                 <div style="height: 186px;">
+                     <a style="height: 176px;" title="{$list.title}" href="{:U('Article/detail?id='.$list['id'])}" class="list-img">
                          <img  src="{:C('QINIUDOMAIN')}/{$list.fengmian}"/>
                      </a>
                  </div>
                  <p>
-                     <a href="{:U('Article/detail?id='.$list['id'])}" class="t2"> {$list.title}</a>
+                     <a href="{:U('Article/detail?id='.$list['id'])}" class="t2" title="{$list.title}"> {$list.title}</a>
                  </p>
-                 <p><span class="red" title="预览：{$list.price}">价格：￥{$list.price}</span></p>
+                 <p><span class="red price_pic"><b>￥{$list.price}</b></span></p>
 
              </li>
          </volist>
