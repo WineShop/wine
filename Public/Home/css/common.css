@@ -285,7 +285,7 @@ line-height: 35px;color: #323232;font-weight:400;border-bottom:2px solid #E23C3D
 .category{width:1200px;clear:both;overflow:hidden;}
 .category .icon{width:240px;height:384px; float:left;overflow:hidden; margin-right:10px;}
 .category .article{width:950px; float:right; overflow:hidden}
-.category ul li{    width: 162px;  padding: 5px;  float: left; margin-right: 18px;  overflow:hidden;}
+.category ul li{    width: 162px;  padding: 5px;  float: left; margin-right: 18px;  overflow:hidden;margin-bottom: 10px;}
 .category ul li:hover{
     padding: 4px;
     background: #f5f5f5;
