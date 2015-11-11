@@ -91,8 +91,29 @@ define(function(require, exports, module){
 
     }
 
+    //获取密码安全等级
+    var mima_leve = function(){
+        T.restPost('/Center/ajaxMimaLeve',{},function(success){
+            var data = success.data;
+            if(data.leve == 0){
+                $("#leve_tiao").addClass('col2');
+                $("#leve_str").html('低');
+            }else if(data.leve == 1){
+                $("#leve_tiao").addClass('col23');
+                $("#leve_str").html('中');
+            }else if(data.leve == 2){
+                $("#leve_tiao").addClass('col24');
+                $("#leve_str").html('高');
+            }else if(data.leve == 3){
+                $("#leve_tiao").addClass('col25');
+                $("#leve_str").html('较高');
+            }
+        })
+    }
+
     module.exports = {
         center_init : center_init,
-        center_order_action : center_order_action
+        center_order_action : center_order_action,
+        mima_leve : mima_leve
     }
 });

@@ -987,11 +987,13 @@ text-align: right;
 height: 20px;line-height: 20px;margin:5px; color: #E23C3D;
 font-weight: bold;
 }
-.login-other {overflow: hidden;
+.login-other {
+overflow: hidden;
 display: inline;
 float: left;
 margin-left: -1px;
 padding-left:10px;width:46%;border-left:1px solid #eee;
+margin-top: 20px;
 }
 .row div{float:left;margin-right:15px;}
 .login-other p{padding-left:10px;}
@@ -1812,25 +1814,25 @@ left: 28px;
 top: 12px;
 background: url(../images/security_sprite131104.png) no-repeat 0 0px;
 }
-.security_content_index ul .col2 {
+.security_content_index ul .col2 ,.progress_container .col2{
 height: 17px;
 width: 134px;
 background: url(../images/security_bg02_131104.png) no-repeat 0 0;
 overflow: hidden;
 }
-.security_content_index ul .col23 {
+.security_content_index ul .col23,.progress_container .col23 {
   height: 17px;
   width: 134px;
   background: url(../images/security_bg02_131104.png) no-repeat 0 -16px;
   overflow: hidden;
 }
-.security_content_index ul .col24 {
+.security_content_index ul .col24,.progress_container .col24{
   height: 17px;
   width: 134px;
   background: url(../images/security_bg02_131104.png) no-repeat 0 -36px;
   overflow: hidden;
 }
-.security_content_index ul .col25 {
+.security_content_index ul .col25,.progress_container .col25 {
   height: 17px;
   width: 134px;
   background: url(../images/security_bg02_131104.png) no-repeat 0 -50px;
@@ -1840,7 +1842,7 @@ overflow: hidden;
 font-size: 14px;
 padding-left: 15px;
 }
-.security_content_index ul span {
+.security_content_index ul span ,.progress_container span{
 display: inline-block;
 vertical-align: middle;
 }

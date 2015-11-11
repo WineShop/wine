@@ -31,7 +31,11 @@ $(document).ready(function(){
         </dt>
 	    <dd>	<a href="" class="pinkred" title="{$ucache.username}">Hi,{$ucache.username}</a> 欢迎您光临{:C('SITENAME')}！</dd>
 	    <dd>您的上一次登录时间是：{$ucache.last_login_time|date='Y-m-d H:i',###}</dd>
-	    <dd>账户安全<span ><div class="progress_container"><div class="progress_bar tip" title="78%"></div></div></span></dd>
+	    <dd>账户安全<div class="progress_container">
+                        <span class="" id="leve_tiao"><span class="inner"><span style="width:33%;"></span><i></i></span></span>
+                        <span class="col1"><span id="leve_str">低</span></span>
+                   </div>
+        </dd>
 	
     </dl>
     <p>订单提醒：待支付订单(<span class="red">{$onum|default="0"}</span>)&nbsp;&nbsp;&nbsp;&nbsp;待确认订单(<span class="red">{$cnum|default="0"}</span>)&nbsp;&nbsp;&nbsp;&nbsp;购物车中的商品(<span class="red">{$shopnum|default="0"}</span>)</p>
@@ -203,6 +207,7 @@ $(document).ready(function(){
     seajs.use(['Uorder','Ucenter'],function(uorder,ucenter){
         ucenter.center_init();
         ucenter.center_order_action();
+        ucenter.mima_leve();
         uorder.order_index();
     })
 </script>

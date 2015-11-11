@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2014 1010422715@qq.com  All rights reserved.
 // +----------------------------------------------------------------------
-// |  Author: 烟消云散 <1010422715@qq.com>
+// |  Author: kevin.liu <kevin.liu@yunzhihui.com>
 // +----------------------------------------------------------------------
 namespace Home\Controller;
 use Think\Controller;
@@ -28,24 +28,21 @@ class AccountController extends HomeController {
         $this->meta_title = '安全中心';
         $verification = M("verification");
         $condition['uid'] = $uid;
-        $verInfo = $verification->where($condition)->field('id')->select();
+        $verInfo = $verification->where($condition)->field('id,email,mobile')->find();
+        $num1 = $num2 = $num3 = 0;
         if(empty($verInfo)){
-            $mobile = '';
-            $verid  = '';
-        }else{
-            $mobile = "手机已验证";
+           if(!empty($verInfo['email']))  $num1 = 1;
+           if(!empty($verInfo['mobile'])) $num2 = 1;
             $verid  = $verInfo['id'];
         }
         $this->assign('emailid',$verid);
 
         //支付密码设置判断
         $str  = D("Member")->where("uid='$uid'")->getField('paykey');
-        $code = encrypt($str,'D',$key); //解密
+        $code = encrypt($str,'D',''); //解密
         $this->assign('code', $code);
 
-        if($mobile){$num1=1;}else{$num1=0;}
-        if($verid){$num2=1;}else{$num2=0;}
-        if($code){$num3=1;}else{$num3=0;}
+        if($code){$num3=1;}
 
         $num = $num1+$num2+$num3;
         $this->assign('num', $num);

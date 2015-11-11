@@ -5,10 +5,10 @@
     
 	<div class="think-form"> <div class="loginform">
         <div class="hd">
-          <strong>用户登录</strong><span>已有帐号？点击<a id='modal_login' href="javascript:;" data-url="{:U("wine/register")}">注册</a></span>            </div>
+          <strong>用户登录</strong><span>已有帐号？点击<a id='modal_login' href="javascript:;" data-url="{:U('wine/register')}">注册</a></span>            </div>
        
 	       <a rel="nofollow" href="{:C('DOMAIN')}" class="img"><img src="__IMG__/login-3.jpg" width='300' height='280'></a></div><div class="login-other">
-        <form class="form-horizontal login-user"  onsubmit="return false" action="{:U("wine/login")}" id="loginform" name="user" method="post">
+        <form class="form-horizontal login-user"  onsubmit="return false" action="{:U('wine/login')}" id="loginform" name="user" method="post">
           <div class="control-group ">
             <label class="control-label" for="username">用户名</label>
             <div class="controls">
@@ -35,11 +35,11 @@
                 <input type="checkbox"  id="forver"> 记住密码
                 <input type="hidden" value="0" name="is_forver">
               </label>
-              <br/><button type="submit" id="login_btn_cart" class="v_dark_btn">登 陆</button>
+                <br><br><button type="submit" id="login_btn_cart" class="v_dark_btn">登 陆</button>
             </div>
           </div>
         </form>
-        <p>合作网站账号登录：{:hook('SyncLogin')}</p>
+        <p>
     </div>
    </div>
 

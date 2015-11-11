@@ -618,7 +618,7 @@ margin: 11px 0px 0px 0px;
 overflow: hidden;
 margin: 16px;
 }
-.progress_container{display:inline-block;padding:1px;width:195px;height:9px;overflow:hidden;background:url(../images/progress_container.png);}
+.progress_container{display:inline-block;padding:1px 4px;width:195px;height:16px;overflow:hidden;background:url(../images/progress_container.png);}
 .progress_bar{height:9px;width:0px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;background:url(../images/progress_bar.png);}
 /* tipsy */
 .tipsy{padding:5px;font-size:11px;position:absolute;z-index:100000;}

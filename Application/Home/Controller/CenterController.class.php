@@ -518,4 +518,25 @@ class CenterController extends HomeController {
         }
     }
 
+    //获取密码等级
+    public function ajaxMimaLeve()
+    {
+        $uid = $this->login();
+        $condition['uid'] = $uid;
+        $verification = M("verification");
+        $verInfo = $verification->where($condition)->field('id,email,mobile')->find();
+        $num1 = $num2 = $num3 = 0;
+        if(empty($verInfo)){
+            if(!empty($verInfo['email']))  $num1 = 1;
+            if(!empty($verInfo['mobile'])) $num2 = 1;
+        }
+        //支付密码设置判断
+        $str  = D("Member")->where("uid='$uid'")->getField('paykey');
+        $code = encrypt($str,'D',''); //解密
+
+        if($code){$num3=1;}
+        $num = $num1+$num2+$num3;
+        $this->ajaxSuccess(array('leve'=>$num));
+    }
+
 }

@@ -114,6 +114,7 @@ class UserController extends HomeController {
             /* 检测验证码 */
             if(!check_verify($verify)){
                 $this->ajaxError('验证码输入错误！');
+                die();
             }
 
             /* 调用UC登录接口登录 */
@@ -172,13 +173,14 @@ class UserController extends HomeController {
     }
     /* 验证码，用于登录和注册 */
     public function verify(){
-        $verify = new \Think\Verify();
+        $Verify = new \Think\Verify();
         $Verify->fontSize = 18;
         $Verify->length   = 4;
         $Verify->useNoise = false;
-        $Verify->imageW   = 120;
+        $Verify->useCurve = false;
+        $Verify->imageW   = 140;
         $Verify->imageH   = 40;
-        $verify->entry();
+        $Verify->entry();
     }
 
 
@@ -217,10 +219,12 @@ class UserController extends HomeController {
                 $table->partnerid=get_partnerid($uid);
                 $num=M("shopcart")->where("goodid='$id'")->getField("num");
                 if($num){
-                    $table->num=$val["num"]+$num;$table->save();
+                    $table->num=$val["num"]+$num;
+                    $table->save();
                 }
                 else{
-                    $table->num=$val["num"];$table->add();
+                    $table->num=$val["num"];
+                    $table->add();
                 }
             }
             return $uid;
