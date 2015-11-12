@@ -88,9 +88,8 @@ class ArticleController extends HomeController {
 /* 列表页 */
  public function lists($p = 1){
 
-	    $cateid= $id ? $id : I('get.category', 0);//获取分类的英文名称
-
-		$category = D('Category')->info($cateid);
+	    $cateid   =  I('get.category', 0);//获取分类的英文名称
+		$category =  D('Category')->info($cateid);
 		$id=$category['id'];
 		
 		$cid = D('Category')->getChildrenId($id);

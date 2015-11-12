@@ -346,14 +346,31 @@ class CenterController extends HomeController {
 
         $table=D("Favortable");
         $count=$table->where(" uid='$uid' ")->count();
-        $Page= new \Think\Page($count,10);
-        $Page->setConfig('prev','上一页');
-        $Page->setConfig('next','下一页');
-        $Page->setConfig('first','第一页');
-        $Page->setConfig('last','尾页');
-        $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show= $Page->show();
-        $favorlist=$table->where("uid='$uid' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+
+        $favorlist = '';
+        $show      = '';
+        if($count>0){
+            $Page= new \Think\Page($count,10);
+            $Page->setConfig('prev','上一页');
+            $Page->setConfig('next','下一页');
+            $Page->setConfig('first','第一页');
+            $Page->setConfig('last','尾页');
+            $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+            $show = $Page->show();
+            $field = 'goodid';
+            $data = $table->where("uid='$uid' ")->order('id desc')->field($field)->limit($Page->firstRow.','.$Page->listRows)->select();
+
+            $aIds = array();
+            foreach($data as $arr)
+            {
+                if(!in_array($arr['goodid'],$aIds))
+                    $aIds[] = $arr['goodid'];
+            }
+            $wh['id']  = array('in',$aIds);
+            $field     = "id,title,price,tuan_price,qg_price,ms_price,brand,fengmian";
+            $favorlist = M('Document')->where($wh)->field($field)->select();
+        }
+
         $this->assign('favorlist', $favorlist);
         $this->assign('page',  $show);
         $this->meta_title = '我的收藏';
@@ -555,20 +572,21 @@ class CenterController extends HomeController {
         $ip = getip();
         ////根据ip获取会员最近浏览商品，tag=3
         $count = M('Records')->where("gid > 0 and ip='$ip'")->count();
-        $Page  = new \Think\Page($count,15);
-        $Page->setConfig('prev','上一页');
-        $Page->setConfig('next','下一页');
-        $Page->setConfig('first','第一页');
-        $Page->setConfig('last','尾页');
-        $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show = $Page->show();
-        $this->assign('page',$show);
 
-        $field = "gid,id";
-        $list  = M('records')->where("gid > 0 and ip='$ip'")->limit($Page->firstRow.','.$Page->listRows)->order("time desc")->field($field)->select();
         $data = '';
-        if(!empty($list))
-        {
+        if($count > 0){
+            $Page  = new \Think\Page($count,15);
+            $Page->setConfig('prev','上一页');
+            $Page->setConfig('next','下一页');
+            $Page->setConfig('first','第一页');
+            $Page->setConfig('last','尾页');
+            $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+            $show = $Page->show();
+            $this->assign('page',$show);
+
+            $field = "gid,id";
+            $list  = M('records')->where("gid > 0 and ip='$ip'")->limit($Page->firstRow.','.$Page->listRows)->order("time desc")->field($field)->select();
+
             $aIds = array();
             foreach($list as $arr)
             {
@@ -576,10 +594,11 @@ class CenterController extends HomeController {
                     $aIds[] = $arr['gid'];
             }
             $wh['id'] = array('in',$aIds);
-            $field    = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
+            $field    = "id,title,price,tuan_price,qg_price,ms_price,fengmian,brand";
             $data     = M('Document')->where($wh)->field($field)->select();
 
         }
+
         $this->assign('data',$data);
         $this->display();
     }
