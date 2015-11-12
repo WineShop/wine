@@ -401,7 +401,7 @@ class ArticleController extends HomeController {
     }
 
 		//销量排行
-    public function ranks($name){
+    public function ranks(){
         //获取完整的url
 
         ////获取商品访问来源来自url的商品数组，tag=3
@@ -411,12 +411,12 @@ class ArticleController extends HomeController {
 
 
     //最近浏览
-     public function view_recent($name){
+     public function view_recent(){
         //访客ip
         $ip = getip();
         ////根据ip获取会员最近浏览商品，tag=3
         $field = "gid,id";
-        $list  = M('records')->where("gid > 0 and ip='$ip'")->limit(5)->order("time desc")->field($field)->select();
+        $list  = M('records')->where("gid > 0 and ip='$ip'")->limit(4)->order("time desc")->field($field)->select();
         $data = '';
          if(!empty($list))
         {

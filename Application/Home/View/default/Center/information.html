@@ -13,40 +13,57 @@
 
        
     <form method="post" class="person-info" id="information" >
-        
-		
-<ul style="margin-left:40px;">
-		    <li class="common_info">
-                <P class="user_face">
-                    <empty name='uface'>
-                        <img src="__IMG__/head_mail.png" width="100" height="100" style="border-radius:100px;"/>
-                        <input type="hidden" name="user_face" value=""/>
+    <div class="person_center">
+        <div class="left_face">
+            <ul>
+                <li class="common_info"><span>昵称:</span><input type="text" name="nickname" value="{$information.nickname}" /> </li>
+                <li><span>账号:</span>{$username} </li>
+                <li class="common_info"><span>QQ:</span><input type="text" name="qq" value="{$information.qq}" /> </li>
+                <li class="common_info"><span>性别：</span><php>
+                    if($information["sex"]=="1"){echo "男";};
+                    if($information["sex"]=="2"){echo "女";};
+                    if($information["sex"]==0){echo "<select name='sex'><option  value='1'>男</option><option name='sex' value='2'>女</option></select>";};
+                </php>
+
+                </li>
+                <li class="common_info"><span>生日：</span><input type="text" name="birthday" class="text time" value="{$information.birthday|time_format}" placeholder="请选择时间"> </li>
+
+                <li><span>&nbsp;</span><input type="button" id="edit_person_info" class="btn-xiugai orange"  value="修改" /> </li>
+
+            </ul>
+        </div>
+
+        <div class="right_info">
+            <P class="user_face">
+                <empty name='uface'>
+                    <img src="__IMG__/head_mail.png" width="100" height="100" style="border-radius:100px;"/>
+                    <input type="hidden" name="user_face" value=""/>
                     <else />
-	                    <img src="{$uface|get_face}"  width="100" height="100" style="border-radius:100px;"/>
-                        <input type="hidden" name="user_face" value="{$uface}"/>
-                    </empty>
+                    <img src="{$uface|get_face}"  width="100" height="100" style="border-radius:100px;"/>
+                    <input type="hidden" name="user_face" value="{$uface}"/>
+                </empty>
 
+            </p>
+            <p style="margin-bottom: 45px;margin-top: 15px; padding-left: 10px;" class="my_face">
+                <input type="file" id="modify_head">
+            </p>
+        </div>
+    </div>
+    </form>
+
+    <span class="red" style="display: block;padding:15px;font-size:17px;"><b>浏览历史</b> &nbsp;&nbsp;[ <a class="confirm" style="font-size: 12px;" href="{:U('center/history')}">更多</a> ]</span>
+    <ul class="userhas" id="cuser">
+        <volist name="history" id="vo">
+            <li>
+                <p style="position: relative;height: 190px;">
+                    <a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}"><img src="{:C('QINIUDOMAIN')}/{$vo.fengmian}"  width="170px" height="170px"/></a>
                 </p>
-                <p style="margin-bottom: 45px;margin-top: 15px; padding-left: 10px;" class="my_face">
-                    <input type="file" id="modify_head">
-                </p>
-		   </li>
-          <li class="common_info"><span>昵称:</span><input type="text" name="nickname" value="{$information.nickname}" /> </li>
-          <li><span>账号:</span>{$username} </li>
-         <li class="common_info"><span>QQ:</span><input type="text" name="qq" value="{$information.qq}" /> </li>
-          <li class="common_info"><span>性别：</span><php>
-		  if($information["sex"]=="1"){echo "男";};
-		  if($information["sex"]=="2"){echo "女";};
-		   if($information["sex"]==0){echo "<select name='sex'><option  value='1'>男</option><option name='sex' value='2'>女</option></select>";};
-		  </php>
-		  
-		  </li>
-           <li class="common_info"><span>生日：</span><input type="text" name="birthday" class="text time" value="{$information.birthday|time_format}" placeholder="请选择时间"> </li>
+                <p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
 
-             <li><span>&nbsp;</span><input type="button" id="edit_person_info" class="btn-xiugai orange"  value="修改" /> </li><BR>
+                <p> <a  href="{:U('Article/detail?id='.$vo['id'])}" class="red"><b>￥{$vo.price}</b></a></p></li>
 
-</ul> 
-        </form>
+        </volist>
+    </ul>
 
 	
 	
@@ -56,6 +73,7 @@
 
         seajs.use(['Ucenter','Passwd'],function(ucenter,Passwd){
             ucenter.center_init();
+            ucenter.pic_flash();
         })
     </script>
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js?v=<php>echo rand(100,999)</php>"></script>

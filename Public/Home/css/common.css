@@ -1244,8 +1244,9 @@ table a:hover{color:#E23C3D}
 table{font-size:14px;}
 
 .col_name{height:36px;line-height:36px;width:100%;padding:5px; overflow:hidden}
-ul.userhas{margin:10px 0px 20px 30px;;overflow:hidden;clear:both}
-.userhas li{float:left;margin-right:18px;}
+ul.userhas{margin:10px 0px 20px 30px;clear:both}
+.userhas li{float:left;margin-right:18px;position: relative;}
+.userhas li img{border: 1px solid #ccc;padding: 2px;}
 .userhas p{text-align:center;padding:5px;}
 .userhas .text{margin:0px 0px 0px 45px;width:100px;padding:5px; text-align:center;background:#FF6347;display:block}
 .activity{
@@ -2265,3 +2266,6 @@ div.text{display:block;overflow:hidden;clear:both;}
     -webkit-transform:scale(1.15);-moz-transform:scale(1.15);-o-transform:scale(1.15);transform:scale(1.15);-webkit-transition:all 2s ease;-moz-transition:all 2s ease;-o-transition:all 2s ease;transition:all 2s ease;
 }
 .price_pic{background: url("../images/slidepic_price.png") left center no-repeat; background-size: 18px 18px;padding-left: 20px;}
+.person_center{margin-bottom: 25px;overflow: hidden;padding-left: 40px;}
+.person_center .left_face{width: 40%;float: left;}
+.person_center .right_info{width: 38%;float: left;}

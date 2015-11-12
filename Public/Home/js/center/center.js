@@ -111,9 +111,24 @@ define(function(require, exports, module){
         })
     }
 
+    //图片动画
+    var pic_flash = function(){
+        $(".userhas li").mouseenter(function(e){
+            $(this).find("p").first().animate({
+                top:'-15px',height:'190px'
+            },'normal');
+        });
+        $(".userhas li").mouseleave(function(e){
+            $(this).find("p").first().animate({
+                top:'0px',height:'190px'
+            },'normal');
+        });
+    }
+
     module.exports = {
         center_init : center_init,
         center_order_action : center_order_action,
-        mima_leve : mima_leve
+        mima_leve : mima_leve,
+        pic_flash : pic_flash
     }
 });

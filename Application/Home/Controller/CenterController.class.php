@@ -375,7 +375,7 @@ class CenterController extends HomeController {
 
     /*****个人资料
      ***************/
-    public  function information() {   /* 购物车调用*/
+    public  function information() {
         $uid = $this->login();
        /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
@@ -383,14 +383,17 @@ class CenterController extends HomeController {
 
         $member = D("Member");
         $uface  = M('ucenter_member')->where("id='$uid'")->getField("face");
-        $this->assign('faceid', $faceid);
 
         $ucenter = $member->where("uid='$uid'")->field('uid,sex,qq,birthday,nickname')->find();
         $user    = $member-> getUserCache();
         $this->meta_title =$user['username'].'个人中心';
+
+        $history = R('Article/view_recent');
+
         $this->assign('information', $ucenter);
         $this->assign('username', $user['username']);
         $this->assign('uface', $uface);
+        $this->assign('history', $history);
         $this->display();
     }
 
