@@ -18,7 +18,10 @@
 	<else />
      <ul class="userhas" id="cuser">
 	 <volist name="couponlist" id="vo">
-                <li><a href="javascript:void(0);"><img src="{$vo.couponid|get_icon|get_cover='path'}"  width="170" height="170"/></a></p>
+                <li>
+                    <p style="position: relative;height: 190px;">
+                        <a href="javascript:void(0);"><img src="{:C('QINIUDOMAIN')}/{$vo.couponid}"  width="170" height="170"/></a>
+                    </p>
 				<p><a href="javascript:void(0);"><span class="red">{$vo.couponid|get_coupon_name}</span></a>&nbsp;[ <php>$pay=$vo['status'];
 			  if($pay==1){ echo "未使用";}
               else{ echo"已使用";};  </php> ]</p> 
@@ -28,11 +31,13 @@
             </volist>
 	</ul>
 	</empty>
-	<span class="red" style="display: block;padding:15px;font-size:17px;"><b>优惠券</b></span>
+	<span class="red" style="clear: both;display: block;padding:15px;font-size:17px;"><b>优惠券</b></span>
 	  <ul class="userhas" id="cuser">
 	  <volist name="fcouponlist" id="vo">
-                <li><p><img src="{$vo.icon|get_cover='path'}"  width="170px" height="170px"/>
-				</p> 
+                <li>
+                    <p style="position: relative;height: 190px;">
+                        <img src="{:C('QINIUDOMAIN')}/{$vo.icon}"  width="170px" height="170px"/>
+				    </p>
                    <p><a href="javascript:void(0)">{$vo.title}</a></p>
 
                 <p> <a  data-id="{$vo.id}"  href="javascript:void(0)" class="sm_btn text get_coupon">领取</a></p></li>
