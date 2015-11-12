@@ -34,7 +34,7 @@
                     <tr>
                         <td align="center"><input class="ids row-selected"  checked="" type="checkbox" name="id[]" value="{$vo.id}"></td>
                         <td>
-                            <span class="c5"><A href="{:U('Article/detail?id='.$vo['id'])}" class="dl"> <img src="{$vo.id|get_cover_id|get_cover='path'}"  width="70" height="70"/></a>
+                            <span class="c5"><A href="{:U('Article/detail?id='.$vo['id'])}" class="dl"> <img src="{$vo.id|get_shoppic}"  width="70" height="70"/></a>
                                 <span class="dd"><a href="{:U('Article/detail?id='.$vo['id'])}"  class="dd"> {$vo.id|get_good_name}</a></span>
                                 <span class="dd">{$vo.parameters}</span>
                             </span>

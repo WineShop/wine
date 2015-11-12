@@ -681,10 +681,10 @@ function get_face($face){
     return $faceUrl;
 }
 
-/* 优惠券封面id调用 */
-function get_icon($id){
-    $row = M('fcoupon')->getbyId($id);
-    return $row['icon'];
+/* 获取图片地址*/
+function get_shoppic($id){
+    $row = M('Document')->field('fengmian')->getbyId($id);
+    return C('QINIUDOMAIN').'/'.$row['fengmian'];
 }
 
 /* 店铺id调用 */

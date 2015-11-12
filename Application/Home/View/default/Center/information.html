@@ -26,7 +26,7 @@
                 </php>
 
                 </li>
-                <li class="common_info"><span>生日：</span><input type="text" name="birthday" class="text time" value="{$information.birthday|time_format}" placeholder="请选择时间"> </li>
+                <li class="common_info"><span>生日：</span><input type="text" name="birthday" class="text time" value="{$information.birthday}" placeholder="请选择时间"> </li>
 
                 <li><span>&nbsp;</span><input type="button" id="edit_person_info" class="btn-xiugai orange"  value="修改" /> </li>
 
@@ -51,7 +51,7 @@
     </div>
     </form>
 
-    <span class="red" style="display: block;padding:15px;font-size:17px;"><b>浏览历史</b> &nbsp;&nbsp;[ <a class="confirm" style="font-size: 12px;" href="{:U('center/history')}">更多</a> ]</span>
+    <span class="red" style="display: block;padding:15px;font-size:17px;"><b>浏览历史</b> &nbsp;&nbsp;<if condition="$is_history neq ''">[ <a class="confirm" style="font-size: 12px;" href="{:U('Center/history')}">更多</a> ]</if></span>
     <ul class="userhas" id="cuser">
         <volist name="history" id="vo">
             <li>
@@ -93,7 +93,7 @@
             autoclose:true
         });
         $('.time').datetimepicker({
-            format: 'yyyy-mm-dd hh:ii',
+            format: 'yyyy-mm-dd',
             language:"zh-CN",
             minView:2,
             autoclose:true

@@ -388,12 +388,15 @@ class CenterController extends HomeController {
         $user    = $member-> getUserCache();
         $this->meta_title =$user['username'].'个人中心';
 
+        $is_history = '';
         $history = R('Article/view_recent');
+        if(!empty($history))  $is_history = 1;
 
         $this->assign('information', $ucenter);
         $this->assign('username', $user['username']);
         $this->assign('uface', $uface);
         $this->assign('history', $history);
+        $this->assign('is_history', $is_history);
         $this->display();
     }
 
@@ -542,4 +545,42 @@ class CenterController extends HomeController {
         $this->ajaxSuccess(array('leve'=>$num));
     }
 
+    /**
+     * 浏览历史
+     * @return mixed|string
+     */
+    public function history()
+    {
+        //访客ip
+        $ip = getip();
+        ////根据ip获取会员最近浏览商品，tag=3
+        $count = M('Records')->where("gid > 0 and ip='$ip'")->count();
+        $Page  = new \Think\Page($count,15);
+        $Page->setConfig('prev','上一页');
+        $Page->setConfig('next','下一页');
+        $Page->setConfig('first','第一页');
+        $Page->setConfig('last','尾页');
+        $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+        $show = $Page->show();
+        $this->assign('page',$show);
+
+        $field = "gid,id";
+        $list  = M('records')->where("gid > 0 and ip='$ip'")->limit($Page->firstRow.','.$Page->listRows)->order("time desc")->field($field)->select();
+        $data = '';
+        if(!empty($list))
+        {
+            $aIds = array();
+            foreach($list as $arr)
+            {
+                if(!in_array($arr['gid'],$aIds))
+                    $aIds[] = $arr['gid'];
+            }
+            $wh['id'] = array('in',$aIds);
+            $field    = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
+            $data     = M('Document')->where($wh)->field($field)->select();
+
+        }
+        $this->assign('data',$data);
+        $this->display();
+    }
 }

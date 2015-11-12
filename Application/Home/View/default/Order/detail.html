@@ -36,7 +36,7 @@
       
          <volist name="po['id']" id="vo"> 
           <tr>
-                <td><span class="img_1 img1"><A href="{:U('Article/detail?id='.$vo['goodid'])}" > <img src="{$vo.goodid|get_cover_id|get_cover='path'}"  width="70" height="70"/><span class="img_1_h">{$vo.goodid|get_good_name}</span></span> </A></td>
+                <td><span class="img_1 img1"><A href="{:U('Article/detail?id='.$vo['goodid'])}" > <img src="{$vo.goodid|get_shoppic}"  width="70" height="70"/><span class="img_1_h">{$vo.goodid|get_good_name}</span></span> </A></td>
                 <td align="center">规格：{$vo.parameters|default="无"}</td>
                 <td align="center">单价：{$vo.price}  元</td>
                 <td align="center">数量： {$vo.num} 件</td>

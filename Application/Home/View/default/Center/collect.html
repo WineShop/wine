@@ -19,7 +19,7 @@
 	<else />
        <ul class="shoucang">
  <volist name="favorlist" id="fo"> 
-         <li class="out" onmouseover="this.className='over'" onmouseout="this.className='out'"><h3>收藏时间：{$fo.time|date='Y-m-d H:i:s',###}</h3>
+         <li class="out" onmouseover="this.className='over'" onmouseout="this.className='out'"><h3>收藏时间：{$fo.create_time|date='Y-m-d H:i:s',###}</h3>
 		 <p> 
 		   <span class="red"> <a href="{:U('Article/detail?id='.$fo['goodid'])}" > 
 			<img src="{$fo.goodid|get_cover_id|get_cover='path'}"  width="70" height="70"/></a><a href="{:U('Article/detail?id='.$fo['goodid'])}" >{$fo.goodid|get_good_name} </a> 

@@ -14,7 +14,7 @@ namespace Home\Controller;
 class ArticleController extends HomeController {
 		/* 频道封面页 */
  public function index(){
-		$cateid     = $id ? $id : I('get.category', 0);//获取分类的英文名称
+		$cateid     = I('get.category', 0);//获取分类的英文名称
 
 		$category   = D('Category')->info($cateid);
 		$id         = $category['id'];
