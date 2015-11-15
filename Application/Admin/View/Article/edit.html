@@ -93,9 +93,9 @@
 								$("#upload_picture_cover_id").uploadify({
 							        "height"          : 30,
 							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
-							        "fileObjName"     : "download",
+							        "fileObjName"     : "qiniu_file",
 							        "buttonText"      : "上传图片",
-							        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                                    "uploader"        : "{:U('File/uploadPictureQiniu')}",
 							        "width"           : 120,
 							        'removeTimeout'	  : 1,
 							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
@@ -108,16 +108,16 @@
 							    	var data = $.parseJSON(data);
 							    	var src = '';
 							        if(data.status){
-							        	$("#cover_id_cover_id").val(data.id);
-							        	src = data.url || '__ROOT__' + data.path
+							        	$("#cover_id_cover_id").val(data.key);
+                                        var src = "{:C('QINIUDOMAIN')}/"+data.key;
 							        	$("#cover_id_cover_id").parent().find('.upload-img-box').html(
 							        		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
 							        	);
 							        } else {
-							        	updateAlert(data.info);
+							        	updateAlert(data.errorStr);
 							        	setTimeout(function(){
 							                $('#top-alert').find('button').click();
-							                $(that).removeClass('disabled').prop('disabled',false);
+							                $(this).removeClass('disabled').prop('disabled',false);
 							            },1500);
 							        }
 							    }

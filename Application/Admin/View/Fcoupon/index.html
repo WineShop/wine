@@ -51,7 +51,7 @@
                         <td>{$order.price}</td>
 						 <td>{$order.lowpayment}</td>
 						 <td>{$order.code}</td>
-						 <td><img src="{$order.icon|get_cover='path'}"  width="50" height="50"/></td>
+						 <td><img src="{:C('QINIUDOMAIN')}/{$order.icon}"  width="50" height="50"/></td>
                         <td>{$order.status}</td>
                          <td>{$order.create_time|date='Y-m-d H:i:s',###}</td>
 					<td>

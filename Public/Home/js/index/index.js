@@ -82,7 +82,7 @@ define(function (require, exports, module) {
                 var str = '';
                 var data = success.data;
                 for(var i in data){
-                    str += '<li><a href="/Article/detail?id='+data[i].id+'">'+data[i].title+'</a></li>';
+                    str += '<li><a href="/Article/detail/id/'+data[i].id+'.html">'+data[i].title+'</a></li>';
                 }
                 $(".home_active").html(str);
             }
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
                 var str = '';
                 var data = success.data;
                 for(var i in data){
-                    str += '<li><a href="/Article/detail?id='+data[i].id+'">'+data[i].title+'</a></li>';
+                    str += '<li><a href="/Article/detail/id/'+data[i].id+'.html">'+data[i].title+'</a></li>';
                 }
                 $(".home_notice").html(str);
             }

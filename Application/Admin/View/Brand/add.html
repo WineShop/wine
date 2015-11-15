@@ -58,9 +58,9 @@
 					$("#upload_picture").uploadify({
 				        "height"          : 30,
 				        "swf"             : "__STATIC__/uploadify/uploadify.swf",
-				        "fileObjName"     : "download",
-				        "buttonText"      : "上传图片",
-				        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                        "fileObjName"     : "qiniu_file",
+                        "buttonText"      : "上传图片",
+                        "uploader"        : "{:U('File/uploadPictureQiniu')}",
 				        "width"           : 120,
 				        'removeTimeout'	  : 1,
 				        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
@@ -72,9 +72,10 @@
 					function uploadPicture(file, data){
 				    	var data = $.parseJSON(data);
 				    	var src = '';
-				        if(data.status){
-				        	$("#icon").val(data.id);
-				        	src = data.url || '__ROOT__' + data.path;
+                        if(data.is_data == 'yes')
+                        {
+                            $("#icon").val(data.key);
+                            var src = "{:C('QINIUDOMAIN')}/"+data.key;
 				        	$("#icon").parent().find('.upload-img-box').html(
 				        		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
 				        	);
@@ -82,7 +83,7 @@
 				        	updateAlert(data.info);
 				        	setTimeout(function(){
 				                $('#top-alert').find('button').click();
-				                $(that).removeClass('disabled').prop('disabled',false);
+				                $(this).removeClass('disabled').prop('disabled',false);
 				            },1500);
 				        }
 				    }

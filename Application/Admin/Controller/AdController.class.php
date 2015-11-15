@@ -72,9 +72,9 @@ $this->assign('list',$list);
 
     /* 新增分类 */
     public function add(){
-        $ad = D('ad');
-      $list=flist(); /* 获取一级分类 */
-$this->assign('list',$list);
+        $ad    = D('ad');
+        $list  = flist(); /* 获取一级分类 */
+        $this->assign('list',$list);
         if(IS_POST){ //提交表单
             if(false !== $ad->update()){
                 $this->success('新增成功！', U('index'));

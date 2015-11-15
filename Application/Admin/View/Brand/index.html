@@ -51,7 +51,7 @@
 						<th>{$order.ypid}</th> 
                       
 					
-						 <td><img src="{$order.icon|get_cover='path'}"  width="200" height="50"/>（200*50）</td>
+						 <td><img src="{:C('QINIUDOMAIN')}/{$order.icon}"  width="200" height="50"/>（200*50）</td>
                         <td>{$order.status}</td>
                          <td>{$order.create_time|date='Y-m-d H:i:s',###}</td>
 					<td>
