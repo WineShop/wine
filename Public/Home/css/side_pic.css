@@ -47,6 +47,8 @@ address,cite,code,em,th,i{font-weight:normal; font-style:normal;}
 .list-tweet img:hover{
 	border:2px solid #DAB5CE;
     padding: 1px;
+    -webkit-animation-name: tada;
+    animation-name: tada;
 }
 .list-tweet p{font-size:12px;height:84px;line-height:21px;color:#666;}
 .drink-me{height:20px;background:#fff;}

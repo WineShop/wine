@@ -1,5 +1,17 @@
-﻿/*reset*/
-
+﻿/*图片动画*/
+@-webkit-keyframes tada {
+    0% {-webkit-transform: scale(1);}
+    10%, 20% {-webkit-transform: scale(0.9) rotate(-3deg);}
+    30%, 50%, 70%, 90% {-webkit-transform: scale(1.1) rotate(3deg);}
+    40%, 60%, 80% {-webkit-transform: scale(1.1) rotate(-3deg);}
+    100% {-webkit-transform: scale(1) rotate(0);}
+}
+.imgFalsh{
+    webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
 /*分页*/
  .page{ float:right; padding:10px;overflow:hidden;clear:both;}
  .page div{ overflow:hidden;}
@@ -2256,6 +2268,8 @@ div.text{display:block;overflow:hidden;clear:both;}
 .salesrank >ul .li_left img:hover{
     border: 2px solid #DAB5CE;
     padding: 1px;
+    -webkit-animation-name: tada;
+    animation-name: tada;
 }
 .mt15{margin-top: 15px;}
 .goodlist li img,.article li img{
@@ -2269,3 +2283,4 @@ div.text{display:block;overflow:hidden;clear:both;}
 .person_center{margin-bottom: 25px;overflow: hidden;padding-left: 40px;}
 .person_center .left_face{width: 40%;float: left;}
 .person_center .right_info{width: 38%;float: left;}
+.detailtable img {  vertical-align: top; margin-left:4px;  }

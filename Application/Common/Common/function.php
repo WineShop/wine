@@ -32,6 +32,20 @@ function is_login(){
     }
 }
 
+/**
+ * 更新用户缓存信息
+ * @param $data
+ */
+function updateUserCache($data)
+{
+    $user       = new \User\Api\UserApi;
+    $userCache  = $user->getUserCache();
+    foreach($data as $key => $val)
+    {
+       $userCache[$key] = $val;
+    }
+    $user->setUserCache($userCache,$userCache['is_forever']);
+}
 
 function get_sdk_title($name){
     $user = array(

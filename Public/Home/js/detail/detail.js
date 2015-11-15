@@ -104,7 +104,7 @@ define(function (require, exports, module) {
             var url     = "/Shopcart/addItem";        //地址
             var gnum    = $(".goodnum").val();       //数量
             var gprice  = $(".price").eq(0).text(); //价格
-            var src     = $(".img img").attr("src"); //图片
+            var src     = $("#preview img").attr("src"); //图片
             var image   = '<img src="'+src+'" width="40" height="40">';
             var title   = $("#tit").text();         //名称
             var parameters=$(".weight .cur").text();//参数

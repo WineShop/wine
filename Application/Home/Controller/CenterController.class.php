@@ -218,8 +218,8 @@ class CenterController extends HomeController {
         $this->assign('hotsearch',$hotsearch);
 
         /* 数据分页*/
-        $order=M("order");
-        $detail=M("shoplist");
+        $order = M("order");
+        $detail= M("shoplist");
         $count=$order->where(" uid='$uid'  and total!=''")->count();
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
@@ -457,18 +457,16 @@ class CenterController extends HomeController {
         $face   = $_POST['user_face'];
         if($face != ''){
             $uface = M('ucenter_member')->where("id='$uid'")->setField("face",$face);
+            if($uface){
+                $this->ajaxError('对不起，修改失败！');
+            }
         }
         unset($_POST['user_face']);
 
         $info   = $_POST;
         $member = M("member");
-        $data   = $member->create();
         $result = $member->where("uid='$uid'")->save($info);
-        if($result) {
-            $this->ajaxSuccess('您已成功修改！');
-        }else{
-            $this->ajaxEerror('对不起，修改失败！');
-        }
+        $this->ajaxSuccess('您已成功修改！');
 
 
     }

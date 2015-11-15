@@ -34,16 +34,15 @@
         </div>
 
         <div class="right_info">
-            <P class="user_face">
+            <p class="user_face">
                 <empty name='uface'>
                     <img src="__IMG__/head_mail.png" width="100" height="100" style="border-radius:100px;"/>
-                    <input type="hidden" name="user_face" value=""/>
                     <else />
                     <img src="{$uface|get_face}"  width="100" height="100" style="border-radius:100px;"/>
-                    <input type="hidden" name="user_face" value="{$uface}"/>
                 </empty>
 
             </p>
+            <input type="hidden" name="user_face" value=""/>
             <p style="margin-bottom: 45px;margin-top: 15px; padding-left: 10px;" class="my_face">
                 <input type="file" id="modify_head">
             </p>

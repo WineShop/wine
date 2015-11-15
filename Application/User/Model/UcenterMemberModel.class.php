@@ -341,7 +341,8 @@ class UcenterMemberModel extends Model{
           'email'               => $userInfo['email'],
           'last_login_time'     => $userInfo['last_login_time'],
           'last_login_ip'       => $userInfo['last_login_ip'],
-          'mobile'              => $userInfo['mobile']
+          'mobile'              => $userInfo['mobile'],
+          'is_forever'          => $is_forever,
         );
         $token = md5($userInfo['email']);
         if($is_forever){
@@ -353,9 +354,9 @@ class UcenterMemberModel extends Model{
         }
 
         /* 登录历史 */
-        history($uid);
+        history($userInfo['id']);
         //记录行为
-        action_log("user_login", "member", $uid, $uid);
+        action_log("user_login", "member", $userInfo['id'], $userInfo['id']);
     }
 
     /**

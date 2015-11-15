@@ -14,7 +14,7 @@ define(function (require, exports, module) {
             for(var i in data)
             {
                 str += "<li><div class='li_left'><a title='"+data[i]['title']+"' href='/Article/detail/id/"+data[i]['id']+"'>\
-                        <img src='"+data[i]['picUrl']+"'/> \
+                        <img src='"+data[i]['picUrl']+"' class='imgFalsh'/> \
                     </a></div> \
                     <div class='li_right'><p class='tit'><a  href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a></p>\
                         <p class='red'><b>￥"+data[i]['price']+"</b></p></div> \
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
             for(var i in data)
             {
                 str += "<li class='clearfix drink-me'><h3><a href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['title']+"</a></h3>\
-                    <a href='/Article/detail/id/"+data[i]['id']+"'><img src='"+data[i]['picUrl']+"' width='90' height='90'/></a>\
+                    <a href='/Article/detail/id/"+data[i]['id']+"'><img src='"+data[i]['picUrl']+"' width='90' height='90' class='imgFalsh'/></a>\
                     <p><a href='/Article/detail/id/"+data[i]['id']+"'>"+data[i]['description']+"</a></p>\
                     <span class='tweet-detail-func cBlue'>￥"+data[i]['price']+"</span>\
                     </li>";

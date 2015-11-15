@@ -1,0 +1,77 @@
+<extend name="Base/center"/>
+<block name="body">
+
+<div class="main"><div class="main_center"><div class="center_left">
+<!-- 左侧菜单 -->
+	<include file="Public/leftmenu"/>
+<!-- 左侧菜单 -->
+</div><!-- 个人中心 初始状态 start -->
+<div class="center_right" id="MemberCenterCtrl" style="display: block;">
+	
+	<h3 class="cr_h3 cr_h3_gray">历史浏览</h3>
+
+	<empty name='data'>
+	<div class="personal_info_none_goods">
+				<p>暂无浏览历史 <img src="__IMG__/nothing.png" style="vertical-align: middle;padding-left:5px;padding-right: 5px;width: 100px; "/><a href='{:U("index/index")}' class="red">去随处看看吧！</a></p>
+			
+				
+			</div>
+	<else />
+
+        <table  id="table" class="gridtable" width="100%">
+            <thead>
+            <tr>
+                <th class="row-selected" width="10%">
+                    <input class="checkbox check-all" type="checkbox" >全选
+                </th>
+                <th  width="35%">商品名</th>
+                <th  width="18%">价格</th>
+                <th  width="18%">品牌</th>
+                <th  width="18%">操作</th>
+            </tr>
+            </thead>
+
+            <foreach name="data" item="vo">
+                <tr>
+                    <td align="center"><input class="ids row-selected"  type="checkbox" name="id[]" value="{$vo.id}"></td>
+                    <td>
+                            <span class="c5"><A href="{:U('Article/detail?id='.$vo['id'])}" class="dl"> <img src="{:C('QINIUDOMAIN')}/{$vo.fengmian}"  width="70" height="70"/></a>
+                                <span class="dd"><a href="{:U('Article/detail?id='.$vo['id'])}"  class="dd" title="{$vo.title}"> {$vo.title}</a></span>
+                                <span class="dd">{$vo.parameters}</span>
+                            </span>
+                    </td>
+
+                    <td align="center">{$vo.price}元</td>
+                    <td  align="center">
+                        <div class="quantity-form">
+                            {$vo.brand}
+                        </div>
+                    </td>
+
+                    <td style="text-align: center"><span  data-id="{$vo.id}" rel="del" data-url="{:U('Center/delfavor')}" class="shopCarOpt del sm_btn">移除记录</span></td>
+                </tr>
+            </foreach>
+            <tr>
+                <td colspan="5" style="padding-left: 10px;padding-top: 10px;">  <input class="checkbox check-all"  type="checkbox">全选 <span  name="{$vo.id}" rel="del"  class="sm_btn">全部移除</span>    </td>
+
+            </tr>
+        </table>
+
+        <!-- 分页 -->
+        <div class="page">
+            {$page}
+        </div>
+	</empty>
+	
+
+
+<!-- 个人中心 初始状态 end --></div></div></div>
+
+    <script type="text/javascript">
+
+        seajs.use(['Ucenter'],function(ucenter){
+            ucenter.center_init();
+        })
+    </script>
+   
+</block>
