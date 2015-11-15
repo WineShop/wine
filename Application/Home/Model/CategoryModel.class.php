@@ -69,7 +69,7 @@ class CategoryModel extends Model{
 
         /* 获取所有商品分类 */
         $map  = array('status' => 1,'ismenu'=>1);
-        $list = $this->field($field)->where($map)->order('sort desc')->field('id,pid,title,name,ismenu,model')->select();
+        $list = $this->field($field)->where($map)->order('sort desc')->field('id,pid,title,name,ismenu,model,icon')->select();
         $list = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_', $root = $id);
         
         /* 获取返回数据 */

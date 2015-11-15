@@ -55,7 +55,7 @@ class IndexController extends HomeController {
 
 
         /**   主体商品内容    **/
-        if(S(C('HOME_SHOP_CENTER')))
+        if(!S(C('HOME_SHOP_CENTER')))
         {
             $tree = S(C('HOME_SHOP_CENTER'));
         }else{
@@ -134,7 +134,7 @@ class IndexController extends HomeController {
             $category [$k] ['chi'] = array ();
             $condition['pid']      = array('in',$arr);
             $condition['ismenu']   = 1;
-            $category [$k] ['chi'] = M('category')->where($condition)->field('id,name,title,pid,ismenu')->limit(18)->order("id desc")->select();
+            $category [$k] ['chi'] = M('category')->where($condition)->field('id,name,title,pid,ismenu,icon')->limit(18)->order("id desc")->select();
             $category [$k]['doc']  = M('Document')->where($map)->field('id,title,category_id,price,pid,fengmian')->order("id desc")->limit(18)->select();
         }
         return $category;
