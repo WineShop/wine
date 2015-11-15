@@ -435,7 +435,7 @@ class ArticleController extends HomeController {
 
     //最左侧ajax请求7个
     public function ajaxLeftShop(){
-        $field = "id,title,price,tuan_price,qg_price,ms_price,fengmian";
+        $field = "id,title,price,tuan_price,qg_price,ms_price,fengmian,brand";
         $view = M('Document')->where("display=1 and status=1")->field($field)->order("view desc")->limit(7)->select();
 
         if(empty($view))

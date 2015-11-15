@@ -197,7 +197,7 @@ define(function (require, exports, module) {
               str +='<dd>\
                         <a class="details_right_img" href="/Article/detail?id='+data[i]['id']+'" title="'+data[i]['title']+'"><img src="'+data[i]['pic_path']+'"  alt="'+data[i]['title']+'" style="display: inline-block;"></a>\
                         <a href="Article/detail?id='+data[i]['id']+'" class="details_right_title" title="'+data[i]['title']+'">'+data[i]['title']+'</a>\
-                        <span class="fwb mcm_title_price">￥<span class="red">'+data[i]['price']+'</span></span>\
+                        <span class="fwb mcm_title_price"><span class="pinpai">品牌：'+data[i]['brand']+'</span><span class="red jiage">￥'+data[i]['price']+'</span></span>\
                     </dd>'
         }
         $("#left_shop").after(str);

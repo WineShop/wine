@@ -125,7 +125,7 @@ padding: 0px;width:100%;
 .rate-star em {
  position:relative;
   z-index: 1;
-  top: 0px;background-image: url(../shop/star.png);
+  top: 0px;
   background-repeat: repeat-x;
   height: 22px;width:104px;display:inline-block;
   left: 0px;
@@ -156,7 +156,6 @@ position:relative;display:inline-block;
   overflow: hidden;
 }
 .message {
-  background: url(../images/shop/public.png) no-repeat 0px -20px;
   width: 9px;
   height: 9px;
   float: left;
@@ -170,10 +169,7 @@ position:relative;display:inline-block;
 .level-1 {
   width: 16px;
 }
-.seller-heart {
-  background: url(../shop/heart.jpg) repeat-x 0 0;
-}
- 
+
 .seller-heart img{}
 .seller-heart, .seller-diamond, .seller-crown, .buyer-heart, .buyer-diamond, .buyer-crown {
 }
@@ -624,7 +620,6 @@ font-style:normal;}
   width: 18px;
 }
 .icon, .dropdown_button, .buy_area .btn, .bucket .btn, .btn_a span, .list_rank .num, .item_wrap .btn, .popup .btn, .kc .btn, .buy_area .btn {
-  background-image: url();
   display: inline-block;
   vertical-align: middle;
 }
@@ -641,9 +636,8 @@ font-style:normal;}
 .details_right  dl dd{background-color:#fff;margin:10px;padding: 0px;box-shadow: 0 6px 12px rgba(0,0,0,0.275);}
 .details_right a{clear:both;overflow:hidden;display:block; text-align:center}
 .details_right_img img{width:260px;height:260px;}
-.mcm_title_price{ text-align:center;margin-left:100px}
 .good-tabs {clear:both;height:29px;overflow:hidden;}
-.tab-line{height:1px;clear:borh;overflow:hidden;line-height:1px;background-color:#E23C3D;}
+.tab-line{height:1px;clear:both;overflow:hidden;line-height:1px;background-color:#E23C3D;}
 
 .good-tabs a {
   border: 1px solid #E23C3D;
@@ -667,8 +661,8 @@ font-style:normal;}
   color: #fff;
 }
 .tabselect{background-color:#835c35;color:#fff;}
-#canshu {padding:10px 0 0 ;overflow:hidden;clear:both:}
-#canshu p{width:878px;padding:10px;border:1px dashed #ccc;clear:both:}
+#canshu {padding:10px 0 0 ;overflow:hidden;clear:both;}
+#canshu p{width:878px;padding:10px;border:1px dashed #ccc;clear:both;}
 #canshu p span{width:428px;display:inline-block;}
 #comment {padding:0px;width:900px;clear:both;overflow:hidden;}
 #comment dl{clear:both;width:100%;overflow:hidden;padding:6px 0;border-bottom:1px dashed #999}
@@ -773,7 +767,6 @@ font-style:normal;}
 }
 .comment_new .comment_rate .comment_rate_num {
   height: 86px;
-  background: url(../images/comment_rate.jpg) no-repeat;
 }
 .comment_new .comment_rate_num .rate_num_line1 {
   height: 24px;
@@ -831,7 +824,8 @@ font-style:normal;}
   white-space: nowrap;
   color: #409280;
   box-shadow: 2px 2px 1px #f2f2f2;
-}.comment_new .comment_tag_total a em {
+}
+.comment_new .comment_tag_total a em {
   position: absolute;
   visibility: hidden;
   width: 18px;
@@ -920,8 +914,7 @@ font-style:normal;}
   border-top: 0;
   background: #eaeaea;
 }
-element.style {
-}
+
 .mbox3 .comment_body .comment_tabs .comment_sort .comment_sort_sel_box .text_inp, .mbox3 .comment_body .comment_tabs .comment_sort .comment_sort_sel_box .text_inp:hover {
   width: 52px;
   padding-right: 16px;
@@ -929,7 +922,6 @@ element.style {
   border: 1px solid #a6a6a6;
   line-height: 18px;
   color: #404040;
-  background: url(../images/comment_sort_bg.png) right 0 no-repeat;
   text-decoration: none;
   padding-left: 5px;
   float: none;
@@ -977,7 +969,6 @@ element.style {
   float: right;
   margin-left: 14px;
   height: 30px;
-  background: url(../images/comment_sort_bg.png) -2px -19px no-repeat;
   padding-left: 20px;
   line-height: 30px;
   cursor: default;
@@ -1170,7 +1161,7 @@ line-height: 18px;
 }
 .qa_cont .answer {
 background-position: -50px 1px;
-_background-position: -50px 0;
+_background-position: -50px 0px;
 }
 .qa_cont .time {
 float: right;
