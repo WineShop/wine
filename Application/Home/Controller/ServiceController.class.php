@@ -43,15 +43,15 @@ class ServiceController extends HomeController {
        $this->assign('position',$position);
         $this->assign('info',$data);
 
-        if(empty(S(C('HOME_SERVER_MENU'))))
+        $serverMenuList = S(C('HOME_SERVER_MENU'));
+        if(empty($serverMenuList))
         {
             $serverMenuList=$this->AllMenu();
             S(C('HOME_SERVER_MENU'),$serverMenuList,3600*24*30);   //缓存一个月
-
-        }else{
-            $serverMenuList = S(C('HOME_SERVER_MENU'));
         }
+
         $this->assign('serverMenuList',$serverMenuList);
+        $this->assign('curr_id',$id);
 		$this->display();
 	}
 

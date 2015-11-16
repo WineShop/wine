@@ -5,7 +5,7 @@
 <volist name="serverMenuList" id="vo">
 <dl><dt><a rel="nofollow">{$vo.title}</a></dt>
  <volist name="vo['id']" id="son">
-<dd><a rel="nofollow"  href="{:U('service/index?id='.$son['id'])}">{$son.title}</a></dd>
+<dd><a rel="nofollow" <if condition="$son['id'] eq $curr_id">class='current'</if> href="{:U('service/index?id='.$son['id'])}">{$son.title}</a></dd>
 </volist>
 </dl>
 </volist>
