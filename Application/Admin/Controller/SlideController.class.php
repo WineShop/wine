@@ -4,32 +4,28 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2014 1010422715@qq.com All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
-// +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author Kevin <lamp365@163.com>
  */
 class SlideController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
      */
     public function index(){
         /* 查询条件初始化 */
 	
        $map  = array('status' => 1);
         if(IS_GET){ $title=trim(I('get.title'));
-		 $map['title'] = array('like',"%{$title}%");
-        $list   =   M("Slide")->where($map)->field(true)->order('id desc')->select();}
-     else 
-		 { 
-		 $list = $this->lists('Slide', $map,'id desc');
-	 }
+		   $map['title'] = array('like',"%{$title}%");
+           $list   =   M("Slide")->where($map)->field(true)->order('id desc')->select();
+        }else{
+		   $list = $this->lists('Slide', $map,'id desc');
+	    }
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
@@ -42,11 +38,9 @@ class SlideController extends AdminController {
   /* 编辑分类 */
     public function edit($id = null, $pid = 0){
         $slide = D('slide');
-       
 
         if(IS_POST){ //提交表单
             if(false !== $slide->update()){
-		
 				
                 $this->success('编辑成功！', U('index'));
             } else {
@@ -78,7 +72,6 @@ class SlideController extends AdminController {
     public function add(){
         $slide = D('slide');
         if(IS_POST){ //提交表单
-				$good=$_POST["goodid"];
             if(false !== $slide->update()){
 		
                 $this->success('新增成功！', U('index'));
@@ -88,16 +81,7 @@ class SlideController extends AdminController {
             }
         } else {
             $cate = array();
-            if($pid){
-                /* 获取上级优惠券信息 */
-                $cate = $slide->info($pid, 'id,title,status');
-                if(!($cate && 1 == $cate['status'])){
-                    $this->error('指定的上级分类不存在或被禁用！');
-                }
-            }
-
-            /* 获取优惠券信息 */
-$this->assign('list',$list);
+           /* 获取优惠券信息 */
             $this->assign('info',       null);
             $this->assign('category', $cate);
             $this->meta_title = '新增幻灯片';

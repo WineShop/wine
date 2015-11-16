@@ -183,6 +183,11 @@ function get_index_url(){
     $url="http://".$damain.__ROOT__;
     return $url;
 }
+
+function slide_url($url){
+    $picUrl = rtrim(C('WINE_WEB_SITE'),'/').'/'.ltrim($url,'/');
+    return $picUrl;
+}
 /**
  * 系统解密方法
  * @param  string $data 要解密的字符串 （必须是think_encrypt方法加密的字符串）

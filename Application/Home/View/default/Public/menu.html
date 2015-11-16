@@ -11,7 +11,7 @@
 
             <volist name="categoryq" id="cate">
                 <div class="item">
-                    <div class="product"><h4><a href="{:U('home/article/index/category/'.$cate['name'])}">{$cate.title}</a> </h4></div>
+                    <div class="product"><h4><a href="{:U('Article/index/category/'.$cate['name'])}">{$cate.title}</a> </h4></div>
 
                     <if condition="$cate['child'] neq false">
                         <div class="product-wrap pos">
@@ -21,11 +21,11 @@
 
                                     <volist name="cate['child']" id="cate_sub">
                                         <ul class="cf">
-                                            <li><span><a href="{:U('home/article/lists/category/'.$cate_sub['name'])}">{$cate_sub.title}</a></span>
+                                            <li><span><a href="{:U('Article/lists/category/'.$cate_sub['name'])}">{$cate_sub.title}</a></span>
 
                                                 <if condition="$cate_sub['child']">
                                                     <volist name="cate_sub['child']" id="cate_sub_two">
-                                                        <a href="{:U('home/article/lists/category/'.$cate_sub_two['name'])}">{$cate_sub_two.title} </a>
+                                                        <a href="{:U('Article/lists/category/'.$cate_sub_two['name'])}">{$cate_sub_two.title} </a>
 
                                                     </volist>
 

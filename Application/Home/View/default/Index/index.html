@@ -12,7 +12,7 @@
     <div class="LunBo">
         <ul class="LunBoslide">
             <volist name="slide" id="vo">
-                <li><a href="{$vo.url|get_nav_url}" ><img src="{:C('QINIUDOMAIN')}/{$vo.icon}"/></a> </li>
+                <li><a href="{$vo.url|slide_url}" ><img src="{:C('QINIUDOMAIN')}/{$vo.icon}"/></a> </li>
             </volist>
         </ul>
         <div class="LunBoNum">
