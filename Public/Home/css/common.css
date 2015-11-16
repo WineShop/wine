@@ -78,7 +78,7 @@ left: 0px;
 top: 0px;
 display: none;
 }
-.LunBo ul li img{width:100%;}
+.LunBo ul li img{width:670px;height: 335px;}
 div.LunBo ul li.CurrentPic {
 display: block;
 }
@@ -1769,7 +1769,7 @@ vertical-align: middle;
 padding: 0 30px;margin-right:100px;padding: 0 30px;}
 .editshop .title{width:300px;line-height:30px;}
 .editshop  input{line-height:30px;}
-.serach-title{line-height:30px;padding-top:8px;}
+.serach-title{line-height:30px;padding-top:8px; padding-left: 10px;}
 /*账户安全*/
 .account_right {
 float: left;
@@ -2288,4 +2288,5 @@ div.text{display:block;overflow:hidden;clear:both;}
 .person_center .left_face{width: 40%;float: left;}
 .person_center .right_info{width: 38%;float: left;}
 .detailtable img {  vertical-align: top; margin-left:4px;  }
+.home_active a:hover,.home_notice a:hover{color:#E23C3D}
 
