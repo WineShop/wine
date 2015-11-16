@@ -113,12 +113,12 @@ define(function(require, exports, module){
 
     //图片动画
     var pic_flash = function(){
-        $(".userhas li").mouseenter(function(e){
+        $(".pic_flash li").mouseenter(function(e){
             $(this).find("p").first().animate({
                 top:'-15px',height:'190px'
             },'normal');
         });
-        $(".userhas li").mouseleave(function(e){
+        $(".pic_flash li").mouseleave(function(e){
             $(this).find("p").first().animate({
                 top:'0px',height:'190px'
             },'normal');

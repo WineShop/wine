@@ -383,9 +383,23 @@ class CenterController extends HomeController {
         $this->assign('hotsearch',$hotsearch);
 
         /* 优惠券调用*/
-        $coupon=M("usercoupon")->where("uid='$uid' ")->select();
+        $coupon=M("usercoupon")->where("uid='$uid'")->field('couponid,status')->select();
+        $field    = "id,title,code,icon,price";
+        $fcoupon=M("fcoupon")->where("display='1' and status='1'")->field($field)->limit(4)->select();
+
+        $ids = $yhj_data =array();
+        foreach($coupon as $row)
+        {
+            $ids[] = $row['couponid'];
+        }
+        if(!empty($ids))
+        {
+            $wh['id'] = array('in',$ids);
+            $field    = "id,title,code,icon,price";
+            $yhj_data = M('Fcoupon')->where($wh)->field($field)->select();
+        }
         $this->assign('couponlist', $coupon);
-        $fcoupon=M("fcoupon")->where("display='1' and status='1' ")->select();;
+        $this->assign('yhj_data', $yhj_data);
         $this->assign('fcouponlist', $fcoupon);
         $this->meta_title = '我的优惠券';$this->display();
     }

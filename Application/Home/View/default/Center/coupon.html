@@ -18,25 +18,29 @@
 	<else />
      <ul class="userhas" id="cuser">
 	 <volist name="couponlist" id="vo">
+         <volist name="yhj_data" id="vvo">
+             <if condition="$vvo['id'] eq $vo['couponid']">
                 <li>
                     <p style="position: relative;height: 190px;">
-                        <a href="javascript:void(0);"><img src="{:C('QINIUDOMAIN')}/{$vo.couponid}"  width="170" height="170"/></a>
+                        <a href="javascript:void(0);"><img src="{:C('QINIUDOMAIN')}/{$vvo['icon']}"  width="170" height="170"/></a>
                     </p>
-				<p><a href="javascript:void(0);"><span class="red">{$vo.couponid|get_coupon_name}</span></a>&nbsp;[ <php>$pay=$vo['status'];
+				<p><a href="javascript:void(0);"><span class="red">{$vvo['title']}</span></a>&nbsp;[ <php>$pay=$vo['status'];
 			  if($pay==1){ echo "未使用";}
-              else{ echo"已使用";};  </php> ]</p> 
-				<p>优惠券代码：{$vo.couponid|get_coupon_code}</a></p> 
-                 <p>价值：<span class="red">{$vo.couponid|get_coupon_price}元</span>
+              else{ echo"已使用";};  </php> ]</p>
+				<p>优惠券代码：{$vvo['code']}</a></p>
+                 <p>价值：<span class="red">{$vvo['price']}元</span>
                  </p> </li>
-            </volist>
+             </if>
+         </volist>
+    </volist>
 	</ul>
 	</empty>
 	<span class="red" style="clear: both;display: block;padding:15px;font-size:17px;"><b>优惠券</b></span>
-	  <ul class="userhas" id="cuser">
+	  <ul class="userhas pic_flash" id="cuser">
 	  <volist name="fcouponlist" id="vo">
                 <li>
                     <p style="position: relative;height: 190px;">
-                        <img src="{:C('QINIUDOMAIN')}/{$vo.icon}"  width="170px" height="170px"/>
+                        <a href="javascript:void(0)" title="{$vo.title}"><img src="{:C('QINIUDOMAIN')}/{$vo.icon}"  width="170px" height="170px"/></a>
 				    </p>
                    <p><a href="javascript:void(0)">{$vo.title}</a></p>
 
@@ -44,6 +48,7 @@
                    
             </volist>
 	</ul>
+
 	<div style="display: block;" class="tab_view">
 
 
@@ -54,6 +59,7 @@
 
         seajs.use(['Ucenter','Coupon'],function(ucenter,cpon){
             ucenter.center_init();
+            ucenter.pic_flash();
         })
     </script>
       

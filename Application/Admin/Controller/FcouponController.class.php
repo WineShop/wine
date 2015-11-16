@@ -165,17 +165,14 @@ function makecode(){
         $all=$rand.$newtime;
         $onlyid=base_convert($all,10,36);//把10进制转为36进制的唯一ID
       if($onlyid){
-	  $data['status'] = "1";
-	  $data['code'] = $onlyid;
-       $data['info'] = '获取成功';
-	  $this->ajaxReturn($data);
+          $data['status'] = "1";
+          $data['code'] = $onlyid;
+          $data['info'] = '获取成功';
+          $this->ajaxReturn($data);
 	  
-	  }
-	  else{
+	  }else{
 		  $data['status'] = "1";
-       $data['info'] = '获取失败';
-	  
-	  
+          $data['info'] = '获取失败';
 	  }
 
 }
