@@ -4,8 +4,6 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2014 1010422715@qq.com  All rights reserved.
 // +----------------------------------------------------------------------
-// |  Author: 烟消云散 <1010422715@qq.com>
-// +----------------------------------------------------------------------
 namespace Home\Controller;
 use Think\Controller;
 /*****个人中心
@@ -25,12 +23,9 @@ class CenterController extends HomeController {
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
 
-        /*****最近订单
-         ***************/
+        /*****最近订单**************/
         /* 数据分页*/
-        $Member = D("Member");
         $order  = M("order");
-        $detail = M("shoplist");
         $count  = $order->where(" uid='$uid'")->count();
         $this->assign('anum', $count);
         $Page= new \Think\Page($count,5);
@@ -41,10 +36,9 @@ class CenterController extends HomeController {
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         $show = $Page->show();
         $list = $order->where("uid='$uid'")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-        foreach($list as $n=> $val){
-            $list[$n]['id']=$detail->where('orderid=\''.$val['id'].'\'')->select();
-        }
-        $this->assign('allorder',$list);// 赋值数据集
+        /********通过order订单id,获取shoplist物品以及document的信息*********/
+        $data = $this->shoplistAndDocumentByTag($list);
+        $this->assign('allorder',$data);// 赋值数据集
         $this->assign('page',$show);//
 
         $onum  = 0; //待支付
@@ -71,8 +65,7 @@ class CenterController extends HomeController {
         $this->assign('dnum', $dnum);
         $this->assign('cnum', $cnum);
 
-        /*****收藏夹
-         ***************/
+        /*********收藏夹***************/
         $fav    = D("Favortable");
         $favor  = $fav->getfavor();
         $this->assign('favorlist', $favor);
@@ -87,6 +80,7 @@ class CenterController extends HomeController {
         /*用户信息*/
         $ucache = D("Member")->getUserCache();
         $this->assign('ucache', $ucache);
+
         //站内信数量
         $condition['uid']=$uid;
         $condition['group']=2;
@@ -219,19 +213,21 @@ class CenterController extends HomeController {
 
         /* 数据分页*/
         $order = M("order");
-        $detail= M("shoplist");
-        $count=$order->where(" uid='$uid'  and total!=''")->count();
+        $count = $order->where(" uid='$uid'  and total!=''")->count();
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
         $Page->setConfig('next','下一页');
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show= $Page->show();
-        $list=$order->where("uid='$uid'  and total!=''")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-        foreach($list as $n=> $val){
-            $list[$n]['id']=$detail->where('orderid=\''.$val['id'].'\'')->select();}
-        $this->assign('allorder',$list);// 赋值数据集
+        $show = $Page->show();
+        $list = $order->where("uid='$uid'  and total!=''")->order('id desc')->field('id,orderid,tag,pricetotal,create_time,status,ispay,total')
+                      ->limit($Page->firstRow.','.$Page->listRows)->select();
+
+        /********通过order订单id,获取shoplist物品以及document的信息*********/
+        $data = $this->shoplistAndDocumentByTag($list);
+
+        $this->assign('allorder',$data);// 赋值数据集
         $this->assign('page',$show);// 
         $this->meta_title = '我的所有订单';
         $this->display();
@@ -250,7 +246,6 @@ class CenterController extends HomeController {
 
         /* 数据分页*/
         $order=M("order");
-        $detail=M("shoplist");
         $count=$order->where("uid='$uid' and status='-1' and ispay='1'")->count();
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
@@ -258,11 +253,11 @@ class CenterController extends HomeController {
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show= $Page->show();
-        $list=$order->where("uid='$uid' and status='-1' and ispay='1'")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-        foreach($list as $n=> $val){
-            $list[$n]['id']=$detail->where('orderid=\''.$val['id'].'\'')->select();}
-        $this->assign('needpay',$list);// 赋值数据集
+        $show = $Page->show();
+        $list = $order->where("uid='$uid' and status='-1' and ispay='1'")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        /********通过order订单id,获取shoplist物品以及document的信息*********/
+        $data = $this->shoplistAndDocumentByTag($list);
+        $this->assign('needpay',$data);// 赋值数据集
         $this->assign('page',$show);// 
         $this->meta_title = '待支付订单';
         $this->display();
@@ -282,7 +277,6 @@ class CenterController extends HomeController {
 
         /* 数据分页*/
         $order=M("order");
-        $detail=M("shoplist");
         $count=$order->where("uid='$uid' and status='1' ")->count();
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
@@ -290,11 +284,11 @@ class CenterController extends HomeController {
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show= $Page->show();
-        $list=$order->where("uid='$uid' and status='1' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-        foreach($list as $n=> $val){
-            $list[$n]['id']=$detail->where('orderid=\''.$val['id'].'\'')->select();}
-        $this->assign('tobeshipped',$list);// 赋值数据集
+        $show = $Page->show();
+        $list = $order->where("uid='$uid' and status='1' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        /********通过order订单id,获取shoplist物品以及document的信息*********/
+        $data = $this->shoplistAndDocumentByTag($list);
+        $this->assign('tobeshipped',$data);// 赋值数据集
         $this->assign('page',$show);// 
         $this->meta_title = '待发货订单';
         $this->display();
@@ -311,7 +305,6 @@ class CenterController extends HomeController {
         $this->assign('hotsearch',$hotsearch);
         /* 数据分页*/
         $order=M("order");
-        $detail=M("shoplist");
         $count=$order->where("uid='$uid' and status='2' ")->count();
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
@@ -319,11 +312,11 @@ class CenterController extends HomeController {
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show= $Page->show();
-        $list=$order->where("uid='$uid' and status='2' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-        foreach($list as $n=> $val){
-            $list[$n]['id']=$detail->where('orderid=\''.$val['id'].'\'')->select();}
-        $this->assign('tobeconfirmed',$list);// 赋值数据集
+        $show = $Page->show();
+        $list = $order->where("uid='$uid' and status='2' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        /********通过order订单id,获取shoplist物品以及document的信息*********/
+        $data = $this->shoplistAndDocumentByTag($list);
+        $this->assign('tobeconfirmed',$data);// 赋值数据集
         $this->assign('page',$show);// 
         $this->meta_title = '待发货订单';
         $this->display();
@@ -613,5 +606,44 @@ class CenterController extends HomeController {
 
         $this->assign('data',$data);
         $this->display();
+    }
+
+
+    /**
+     * 根据订单tag获取shoplist物品以及对应详细document
+     * @param $orderlist  order中的数组数据
+     * @return mixed
+     */
+    public function shoplistAndDocumentByTag($orderlist){
+        //获取shoplist的物品
+        //获取document中具体物品信息
+        $document = M('document');
+        $detail   = M("shoplist");
+        foreach($orderlist as $key=> $arr)
+        {
+            $shoplist = $detail->field('id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters')
+                              ->where("orderid={$arr['id']}")->select();
+
+            $goodids  = $goodWhere = array();
+            foreach($shoplist as $arr)
+            {
+                $goodids[] = $arr['goodid'];
+            }
+            $goodWhere['id']    = array('in',$goodids);
+            $goodslist          = $document->field('title,fengmian,brand')->where($goodWhere)->select();
+
+            if(count($goodids) == 1)
+            {
+                $orderlist[$key]['shoplist'][] =  array_merge($shoplist[0],$goodslist[0]);
+            }else{
+                for($j=0;$j<count($goodids);$j++)
+                {
+                    $orderlist[$key]['shoplist'][] =  array_merge($shoplist[$j],$goodslist[$j]);
+                }
+            }
+
+        }
+
+        return $orderlist;
     }
 }
