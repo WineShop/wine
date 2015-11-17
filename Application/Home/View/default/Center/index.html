@@ -94,7 +94,7 @@ $(document).ready(function(){
                     <volist name="po['shoplist']" id="vo">
 		                <div class="cos">
                             <span class="c1">
-                                <A href="{:U('Article/detail?id='.$vo['goodid'])}" class="dl"> <img src="{:C('QINIUDOMAIN')}/{$vo['fengmian']}"  width="70" height="70"/></a>
+                                <A href="{:U('Article/detail?id='.$vo['goodid'])}" class="dl"> <img  class="imgFalsh" src="{:C('QINIUDOMAIN')}/{$vo['fengmian']}"  width="70" height="70"/></a>
                                 <span class="dd"><a href="{:U('Article/detail?id='.$vo['goodid'])}"  class="dd"> {$vo.title}</a></span>
                                 <span class="dd">{$vo.brand}</span>
 		                    </span>
