@@ -55,10 +55,9 @@ class IndexController extends HomeController {
 
 
         /**   主体商品内容    **/
-        if(!S(C('HOME_SHOP_CENTER')))
+        $tree = S(C('HOME_SHOP_CENTER'));
+        if(empty($tree))
         {
-            $tree = S(C('HOME_SHOP_CENTER'));
-        }else{
             $tree = $this->maketree() ;
             S(C('HOME_SHOP_CENTER'),$tree,3600*24*5);
         }
