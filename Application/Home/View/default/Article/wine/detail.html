@@ -11,18 +11,21 @@
 <div class="details_left_top">
     <!--图片放大特效-->
     <div class="left_pic">
-    <div id="preview" class="spec-preview"> <span class="jqzoom"><img src="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" jqimg="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" /></span> </div>
+    <div id="preview" class="spec-preview"> <span class="jqzoom"><img src="{:C('QINIUDOMAIN')}/{$info['fengmian']}" jqimg="{:C('QINIUDOMAIN')}/{$info['fengmian']}" /></span> </div>
     <!--缩图开始-->
     <div class="spec-scroll"> <span class="pic_prev"></span> <span class="pic_next"></span>
         <div class="items">
             <ul>
-                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
-                <li><img bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
-                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/201519203212as1.png" onmousemove="preview(this);"></li>
-                <li><img bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
-                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
-                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
-                <li><img  bimg="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" src="http://7xo1wr.com1.z0.glb.clouddn.com/20140678sdf32s.png" onmousemove="preview(this);"></li>
+                <li><img  bimg="{:C('QINIUDOMAIN')}/{$info['fengmian']}" src="{:C('QINIUDOMAIN')}/{$info['fengmian']}" onmousemove="preview(this);"></li>
+                <php>
+                    if(!empty($info['pics'])){ $pics= explode(',',$info['pics']);}else{  $pics=""; }
+                </php>
+                <notempty name="pics">
+                    <volist name="pics" id="picArr"  key="k" >
+                        <li><img  bimg="{:C('QINIUDOMAIN')}/{$picArr}" src="{:C('QINIUDOMAIN')}/{$picArr}" onmousemove="preview(this);"></li>
+                    </volist>
+                </notempty>
+
             </ul>
         </div>
     </div>
@@ -52,6 +55,8 @@
     <ul class="dginfo_info">
         <li>销量：{$info.sale}</li>
         <li class="dginfo_info_last">品牌：{$info.brand}<span ></span></li>
+        <li>容量：{$info.volume}ml</li>
+        <li>场景：{$info.position}</li>
         <li>
             <form action="{:U('Shopcart/order')}" name="orderform" id="orform" method="post" onsubmit="return trySubmit()">
                 <input type="hidden" name="id[]" value="{$info.id}"/>
