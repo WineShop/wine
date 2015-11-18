@@ -4,8 +4,6 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
-// +----------------------------------------------------------------------
 namespace User\Model;
 use Think\Model;
 /**
@@ -51,7 +49,6 @@ class UcenterMemberModel extends Model{
 		array('password', 'think_ucenter_md5', self::MODEL_BOTH, 'function', UC_AUTH_KEY),
 		array('reg_time', NOW_TIME, self::MODEL_INSERT),
 		array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function', 1),
-        array('face', NOW_TIME, self::MODEL_INSERT),
 		array('update_time', NOW_TIME),
 //		array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
 	);

@@ -14,6 +14,7 @@ define(function(require, exports, module){
            var param = $("#form_register").serialize();
            var url  = $("#form_register").attr('action');
            $("button:submit").addClass("log-in").attr("disabled", true);
+            $("button:submit").html('请等待');
            T.restPost(url,param,function(success){
                main.modalAlert(success.msg);
                main.redirect('');
@@ -22,6 +23,7 @@ define(function(require, exports, module){
                 $(".checkCode").click();
            })
             $("button:submit").removeClass("log-in").attr("disabled", false);
+            $("button:submit").html('注 册');
         });
 
 
@@ -85,6 +87,7 @@ define(function(require, exports, module){
             if(!type) return false;
             param.type = type;
             $("button:submit").addClass("log-in").attr("disabled", true);
+            $("button:submit").html('请等待');
 
             T.restPost($("#loginform").attr('action'),param,function(success){
                 main.modalAlert(success.msg);
@@ -94,6 +97,7 @@ define(function(require, exports, module){
                 $(".checkCode").click();
             });
             $("button:submit").removeClass("log-in").attr("disabled", false);
+            $("button:submit").html('登 录');
         });
 
 

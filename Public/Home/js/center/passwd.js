@@ -55,6 +55,7 @@ define(function(require, exports, module){
         $("#show_paykey_info").hide();
         var paykey   = $.trim($("input[name=paykey]").val());
         var repaykey = $.trim($("input[name=repaykey]").val());
+
         if(paykey != repaykey){
            $("#show_paykey_info").show();
            $("#show_paykey_info td:last-child").html('对不起，两次密码不一致');
@@ -88,13 +89,13 @@ define(function(require, exports, module){
         $("#paykey_but").attr('disabled',true);
         T.restPost('/Account/savepaykey',param,function(success){
             $("#show_paykey_info").show();
-            $("#show_paykey_info tr:last-child").html(success.msg);
+            $("#show_paykey_info td:last-child").html(success.msg);
             setTimeout(function(){
                 $("#alterModal").modal('hide');
             },1500)
         },function(error){
             $("#show_paykey_info").show();
-            $("#show_paykey_info tr:last-child").html(error.msg);
+            $("#show_paykey_info td:last-child").html(error.msg);
         });
         $("#paykey_but").attr('disabled',false);
 

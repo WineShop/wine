@@ -66,22 +66,21 @@ class PayController extends HomeController {
             /** 热词调用 热门搜索**/
             $hotsearch = C('HOT_SEARCH');
             $this->assign('hotsearch',$hotsearch);
-            /* uid调用*/
+
             $uid      = D("Member")->uid();
-            $uid      = $user['uid'];
             $score    = get_score($uid);
 
-            /* 积分兑换*/
+            /** 积分兑换**/
             $ratio    = $score/C('RATIO');
             $this->assign('ratio', $ratio);
             $this->meta_title = '支付订单';
             //在此之前goods1的业务订单已经生成，状态为等待支付
-            $id=I("get.orderid");
-            $order=D("order");
+            $id   = I("get.orderid");
+            $order= D("order");
 
             $this->assign('codeid',$id);
 
-            $total=$order->where("orderid='$id'")->getField('pricetotal');
+            $total = $order->where("orderid='$id'")->getField('pricetotal');
             $this->assign('goodprice',$total);
             $this->display();
         }

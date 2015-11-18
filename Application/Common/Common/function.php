@@ -477,20 +477,20 @@ function get_regname($uid = 0){
     return $userInfo['username'];
 }
 
-function get_regmobile($uid = 0){
+function get_regmobile(){
     $user     = new \User\Api\UserApi;
     $userInfo = $user->getUserCache();
     return $userInfo['mobile'];
 }
 
 
-function get_username($uid = 0){
+function get_username(){
     $user     = new \User\Api\UserApi;
     $userInfo = $user->getUserCache();
     if(empty($userInfo))
         return null;
     else
-        return $userInfo['username'];
+        return empty($userInfo['username'])? substr($userInfo['email'],0,strrpos($userInfo['email'],'@')) : $userInfo['username'];
 }
  
 /**
@@ -503,10 +503,20 @@ function get_username($uid = 0){
     return $row['qq'];
 }
 
-function get_address($uid){
+/**
+ * 获取用户邮件地址，true是默认的地址 false是所有地址
+ * @param $uid
+ * @param bool $default
+ * @return mixed|string
+ */
+function get_address($uid,$default=false){
     if(empty($uid))  return '';
-    $row = M('transport')->where("status='1' and uid='$uid'")->field('address')->find();
-    return $row['address'];
+    $field = "id,address,status,cellphone,realname";
+    if($default)
+        $row = M('transport')->where("status='1' and uid='$uid'")->field($field)->find();
+    else
+        $row = M('transport')->where("uid='$uid'")->field($field)->order('id desc')->limit(6)->select();
+    return $row;
 }
 function get_addressid($uid){
     $row = M('transport')->where("status='1'")->field('id')->order("id desc")->limit(1)->getbyUid($uid);

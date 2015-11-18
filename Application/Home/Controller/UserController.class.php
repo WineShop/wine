@@ -22,9 +22,9 @@ class UserController extends HomeController {
         echo '正在发送邮件..';
         $mail      ='920111264@qq.com';//获取会员邮箱
         $title     ="欢迎注册".C('SITENAME');
-        $token     =sha1(C('DATA_AUTH_KEY'));
-        $name      = $_SERVER['SERVER_NAME'];
+        $token     = sha1(C('DATA_AUTH_KEY').$mail);
         $url       = $_SERVER['SERVER_NAME'].U("wine/active/".$token);
+        $url       = "http://".ltrim($url,'http://');
 
         $this->assign('url',$url);
         $this->assign('mail',$mail);
@@ -77,7 +77,7 @@ class UserController extends HomeController {
             //TODO: 发送验证邮件
             $mail      =$_POST['email'];//获取会员邮箱
             $title     ="欢迎注册".C('SITENAME');
-            $token     =sha1(C('DATA_AUTH_KEY'));
+            $token     =sha1(C('DATA_AUTH_KEY').$mail);
             //U("account/confirm_email",array('token'=>$token)  'wine/active/:token\w'
             $url       = $_SERVER['SERVER_NAME'].U("wine/active/".$token);
 
@@ -233,7 +233,7 @@ class UserController extends HomeController {
 
     /**
      * 修改密码提交
-     * @author huajie <banhuajie@163.com>
+     * @author
      */
     public function profile(){
         if (IS_POST) {

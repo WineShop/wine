@@ -40,7 +40,7 @@
                     </dl>
                     <dl>   </dl>
                     <dl>
-                        <dd><a href="javascript:void(0)" class="ncart_btn_on saveAddress">保存</a></dd>
+                        <dd><input type="hidden" name="has_set_address" value="0"/><a href="javascript:void(0)" class="ncart_btn_on saveAddress">保存</a></dd>
                     </dl>
                 </form>
              </div>
@@ -48,8 +48,15 @@
              <else/>
                         
             <div id="senderdetail">
-                <p id="f_default"><input type="radio" id="default" name="sender" checked="checked" value="{$uid|get_addressid}" />&nbsp;&nbsp;收件人：{$uid|get_realname}&nbsp;&nbsp;联系电话:{$uid|get_cellphone}&nbsp;&nbsp;收货地址：{$uid|get_address}  </p>
- 
+                <volist name="address" id="vo">
+                    <if condition="$vo['status'] eq 1">
+                        <p ><input type="radio" name="sender" checked="checked" value="{$vo['id']}" />&nbsp;&nbsp;收件人：{$vo['realname']}&nbsp;&nbsp;联系电话:{$vo['cellphone']}&nbsp;&nbsp;收货地址：{$vo['address']}  </p>
+                    <else/>
+                        <p><input type="radio"  name="sender"  value="{$vo['id']}" />&nbsp;&nbsp;收件人：{$vo['realname']}&nbsp;&nbsp;联系电话:{$vo['cellphone']}&nbsp;&nbsp;收货地址：{$vo['address']}  </p>
+
+                    </if>
+                </volist>
+
             </div>
             <div id="formsender" style="display:none">
                 <form id="formincart" name="form" >
@@ -70,7 +77,7 @@
                     </dl>
                 
                     <dl>
-                        <dd><a href="javascript:void(0)" class="ncart_btn_on saveAddress">保存</a></dd>
+                        <dd><input type="hidden" name="has_set_address" value="1"/><a href="javascript:void(0)" class="ncart_btn_on saveAddress">保存</a></dd>
                     </dl>
                 </form>
             </div>

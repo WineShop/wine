@@ -280,7 +280,7 @@ class ShopcartController extends HomeController {
         $score = get_score($uid);
 
         /* 积分兑换*/
-        $ratio = $score/C('RATIO');
+        $ratio = ceil($score/C('RATIO'));
         $this->assign('ratio', $ratio);
         $this->assign('uid', $uid);
 
@@ -313,8 +313,9 @@ class ShopcartController extends HomeController {
                 $total_num      += $num;
                 $goodlist->add();
             }
-            $defaultaddress=get_address($uid);
-            $this->assign('address',$defaultaddress);
+            $useraddress = get_address($uid,false);
+            $this->assign('address',$useraddress);
+
             if($total_money<C('LOWWEST')){
                 $trans = C('SHIPMONEY');
             }else{
@@ -379,7 +380,7 @@ class ShopcartController extends HomeController {
         //计算优惠券可使用的金额,home/common/function
         $decfee=get_fcoupon_fee($code,$xfee);
         $data['codeid']    = $code;
-        $data['codemoney'] = $defee;
+        $data['codemoney'] = $decfee;
         $senderid          = $_POST ["sender"];
         $data['addressid'] = $senderid;
         $data['total']     = $total;
@@ -504,38 +505,48 @@ class ShopcartController extends HomeController {
      */
     public function savemsg() {
         $uid = $this->login();
-        $User      = M("member"); // 实例化User对象
         $Transport = M("transport"); // 实例化transport对象
         // 要修改的数据对象属性赋值
-        $data['orderid']   = $_POST["id"];
-        $data['address']   = $_POST["posi"];
-        $data['cellphone'] = $_POST["pho"];
-        $data['realname']  = $_POST["rel"];
-        if($_POST["msg"] == "yes"){   //是否设置默认地址
-            //默认地址更新会员
-            $result=$User->where("uid='$uid'")->save($data); // 根据条件保存修改的数据
-            if($addressid = $Transport->where("uid='$uid' and status='1'")->field('id')->getField("id"))
+        $data['orderid']   = $_POST["orderid"];
+        $data['address']   = $_POST["address"];
+        $data['cellphone'] = $_POST["cellphone"];
+        $data['realname']  = $_POST["realname"];
+        $has_set_address   = $_POST['has_set_address'];
+        if($_POST["isdefault"] == "yes"){   //是否设置默认地址
+
+            if($has_set_address)
             {
-                $Transport->where("uid='$uid'")->save($data);
-            }else{
-                //地址库有默认地址，有则保存
-                $data['status']  = 1;
-                $data['time']    = NOW_TIME;
-                $data['uid']     = $uid;
-                $addressid       = $Transport->add($data);
+                //如果之前设置过默认地址，则默认地址 修改为非默认
+                $addressid = $Transport->where("uid='$uid' and status='1'")->save(array('status'=>0));
             }
+
+            //设置新的默认地址
+            $data['status']       = 1;
+            $data['create_time']  = NOW_TIME;
+            $data['uid']          = $uid;
+            $addressid            = $Transport->add($data);
+
             $data['value']     = "default";
             $data['addressid'] = $addressid;
             $data['msg']       = 'yes';
 
         }else{
+
             $data['status']     = 0;
-            $data['time']       = NOW_TIME;
-            $data['orderid']    = $id;
-            $addressid          = $result=$Transport->add($data); // 根据条件保存修改的数据
-            $data['addressid']  = $addressid;
+            if(!$has_set_address)
+            {
+                //如果从未填写过地址，则第一条作为默认地址
+                $data['status']     = 1;
+            }
+
+
+            $data['create_time']  = NOW_TIME;
+            $data['orderid']      = $_POST["id"];
+            $data['uid']          = $uid;
+            $addressid            = $result=$Transport->add($data); // 根据条件保存修改的数据
+            $data['addressid']    = $addressid;
             // 返回新增标识
-            $data['msg']        = 'no';
+            $data['msg']          = 'no';
         }
 
         $this->ajaxSuccess($data,1000,'新地址已经添加成功！');
