@@ -1173,9 +1173,15 @@ function execute_action($rules = false, $action_id = null, $user_id = null){
 }
 //根据订单编码，获取会员邮箱
  function get_email($uid){
+     $user       = new \User\Api\UserApi;
+     $userCache  = $user->getUserCache();
+     if (empty($userCache)) {
+         $email = M('ucenter_member')->where("id='$uid'")->getField("email");
+         return $email;
+     } else {
+         return $userCache['email'];
+     }
 
-	$email = M('ucenter_member')->where("id='$uid'")->getField("email");
-    return $email;
 }
 //基于数组创建目录和文件
 function create_dir_or_files($files){
