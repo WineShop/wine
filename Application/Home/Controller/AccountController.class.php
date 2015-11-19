@@ -9,8 +9,7 @@
 namespace Home\Controller;
 use Think\Controller;
 use User\Api\UserApi;
-/*****个人中心
- ***************/
+/*****个人中心***************/
 class AccountController extends HomeController {
 
 

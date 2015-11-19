@@ -266,8 +266,10 @@ class UcenterMemberModel extends Model{
 			'id'              => $uid,
 			'last_login_time' => NOW_TIME,
 			'last_login_ip'   => get_client_ip(1),
+            'login'           => array('exp', '`login`+1')
 		);
 		$this->save($data);
+        //TODO记录日志：
 	}
 
 	/**
@@ -353,7 +355,7 @@ class UcenterMemberModel extends Model{
         /* 登录历史 */
         history($userInfo['id']);
         //记录行为
-        action_log("user_login", "member", $userInfo['id'], $userInfo['id']);
+        user_log("用户登录了");
     }
 
     /**

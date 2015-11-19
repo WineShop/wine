@@ -870,7 +870,6 @@ function get_ip_address($queryIP){
     $location = json_decode($location);
     curl_close($ch);
 
-    $loc = "";
     if($location===FALSE) return "";
     if (empty($location->desc)) {
         $location->ip = $queryIP;
@@ -935,7 +934,7 @@ function IpLookup($ip='',$tag,$id){
            }
            $data["time"]    = NOW_TIME;
            $data["referer"] = $_SERVER['HTTP_REFERER'];
-           $data["url"]     = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+           $data["url"]     = $_SERVER['REQUEST_URI'];
 
         if(is_numeric($id))
             $data['gid']  = $id;
@@ -1014,6 +1013,25 @@ function ubb($data){
 }
 
 /**
+ * 记录日志 有用户id则记录用户没有记录0
+ * @param $title
+ * @return bool
+ */
+function user_log($title)
+{
+    if(C('IS_USER_LOG')){
+        $uid = is_login();
+        $data ['create_time'] = time ();
+        $data ['update_time'] = time ();
+        $data ['title']       = $title;
+        $data ['uid']         =$uid;
+        M ( 'UserLog' )->add ( $data );
+    }
+
+}
+
+
+/**
  * 记录行为日志，并执行该行为的规则
  * @param string $action 行为标识
  * @param string $model 触发行为的模型名
@@ -1032,7 +1050,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     }
 
     //查询行为,判断是否执行
-    $action_info = M('Action')->getByName($action);
+    $action_info = M('Action')->field('id,name,title,remark,rule,log,type,status')->getByName($action);
     if($action_info['status'] != 1){
         return '该行为被禁用或删除';
     }
@@ -1585,16 +1603,16 @@ function addintocart($uid){
  {
      $ip  = getip();
 	 $arr = get_ip_address($ip);
-	  $data["uid"]=$uid;
-	  $data["login_ip"]=$arr->ip;
-      $data["login_country"]=$arr->country;
-	  $data["login_province"]=$arr->region;
-	  $data["login_city"]=$arr->city;
-	  $data["login_isp"]=$arr->isp;
-	  $data["login_time"]=NOW_TIME;
+	  $data["uid"]           = $uid;
+	  $data["login_ip"]      = $arr->ip;
+      $data["login_country"] = $arr->country;
+	  $data["login_province"]= $arr->region;
+	  $data["login_city"]    = $arr->city;
+	  $data["login_isp"]     = $arr->isp;
+	  $data["login_time"]    = NOW_TIME;
       /* 登录方式 */
-	  $data["login_way"] = isMobil();
-	  $history           = M("history");
+	  $data["login_way"]     = isMobil();
+	  $history               = M("history");
 	  $history->create();
       $history->add($data);
 }
