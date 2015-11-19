@@ -271,7 +271,7 @@ class GoodsController extends AdminController {
             $map['update_time'][] = array('elt',24*60*60 + strtotime(I('time-end')));
         }
         if ( isset($_GET['nickname']) ) {
-            $map['uid'] = M('Member')->where(array('nickname'=>I('nickname')))->getField('uid');
+            $map['uid'] = M('ucenter_member')->where(array('nickname'=>I('nickname')))->getField('id');
         }
 
         // 构建列表数据

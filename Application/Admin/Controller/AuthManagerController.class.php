@@ -280,7 +280,7 @@ class AuthManagerController extends AdminController{
             if ( is_administrator($uid) ) {
                 $this->error('该用户为超级管理员');
             }
-            if( !M('Member')->where(array('uid'=>$uid))->find() ){
+            if( !M('ucenter_member')->where(array('id'=>$uid))->find() ){
                 $this->error('用户不存在');
             }
         }

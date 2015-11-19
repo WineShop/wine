@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2014 1010422715@qq.com  All rights reserved.
+// | Copyright (c) 2014 791845283@qq.com  All rights reserved.
 // +----------------------------------------------------------------------
 namespace Home\Controller;
 use Think\Controller;
@@ -28,14 +28,16 @@ class CenterController extends HomeController {
         $order  = M("order");
         $count  = $order->where(" uid='$uid'")->count();
         $this->assign('anum', $count);
+
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
         $Page->setConfig('next','下一页');
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show = $Page->show();
-        $list = $order->where("uid='$uid'")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $show  = $Page->show();
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
+        $list  = $order->where("uid='$uid'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         /********通过order订单id,获取shoplist物品以及document的信息*********/
         $data = $this->shoplistAndDocumentByTag($list);
         $this->assign('allorder',$data);// 赋值数据集
@@ -65,10 +67,7 @@ class CenterController extends HomeController {
         $this->assign('dnum', $dnum);
         $this->assign('cnum', $cnum);
 
-        /*********收藏夹***************/
-        $fav    = D("Favortable");
-        $favor  = $fav->getfavor();
-        $this->assign('favorlist', $favor);
+
         $uface = M('ucenter_member')->where("id='$uid'")->getField("face");
         $this->assign('uface', $uface);
 
@@ -78,7 +77,7 @@ class CenterController extends HomeController {
 
 
         /*用户信息*/
-        $ucache = D("Member")->getUserCache();
+        $ucache = getUserCache();
         $this->assign('ucache', $ucache);
 
         //站内信数量

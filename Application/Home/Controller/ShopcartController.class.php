@@ -385,7 +385,7 @@ class ShopcartController extends HomeController {
         $data['addressid'] = $senderid;
         $data['total']     = $total;
         $data['create_time']=NOW_TIME;
-        $data['shipprice'] = $trans;
+        $data['shipprice'] = $trans;   //运费
 
         //计算提交的订单的总费用
         $all=$total+$trans-$ratio-$decfee;

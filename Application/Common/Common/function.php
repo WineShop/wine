@@ -33,6 +33,17 @@ function is_login(){
 }
 
 /**
+ * 获取用户缓存
+ * @return mixed
+ */
+function getUserCache()
+{
+    $user       = new \User\Api\UserApi;
+    $userCache  = $user->getUserCache();
+    return $userCache;
+}
+
+/**
  * 更新用户缓存信息
  * @param $data
  */
@@ -499,7 +510,7 @@ function get_username(){
  * @return string       用户昵称
  */
  function get_qq($uid){
-    $row = M('member')->field('qq')->getbyUid($uid);
+    $row = M('ucenter_member')->field('qq')->getbyUid($uid);
     return $row['qq'];
 }
 
@@ -526,17 +537,17 @@ function get_realname($uid){
     $row = M('transport')->order("id desc")->field('realname')->limit(1)->getbyUid($uid);
     return $row['realname'];
 }function get_score($uid){
-    $row = M('member')->field('score')->getbyUid($uid);
+    $row = M('ucenter_member')->field('score')->getbyUid($uid);
     return $row['score'];
 }
 function get_cellphone($uid){
     $row = M('transport')->order("id desc")->field('cellphone')->limit(1)->getbyUid($uid);
     return $row['cellphone'];
 }
-function get_lever($uid){
+/*function get_lever($uid){
     $row = M('member')->field('lever')->getbyUid($uid);
     return $row['lever'];
-}
+}*/
 function get_nickname($uid = 0){
 
     static $list;
@@ -556,7 +567,7 @@ function get_nickname($uid = 0){
     if(isset($list[$key])){ //已缓存，直接使用
         $name = $list[$key];
     } else { //调用接口获取用户信息
-        $info = M('Member')->field('nickname')->find($uid);
+        $info = M('ucenter_member')->field('nickname')->find($uid);
         if($info !== false && $info['nickname'] ){
             $nickname = $info['nickname'];
             $name = $list[$key] = $nickname;
@@ -750,10 +761,8 @@ function get_shopname($partnerid){
 }
 function get_userqq($partnerid){
     $uid = M('shop')->where("id='$partnerid'")->getField("uid");
-	$qq=M('member')->where("uid='$uid'")->getField("qq");
-   
+	$qq=M('ucenter_member')->where("id='$uid'")->getField("qq");
 	return $qq;
-	
 }
 
 /* 优惠券名称调用 */
