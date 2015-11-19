@@ -134,7 +134,7 @@
 
                        <volist name="shoplist" id="vo">
                         <tr>
-                            <td><A href="{:U('Article/detail?id='.$vo['goodid'])}" > {$vo.goodid|get_good_name}</A></td>
+                            <td align="center"><A href="{:U('Article/detail?id='.$vo['goodid'])}" > {$vo.goodid|get_good_name}</A></td>
                             <td align="center"> <span class="weight">{$vo.parameters|default="无"}</span></td>
                             <td align="center">{$vo.price}</td>
                             <td align="center">{$vo.num}</td>

@@ -287,7 +287,6 @@ class ShopcartController extends HomeController {
         /* 创建订单*/
         if(IS_POST){
             $goodlist = M("shoplist");
-            $order    = M("order");
             $tag      = $this->ordersn(); //标识号
 
             $total_money = 0;
@@ -323,7 +322,7 @@ class ShopcartController extends HomeController {
             }
             $all      = $total_money + $trans;
 
-            $shoplist = M('Shoplist')->where("tag='$tag'")->select();
+            $shoplist = M('Shoplist')->where("tag='$tag'")->field('parameters,goodid,price,num')->select();
 
             $this->assign('shoplist',$shoplist);
             $this->assign('all', $all);
@@ -363,7 +362,7 @@ class ShopcartController extends HomeController {
             $trans  = 0;
         }
 
-        //计算提交的积分兑换
+        //计算提交的积分兑换  并减少用户的积分
         if($_POST["score"]){
             $score=$_POST["score"];
             //读取配置，1000积分兑换1元
@@ -371,7 +370,8 @@ class ShopcartController extends HomeController {
             $data['score']=$score;
             M("member")->where("uid='$uid'")->setDec('score',$score);
         }else{
-            $ratio=0;
+            $ratio = 0;  //积分抵消的金额
+            $score = 0;  //积分
         }
         //计算提交的优惠券
         $code   = I('post.couponcode');
@@ -394,95 +394,69 @@ class ShopcartController extends HomeController {
         $data['tag']         = $tag;
         $data['uid']         = $uid;
 
-        //修改订单状态为用户已提交
-        if($_POST["PayType"]=="1"){
-            $pay=M("pay");
-            $pay->create();
-            $pay->money=$all;
-            $pay->ratio=$ratio;
-            $pay->total=$total;
-            $pay->out_trade_no=$tag;
-            $pay->yunfee=$trans;
-            $pay->coupon=$deccode;
-            $pay->uid=$uid;
-            $pay->addressid=$senderid;
-            $pay->create_time=NOW_TIME;
-            $pay->type= 1;//货到付款
-            $pay->status=1;
-            $pay->add();
-
-            //创建订单
-            $data['status']   = 1;
-            $data['ispay']    = -1;//货到付款
+        //设置订单状态
+        if($_POST["PayType"]=="1") {
+            //产生订单orderlist
+            $data['status'] = 1;
+            $data['ispay'] = -1; //货到付款
             $data['backinfo'] = "已提交等待发货";
-
-            //根据订单id保存对应的费用数据
-            $orderid     = $order->add($data);
-            M("shoplist")->where("tag='$tag'")->setField('orderid',$orderid);
-            $this->assign('codeid',$tag);
-            $mail = get_email($uid);//获取会员邮箱
-            $title= "交易提醒";
-            $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>提交了订单，订单号'.$tag;
-
-            if( C('MAIL_PASSWORD'))
-            {
-                SendMail($mail,$title,$content);
-            }
-            $this->meta_title = '提交成功';
-            $this->display('success');
-        }
-
-
-        if($_POST["PayType"]=="2")	{
-            //设置订单状态为用户为未能完成，不删除数据
+        }else if($_POST["PayType"]=="2"){
+            //产生订单orderlist
             $data['backinfo']="等待支付";
-            $data['ispay']   ="1";
-            $data['status']  ="-1";//待支付
-            //根据订单id保存对应的费用数据
-
-            $orderid=$order->add($data);
-            M("shoplist")->where("tag='$tag'")->setField('orderid',$orderid);
-            $pay=M("pay");
-            $pay->create();
-            $pay->money=$all;
-            $pay->ratio=$ratio;
-            $pay->total=$total;
-            $pay->out_trade_no=$tag;
-            $pay->yunfee=$trans;
-            $pay->coupon=$deccode;
-            $pay->uid=$uid;
-            $pay->addressid=$senderid;
-            $pay->create_time=NOW_TIME;
-            $pay->type  = 2;//在线支付
-            $pay->status= 1;//待支付
-            $pay->add();
-            $this->meta_title = '订单支付';
-
-            $this->assign('codeid',$tag);
-            $this->assign('goodprice',$all);
-            //支付页
-            $this->display('Pay/index');
-
+            $data['status']  = -1;//待支付
+            $data['ispay']   = 1; //在线支付未完成
         }
-    }
 
-    public function payorder($tag) {
+        //根据订单id保存对应的费用数据
+        $orderid = $order->add($data);
+        M("shoplist")->where("tag='$tag'")->setField('orderid', $orderid);
+        $this->assign('codeid', $tag);
+        $this->assign('goodprice',$all);
 
+        //保存对应的费用数据
         $pay=M("pay");
         $pay->create();
-        $pay->money=$all;
-        $pay->ratio=$ratio;
-        $pay->total=$total;
+        $pay->money     = $all;
+        $pay->ratio     = $ratio;   //积分抵消金额
+        $pay->ratioscore= $score;   //消耗积分
+        $pay->total     = $total;
         $pay->out_trade_no=$tag;
-        $pay->yunfee=$trans;
-        $pay->coupon=$deccode;
-        $pay->uid=$uid;
-        $pay->addressid=$senderid;
+        $pay->yunfee    = $trans;
+        $pay->coupon    = $decfee;  //优惠卷抵消的金额
+        $pay->couponcode= $code;    //优惠卷代码
+        $pay->uid       = $uid;
+        $pay->addressid = $senderid;
         $pay->create_time=NOW_TIME;
-        $pay->type=2;
-        $pay->status=1;//待支付
+        if($_POST['PayType'] == 1)
+        {
+            $pay->type      = 1;//货到付款
+            $pay->status    = 1;//待支付
+        }else if($_POST['PayType'] == 2){
+            $pay->type      = 2;//在线支付
+            $pay->status    = 1;//待支付
+        }
         $pay->add();
+
+        //邮件通知
+        $mail = get_email($uid);//获取会员邮箱
+        $title= "交易提醒";
+        $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>提交了订单，订单号'.$tag;
+
+        if( C('MAIL_PASSWORD'))
+        {
+            SendMail($mail,$title,$content);
+        }
+
+        if($_POST['PayType'] == 1)
+        {
+            $this->meta_title = '提交成功';
+            $this->display('success');
+        }else if($_POST['PayType'] == 2){
+            $this->meta_title = '订单支付';
+            $this->display('Pay/index');
+        }
     }
+
 
     public function buynow() {
 
