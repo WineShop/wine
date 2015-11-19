@@ -367,21 +367,21 @@ class ShopcartController extends HomeController {
         if($_POST["score"]){
             $score=$_POST["score"];
             //读取配置，1000积分兑换1元
-            $ratio= $score/C('RATIO');
+            $ratio= ceil($score/C('RATIO'));
             $data['score']=$score;
-            M("member")->where("uid='$uid'")->setField('score',0);
+            M("member")->where("uid='$uid'")->setDec('score',$score);
         }else{
             $ratio=0;
         }
         //计算提交的优惠券
-        $code=$_POST["couponcode"];
+        $code   = I('post.couponcode');
         //计算提交的订单的费用（含运费）
-        $xfee=$total+$trans-$ratio;
+        $xfee   = $total+$trans-$ratio;
         //计算优惠券可使用的金额,home/common/function
-        $decfee=get_fcoupon_fee($code,$xfee);
+        $decfee = get_fcoupon_fee($code,$xfee);
         $data['codeid']    = $code;
         $data['codemoney'] = $decfee;
-        $senderid          = $_POST ["sender"];
+        $senderid          = I('post.sender');
         $data['addressid'] = $senderid;
         $data['total']     = $total;
         $data['create_time']=NOW_TIME;
@@ -410,16 +410,18 @@ class ShopcartController extends HomeController {
             $pay->type= 1;//货到付款
             $pay->status=1;
             $pay->add();
-            $data['status']=1;
-            $data['ispay']=-1;//货到付款
-            $data['backinfo']="已提交等待发货";
-            //增加取消订单
+
+            //创建订单
+            $data['status']   = 1;
+            $data['ispay']    = -1;//货到付款
+            $data['backinfo'] = "已提交等待发货";
+
             //根据订单id保存对应的费用数据
-            $orderid=$order->add($data);
+            $orderid     = $order->add($data);
             M("shoplist")->where("tag='$tag'")->setField('orderid',$orderid);
             $this->assign('codeid',$tag);
-            $mail=get_email($uid);//获取会员邮箱
-            $title="交易提醒";
+            $mail = get_email($uid);//获取会员邮箱
+            $title= "交易提醒";
             $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>提交了订单，订单号'.$tag;
 
             if( C('MAIL_PASSWORD'))
@@ -434,8 +436,8 @@ class ShopcartController extends HomeController {
         if($_POST["PayType"]=="2")	{
             //设置订单状态为用户为未能完成，不删除数据
             $data['backinfo']="等待支付";
-            $data['ispay']="1";
-            $data['status']="-1";//待支付
+            $data['ispay']   ="1";
+            $data['status']  ="-1";//待支付
             //根据订单id保存对应的费用数据
 
             $orderid=$order->add($data);
@@ -452,7 +454,7 @@ class ShopcartController extends HomeController {
             $pay->addressid=$senderid;
             $pay->create_time=NOW_TIME;
             $pay->type  = 2;//在线支付
-            $pay->status=1;//待支付
+            $pay->status= 1;//待支付
             $pay->add();
             $this->meta_title = '订单支付';
 
@@ -495,7 +497,7 @@ class ShopcartController extends HomeController {
     }
 
     function ordersn(){
-        $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+        $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N');
         $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%04d%02d', rand(1000, 9999),rand(0,99));
         return $orderSn;
     }
@@ -577,7 +579,7 @@ class ShopcartController extends HomeController {
 
 
     public function getPricetotal($tag,$uid) {
-
+        $total= 0;
         $data = M("shoplist")->where(array('uid'=>$uid,'tag'=>$tag))->field('num,price')->select();
         foreach ($data as $k=>$val) {
             $price=$val['price'];
@@ -587,9 +589,8 @@ class ShopcartController extends HomeController {
     }
 
     public function getpriceNum($id) {
-
-        $price = 0.00;
-        $data = M("shoplist")->where("tag='$id'")->select();
+        $sum   = 0;
+        $data = M("shoplist")->where("tag='$id'")->field('num,price')->select();
         foreach ($data as $k=>$item) {
             $sum += $item['num'];
         }
