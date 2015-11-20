@@ -4,8 +4,6 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 烟消云散 <1010422715@qq.com> 
-// +----------------------------------------------------------------------
 
 namespace Home\Model;
 use Think\Model;
@@ -15,31 +13,28 @@ use Think\Page;
  * 登录用户的购物车类
  */
 class ShopcartModel extends Model{
-
- /*
-    查询购物车
-    */  
+/**
+ * 查询购物车
+ * @return mixed
+ */
 public  function getcart() {
-	    $user = D("member");
-	    $uid  = $user->uid();
+	    $uid  = is_login();
 		$map["uid"]= $uid;
 	    $cartlist=$this->where($map)->select();
 		return $cartlist; 
 }
        
- /*
-    查询购物车中商品的种类
-    */
-	public  function getCnt(){
-	  $user=D("member");
-	    $uid=$user->uid();
+/**
+ *查询购物车中商品的种类
+ */
+public  function getCnt(){
+        $uid  = is_login();
 		$map["uid"]= $uid;
 	     $cartlist=$this->where($map)->select();
 		return count($cartlist); 
 }
 public  function getCntByuid(){
-	    $user=D("member");
-	    $uid=$user->uid();
+        $uid  = is_login();
 		$map["uid"]= $uid;
 	    $cartlist=$this->where($map)->select();
 		return count($cartlist); 
@@ -47,9 +42,9 @@ public  function getCntByuid(){
   /*
     查询登录用户购物车中商品的总金额
     */
-  public function getPriceByuid() { 
-	    
-	    $uid=D("member")->uid();
+  public function getPriceByuid() {
+
+        $uid  = is_login();
 		$map["uid"]= $uid;
         //数量为0，价钱为0
         if ($this->getCnt() == 0) {
@@ -67,52 +62,47 @@ public  function getCntByuid(){
         return sprintf("%01.2f", $total);
     }
 /* 查询登录用户购物车中商品的个数*/
- public function getNumByuid(){ 
-	   $user=D("member");
-	    $uid=$user->uid();
+ public function getNumByuid(){
+        $uid  = is_login();
 		$map["uid"]= $uid;
+        $sum = 0;
         if ($this->getCnt() == 0) {
             //种数为0，个数也为0
             return 0;
-        }
-     else{
-       $data=$this->where($map)->select();
-        foreach ($data as $k=>$item)
-			{
-            $sum += $item['num'];
-        }
+        }else{
+           $data=$this->where($map)->select();
+            foreach ($data as $k=>$item)
+            {
+                $sum += $item['num'];
+            }
 		}
         return $sum;
     }
 /* 登录用户增加购物车中商品的个数*/
 public function inc($sort){
-	    $user=D("member");
-	    $uid=$user->uid();
+        $uid  = is_login();
 		$cart=D("shopcart");
 		$num= $cart->where("sort='$sort'and uid='$uid'")->getField("num");
         $new=$num+1;
-       $cart->where("sort='$sort'and uid='$uid'")->setField('num',$new);
-return $new;
+        $cart->where("sort='$sort'and uid='$uid'")->setField('num',$new);
+        return $new;
 }
 /* 登录用户减少购物车中商品的个数*/
 public function dec($sort){
-	    $user=D("member");
-	    $uid=$user->uid();
+        $uid  = is_login();
 		$cart=D("shopcart");
 		$num= $cart->where("sort='$sort'and uid='$uid'")->getField("num");
-       $new=$num-1;
-     $cart->where("sort='$sort'and uid='$uid'")->setField('num',$new);
-return $new;
+        $new=$num-1;
+        $cart->where("sort='$sort'and uid='$uid'")->setField('num',$new);
+        return $new;
 
 }
 /* 登录用户删除购物车中商品的个数*/
 public function deleteid($sort){
-	    $user=D("member");
-	    $uid=$user->uid();
+        $uid  = is_login();
 		$cart=D("shopcart");
 		$result= $cart->where("sort='$sort'and uid='$uid'")->delete();
-
-return $id;
+        return $result;
 }
 
 }

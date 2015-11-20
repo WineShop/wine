@@ -207,14 +207,14 @@ class UserController extends HomeController {
         }
         return $error;
     }
-    public function cart(){
+    /*public function cart(){
         $cart=$_SESSION["cart"];
         if($cart){
             foreach($cart as $k=>$val){
                 $id=$val["id"];
                 $table->goodid=$id;
-                $member=D("member");
-                $uid=$member->uid();
+
+                $uid = is_login();
                 $table->uid=$uid;
                 $table->partnerid=get_partnerid($uid);
                 $num=M("shopcart")->where("goodid='$id'")->getField("num");
@@ -229,7 +229,7 @@ class UserController extends HomeController {
             }
             return $uid;
         }
-    }
+    }*/
 
     /**
      * 修改密码提交

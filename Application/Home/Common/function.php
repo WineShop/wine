@@ -84,24 +84,24 @@ $price=get_group_price($unionid);
  * 返回优惠券可抵用金额
  */
 function get_fcoupon_fee($code,$total){
-    $lowfee=get_fcoupon_lowpayment($code);//优惠券最低消费金额
+    $couponArr    = M("fcoupon")->where("code='$code' and status='1'")->field('id,price,lowpayment')->find();//获取优惠券主键id
+    $fee          = $couponArr['price'];//获取优惠券等值金额
+    $codeid       = $couponArr['codeid'];//获取优惠券id
+    $lowfee       = $couponArr['lowpayment'];//优惠券最低消费金额
 	if($lowfee<$total)
 	{
-$codeid=M("fcoupon")->where("code='$code' and status='1'")->getField('id');//获取优惠券主键id
-$fee=get_coupon_price($codeid);//获取优惠券等值金额
-$usercouponid=M("usercoupon")->where("couponid='$codeid' and status='1'")->getField('id');//获取用户可用优惠券主键id
-if($usercouponid){
-$deccode=$fee;
-M("usercoupon")->where("couponid='$codeid'")->setField('status',2);//设置优惠券已用
-}
-else{
-	$deccode=0;
-}
-}
-else{
-$deccode=0;
-}
-
+        $uid          = is_login();
+        $usercouponid = M("usercoupon")->where("couponid='$codeid' and status='1' and uid='$uid'")->getField('id');//获取用户可用优惠券主键id
+        if($usercouponid){
+            $deccode=$fee;
+            M("usercoupon")->where("couponid='$codeid'")->setField('status',2);//设置优惠券已用
+        }else{
+            $deccode=0;
+        }
+    }else{
+        $deccode=0;
+    }
+    return $deccode;
 }
 
 /**

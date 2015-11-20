@@ -710,11 +710,7 @@ function get_category_icon($id){
     $row = M('category')->getbyId($id);
     return $row['icon'];
 }
-/* 封面id调用 */
-function get_cover_id($id){
-    $row = M('document')->getbyId($id);
-    return $row['cover_id'];
-}
+
 /** 获取头像 */
 function get_face($face){
     $faceUrl = C("QINIUDOMAIN").'/'.$face;
@@ -731,11 +727,10 @@ function get_shoppic($id){
 function get_partnerid($uid){
     $row = M('shop')->where("uid='$uid'")->find();
    if($row){
-	return $row['id'];//入住商家
-	}
-	else{
-	return 1;//自营
-	}
+	 return $row['id'];//入住商家
+   }else{
+	  return 1;//自营
+   }
 }
 function get_partnerid_Byid($id){
     $info = M('document')->where("id='$id'")->find();
@@ -1414,7 +1409,7 @@ function get_cover($cover_id, $field = null){
  * 可使用优惠券最低消费金额
  */
 function get_fcoupon_lowpayment($code){
- $info=M('fcoupon')->where("code='$code'")->find();
+ $info=M('fcoupon')->where("code='$code'")->field('lowpayment')->find();
  return $info['lowpayment'];	
 }
 
@@ -1546,8 +1541,8 @@ function sendsmsbyfeikuo($mobile,$content){
 function sendsmscode($mobile,$content,$send_code){
  Vendor('Sms.Sms');   
 	$sms= new \vendor\Sms\Sms();
-	$mobile_code =random(4,1);//生成手机验证码
-    $uid=D("member")->uid(); 
+	$mobile_code = random(4,1);//生成手机验证码
+    $uid         =is_login();
 	  if(empty($mobile)){
       $mobile=get_regmobile($uid);
 	  }  
@@ -1559,7 +1554,7 @@ function sendsmscode($mobile,$content,$send_code){
 function sendsms($mobile,$content){
  Vendor('Sms.Sms');   
 	$sms= new \vendor\Sms\Sms();
-    $uid=D("member")->uid(); 
+    $uid= is_login();
 	  if(empty($mobile)){
       $mobile=get_regmobile($uid);
 	  } 

@@ -37,7 +37,7 @@ class AccountController extends HomeController {
         $this->assign('emailid',$verid);
 
         //支付密码设置判断
-        $str  = D("Member")->where("uid='$uid'")->getField('paykey');
+        $str  = D("ucenter_member")->where("id='$uid'")->getField('paykey');
         $code = encrypt($str,'D',''); //解密
         $this->assign('code', $code);
 
@@ -71,7 +71,7 @@ class AccountController extends HomeController {
         $this->assign('email', $user['email']);
         $this->meta_title = '支付密码设置';
 
-        $code = D("member")->where("uid='$uid'")->getField('paykey');
+        $code = D("ucenter_member")->where("id='$uid'")->getField('paykey');
         $this->assign('code', $code);
         $this->display();
 
@@ -96,9 +96,9 @@ class AccountController extends HomeController {
                 }
             }
 
-            $member = D("member");
+            $member = D("ucenter_member");
             $member->create();
-            if($member->where("uid='$uid'")->save($data)){
+            if($member->where("id='$uid'")->save($data)){
                 $this->ajaxSuccess("您已成功设置！") ;
             }else{
                 $this->ajaxError("对不起，设置失败！")  ;
@@ -143,14 +143,13 @@ class AccountController extends HomeController {
         }else{
             $_SESSION['mobile'] = '';
             $_SESSION['mobile_code'] = '';
-            $data['msg']="验证成功";
-            $data['status']=1;
-            $verification=M("verification");
-            $uid=D("member")->uid();
-            $data['mobile']=$_POST['mobile'];
-            $data['create_time']=NOW_TIME;
-            $data['tag']=2;
-            $data['uid']=$uid;
+            $data['msg']    = "验证成功";
+            $data['status'] =1;
+            $verification   = M("verification");
+            $data['mobile'] = $_POST['mobile'];
+            $data['create_time'] = NOW_TIME;
+            $data['tag']    = 2;
+            $data['uid']    = is_login();
             $verification->create();
             $verification->add($data);
         }

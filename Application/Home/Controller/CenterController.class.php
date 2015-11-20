@@ -96,15 +96,14 @@ class CenterController extends HomeController {
 
     }
 
-    /*****用户签到
-     ***************/
+    /*****用户签到***************/
     public  function enter() {
         $uid     = $this->login();
         $iswork  = D("iswork");
         $qtime   = NOW_TIME;
         $d       = date('H:i:s',$qtime);
         $time    = $iswork->where("uid='$uid'")->order("id desc")->limit(1)->getfield('create_time');
-        $member  = D("Member"); // 实例化对象
+        $member  = D("ucenter_member"); // 实例化对象
         if($time){/*签过到*/
             $a  = date('Ymd',$qtime);/*格式时间戳为 20141024*/
             $b  = date('Ymd',$time);
@@ -193,8 +192,7 @@ class CenterController extends HomeController {
      * 获取用户uid
      */
     public  function uid() {
-        $uid=D("member")->uid();
-        return $uid;
+        return is_login();
 
     }
     /**
@@ -396,27 +394,26 @@ class CenterController extends HomeController {
         $this->meta_title = '我的优惠券';$this->display();
     }
 
-    /*****个人资料
-     ***************/
+    /*****个人资料***************/
     public  function information() {
         $uid = $this->login();
        /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
 
-        $member = D("Member");
-        $uface  = M('ucenter_member')->where("id='$uid'")->getField("face");
+        $member = D("ucenter_member");
+        $field   = 'id,sex,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+        $ucenter = $member->where("id='$uid'")->field($field)->find();
+        $uface   = $ucenter['face'];
 
-        $ucenter = $member->where("uid='$uid'")->field('uid,sex,qq,birthday,nickname')->find();
-        $user    = $member-> getUserCache();
-        $this->meta_title =$user['username'].'个人中心';
+        $this->meta_title = $ucenter['username'].'个人中心';
 
         $is_history = '';
         $history = R('Article/view_recent');
         if(!empty($history))  $is_history = 1;
 
         $this->assign('information', $ucenter);
-        $this->assign('username', $user['username']);
+        $this->assign('username', $ucenter['username']);
         $this->assign('uface', $uface);
         $this->assign('history', $history);
         $this->assign('is_history', $is_history);
@@ -558,7 +555,7 @@ class CenterController extends HomeController {
             if(!empty($verInfo['mobile'])) $num2 = 1;
         }
         //支付密码设置判断
-        $str  = D("Member")->where("uid='$uid'")->getField('paykey');
+        $str  = D("ucenter_member")->where("id='$uid'")->getField('paykey');
         $code = encrypt($str,'D',''); //解密
 
         if($code){$num3=1;}

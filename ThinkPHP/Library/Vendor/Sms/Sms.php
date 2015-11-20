@@ -48,14 +48,14 @@ class Sms {
 	
 	function sendcode($mobile,$content,$send_code,$mobile_code){
 
-if(empty($mobile)){
-	exit('手机号码不能为空');
-}
+        if(empty($mobile)){
+            exit('手机号码不能为空');
+        }
 
-if(empty($_SESSION['send_code']) or $send_code!=$_SESSION['send_code']){
-	//防用户恶意请求
-	exit('请求超时，请刷新页面后重试');
-}
+        if(empty($_SESSION['send_code']) or $send_code!=$_SESSION['send_code']){
+            //防用户恶意请求
+            exit('请求超时，请刷新页面后重试');
+        }
 
 		$post_data = "account=".C('SMSACCOUNT')."&password=".C('SMSPASSWORD')."&mobile=".$mobile."&content=".rawurlencode($content);//密码可以使用明文密码或使用32位MD5加密
 		$gets=  $this->xml_to_array($this->Post($post_data,$target));
@@ -63,23 +63,24 @@ if(empty($_SESSION['send_code']) or $send_code!=$_SESSION['send_code']){
 			$_SESSION['mobile'] = $mobile;//注册session
 
 	        $_SESSION['mobile_code'] = $mobile_code;
-	//验证记录
-			 $verification=M("verification");
-   $data['mobile']= $mail;
-   $data['create_time']=NOW_TIME;
-   $data['status']=1;
-   $data['group']=2;
-   $data['uid']=D("member")->uid();
-   $verification->create();
-   $verification->add($data);
-   //短信记录
-    $sms=M("sms");
-   $sms->content=$content;
-  $sms->mobile=$mobile;
-   $sms->create_time=NOW_TIME;
-   $sms->group=1;//验证
-   $sms->create();
-  $sms->add();
+	       //验证记录
+	       $verification=M("verification");
+           $data['mobile']= $mail;
+           $data['create_time']=NOW_TIME;
+           $data['status']=1;
+           $data['group']=2;
+           $data['uid']  =is_login();
+           $verification->create();
+           $verification->add($data);
+
+            //短信记录
+            $sms=M("sms");
+            $sms->content=$content;
+            $sms->mobile=$mobile;
+            $sms->create_time=NOW_TIME;
+            $sms->group=1;//验证
+            $sms->create();
+            $sms->add();
 
 			echo $gets['SubmitResult']['msg'];//提交成功
 		}else{
@@ -89,32 +90,32 @@ if(empty($_SESSION['send_code']) or $send_code!=$_SESSION['send_code']){
 	}
 
 
-function send($mobile,$content){
+    function send($mobile,$content){
 
-if(empty($mobile)){
-	exit('手机号码不能为空');
-}
+        if(empty($mobile)){
+            exit('手机号码不能为空');
+        }
 
 		$post_data = "account=".$this->username."&password=".$this->password."&mobile=".$mobile."&content=".rawurlencode($content);//密码可以使用明文密码或使用32位MD5加密
 		$gets=  $this->xml_to_array($this->Post($post_data,$target));
 		if($gets['SubmitResult']['code']==2){//返回码等于2的时候
 			$result= "发送成功！";
 			//短信记录
-    $sms=M("sms");
-   $sms->content=$content;
-  $sms->mobile=$mobile;
-   $sms->create_time=NOW_TIME;
-   $sms->group=2;//通知
-   $sms->create();
-  $sms->add();
+            $sms=M("sms");
+            $sms->content=$content;
+            $sms->mobile=$mobile;
+            $sms->create_time=NOW_TIME;
+            $sms->group=2;//通知
+            $sms->create();
+            $sms->add();
 		}else{
-			$result= '发送失败！,错误码'.$results['SubmitResult']['code'];
+			$result= '发送失败！,错误码'.$gets['SubmitResult']['code'];
 		}
 		
 		return $result;
 	}
 
 
-  }
+}
 
 ?>

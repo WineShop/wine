@@ -67,7 +67,7 @@ class PayController extends HomeController {
             $hotsearch = C('HOT_SEARCH');
             $this->assign('hotsearch',$hotsearch);
 
-            $uid      = D("Member")->uid();
+            $uid      = is_login();
             $score    = get_score($uid);
 
             /** 积分兑换**/
