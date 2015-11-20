@@ -270,17 +270,17 @@ class UserController extends HomeController {
      */
     public function checkcode(){
         if (!($uid = is_login()) ) {
-            $this->error( "您还没有登陆，请先登陆",U("/"),2);
+            $this->ajaxError( "您还没有登陆，不允许访问！");
         }
         /***接受代码统计 */
         $code    = $_POST["couponid"];
         $fcoupon = M("fcoupon");
-        $id = $fcoupon->where("code='$code' ")->getfield("id");
+        $id      = $fcoupon->where("code='$code' ")->getfield("id");
         /***获取优惠券id,优惠券存在 */
         if(isset($id)){
             $coupon = M("usercoupon");
             /***用户优惠券存在 */
-            if($coupon->where("uid='$uid'and couponid='$id' and status='1'")->select()){
+            if($coupon->where("uid='$uid'and couponid='$id' and status='1'")->field('id')->select()){
                 $msg   = "该优惠券可以使用";
                 $this->ajaxSuccess($msg);
             }else{

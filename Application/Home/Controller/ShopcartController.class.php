@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2014 1010422715@qq.com  All rights reserved.
-// +----------------------------------------------------------------------
 namespace Home\Controller;
 /*****购物车的类
 功能：添加商品、添加/删除/查看某一个商品的数量、查看商品的总类/总数量、清空购物车、计算购物车总价格、返回购物车商品列表
@@ -181,7 +179,7 @@ class ShopcartController extends HomeController {
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
-        $uid = "";
+
         /*查询购物车*/
         $uid      = is_login();
         $count    = $this->getCnt(); /*查询购物车中商品的种类 */
@@ -208,7 +206,6 @@ class ShopcartController extends HomeController {
         $sum   = $this->getNum();/* 查询购物车中商品的个数*/
         $price = $this->getPrice(); /* 购物车中商品的总金额*/
         $data['count'] =$count;
-        $Item = $this->getItem($sort);
         $data['num'] =$_SESSION['cart'][$sort]["num"];
         $data['status'] = 1;
         $data['price'] =$price;
@@ -291,26 +288,29 @@ class ShopcartController extends HomeController {
 
             $total_money = 0;
             $total_num   = 0;
+            $res_data = array();
             for($i=0;$i<count($_POST["id"]);$i++)
             {
-                $id = $_POST ["id"] [$i];
-                $num = $_POST ["num"] [$i];
-                $goodlist->goodid  = $id;
-                $goodlist->status  = 1;
-                $goodlist->orderid ='';
-                $goodlist->parameters =$_POST ["parameters"] [$i];
-                $goodlist->sort = $_POST ["sort"] [$i];
-                $goodlist->num  = $num;
-                $goodlist->uid  = $uid;
-                $goodlist->tag  = $tag;//标识号必须相同
-                $goodlist->create_time = NOW_TIME;
+                $data = array();
+                $id   = $_POST ["id"] [$i];
+                $num  = $_POST ["num"] [$i];
+                $data['goodid']     = $id;
+                $data['status']     = 1;
+                $data['orderid']    ='';
+                $data['parameters'] = $_POST ["parameters"] [$i];
+                $data['sort']       = $_POST ["sort"] [$i];
+                $data['num']        = $num;
+                $data['uid']        = $uid;
+                $data['tag']        = $tag;//标识号必须相同
+                $data['create_time'] = NOW_TIME;
                 $goodprice      = $_POST ["price"] [$i];
-                $goodlist->price= $goodprice;
+                $data['price']  = $goodprice;
                 $goodtotal      = $num*$goodprice;
-                $goodlist->total= $goodtotal;
+                $data['total']  = $goodtotal;
                 $total_money    += $goodtotal;
                 $total_num      += $num;
-                $goodlist->add();
+                $goodlist->add($data);
+                array_push($res_data,$data);
             }
             $useraddress = get_address($uid,false);
             $this->assign('address',$useraddress);
@@ -322,9 +322,9 @@ class ShopcartController extends HomeController {
             }
             $all      = $total_money + $trans;
 
-            $shoplist = M('Shoplist')->where("tag='$tag'")->field('parameters,goodid,price,num')->select();
+           // $shoplist = M('Shoplist')->where("tag='$tag'")->field('parameters,goodid,price,num')->select();
 
-            $this->assign('shoplist',$shoplist);
+            $this->assign('shoplist',$res_data);
             $this->assign('all', $all);
             $this->assign('num',$total_num);
             $this->assign('tag',$tag);
@@ -352,8 +352,9 @@ class ShopcartController extends HomeController {
         $value = $order->where(array("tag"=>$tag,'uid'=>$uid))->getField('id');
         isset($value)&& $this->error('重复提交订单');
 
-        //计算提交的订单的商品总额
-        $total=$this->getPricetotal($tag,$uid);
+        /****计算提交的订单的商品总额 并获取商品的购物车id（sort）**/
+        $shoplistInfo = $this->getPricetotal($tag,$uid);
+        $total        = $shoplistInfo['total'];
 
         //计算提交的订单的商品运费
         if($total<C('LOWWEST')){
@@ -407,9 +408,9 @@ class ShopcartController extends HomeController {
             $data['ispay']   = 1; //在线支付未完成
         }
 
-        //根据订单id保存对应的费用数据
-        $orderid = $order->add($data);
-        M("shoplist")->where("tag='$tag'")->setField('orderid', $orderid);
+        /**根据订单tag 保存对应的费用数据  并清空该物品购物车**/
+        $this->saveShopListOrderStatus($tag,$data,$shoplistInfo['cart_sort']);
+
         $this->assign('codeid', $tag);
         $this->assign('goodprice',$all);
 
@@ -553,13 +554,15 @@ class ShopcartController extends HomeController {
 
 
     public function getPricetotal($tag,$uid) {
-        $total= 0;
-        $data = M("shoplist")->where(array('uid'=>$uid,'tag'=>$tag))->field('num,price')->select();
+        $total     = 0;
+        $data      = M("shoplist")->where(array('uid'=>$uid,'tag'=>$tag))->field('num,price,sort')->select();
+        $cart_sort = array();
         foreach ($data as $k=>$val) {
-            $price=$val['price'];
-            $total += $val['num'] * $price;
+            $price      = $val['price'];
+            $total      += $val['num'] * $price;
+            $cart_sort[] = $val['sort'];
         }
-        return sprintf("%01.2f", $total);
+        return array('total'=>sprintf("%01.2f", $total),'cart_sort'=>$cart_sort);
     }
 
     public function getpriceNum($id) {
@@ -569,6 +572,17 @@ class ShopcartController extends HomeController {
             $sum += $item['num'];
         }
         return  $sum;
+    }
+
+    public function saveShopListOrderStatus($tag,$data,$cart_sort)
+    {
+        $order   = D("order");
+        $orderid = $order->add($data);
+        M("shoplist")->where("tag='$tag'")->setField('orderid', $orderid);
+        foreach($cart_sort as $sort)
+        {
+            unset($_SESSION['cart'][$sort]);
+        }
     }
 
 }
