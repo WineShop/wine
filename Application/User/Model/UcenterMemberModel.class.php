@@ -163,6 +163,43 @@ class UcenterMemberModel extends Model{
 		}
 	}
 
+    /* 第三方登录 */
+    public function sync_login($username, $password, $type = 1){
+        $map = array();
+        switch ($type) {
+            case 1:
+                $map['username'] = $username;
+                break;
+            case 2:
+                $map['email'] = $username;
+                break;
+            case 3:
+                $map['mobile'] = $username;
+                break;
+            case 4:
+                $map['id'] = $username;
+                break;
+            default:
+                return 0; //参数错误
+        }
+        /* 获取用户数据 */
+        $user = $this->where($map)->find();
+        if(is_array($user) && $user['status']){
+            /* 验证用户密码 */
+            if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
+                $this->updateLogin($user['id']); //更新用户登录信息
+                $this->setUserCache($user,1);    //设置用户缓存
+                return true;
+            } else {
+                $this->error = '密码错误！';
+                return false;
+            }
+        } else {
+            $this->error = '用户不存在或被禁用！';
+            return false;
+        }
+    }
+
     /**
      * 用户登录认证
      * @param  string  $username 用户名

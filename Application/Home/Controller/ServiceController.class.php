@@ -79,7 +79,7 @@ class ServiceController extends HomeController {
 
 
     public function add(){
-        $data=M("member")->limit(1)->find();
+        $data=M("ucenter_member")->limit(1)->find();
         $this->assign('info',$data);
         $this->display();
     }
@@ -90,7 +90,7 @@ class ServiceController extends HomeController {
             $message->create();
             $data["content"]  = $_POST["content"];
             $data["goodid"]   = $_POST["goodid"];
-            $data["uid"]      = D('member')->uid();
+            $data["uid"]      = is_login();
             $data["create_time"]=NOW_TIME;
             $data["time"]     = date("Y-m-d H:i:s",time());
             $data["status"]   = 1;

@@ -257,7 +257,7 @@ class AuthManagerController extends AdminController{
         foreach ($user_groups as $value){
             $ids[]      =   $value['group_id'];
         }
-        $nickname       =   D('Member')->getNickName($uid);
+        $nickname       =   get_nickname($uid);
         $this->assign('nickname',   $nickname);
         $this->assign('auth_groups',$auth_groups);
         $this->assign('user_groups',implode(',',$ids));

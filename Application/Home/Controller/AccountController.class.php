@@ -21,7 +21,7 @@ class AccountController extends HomeController {
         $this->assign('uid', $uid);
 
         /*最后一次登录时间*/
-        $userCache = D('Member')->getUserCache();
+        $userCache = getUserCache();
         $this->assign('last_login_time', $userCache['last_login_time']);
 
         $this->meta_title = '安全中心';
@@ -56,7 +56,7 @@ class AccountController extends HomeController {
         $this->assign('hotsearch',$hotsearch);
         $this->assign('uid', $uid);
 
-        $user = D('Member')->getUserCache();
+        $user = getUserCache();
         $this->assign('email', $user['email']);
         $this->meta_title = '验证邮箱';
 
@@ -67,7 +67,7 @@ class AccountController extends HomeController {
 
         $uid = $this->login();
 
-        $user = D('Member')->getUserCache();
+        $user = getUserCache();
         $this->assign('email', $user['email']);
         $this->meta_title = '支付密码设置';
 
@@ -165,7 +165,7 @@ class AccountController extends HomeController {
             if(!$uid)
                 $this->ajaxError('对不起，您还没有登陆');
 
-            $user  = D('Member')->getUserCache();
+            $user  = getUserCache();
             $mail  = $user['email'];
 
             $verification = M("verification");

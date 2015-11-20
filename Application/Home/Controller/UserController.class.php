@@ -4,8 +4,6 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 烟消云散 <1010422715@qq.com> <http://www.yershop.com>
-// +----------------------------------------------------------------------
 
 namespace Home\Controller;
 use User\Api\UserApi;
@@ -132,8 +130,6 @@ class UserController extends HomeController {
             $this->display();
         }
     }
-
-
 
 
     /* 退出登录 */

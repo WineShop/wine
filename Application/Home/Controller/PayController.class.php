@@ -138,31 +138,29 @@ class PayController extends HomeController {
      */
  public function successaccount($money, $param) {
 		if (session("pay_verify") == true) {
-		session("pay_verify", null);
-		//处理goods1业务订单、改名good1业务订单状态
-		$pay=M("pay");
-            $pay->create();
-		$data["out_trade_no"]=$param['order_id'];
-         $data["status"]=2;	
-		 $uid=D('member')->uid();
-		 $data["uid"]=$uid;
-		  $data["type"]=3;	
-		$pay->add($data);		
-		// 配置邮件提醒
-         M("member")->where("uid='$uid'")->setField('account',$money);
-		$mail=get_email($uid);//获取会员邮箱
-		$title="支付提醒";
-		$content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>充值成功，交易号'.$param['order_id'];
-		if( C('MAIL_PASSWORD'))
-
-		{
-		SendMail($mail,$title,$content);
+             session("pay_verify", null);
+             //处理goods1业务订单、改名good1业务订单状态
+             $pay=M("pay");
+             $pay->create();
+             $data["out_trade_no"]=$param['order_id'];
+             $data["status"]=2;
+             $uid=is_login();
+             $data["uid"]=$uid;
+             $data["type"]=3;
+             $pay->add($data);
+            // 配置邮件提醒
+             M("member")->where("uid='$uid'")->setField('account',$money);
+            $mail=get_email($uid);//获取会员邮箱
+            $title="支付提醒";
+            $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>充值成功，交易号'.$param['order_id'];
+            if( C('MAIL_PASSWORD'))
+            {
+                SendMail($mail,$title,$content);
+            }
+		}else {
+		    E("Access Denied");
 		}
-		}
-		else {
-		E("Access Denied");
-		}
-		}
+ }
  public function success($money, $param) {
 		if (session("pay_verify") == true) {
 		session("pay_verify", null);

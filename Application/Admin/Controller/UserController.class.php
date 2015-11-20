@@ -63,13 +63,13 @@ class UserController extends AdminController {
         $uid    =   $User->login(UID, $password, 4);
         ($uid == -2) && $this->error('密码不正确');
 
-        $Member =   D('Member');
+        $Member =   M('ucenter_member');
         $data   =   $Member->create(array('nickname'=>$nickname));
         if(!$data){
             $this->error($Member->getError());
         }
 
-        $res = $Member->where(array('uid'=>$uid))->save($data);
+        $res = $Member->where(array('id'=>$uid))->save($data);
 
         if($res){
             $user               =   session('user_auth');

@@ -146,7 +146,7 @@ class CenterController extends HomeController {
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
 
-        $user = D('Member')->getUserCache();
+        $user                  = getUserCache();
         $table                 =  D("personenvelope");
         $condition['uid']      = $uid;
         $condition['group']    = "2";
@@ -485,7 +485,7 @@ class CenterController extends HomeController {
         }else{
             $address = M("transport");
             $list    = $address->where("uid='$uid'")->select();
-            $user    = D('Member')->getUserCache();
+            $user    = getUserCache();
             $this->assign('list', $list);
             $this->meta_title = $user['username'].'的地址管理';
 
