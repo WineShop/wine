@@ -349,7 +349,7 @@ class UserController extends HomeController {
 
         }
         $uid=I("get.id");
-        $cut=M("member")->where("uid='$uid'")->select();
+        $cut=M("ucenter_member")->where("id='$uid'")->select();
         $this->assign('cut',$cut);
         $images = new \Think\Image();
         if ($_POST['pic']){
@@ -358,7 +358,8 @@ class UserController extends HomeController {
             $images->open($src);
             $name= time().$src;
             $x=$_POST["x"];
-            $y=$_POST["y"];	$w=$_POST["w"];
+            $y=$_POST["y"];
+            $w=$_POST["w"];
             $h=$_POST["h"];
             $s=$images->crop(400, 400,100,30)->save('./'.$name);
             echo $s;

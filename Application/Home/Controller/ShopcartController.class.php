@@ -368,7 +368,7 @@ class ShopcartController extends HomeController {
             //读取配置，1000积分兑换1元
             $ratio= ceil($score/C('RATIO'));
             $data['score']=$score;
-            M("member")->where("uid='$uid'")->setDec('score',$score);
+            M("ucenter_member")->where("id='$uid'")->setDec('score',$score);
         }else{
             $ratio = 0;  //积分抵消的金额
             $score = 0;  //积分

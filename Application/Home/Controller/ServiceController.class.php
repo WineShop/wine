@@ -79,7 +79,8 @@ class ServiceController extends HomeController {
 
 
     public function add(){
-        $data=M("ucenter_member")->limit(1)->find();
+        $field   = 'id,sex,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+        $data=M("ucenter_member")->field($field)->limit(1)->find();
         $this->assign('info',$data);
         $this->display();
     }

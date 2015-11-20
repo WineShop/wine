@@ -458,21 +458,16 @@ class CenterController extends HomeController {
     public  function update() {
         $uid    = $this->login();
         $face   = $_POST['user_face'];
-        if($face != ''){
-            $uface = M('ucenter_member')->where("id='$uid'")->setField("face",$face);
-            if($uface){
-                $this->ajaxError('对不起，修改失败！');
-            }
+        if(empty($face)){
+            unset($_POST['user_face']);
         }
-        unset($_POST['user_face']);
 
         $info   = $_POST;
-        $member = M("member");
-        $result = $member->where("uid='$uid'")->save($info);
+        $member = M("ucenter_member");
+        $result = $member->where("id='$uid'")->save($info);
         $this->ajaxSuccess('您已成功修改！');
-
-
     }
+
     public  function address() {
         $uid = $this->login();
 

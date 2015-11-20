@@ -41,7 +41,7 @@ class UserController extends AdminController {
      * @author huajie <banhuajie@163.com>
      */
     public function updateNickname(){
-        $nickname = M('Member')->getFieldByUid(UID, 'nickname');
+        $nickname = M('ucenter_member')->getFieldByUid(UID, 'nickname');
         $this->assign('nickname', $nickname);
         $this->meta_title = '修改昵称';
         $this->display('updatenickname');

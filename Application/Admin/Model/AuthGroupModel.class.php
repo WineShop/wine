@@ -67,7 +67,7 @@ class AuthGroupModel extends Model {
         if( $del!==false ){
             foreach ($uid_arr as $u){
             	//判断用户id是否合法
-            	if(M('Member')->getFieldByUid($u,'uid') == false){
+            	if(M('ucenter_member')->getFieldByUid($u,'id') == false){
             		$this->error = "编号为{$u}的用户不存在！";
             		return false;
             	}

@@ -149,7 +149,7 @@ class PayController extends HomeController {
              $data["type"]=3;
              $pay->add($data);
             // 配置邮件提醒
-             M("member")->where("uid='$uid'")->setField('account',$money);
+             M("ucenter_member")->where("id='$uid'")->setField('money',$money);
             $mail=get_email($uid);//获取会员邮箱
             $title="支付提醒";
             $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>充值成功，交易号'.$param['order_id'];
