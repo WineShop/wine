@@ -149,7 +149,7 @@ class UcenterMemberModel extends Model{
 				return 0; //参数错误
 		}
 		/* 获取用户数据 */
-        $field   = 'id,sex,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+        $field   = 'id,sex,password,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
         $user    = $this->where($map)->field($field)->find();
 		if(is_array($user) && $user['status']){
 			/* 验证用户密码 */
@@ -184,7 +184,8 @@ class UcenterMemberModel extends Model{
                 return 0; //参数错误
         }
         /* 获取用户数据 */
-        $user = $this->where($map)->find();
+        $field   = 'id,status,is_admin,password,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+        $user    = M('ucenter_member')->where($map)->field($field)->find();
         if(is_array($user) && $user['status']){
             /* 验证用户密码 */
             if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
@@ -228,7 +229,8 @@ class UcenterMemberModel extends Model{
                 return 0; //参数错误
         }
         /* 获取用户数据 */
-        $user = $this->where($map)->find();
+        $field   = 'id,status,is_admin,password,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+        $user    = M('ucenter_member')->where($map)->field($field)->find();
         if(is_array($user) && $user['status']){
             /** 验证是否是不是管理员 */
             if($is_admin != $user['is_admin'])

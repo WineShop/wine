@@ -4,22 +4,25 @@
 define(function(require, exports, module){
     var main = require('main');
     var T    = require('T');
+    main.modalEvent();
 
     var login = function(){
         /* 登陆表单获取焦点变色 */
         $(".login-form").on("focus", "input", function(){
             $(this).closest('.item').addClass('focus');
         }).on("blur","input",function(){
-                $(this).closest('.item').removeClass('focus');
-            });
+            $(this).closest('.item').removeClass('focus');
+        });
 
 
         $(".login-btn").click(function(){
             $("button:submit").addClass("log-in").attr("disabled", true);
             var url     = $("#login").attr('action');
+            var type    = checkFormPut();
             var param   = {
                 username    : $("input[name=username]").val(),
-                password    : $("input[name=password]").val()
+                password    : $("input[name=password]").val(),
+                type        : type
             };
             T.restPost(url,param,function(success){
                 main.modalAlert(success.msg,'success');
@@ -31,6 +34,28 @@ define(function(require, exports, module){
         });
 
 
+
+        //验证表单
+        var checkFormPut = function(){
+            if($.trim($("input[name=username]").val()) != '' && $.trim($("input[name=password]").val()) !='')
+            {
+                var reg1 = /^\w+@(\w+\.)+[a-zA-Z0-9]{1,5}$/;
+                var reg2 = /^\d{11}&/;
+                if(reg2.test($.trim($("#inputusername").val())))
+                {
+                    return 3;           //3代表手机
+                }else if(reg1.test($.trim($("#inputusername").val())))
+                {
+                    return 2;           //2表示邮箱
+                }else{
+                    return 1;
+                }
+
+            }else{
+                main.modalAlert('对不起，不能为空！','danger');
+                return false;
+            }
+        }
 
 
         //初始化选中用户名输入框

@@ -36,7 +36,7 @@ class UserController extends AdminController {
 
     /**
      * 修改昵称初始化
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function updateNickname(){
         $nickname = M('ucenter_member')->getFieldByUid(UID, 'nickname');
@@ -47,7 +47,7 @@ class UserController extends AdminController {
 
     /**
      * 修改昵称提交
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function submitNickname(){
         //获取参数
@@ -82,7 +82,7 @@ class UserController extends AdminController {
 
     /**
      * 修改密码初始化
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function updatePassword(){
         $this->meta_title = '修改密码';
@@ -91,7 +91,7 @@ class UserController extends AdminController {
 
     /**
      * 修改密码提交
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function submitPassword(){
         //获取参数
@@ -117,7 +117,7 @@ class UserController extends AdminController {
 
     /**
      * 用户行为列表
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function action(){
         //获取列表数据
@@ -134,7 +134,7 @@ class UserController extends AdminController {
 
     /**
      * 新增行为
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function addAction(){
         $this->meta_title = '新增行为';
@@ -144,7 +144,7 @@ class UserController extends AdminController {
 
     /**
      * 编辑行为
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function editAction(){
         $id = I('get.id');
@@ -158,7 +158,7 @@ class UserController extends AdminController {
 
     /**
      * 更新行为
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function saveAction(){
         $res = D('Action')->update();

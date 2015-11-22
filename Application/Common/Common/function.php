@@ -482,26 +482,45 @@ function time_format($time = NULL,$format='Y-m-d H:i'){
  * @return string       用户名
  */
 function get_regname($uid = 0){
-    $user     = new \User\Api\UserApi;
-    $userInfo = $user->getUserCache();
+    if($uid != 0)
+    {
+        $row = M('ucenter_member')->field('username')->getbyId($uid);
+        return $row['username'];
+    }else{
+        $user     = new \User\Api\UserApi;
+        $userInfo = $user->getUserCache();
+        return $userInfo['username'];
+    }
 
-    return $userInfo['username'];
 }
 
-function get_regmobile(){
-    $user     = new \User\Api\UserApi;
-    $userInfo = $user->getUserCache();
-    return $userInfo['mobile'];
+function get_regmobile($uid = 0){
+    if($uid != 0)
+    {
+        $row = M('ucenter_member')->field('mobile')->getbyId($uid);
+        return $row['mobile'];
+    }else{
+        $user     = new \User\Api\UserApi;
+        $userInfo = $user->getUserCache();
+        return $userInfo['mobile'];
+    }
+
 }
 
 
-function get_username(){
-    $user     = new \User\Api\UserApi;
-    $userInfo = $user->getUserCache();
-    if(empty($userInfo))
-        return null;
-    else
-        return empty($userInfo['username'])? substr($userInfo['email'],0,strrpos($userInfo['email'],'@')) : $userInfo['username'];
+function get_username($uid = 0)
+{
+    if ($uid != 0) {
+        $row = M('ucenter_member')->field('username')->getbyId($uid);
+        return $row['username'];
+    } else {
+        $user = new \User\Api\UserApi;
+        $userInfo = $user->getUserCache();
+        if (empty($userInfo))
+            return null;
+        else
+            return empty($userInfo['username']) ? substr($userInfo['email'], 0, strrpos($userInfo['email'], '@')) : $userInfo['username'];
+    }
 }
  
 /**
@@ -510,7 +529,7 @@ function get_username(){
  * @return string       用户昵称
  */
  function get_qq($uid){
-    $row = M('ucenter_member')->field('qq')->getbyUid($uid);
+    $row = M('ucenter_member')->field('qq')->getbyId($uid);
     return $row['qq'];
 }
 
@@ -537,17 +556,14 @@ function get_realname($uid){
     $row = M('transport')->order("id desc")->field('realname')->limit(1)->getbyUid($uid);
     return $row['realname'];
 }function get_score($uid){
-    $row = M('ucenter_member')->field('score')->getbyUid($uid);
+    $row = M('ucenter_member')->field('score')->getbyId($uid);
     return $row['score'];
 }
 function get_cellphone($uid){
     $row = M('transport')->order("id desc")->field('cellphone')->limit(1)->getbyUid($uid);
     return $row['cellphone'];
 }
-/*function get_lever($uid){
-    $row = M('member')->field('lever')->getbyUid($uid);
-    return $row['lever'];
-}*/
+
 function get_nickname($uid = 0){
 
     static $list;
@@ -585,6 +601,12 @@ function get_nickname($uid = 0){
     return $name;
 }
 
+function get_userinfo($uid)
+{
+    $field   = 'id,sex,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+    $row   = M('ucenter_member')->field($field)->getbyId($uid);
+    return $row;
+}
 /**
  * 获取文章当前位置信息并缓存分类
  * @param  integer $id    分类ID
@@ -1028,7 +1050,9 @@ function user_log($title)
         $data ['create_time'] = time ();
         $data ['update_time'] = time ();
         $data ['title']       = $title;
-        $data ['uid']         =$uid;
+        $data ['uid']         = $uid;
+        $userCache            = getUserCache();
+        $data['email']        = $userCache['email'];
         M ( 'UserLog' )->add ( $data );
     }
 
@@ -1193,16 +1217,18 @@ function execute_action($rules = false, $action_id = null, $user_id = null){
     }
     return $return;
 }
-//根据订单编码，获取会员邮箱
- function get_email($uid){
-     $user       = new \User\Api\UserApi;
-     $userCache  = $user->getUserCache();
-     if (empty($userCache)) {
+//获取会员邮箱
+ function get_email($uid = 0 ){
+     if($uid != 0)
+     {
          $email = M('ucenter_member')->where("id='$uid'")->getField("email");
          return $email;
-     } else {
+     }else{
+         $user       = new \User\Api\UserApi;
+         $userCache  = $user->getUserCache();
          return $userCache['email'];
      }
+
 
 }
 //基于数组创建目录和文件

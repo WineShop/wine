@@ -4,8 +4,6 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
-// +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 use User\Api\UserApi;
@@ -31,7 +29,7 @@ class PublicController extends Controller {
             /*if(!check_verify($verify)){
                 \Think\RestTool::instance()->error('验证码输入错误！');
             }*/
-
+            $type   = I('post.type');
             if(empty($username) || empty($password))
             {
                 \Think\RestTool::instance()->error('用户名和密码都不能为空！');
@@ -39,7 +37,7 @@ class PublicController extends Controller {
 
             /* 调用UC登录接口登录 */
             $user     = new UserApi;
-            $userInfo = $user->login($username, $password,1,true);
+            $userInfo = $user->login($username, $password,$type,true);
             if($userInfo['status'] == 'ok')
             {
                 $is_forver = true;

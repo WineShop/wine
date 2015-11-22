@@ -41,7 +41,7 @@ class UserApi extends Api{
      * @param  bool $admin_login  是否是后台登录
      * @return integer           登录成功-用户ID，登录失败-错误编号
      */
-    public function login($username, $password, $type = 1,$admin_login = false){
+    public function login($username, $password, $type = 2,$admin_login = false){
         if($admin_login)
             return $this->model->admin_login($username, $password, $type);
         else
