@@ -4,20 +4,20 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: kevin <kevin.liu@yunzhihui.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台留言管理控制器
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author kevin <kevin.liu@yunzhihui.com>
  */
 class MessageController extends AdminController {
 
     /**
      * 留言管理列表
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function index(){ 
      
@@ -30,7 +30,7 @@ class MessageController extends AdminController {
     /**
      * 显示留言树，仅支持内部调
      * @param  array $tree 留言树
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
  
     /* 编辑留言 */
@@ -67,7 +67,7 @@ class MessageController extends AdminController {
     /**
      * 显示留言树，仅支持内部调
      * @param  array $tree 留言树
-     * @author  <zuojiazi@vip.qq.com>
+     * @author  <kevin.liu@yunzhihui.com>
      */
  
     /* 回复留言 */

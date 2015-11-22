@@ -203,29 +203,7 @@ class UserController extends HomeController {
         }
         return $error;
     }
-    /*public function cart(){
-        $cart=$_SESSION["cart"];
-        if($cart){
-            foreach($cart as $k=>$val){
-                $id=$val["id"];
-                $table->goodid=$id;
 
-                $uid = is_login();
-                $table->uid=$uid;
-                $table->partnerid=get_partnerid($uid);
-                $num=M("shopcart")->where("goodid='$id'")->getField("num");
-                if($num){
-                    $table->num=$val["num"]+$num;
-                    $table->save();
-                }
-                else{
-                    $table->num=$val["num"];
-                    $table->add();
-                }
-            }
-            return $uid;
-        }
-    }*/
 
     /**
      * 修改密码提交

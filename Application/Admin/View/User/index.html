@@ -28,7 +28,8 @@
         <tr>
 		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
 		<th class="">UID</th>
-		<th class="">昵称</th>
+		<th class="">Email</th>
+		<th class="">用户名</th>
 		<th class="">积分</th>
 		<th class="">登录次数</th>
 		<th class="">最后登录时间</th>
@@ -42,8 +43,9 @@
 		<volist name="_list" id="vo">
 		<tr>
             <td><input class="ids" type="checkbox" name="id[]" value="{$vo.uid}" /></td>
-			<td>{$vo.uid} </td>
-			<td>{$vo.nickname}</td>
+			<td>{$vo.id} </td>
+			<td>{$vo.email} </td>
+			<td>{$vo.username}</td>
 			<td>{$vo.score}</td>
 			<td>{$vo.login}</td>
 			<td><span>{$vo.last_login_time|time_format}</span></td>

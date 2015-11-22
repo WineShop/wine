@@ -4,32 +4,30 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
-// +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 use User\Api\UserApi;
 
 /**
  * 后台用户控制器
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author kevin <kevin.liu@yunzhihui.com>
  */
 class UserController extends AdminController {
 
     /**
      * 用户管理首页
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function index(){
         $nickname       =   I('nickname');
         $map['status']  =   array('egt',0);
         if(is_numeric($nickname)){
-            $map['uid|nickname']=   array(intval($nickname),array('like','%'.$nickname.'%'),'_multi'=>true);
+            $map['id|nickname']=   array(intval($nickname),array('like','%'.$nickname.'%'),'_multi'=>true);
         }else{
             $map['nickname']    =   array('like', '%'.(string)$nickname.'%');
         }
-
-        $list   = $this->lists('Member', $map);
+        $field   = 'id,sex,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+        $list   = $this->lists('ucenter_member', $map,$field);
         int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '用户信息';

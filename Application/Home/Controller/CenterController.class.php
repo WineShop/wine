@@ -93,7 +93,6 @@ class CenterController extends HomeController {
 
     public  function reason() {
         $this->display();
-
     }
 
     /*****用户签到***************/
@@ -115,7 +114,7 @@ class CenterController extends HomeController {
                 $data['create_time']   = NOW_TIME;
                 if($iswork->add($data))
                 {
-                    $member->where("uid='$uid'")->setInc('score',10); // 用户的积分加10
+                    $member->where("id='$uid'")->setInc('score',10); // 用户的积分加10
                     $msg = "已签到，积分+10";
                     $this->ajaxSuccess($msg);
                 }
@@ -129,7 +128,7 @@ class CenterController extends HomeController {
             $data['uid']            = $uid;
             $data['status']         = "1";
             $data['create_time']    = NOW_TIME;
-            $member->where("uid='$uid'")->setInc('score',10); // 用户的积分加10
+            $member->where("id='$uid'")->setInc('score',10); // 用户的积分加10
 
             if($iswork->add($data))
             {

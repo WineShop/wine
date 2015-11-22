@@ -13,7 +13,6 @@ use Think\Model;
 /**
  * 用户组模型类
  * Class AuthGroupModel
- * @author 朱亚杰 <zhuyajie@topthink.net>
  */
 class AuthGroupModel extends Model {
     const TYPE_ADMIN                = 1;                   // 管理员用户组类型标识
