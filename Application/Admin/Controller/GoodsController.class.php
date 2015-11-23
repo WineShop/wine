@@ -27,7 +27,7 @@ class GoodsController extends AdminController {
      *      返回false则表示当前访问无权限
      *      返回null，则会进入checkRule根据节点授权判断权限
      *
-     * @author 朱亚杰  <xcoolcc@gmail.com>
+     * @author kevin  <lamp365@163.com>
      */
     protected function checkDynamic(){
         $cates = AuthGroupModel::getAuthCategories(UID);
@@ -65,19 +65,19 @@ class GoodsController extends AdminController {
      */
     protected function getMenu($ismenu = null){
         //获取动态分类
-        $cate_auth  =   AuthGroupModel::getAuthCategories(UID); //获取当前用户所有的内容权限节点
-        $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
+//        $cate_auth  =   AuthGroupModel::getAuthCategories(UID); //获取当前用户所有的内容权限节点
+//        $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
 
 		$cate       =   M('Category')->where(array('status'=>1,'ismenu'=>$ismenu))->field('id,title,pid,allow_publish')->order('pid,sort')->select();
 
         //没有权限的分类则不显示
-        if(!IS_ROOT){
+      /*  if(!IS_ROOT){
             foreach ($cate as $key=>$value){
                 if(!in_array($value['id'], $cate_auth)){
                     unset($cate[$key]);
                 }
             }
-        }
+        }*/
 
         $cate           =   list_to_tree($cate);    //生成分类树
 

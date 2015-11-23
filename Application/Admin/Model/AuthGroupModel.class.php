@@ -129,6 +129,7 @@ class AuthGroupModel extends Model {
         if ( $session ) {
             $result = session($session);
         }
+
         if ( $uid == UID && !empty($result) ) {
             return $result;
         }
