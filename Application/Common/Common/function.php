@@ -87,7 +87,7 @@ function get_sdk_title($name){
  */
 function is_administrator($uid = null){
     $uid = is_null($uid) ? is_login() : $uid;
-    return $uid && (intval($uid) === C('USER_ADMINISTRATOR'));
+    return intval($uid) == C('USER_ADMINISTRATOR') ? 1 : 0;
 }
 
 /**

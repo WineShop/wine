@@ -33,6 +33,15 @@ class AdminController extends Controller {
         }
         C($config); //添加配置
 
+        // 是否是超级管理员
+        define('IS_ROOT',   is_administrator());
+        /*if(!IS_ROOT && C('ADMIN_ALLOW_IP')){
+            // 检查IP地址访问
+            if(!in_array(get_client_ip(),explode(',',C('ADMIN_ALLOW_IP')))){
+                $this->error('403:禁止访问');
+            }
+        }*/
+
         // 检测访问权限
         $access =   $this->accessControl();
         if ( $access === false ) {
@@ -58,7 +67,7 @@ class AdminController extends Controller {
      * @param string  $rule    检测的规则
      * @param string  $mode    check模式
      * @return boolean
-     * @author 朱亚杰  <xcoolcc@gmail.com>
+     * @author kevin  <lamp365@163.com>
      */
     final protected function checkRule($rule, $type=AuthRuleModel::RULE_URL, $mode='url'){
         if(IS_ROOT){
@@ -81,7 +90,7 @@ class AdminController extends Controller {
      *      返回false则表示当前访问无权限
      *      返回null，则会进入checkRule根据节点授权判断权限
      *
-     * @author 朱亚杰  <xcoolcc@gmail.com>
+     * @author kevin  <lamp365@163.com>
      */
     protected function checkDynamic(){
         if(IS_ROOT){
@@ -99,7 +108,7 @@ class AdminController extends Controller {
      *   返回 **false**, 不允许任何人访问(超管除外)
      *   返回 **true**, 允许任何管理员访问,无需执行节点权限检测
      *   返回 **null**, 需要继续执行节点权限检测决定是否允许访问
-     * @author 朱亚杰  <xcoolcc@gmail.com>
+     * @author kevin  <lamp365@163.com>
      */
     final protected function accessControl(){
         if(IS_ROOT){
@@ -126,7 +135,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * @author kevin  <zhuyajie@topthink.net>
      */
     final protected function editRow ( $model ,$data, $where , $msg ){
         $id    = array_unique((array)I('id',0));
@@ -152,7 +161,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息,可以设置四个元素 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * @author kevin  <zhuyajie@topthink.net>
      */
     protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！')){
         $data    =  array('status' => 0);
@@ -166,7 +175,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * @author kevin  <zhuyajie@topthink.net>
      */
     protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！')){
         $data    =  array('status' => 1);
@@ -194,7 +203,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author 朱亚杰  <zhuyajie@topthink.net>
+     * @author kevin  <zhuyajie@topthink.net>
      */
     protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！')) {
         $data['status']         =   -1;
@@ -231,7 +240,7 @@ class AdminController extends Controller {
 
     /**
      * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
-     * @author 朱亚杰  <xcoolcc@gmail.com>
+     * @author kevin  <lamp365@163.com>
      */
     final public function getMenus($controller=CONTROLLER_NAME){
         $menus  =   session('ADMIN_MENU_LIST'.$controller);
@@ -325,7 +334,7 @@ class AdminController extends Controller {
      *
      * 注意,返回的主菜单节点数组中有'controller'元素,以供区分子节点和主节点
      *
-     * @author 朱亚杰 <xcoolcc@gmail.com>
+     * @author kevin <lamp365@163.com>
      */
     final protected function returnNodes($tree = true){
         static $tree_nodes = array();
@@ -374,7 +383,7 @@ class AdminController extends Controller {
      *
      * @param array        $base    基本的查询条件
      * @param boolean      $field   单表模型用不到该参数,要用在多表join时为field()方法指定参数
-     * @author 朱亚杰 <xcoolcc@gmail.com>
+     * @author kevin <lamp365@163.com>
      *
      * @return array|false
      * 返回数据集

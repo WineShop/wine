@@ -1,7 +1,7 @@
 <extend name="Public/base"/>
 
 <block name="body">
-	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js?v=<php>echo rand(100,999)</php>"></script>
 	<div class="main-title">
 		<h2>{:isset($info['id'])?'编辑':'新增'}首页推广图片</h2>
 	</div>

@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: Kevin <http://www.myblog365.xyz>
+// | Author: Kevin <http://www.dayblog.cn>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
