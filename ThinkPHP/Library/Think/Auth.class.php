@@ -127,6 +127,7 @@ class Auth{
                 $list[] = $auth ;
             }
         }
+
         if ($relation == 'or' and !empty($list)) {
             return true;
         }
@@ -165,15 +166,19 @@ class Auth{
     protected function getAuthList($uid,$type) {
         static $_authList = array(); //保存用户验证通过的权限列表
         $t = implode(',',(array)$type);
+
         if (isset($_authList[$uid.$t])) {
             return $_authList[$uid.$t];
         }
+
         if( $this->_config['AUTH_TYPE']==2 && isset($_SESSION['_AUTH_LIST_'.$uid.$t])){
             return $_SESSION['_AUTH_LIST_'.$uid.$t];
         }
 
+
         //读取用户所属用户组
         $groups = $this->getGroups($uid);
+
         $ids = array();//保存用户所属用户组设置的所有权限规则id
         foreach ($groups as $g) {
             $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));

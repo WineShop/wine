@@ -4,8 +4,6 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
-// +----------------------------------------------------------------------
 namespace Admin\Controller;
 use Think\Controller;
 use Admin\Model\AuthRuleModel;
@@ -44,6 +42,7 @@ class AdminController extends Controller {
 
         // 检测访问权限
         $access =   $this->accessControl();
+
         if ( $access === false ) {
             $this->error('403:禁止访问');
         }elseif( $access === null ){
@@ -116,6 +115,7 @@ class AdminController extends Controller {
         }
         $allow = C('ALLOW_VISIT');
         $deny  = C('DENY_VISIT');
+
         $check = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
         if ( !empty($deny)  && in_array_case($check,$deny) ) {
             return false;//非超管禁止访问deny中的方法

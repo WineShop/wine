@@ -130,7 +130,7 @@ class AuthManagerController extends AdminController{
     public function access(){
         $this->updateRules();
         $auth_group = M('AuthGroup')->where( array('status'=>array('egt','0'),'module'=>'admin','type'=>AuthGroupModel::TYPE_ADMIN) )
-                                    ->getfield('id,id,title,rules');
+                                    ->getfield('id,status,type,title,rules');
         $node_list   = $this->returnNodes();
         $map         = array('module'=>'admin','type'=>AuthRuleModel::RULE_MAIN,'status'=>1);
         $main_rules  = M('AuthRule')->where($map)->getField('name,id');

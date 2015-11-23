@@ -4,15 +4,13 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: huajie <banhuajie@163.com>
-// +----------------------------------------------------------------------
 namespace Admin\Controller;
 use Admin\Model\AuthGroupModel;
 use Think\Page;
 
 /**
  * 后台内容控制器
- * @author huajie <banhuajie@163.com>
+ * @author kevin <lamp365@163.com>
  */
 class GoodsController extends AdminController {
 
@@ -63,7 +61,7 @@ class GoodsController extends AdminController {
 
     /**
      * 显示左边菜单，进行权限控制
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     protected function getMenu($ismenu = null){
         //获取动态分类
@@ -325,7 +323,7 @@ class GoodsController extends AdminController {
 
     /**
      * 设置一条或者多条数据的状态
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function setStatus($model='Document'){
         return parent::setStatus('Document');
@@ -333,7 +331,7 @@ class GoodsController extends AdminController {
 
     /**
      * 文档新增页面初始化
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function add(){
         //获取左边菜单
@@ -378,7 +376,7 @@ class GoodsController extends AdminController {
 
     /**
      * 文档编辑页面初始化
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function edit(){
         //获取左边菜单
@@ -422,7 +420,7 @@ class GoodsController extends AdminController {
 
     /**
      * 更新一条数据
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function update(){
         $document   =   D('Document');
@@ -465,7 +463,7 @@ class GoodsController extends AdminController {
 
     /**
      * 回收站列表
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function recycle(){
         //获取左边菜单
@@ -496,7 +494,7 @@ class GoodsController extends AdminController {
 
     /**
      * 写文章时自动保存至草稿箱
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function autoSave(){
         $res = D('Document')->autoSave();
@@ -512,7 +510,7 @@ class GoodsController extends AdminController {
 
     /**
      * 草稿箱
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function draftBox(){
         //获取左边菜单
@@ -531,7 +529,7 @@ class GoodsController extends AdminController {
 
     /**
      * 我的文档
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function mydocument($status = null, $title = null){
         //获取左边菜单
@@ -569,7 +567,7 @@ class GoodsController extends AdminController {
 
     /**
      * 还原被删除的数据
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function permit(){
         /*参数过滤*/
@@ -591,7 +589,7 @@ class GoodsController extends AdminController {
 
     /**
      * 清空回收站
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function clear(){
         $res = D('Document')->remove();
@@ -604,7 +602,7 @@ class GoodsController extends AdminController {
 
     /**
      * 移动文档
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function move() {
         if(empty($_POST['ids'])) {
@@ -617,7 +615,7 @@ class GoodsController extends AdminController {
 
     /**
      * 拷贝文档
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function copy() {
         if(empty($_POST['ids'])) {
@@ -630,7 +628,7 @@ class GoodsController extends AdminController {
 
     /**
      * 粘贴文档
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function paste() {
         $moveList = session('moveArticle');
@@ -708,7 +706,7 @@ class GoodsController extends AdminController {
 
     /**
      * 检查数据是否符合粘贴的要求
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     protected function checkPaste($list, $cate_id, $pid){
         $return     =   array('status'=>1);
@@ -760,7 +758,7 @@ class GoodsController extends AdminController {
 
     /**
      * 文档排序
-     * @author huajie <banhuajie@163.com>
+     * @author kevin <lamp365@163.com>
      */
     public function sort(){
         if(IS_GET){
