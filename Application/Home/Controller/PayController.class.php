@@ -150,7 +150,7 @@ class PayController extends HomeController {
              $pay->add($data);
             // 配置邮件提醒
              M("ucenter_member")->where("id='$uid'")->setField('money',$money);
-            $mail=get_email($uid);//获取会员邮箱
+            $mail=get_email();//获取会员邮箱
             $title="支付提醒";
             $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>充值成功，交易号'.$param['order_id'];
             if( C('MAIL_PASSWORD'))
@@ -163,34 +163,29 @@ class PayController extends HomeController {
  }
  public function success($money, $param) {
 		if (session("pay_verify") == true) {
-		session("pay_verify", null);
-		//处理goods1业务订单、改名good1业务订单状态
-		M("pay")->where(array('out_trade_no' => $param['order_id']))->setField('status',2);
+            session("pay_verify", null);
+            //处理goods1业务订单、改名good1业务订单状态
+            M("pay")->where(array('out_trade_no' => $param['order_id']))->setField('status',2);
 
-		$data = array('status'=>'1','ispay'=>'2');//设置订单为已经支付,状态为已提交
-		M('order')->where(array('tag' => $param['order_id']))->setField($data);
-		// 配置邮件提醒
-		$uid=M("pay")->where(array('out_trade_no' => $param['order_id']))->getField('uid');
-		$mail=get_email($uid);//获取会员邮箱
-		$title="支付提醒";
-		$content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>支付了订单，交易号'.$param['order_id'];
-		if( C('MAIL_PASSWORD'))
-
-		{
-		SendMail($mail,$title,$content);
-		}
-		}
-		else {
-		E("Access Denied");
-		}
-		}
+            $data = array('status'=>'1','ispay'=>'2');//设置订单为已经支付,状态为已提交
+            M('order')->where(array('tag' => $param['order_id']))->setField($data);
+            // 配置邮件提醒
+    //		$uid=M("pay")->where(array('out_trade_no' => $param['order_id']))->getField('uid');
+            $mail=get_email();//获取会员邮箱
+            $title="支付提醒";
+            $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>支付了订单，交易号'.$param['order_id'];
+            if( C('MAIL_PASSWORD'))
+            {
+                SendMail($mail,$title,$content);
+            }
+		}else {
+            E("Access Denied");
+        }
+ }
 	 
 	 public function over() {
-    $this->meta_title = '支付成功';
- 
+            $this->meta_title = '支付成功';
             $this->display('success');
-
-       
-    }
+     }
 
 }
