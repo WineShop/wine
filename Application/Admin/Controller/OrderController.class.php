@@ -4,26 +4,27 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <lamp365@163.com>
  */
 class OrderController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
     public function index(){
         /* 查询条件初始化 */
 	
-       $map  = array('status' => 1);
-       $list = $this->lists('order', $map,'id desc');
+        $map    = array('status' => 1);
+        $field  = 'id,tag,orderid,pricetotal,create_time,status,uid,display,ispay,total,addressid,message,backinfo';
+        $list   = $this->lists('order', $map,'id desc',$field);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
@@ -35,7 +36,7 @@ class OrderController extends AdminController {
 
     /**
      * 新增订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function add(){
         if(IS_POST){
@@ -60,7 +61,7 @@ class OrderController extends AdminController {
 
     /**
      * 编辑订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function edit($id = 0){
         if(IS_POST){
@@ -106,7 +107,7 @@ $this->assign('list', $list);
     }
   /**
      * 订单发货
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function send($id = 0){
         if(IS_POST){

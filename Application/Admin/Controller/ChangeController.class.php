@@ -23,7 +23,8 @@ class ChangeController extends AdminController {
         /* 查询条件初始化 */
 		$a=M("change")->where("total='null'")->delete();	 
        $map  = array('status' =>1);
-       $list = $this->lists('change', $map,'id desc');
+        $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
+        $list = $this->lists('change', $map,'id desc',$field);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie

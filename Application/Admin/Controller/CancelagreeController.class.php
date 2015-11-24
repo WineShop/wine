@@ -4,38 +4,38 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <lamp365@163.com>
  */
 class CancelagreeController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
     public function index(){
         /* 查询条件初始化 */
 	
-       $map  = array('status' =>3);
-       $list = $this->lists('cancel', $map,'id');
+       $map    = array('status' =>3);
+        $field = 'id,goodid,num,orderid,create_time,reason,shopid,refuse_info,status,info,cash,count,parameters';
+       $list   = $this->lists('cancel', $map,'id',$field);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
-        
         $this->meta_title = '退货管理';
         $this->display();
     }
 
     /**
      * 新增订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function add(){
         if(IS_POST){
@@ -63,7 +63,7 @@ class CancelagreeController extends AdminController {
 
     /**
      * 编辑订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function edit($id = 0){
         if(IS_POST){
