@@ -385,22 +385,22 @@ select {
 
 /* body 配色*/
 #login-page {
-    color: #000;background-color:#A732D6;
-    
+    color: #000;
+    background-color:#E6CAFF;
 }
 
 
 #login-page .login-form {
     background-color: #fff;
-    box-shadow: 0 0 26px #041A36;
-    border-top-color: #42EC00;
+    box-shadow: 0 0 26px rgba(0,0,0,0.35);
+    border-top-color: #DCB5FF;
 }
 .login-img{background-color: #fff;float:left;
-  width: 290px;
-margin: 100px auto;
-padding: 24px 15px;
+    width: 290px;
+    margin: 100px auto;
+    padding: 24px 15px;
     border-top-color: #42EC00;
-	}
+}
 #login-page .login-form h3 {
     color: #8D9CAA;
 }
@@ -434,11 +434,10 @@ padding: 24px 15px;
 }
 #login-page .login-form .login-btn {
     color: #FFFFFF;
-    background-color: #40C402;
     border-radius: 3px;
 }
 #login-page .login-form .login-btn:hover {
-    background-color: #42EC00;
+    background-color: #CA8EFF;
 }
 #login-page .login-form .login-btn[disabled] {
     opacity: 0.6;

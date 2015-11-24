@@ -45,10 +45,11 @@ img {
 .login-form {
     width: 290px;
     margin: 100px auto;
-    padding: 25px 30px 13px;
+    padding: 25px 30px 25px;
     background-color: #fff;
-    box-shadow: 0 0 26px #041A36;
-    border-top: 8px solid #f63;
+    box-shadow: 0 0 26px #000;
+    border-top: 24px solid #DCB5FF;
+    border-radius: 3px;
 }
 
 .login-form h3 {
@@ -166,7 +167,8 @@ img {
     vertical-align: middle;
     cursor: pointer;
     border: 0;
-    background-color: #40C402;
+    border-radius: 3px;
+    background: #DCB5FF;
 }
 .login-form .login-btn:hover {
     background-color: #42EC00;
