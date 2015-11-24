@@ -32,10 +32,11 @@
             </thead>
 
             <foreach name="data" item="vo">
+                <notempty name="vo.fengmian">
                 <tr>
                     <td align="center"><input class="ids row-selected"  type="checkbox" name="id[]" value="{$vo.id}"></td>
                     <td>
-                            <span class="c5"><A href="{:U('Article/detail?id='.$vo['id'])}" class="dl"> <img src="{:C('QINIUDOMAIN')}/{$vo.fengmian}"  width="70" height="70"/></a>
+                            <span class="c5"><A href="{:U('Article/detail?id='.$vo['id'])}" class="dl"> <img src="{:C('QINIUDOMAIN')}/{$vo.fengmian}" class="imgFalsh"  width="70" height="70"/></a>
                                 <span class="dd"><a href="{:U('Article/detail?id='.$vo['id'])}"  class="dd" title="{$vo.title}"> {$vo.title}</a></span>
                                 <span class="dd">{$vo.parameters}</span>
                             </span>
@@ -50,6 +51,7 @@
 
                     <td style="text-align: center"><span  data-id="{$vo.id}" rel="del" data-url="{:U('Center/delfavor')}" class="shopCarOpt del sm_btn">移除记录</span></td>
                 </tr>
+                </notempty>
             </foreach>
             <tr>
                 <td colspan="5" style="padding-left: 10px;padding-top: 10px;">  <input class="checkbox check-all"  type="checkbox">全选 <span  name="{$vo.id}" rel="del"  class="sm_btn">全部移除</span>    </td>

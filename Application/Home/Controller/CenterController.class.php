@@ -567,8 +567,8 @@ class CenterController extends HomeController {
         $ip = getip();
         ////根据ip获取会员最近浏览商品，tag=3
         $count = M('Records')->where("gid > 0 and ip='$ip'")->count();
-
-        $data = '';
+        $count = min($count,20);
+        $data  = '';
         if($count > 0){
             $Page  = new \Think\Page($count,15);
             $Page->setConfig('prev','上一页');

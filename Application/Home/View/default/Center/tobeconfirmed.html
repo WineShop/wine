@@ -103,16 +103,18 @@
 		    </div>
 		     <div class="deal-area">
 			<p class="red">
-                $status=$po['status'];
-                if($status==13){ echo "<span class='order_tip'>待支付</span>";};
-                if($status==1){ echo "<span class='order_tip'>待发货</span>";};
-                if($status==2){ echo "<span class='order_tip'>已发货</span>";};
-                if($status==3){ echo "<span class='order_tip'>交易成功</span>";};
-                if($status==4){ echo "<span class='order_tip'>申请取消中</span>";};
-                if($status==5){ echo "<span class='order_tip'>取消被拒绝</span>";};
-                if($status==6){ echo "<span class='order_tip'>订单已取消</span>";};
+                <php>
+                    $status=$po['status'];
+                    if($status== -1){ echo "<span class='order_tip'>等待支付</span>";};
+                    if($status==1){ echo "<span class='order_tip'>等待发货</span>";};
+                    if($status==2){ echo "<span class='order_tip'>已经发货</span>";};
+                    if($status==3){ echo "<span class='order_tip'>交易成功</span>";};
+                    if($status==4){ echo "<span class='order_tip'>申请取消</span>";};
+                    if($status==5){ echo "<span class='order_tip'>取消被拒</span>";};
+                    if($status==6){ echo "<span class='order_tip'>订单已取消</span>";};
+                </php>
 
-		    </p>
+            </p>
 		 	<p><a href="{:U('order/detail?id='.$po['orderid'])}" style="margin-top: 14px;" class="confirm">订单详情</a></p>
 			  </div>
 			   <div class="act-area">
