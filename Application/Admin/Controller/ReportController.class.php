@@ -464,18 +464,15 @@ $list=$turnover->where("status='3'")->select();
    public function edit($id = 0){
         if(IS_POST){
             $Form = D('turnover');
- 
-          $user=session('user_auth');
-          $uid=$user['uid'];
+            $uid=is_login();
             if($_POST["id"]){
-			  $Form->create();
+			    $Form->create();
 				$id=$_POST["id"];
 			    /*更新时间*/
-	       $Form->update_time = NOW_TIME;
-             $result=$Form->where("id='$id'")->save();
+	            $Form->update_time = NOW_TIME;
+                $result=$Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_turnover', 'turnover', $data['id'], UID);
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败'.$id);

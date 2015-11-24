@@ -266,6 +266,7 @@ class AdminController extends Controller {
 
             // 查找当前子菜单
             $pid = M('Menu')->where("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'")->getField('pid');
+
             if($pid){
                 // 查找当前主菜单
                 $nav =  M('Menu')->find($pid);
@@ -317,6 +318,7 @@ class AdminController extends Controller {
                                 $map['is_dev']  =   0;
                             }
                             $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
+
                             $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                         }
                     }

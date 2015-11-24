@@ -149,7 +149,7 @@ class UcenterMemberModel extends Model{
 				return 0; //参数错误
 		}
 		/* 获取用户数据 */
-        $field   = 'id,sex,password,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile';
+        $field   = 'id,sex,password,qq,birthday,nickname,face,username,email,last_login_time,last_login_ip,mobile,status,is_admin';
         $user    = $this->where($map)->field($field)->find();
 		if(is_array($user) && $user['status']){
 			/* 验证用户密码 */

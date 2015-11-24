@@ -70,7 +70,7 @@
         </thead>  </tbody>  
            <tr>
 		 <td align="center">{$info.goodid}</td>
-                <td><A href="{:U('Home:Article/detail?id='.$vo['goodid'])}" > <img src="{$info.goodid|get_cover_id|get_cover='path'}"  width="40" height="40"/>{$info.goodid|get_good_name}</A></td>
+                <td><A href="{:U('Home:Article/detail?id='.$vo['goodid'])}" > <img src="{$info.goodid}"  width="40" height="40"/>{$info.goodid|get_good_name}</A></td>
                <td align="center"> <span class="weight">{$info.goodid|get_weight}</span>g</td>
                 <td align="center">{$info.goodid|get_good_price}</td>
                  <td align="center">{$info.num}</td>
