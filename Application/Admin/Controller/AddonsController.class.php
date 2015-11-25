@@ -4,14 +4,14 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: yangweijie <yangweijiester@gmail.com> <code-tech.diandian.com>
+// | Author: kevin <lamp365@163.com> <code-tech.diandian.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 扩展后台管理页面
- * @author yangweijie <yangweijiester@gmail.com>
+ * @author kevin <lamp365@163.com>
  */
 class AddonsController extends AdminController {
 
@@ -41,8 +41,6 @@ class AddonsController extends AdminController {
         $custom_config          =   trim($data['custom_config']);
         if($data['has_config'] && $custom_config){
             $custom_config = <<<str
-
-
         public \$custom_config = '{$custom_config}';
 str;
             $extend[] = $custom_config;
@@ -51,8 +49,6 @@ str;
         $admin_list = trim($data['admin_list']);
         if($data['has_adminlist'] && $admin_list){
             $admin_list = <<<str
-
-
         public \$admin_list = array(
             {$admin_list}
         );
@@ -63,8 +59,6 @@ str;
         $custom_adminlist = trim($data['custom_adminlist']);
         if($data['has_adminlist'] && $custom_adminlist){
             $custom_adminlist = <<<str
-
-
         public \$custom_adminlist = '{$custom_adminlist}';
 str;
             $extend[] = $custom_adminlist;
