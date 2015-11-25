@@ -168,9 +168,9 @@ class ReportController extends AdminController {
 
        /*销售统计*/
        $field  = 'id,orderid,tag,pricetotal,create_time,status,ispay,total,shipprice';
+       $salesmoney = $trans = $total = $salenum = $salecount = 0;
        $order  = M("order")->where("total!=''")->field($field)->select();
 
-       $salesmoney = $trans = $total = $salenum = $salecount = 0;
        foreach($order as $n=> $val){
            $time = $val['create_time'];
            $b    = date('Ymd',$time);
@@ -233,9 +233,9 @@ class ReportController extends AdminController {
        /**
         * 当天换货金额、种类、数量计算
         */
-       $field = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,shopid';
-       $data = M("change")->where("status='1'")->field($field)->select();
+       $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,shopid';
        $change = $changenum = $changecount = 0;
+       $data   = M("change")->where("status='1'")->field($field)->select();
        foreach ($data as $k=>$val) {
            $time = $val['create_time'];
            $f    = date('Ymd',$time);
@@ -257,9 +257,9 @@ class ReportController extends AdminController {
        /**
         * 当天申请取消订单金额、种类、数量计算
         */
-       $field = 'id,goodid,num,orderid,create_time,shopid,status,cash,count';
-       $cdata = M("cancel")->where("status='1'")->field($field)->select();
+       $field  = 'id,goodid,num,orderid,create_time,shopid,status,cash,count';
        $cancel = $cancelnum = $cancelcount = 0;
+       $cdata  = M("cancel")->where("status='1'")->field($field)->select();
        foreach ($cdata as $k=>$val)
        {
            /*格式时间戳为 20141024*/
