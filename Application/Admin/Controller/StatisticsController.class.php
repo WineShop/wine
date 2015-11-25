@@ -40,7 +40,7 @@ class StatisticsController extends AdminController {
         /*销售统计*/
         $field  = 'id,orderid,tag,pricetotal,create_time,status,ispay,total,shipprice';
         $salesmoney = $trans = $total = $salenum = $salecount = 0;
-	    $order=M("order")->where("total!=''")->filed($field)->select();
+	    $order=M("order")->where("total!=''")->field($field)->select();
 	    $qtime=NOW_TIME;
         foreach($order as $n=> $val){
             $time=$val['create_time'];
@@ -108,7 +108,7 @@ class StatisticsController extends AdminController {
      */
      $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,shopid';
      $change = $changenum = $changecount = 0;
-     $data = M("change")->where("status='1'")->filed($field)->select();
+     $data = M("change")->where("status='1'")->field($field)->select();
      $eqtime=NOW_TIME;
      foreach ($data as $k=>$val) {
          $e=date('Ymd',$eqtime);/*格式时间戳为 20141024*/
@@ -232,7 +232,7 @@ class StatisticsController extends AdminController {
       /*本周销量统计*/
      $field      = 'id,orderid,tag,pricetotal,create_time,status,ispay,total,shipprice';
      $salesmoney = $trans = $total = $salenum = $salecount = 0;
-      $order=M("order")->where("total!=''")->filed($field)->select();
+      $order=M("order")->where("total!=''")->field($field)->select();
       foreach($order as $n=> $val){
       $time=$val['create_time'];
       $a=date('YmdHis',$time);/*格式时间戳为 20141020000*/
@@ -365,7 +365,7 @@ class StatisticsController extends AdminController {
     $data["uid"]=is_login();
     $y=date('W',NOW_TIME);/*本年度的第几周*/
     $data["info"]=$y;
-    $turn_data = $turnover->where("status='2'")->filed('id,create_time')->order("id desc")->limit(1)->find();
+    $turn_data = $turnover->where("status='2'")->field('id,create_time')->order("id desc")->limit(1)->find();
     /*格式时间戳为 20141024*/
     $r=date('W',$turn_data['create_time']);/*本年度的第几周*/
     if($y==$r){

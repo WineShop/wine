@@ -24,7 +24,7 @@ class CancelController extends AdminController {
 	
        $map  = array('status' =>1);
        $field = 'id,goodid,num,orderid,create_time,reason,shopid,refuse_info,status,info,cash,count,parameters';
-       $list = $this->lists('cancel', $map,'id',$field);
+       $list = $this->lists('cancel', $map,'id desc',$field);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie

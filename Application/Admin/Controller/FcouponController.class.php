@@ -23,7 +23,7 @@ class FcouponController extends AdminController {
         /* 查询条件初始化 */
 	
        $map  = array('status' => 1);
-       $list = $this->lists('fcoupon', $map,'id');
+       $list = $this->lists('fcoupon', $map,'id desc');
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie

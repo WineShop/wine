@@ -10,7 +10,6 @@
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="{:U('add')}">新 增</a>
 		  <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
          <!-- 高级搜索 -->
         <div class="search-form fr cf">
@@ -49,10 +48,10 @@
 				
 						
                         <td>{$pay.money}</td>
-                         <td><eq name="pay['type']" value="1">在线支付</eq>
-						 <eq name="pay['type']" value="2">货到付款</eq></td>
-						 <td>{$pay.status}</td>
-						 <td>{$pay.uid|get_username}</td>
+                         <td><eq name="pay['type']" value="2">在线支付</eq>
+						 <eq name="pay['type']" value="1">货到付款</eq></td>
+						 <td><if condition="$pay.status eq 1"><font color="red">未支付</font><else/>支付完成</if></td>
+						 <td>{$pay.uid|get_email}</td>
                          <td>{$pay.create_time|date='Y-m-d H:i:s',###}</td>
 					<td> 
                             <a title="编辑" href="{:U('edit?id='.$pay['id'])}">编辑</a>

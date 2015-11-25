@@ -24,7 +24,7 @@ class OrdercompleteController extends AdminController {
 	
         $map    = array('status' => 3);
         $field  = 'id,tag,orderid,pricetotal,create_time,status,uid,display,ispay,total,addressid,message,backinfo';
-        $list   = $this->lists('order', $map,'id',$field);
+        $list   = $this->lists('order', $map,'id desc',$field);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
