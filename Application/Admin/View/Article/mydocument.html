@@ -17,9 +17,9 @@
 	<!-- 按钮工具栏 -->
 	<div class="cf">
 		<div class="fl">
-            <button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
-			<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
-			<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
+            <button class="btn ajax-post" target-form="ids" url="{:U('Article/setStatus',array('status'=>1))}">启 用</button>
+			<button class="btn ajax-post" target-form="ids" url="{:U('Article/setStatus',array('status'=>0))}">禁 用</button>
+			<button class="btn ajax-post confirm" target-form="ids" url="{:U('Article/setStatus',array('status'=>-1))}">删 除</button>
 		</div>
 
 		<!-- 高级搜索 -->
@@ -63,11 +63,11 @@
 		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
 		<th class="">编号</th>
 		<th class="">标题</th>
-		<th class="">类型</th>
-		<th class="">分类</th>
+		<th class="">价钱</th>
 		<th class="">最后更新</th>
 		<th class="">浏览</th>
-		<th class="">状态</th>
+		<th class="">销量</th>
+		<th class="">类型</th>
 		<th class="">操作</th>
 		</tr>
     </thead>
@@ -76,12 +76,12 @@
 		<tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
-			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
-			<td><span>{$vo['type']}</span></td>
-			<td><span>{:get_cate($vo['category_id'])}</span></td>
-			<td><span>{$vo.update_time}</span></td>
-			<td>{$vo.view}</td>
-			<td>{$vo.status}</td>
+			<td><a data-id="{$vo['id']}" href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">{$vo.title}</a></td>
+            <td>{$vo['price']}</td>
+            <td>{$vo['update_time']}</td>
+            <td>{$vo['view']}</td>
+            <td>{$vo['sale']}</td>
+            <td>{$vo['status']}</td>
 			<td><a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
 				<a href="{:U('Article/setStatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
 				<a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>

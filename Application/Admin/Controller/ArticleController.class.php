@@ -190,7 +190,7 @@ class ArticleController extends AdminController {
         }
 
         //解析列表规则
-        $fields =	array();
+        /*$fields =	array();
         $grids  =	preg_split('/[;\r\n]+/s', trim($model['list_grid']));
         foreach ($grids as &$value) {
             // 字段:标题:链接
@@ -212,16 +212,12 @@ class ArticleController extends AdminController {
                 $array  =   explode('|',$val);
                 $fields[] = $array[0];
             }
-        }
+        }*/
 
         // 文档模型列表始终要获取的数据字段 用于其他用途
-        $fields[] = 'category_id';
-        $fields[] = 'model_id';
-        $fields[] = 'pid';
-        // 过滤重复字段信息
-        $fields =   array_unique($fields);
+        $fields   = 'id,title,type,update_time,status,view,category_id,model_id,pid';
+
         // 列表查询
-       // $list   =   $this->getDocumentList($cate_id,$model_id,$position,$fields,$group_id);
        $list   =   $this->getDocumentList($cate_id,2,$position,$fields);// $model_id用2替代
         // 列表显示处理
         $list   =   $this->parseDocumentList($list,$model_id);
@@ -231,7 +227,6 @@ class ArticleController extends AdminController {
         $this->assign('position',$position);
         $this->assign('groups', $groups);
         $this->assign('list',   $list);
-        $this->assign('list_grids', $grids);
         $this->assign('model_list', $model);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
@@ -439,7 +434,8 @@ class ArticleController extends AdminController {
                 $map['category_id']    =   -1;
             }
         }
-        $list = $this->lists(M('Document'),$map,'update_time desc');
+        $fields = 'id,title,type,update_time,status,view,category_id,model_id,pid,price,sale';
+        $list = $this->lists(M('Document'),$map,'update_time desc',$fields);
         //处理列表数据
         if(is_array($list)){
             foreach ($list as $k=>&$v){
@@ -509,7 +505,8 @@ class ArticleController extends AdminController {
 
         $Document   =   D('Document');
         $map        =   array('status'=>3,'uid'=>UID);
-        $list       =   $this->lists($Document,$map);
+        $fields = 'id,title,type,update_time,status,view,category_id,model_id,pid,price,sale';
+        $list       =   $this->lists($Document,$map,'id desc',$fields);
         //获取状态文字
         //int_to_string($list);
 
@@ -545,7 +542,8 @@ class ArticleController extends AdminController {
         }
         //只查询pid为0的文章
         $map['pid'] = 0;
-        $list = $this->lists($Document,$map,'update_time desc');
+        $fields = 'id,title,type,update_time,status,view,category_id,model_id,pid,price,sale';
+        $list = $this->lists($Document,$map,'update_time desc',$fields);
         $list = $this->parseDocumentList($list,1);
 
         // 记录当前列表页的cookie

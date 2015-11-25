@@ -128,7 +128,7 @@
                         <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
 
                         <td>{$data['id']}</td>
-                        <td><a href="{:U('Goods/edit',array('id'=>$data['id'],'model'=>$data['model_id']))}" title="$data['title']">{$data['title']}</a></td>
+                        <td><a data-id="{$data.id}" href="{:U('Goods/edit',array('id'=>$data['id'],'model'=>$data['model_id']))}" title="$data['title']">{$data['title']}</a></td>
                         <td>{$data['price']}</td>
                         <td>{$data['update_time']}</td>
                         <td>{$data['view']}</td>
