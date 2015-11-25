@@ -1803,3 +1803,8 @@ function checkCsf()
     }
 }
 
+function cut_substr($str,$start,$leng)
+{
+    return mb_substr($str,$start,$leng,'utf-8');
+}
+
