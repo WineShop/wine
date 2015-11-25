@@ -135,7 +135,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author kevin  <zhuyajie@topthink.net>
+     * @author kevin  <kevin.liu@yunzhihui.com>
      */
     final protected function editRow ( $model ,$data, $where , $msg ){
         $id    = array_unique((array)I('id',0));
@@ -161,7 +161,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息,可以设置四个元素 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author kevin  <zhuyajie@topthink.net>
+     * @author kevin  <kevin.liu@yunzhihui.com>
      */
     protected function forbid ( $model , $where = array() , $msg = array( 'success'=>'状态禁用成功！', 'error'=>'状态禁用失败！')){
         $data    =  array('status' => 0);
@@ -175,7 +175,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author kevin  <zhuyajie@topthink.net>
+     * @author kevin  <kevin.liu@yunzhihui.com>
      */
     protected function resume (  $model , $where = array() , $msg = array( 'success'=>'状态恢复成功！', 'error'=>'状态恢复失败！')){
         $data    =  array('status' => 1);
@@ -203,7 +203,7 @@ class AdminController extends Controller {
      * @param array  $msg   执行正确和错误的消息 array('success'=>'','error'=>'', 'url'=>'','ajax'=>false)
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author kevin  <zhuyajie@topthink.net>
+     * @author kevin  <kevin.liu@yunzhihui.com>
      */
     protected function delete ( $model , $where = array() , $msg = array( 'success'=>'删除成功！', 'error'=>'删除失败！')) {
         $data['status']         =   -1;
