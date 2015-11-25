@@ -4,24 +4,24 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: kevin <lamp365@163.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台分类管理控制器
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author kevin <lamp365@163.com>
  */
 class EmailController extends AdminController {
 
     /**
      * 分类管理列表
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function index(){ 
-       
-         $list = $this->lists('email',"",'id desc');
+         $field = 'id,account,username,create_time';
+         $list = $this->lists('email',"",'id desc',$field);
          $this->assign('list', $list);
 		 $this->meta_title = '邮件管理';
         $this->display();
@@ -30,7 +30,7 @@ class EmailController extends AdminController {
     /**
      * 显示分类树，仅支持内部调
      * @param  array $tree 分类树
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author kevin <lamp365@163.com>
      */
  
     /* 编辑分类 */

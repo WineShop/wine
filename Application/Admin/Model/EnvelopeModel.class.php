@@ -2,9 +2,9 @@
 // +----------------------------------------------------------------------
 // | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2014 1010422715@qq.com All rights reserved.
+// | Copyright (c) 2014 lamp365@163.com All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Model;
@@ -12,7 +12,7 @@ use Think\Model;
 
 /**
  * 优惠券模型
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author kevin
  */
 class EnvelopeModel extends Model{
 
@@ -32,11 +32,11 @@ class EnvelopeModel extends Model{
     );
 
     /**
-     * 获取优惠券详细信息
+     * 获取站内信详细信息
      * @param  milit   $id ID或标识
      * @param  boolean $field 查询字段
      * @return array  
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function info($id, $field = true){
         /* 获取信息 */

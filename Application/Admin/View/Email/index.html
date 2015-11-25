@@ -10,12 +10,11 @@
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="{:U('add')}">新 增</a>
 		  <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
          <!-- 高级搜索 -->
         <div class="search-form fr cf">
             <div class="sleft">
-                <input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入优惠券名称">
+                <input type="text" name="username" class="search-input" value="" placeholder="请输入用户名">
                 <a class="sch-btn" href="javascript:;" id="search" url="__SELF__"><i class="btn-search"></i></a>
             </div>
         </div>
@@ -30,10 +29,8 @@
 					</th>
 					<th>ID</th>
 					<th>标题</th>
-                    <th>注册账号</th>
-					<th>内容</th>
-				   <th>发送账号</th>
-                     <th>状态</th>
+                    <th>用户账号</th>
+					<th>用户邮箱</th>
 					 
               <th>时间</th>
 					<th>操作</th>
@@ -47,12 +44,9 @@
 						<td>{$email.id}</td>
 						<td><a title="编辑" href="{:U('edit?id='.$email['id'].'&pid='.$pid)}">{$email.title}</a></td>
 						 <td>{$email.username}</td>
-						 <td>{$email.content}</td>
-						 <td>{$email.sendname}</td>
-                        <td>{$email.status}</td>
+						 <td>{$email.account}</td>
                          <td>{$email.create_time|date='Y-m-d H:i:s',###}</td>
 					<td>
-                            <a title="编辑" href="{:U('edit?id='.$email['id'])}">编辑</a>
                             <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$email['id'])}">删除</a>
                         </td>
 					</tr>

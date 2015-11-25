@@ -2,35 +2,36 @@
 // +----------------------------------------------------------------------
 // | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2014 1010422715@qq.com All rights reserved.
+// | Copyright (c) 2014 lamp365@163.com All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <lamp365@163.com>
  */
 class EnvelopeController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
     public function index(){
         /* 查询条件初始化 */
 	
-       $map  = '';
-	   $title=trim(I('get.title'));
-      if($title){ 
-		 $map['content'] = array('like',"%{$title}%");
-        $list   =   M("Envelope")->where($map)->field(true)->order('id desc')->select();}
-     else 
-		 { 
-		 $list = $this->lists('Envelope', $map,'id desc');
-	 }
+        $map  = '';
+        $title=trim(I('get.title'));
+        $field  = 'id,username,uid,sendname,title,status,view,create_time,update_time,group';
+
+        if($title){
+            $map['content'] = array('like',"%{$title}%");
+            $list   =   M("Envelope")->where($map)->field(true)->order('id desc')->field($field)->select();
+        }else{
+            $list = $this->lists('Envelope', $map,'id desc',$field);
+        }
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
@@ -74,38 +75,26 @@ class EnvelopeController extends AdminController {
     /* 新增分类 */
     public function add(){
         $Envelope = D('Envelope');
-      
 	 
         if(IS_POST){ //提交表单
 	      
 			if(false !== $Envelope->update()){
-            $personenvelope=M('personenvelope');
-            $personenvelope->create();
-            $personenvelope->title=$_POST['title'];
-            $personenvelope->content=$_POST['content'];
-			$personenvelope->group=$_POST['group'];
-		    $personenvelope->uid=$_POST['uid'];
-            $personenvelope->status=1;
-            $personenvelope->create_time=NOW_TIME;
-            $personenvelope->add();
-			$this->success('新增成功！', U('index'));
+                $personenvelope=M('personenvelope');
+                $personenvelope->create();
+                $personenvelope->title=$_POST['title'];
+                $personenvelope->content=$_POST['content'];
+                $personenvelope->group=$_POST['group'];
+                $personenvelope->uid=$_POST['uid'];
+                $personenvelope->status=1;
+                $personenvelope->create_time=NOW_TIME;
+                $personenvelope->add();
+                $this->success('新增成功！', U('index'));
             } else {
                 $error = $Envelope->getError();
                 $this->error(empty($error) ? '未知错误！' : $error);
             }
         } else {
-            $cate = array();
-            if($pid){
-                /* 获取上级信息 */
-                $cate = $Envelope->info($pid, 'id,title,status');
-                if(!($cate && 1 == $cate['status'])){
-                    $this->error('指定的站内信不存在或被禁用！');
-                }
-            }
 
-  $info = $id ? $Envelope->info($id) : '';
-            $this->assign('info',$info);
-           
             $this->meta_title = '新增站内信';
             $this->display("edit");
         }
@@ -118,10 +107,8 @@ class EnvelopeController extends AdminController {
             $order = M("Envelope");
 			
             if(is_array($ids)){
-                             foreach($ids as $id){
-		
-                             $order->where("id='$id'")->delete();
-						
+                foreach($ids as $id){
+                     $order->where("id='$id'")->delete();
                 }
             }
            $this->success("删除成功！");
