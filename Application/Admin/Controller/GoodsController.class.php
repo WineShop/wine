@@ -191,7 +191,7 @@ class GoodsController extends AdminController {
         }
 
         //解析列表规则
-        $fields =	array();
+       /* $fields =	array();
         $grids  =	preg_split('/[;\r\n]+/s', trim($model['list_grid']));
         foreach ($grids as &$value) {
             // 字段:标题:链接
@@ -213,28 +213,22 @@ class GoodsController extends AdminController {
                 $array  =   explode('|',$val);
                 $fields[] = $array[0];
             }
-        }
+        }*/
 
         // 文档模型列表始终要获取的数据字段 用于其他用途
-        $fields[] = 'category_id';
-        $fields[] = 'model_id';
-        $fields[] = 'pid';
-        // 过滤重复字段信息
-        $fields =   array_unique($fields);
+        $fields = 'id,title,type,update_time,status,view,category_id,model_id,pid,price,sale';
 
-        // 列表查询
-       // $list   =   $this->getDocumentList($cate_id,$model_id,$position,$fields,$group_id);
+       // 列表查询
        $list   =   $this->getDocumentList($cate_id, $model_id,$position,$fields);// $model_id用5替代
 
         // 列表显示处理
         $list   =   $this->parseDocumentList($list,$model_id);
-        
+
         $this->assign('model_id',$model_id);
 		$this->assign('group_id',$group_id);
         $this->assign('position',$position);
         $this->assign('groups', $groups);
         $this->assign('list',   $list);
-        $this->assign('list_grids', $grids);
         $this->assign('model_list', $model);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);

@@ -708,7 +708,8 @@ function get_category($id, $field = null){
     }
     /* 获取分类名称 */
     if(!isset($list[$id])){
-        $cate = M('Category')->find($id);
+        $field = 'id,name,title,pid,sort,list_row,template_index,template_lists,template_edit,model,model_sub,link_id,display,reply,check,reply_model,extend,create_time,update_time,status,icon,ismenu';
+        $cate  = M('Category')->field($field)->find($id);
         if(!$cate || 1 != $cate['status']){ //不存在分类，或分类被禁用
             return '';
         }

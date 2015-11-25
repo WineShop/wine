@@ -108,9 +108,16 @@
                     <th class="row-selected row-selected">
                         <input class="check-all" type="checkbox">
                     </th>
-                    <volist name="list_grids" id="field">
-                        <th>{$field.title}</th>
-                    </volist>
+
+                    <th>编号</th>
+                    <th>标题</th>
+                    <th>价钱</th>
+                    <th>最后更新</th>
+                    <th>浏览</th>
+                    <th>售量</th>
+                    <th>类型</th>
+                    <th>操作</th>
+
                 </tr>
             </thead>
 
@@ -119,9 +126,20 @@
                 <volist name="list" id="data">
                     <tr>
                         <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
-                        <volist name="list_grids" id="grid">
-                            <td>{:get_list_field($data,$grid)}</td>
-                        </volist>
+
+                        <td>{$data['id']}</td>
+                        <td><a href="{:U('Goods/edit',array('id'=>$data['id'],'model'=>$data['model_id']))}" title="$data['title']">{$data['title']}</a></td>
+                        <td>{$data['price']}</td>
+                        <td>{$data['update_time']}</td>
+                        <td>{$data['view']}</td>
+                        <td>{$data['sale']}</td>
+                        <td>{$data['status']}</td>
+                        <td>
+                            <a href="{:U('Goods/edit',array('id'=>$data['id'],'model'=>$data['model_id']))}" target="_self">编辑</a>
+                            <a href="{:U('Goods/del',array('ids'=>$data['id'],'model'=>$data['model_id']))}" target="_self">删除</a>
+                            <a href="{:U('Home/article/detail',array('id'=>$data['id']))}" target="_blank">预览</a>
+                        </td>
+
                     </tr>
                 </volist>
             </tbody>
