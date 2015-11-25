@@ -390,7 +390,9 @@ class AdminController extends Controller {
      * @return array|false
      * 返回数据集
      */
-    protected function lists ($model,$where=array(),$order='',$field=true){
+    protected function lists ($model,$where=array(),$order='',$field=true,$pagesize=''){
+        if(empty($pagesize)) $pagesize = C('LIST_ROWS');
+
         $options    =   array();
         $REQUEST    =   (array)I('request.');
         if(is_string($model)){
@@ -425,7 +427,7 @@ class AdminController extends Controller {
         if( isset($REQUEST['r']) ){
             $listRows = (int)$REQUEST['r'];
         }else{
-            $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
+            $listRows = $pagesize > 0 ? $pagesize : 10;
         }
         $page = new \Think\Page($total, $listRows, $REQUEST);
         if($total>$listRows){

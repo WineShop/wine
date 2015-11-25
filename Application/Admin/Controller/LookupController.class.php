@@ -4,26 +4,27 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <lamp365@163.com>
  */
 class LookupController extends AdminController {
 
     /**
      * 首页访问统计
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
     public function index(){
         /* 查询条件初始化 */
 	
        $map  = array('tag' =>'1');
-       $list = $this->lists('records', $map,'id desc');
+        $field = "id,ip,url,time,uid,province,city,referer,tag,gid,page";
+       $list = $this->lists('records', $map,'id desc',$field,30);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
@@ -34,13 +35,14 @@ class LookupController extends AdminController {
     }
 	/**
      * 分类页访问统计
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
  public function category(){
         /* 查询条件初始化 */
 	
        $map  = array('tag' =>'2');
-       $list = $this->lists('records', $map,'id desc');
+       $field = "id,ip,url,time,uid,province,city,referer,tag,gid,page";
+       $list = $this->lists('records', $map,'id desc',$field,30);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
@@ -51,13 +53,14 @@ class LookupController extends AdminController {
     }
 	/**
      * 内容页访问统计
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
  public function article(){
         /* 查询条件初始化 */
 	
        $map  = array('tag' =>'3');
-       $list = $this->lists('records', $map,'id desc');
+       $field = "id,ip,url,time,uid,province,city,referer,tag,gid,page";
+       $list = $this->lists('records', $map,'id desc',$field,30);
 
         $this->assign('list', $list);
         // 记录当前列表页的cookie
@@ -68,7 +71,7 @@ class LookupController extends AdminController {
     }
     /**
      * 编辑
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function edit($id = 0){
         if(IS_POST){
@@ -116,10 +119,8 @@ class LookupController extends AdminController {
             $arr = M("records");
 			
             if(is_array($ids)){
-                             foreach($ids as $id){
-		
-                             $arr->where("id='$id'")->delete();
-						
+                 foreach($ids as $id){
+                    $arr->where("id='$id'")->delete();
                 }
             }
            $this->success("删除成功！");

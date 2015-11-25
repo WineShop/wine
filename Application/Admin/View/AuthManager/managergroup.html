@@ -21,7 +21,7 @@
 					<volist name="node_list" id="node" >
 						<dl class="checkmod">
 							<dt class="hd">
-								<label class="checkbox"><input class="auth_rules rules_all" type="checkbox" name="rules[]" value="<?php echo $main_rules[$node['url']] ?>">{$node.title}管理</label>
+								<label class="checkbox"><input class="auth_rules rules_all leve1" type="checkbox" name="rules[]" value="<?php echo $main_rules[$node['url']] ?>">{$node.title}管理</label>
 							</dt>
 							<dd class="bd">
 								<present name="node['child']">
@@ -29,7 +29,7 @@
                                     <div class="rule_check">
                                         <div>
                                             <label class="checkbox" <notempty name="child['tip']">title='{$child.tip}'</notempty>>
-                                           <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
+                                           <input class="auth_rules rules_row leve2" type="checkbox" name="rules[]" value="<?php echo $auth_rules[$child['url']] ?>"/>{$child.title}
                                             </label>
                                         </div>
                                        <notempty name="child['operator']">
@@ -37,7 +37,7 @@
                                            <span class="child_row">
                                                <volist name="child['operator']" id="op">
                                                    <label class="checkbox" <notempty name="op['tip']">title='{$op.tip}'</notempty>>
-                                                       <input class="auth_rules" type="checkbox" name="rules[]"
+                                                       <input class="auth_rules leve3" type="checkbox" name="rules[]"
                                                        value="<?php echo $auth_rules[$op['url']] ?>"/>{$op.title}
                                                    </label>
                                                </volist>
@@ -114,6 +114,17 @@
         $('select[name=group]').change(function(){
 			location.href = this.value;
         });
+
+        $(".auth_rules").click(function(){
+            if($(this).is(':checked')){
+                if ($(this).hasClass("leve3")){
+                    $(this).closest('.rule_check').find('.leve2').prop('checked',true);
+                    $(this).closest('.checkmod').find('.leve1').prop('checked',true);
+                }else if($(this).hasClass("leve2")){
+                    $(this).closest('.checkmod').find('.leve1').prop('checked',true);
+                }
+            }
+        })
         //导航高亮
         highlight_subnav('{:U('AuthManager/index')}');
     }(jQuery);

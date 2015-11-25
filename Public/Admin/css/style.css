@@ -544,7 +544,7 @@ body{
     background-color: #ECECEC;
 }
 .checkmod dd {
-    padding-left: 10px;
+    padding-left: 40px;
     line-height: 30px;
 }
 .checkmod dd .checkbox {
