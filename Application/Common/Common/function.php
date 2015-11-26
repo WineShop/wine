@@ -549,8 +549,13 @@ function get_address($uid,$default=false){
     return $row;
 }
 function get_addressid($uid){
-    $row = M('transport')->where("status='1'")->field('id')->order("id desc")->limit(1)->getbyUid($uid);
+    $row   = M('transport')->where("status='1'")->field('id')->order("id desc")->limit(1)->getbyUid($uid);
     return $row['id'];
+}
+function get_address_by_id($id){
+    $field = "id,province,city,area,address,status,cellphone,realname";
+    $row   = M('transport')->where("status='1'")->field($field)->find($id);
+    return $row;
 }
 function get_realname($uid){
     $row = M('transport')->order("id desc")->field('realname')->limit(1)->getbyUid($uid);

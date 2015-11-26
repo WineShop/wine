@@ -21,7 +21,6 @@ class OrderController extends AdminController {
      */
     public function index(){
         /* 查询条件初始化 */
-	
         $map    = array('status' => 1);
         $field  = 'id,tag,orderid,pricetotal,create_time,status,uid,display,ispay,total,addressid,message,backinfo';
         $list   = $this->lists('order', $map,'id desc',$field);
@@ -111,8 +110,8 @@ class OrderController extends AdminController {
     public function send($id = 0){
         if(IS_POST){
             $Form = D('order');
-            $uid  =is_login();
-            if($_POST["id"]){ 
+            $uid  = is_login();
+            if($_POST["id"]){
 				$id = $_POST["id"];
                 $Form->create();
                 $Form->assistant   = $uid;
@@ -122,16 +121,18 @@ class OrderController extends AdminController {
                 $result=$Form->where("id='$id'")->save();
 
                 //根据订单id获取购物清单
-                $del = M("shoplist")->where("orderid='$id'")->select();
+                $del = M("shoplist")->where("orderid='$id'")->field('id,goodid,num')->select();
 
                 foreach($del as $k=>$val)
                 {
                     //获取购物清单数据表产品id，字段id
-                    $byid   = $val["id"];
-                    $goodid = $val["goodid"];
+                    $byid      = $val["id"];
+                    $goodid    = $val["goodid"];
+                    $total_num = "`total_num`+{$val['num']}";
                     //销量加1 库存减1
                     $setdata = array(
                         'sale'           => array('exp', '`sale`+1'),
+                        'total_num'      => array('exp', $total_num),
                     );
                     $sales = M('document')->where("id='$goodid'")->save($setdata);
                     $data['status']=2;
@@ -140,7 +141,7 @@ class OrderController extends AdminController {
 
                 if($result){
                     //记录行为
-                    user_log("管理员确认了发货(id:{$id})");
+                    user_log("管理员确认了发货(tag:{$id})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败');
@@ -149,19 +150,19 @@ class OrderController extends AdminController {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
             /* 获取数据 */
-            $info   = M('order')->find($id);
-            $detail = M('order')->where("id='$id'")->select();
-            $list   = M('shoplist')->where("orderid='$id'")->select();
+            $field  = 'id,orderid,tag,pricetotal,create_time,status,assistant,update_time,uid,shipprice,codemoney,display,ispay,total,backinfo,addressid';
+            $detail = M('order')->field($field)->find($id);
 
-            if(false === $info){
+            $field  = 'id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters';
+            $list   = M('shoplist')->where("orderid='$id'")->field($field)->select();
+
+            if(false === $detail){
                 $this->error('获取订单信息错误');
             }
             $this->assign('list', $list);
             $this->assign('detail', $detail);
-            $this->assign('info', $info);
-			
+
             $this->meta_title = '订单发货';
             $this->display();
         }
@@ -199,6 +200,14 @@ class OrderController extends AdminController {
     }
 
 
-
+    public function ajaxGetAddress()
+    {
+        $id   = I('post.addressid');
+        $data = array();
+        if(!empty($id)){
+            $data = get_address_by_id($id);
+        }
+        $this->ajaxReturn($data);
+    }
 
 }

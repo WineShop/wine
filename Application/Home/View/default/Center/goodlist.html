@@ -137,7 +137,7 @@
                     <div class="act-area">
                         <if condition='$po.status eq 2'>
                             <p><a class='confirm' href='{:U("/order/complete",array("id"=>$po["orderid"]))}'>确认收货</a> </p>
-                            <p><a class='red confirm' href='{:U("/order/detail",array("id"=>$po["orderid"]))}'>查看物流</a> </p>
+                            <p><a class='confirm' href='{:U("/order/detail",array("id"=>$po["orderid"]))}'>查看物流</a> </p>
                         </if>
                         <if condition='($po.status eq -1) and ($po.ispay eq -1)'>
                             <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>

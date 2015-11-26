@@ -690,3 +690,12 @@ label.textarea ~ .check-tips {
 .update-version .success {
     color: #468847;
 }
+.show_address{
+    float: right;
+}
+.show_address .dropdown{
+    right: 0;
+    left: auto;
+    padding: 15px 15px 15px 15px;
+    white-space: nowrap;
+}
