@@ -159,7 +159,7 @@ class CenterController extends HomeController {
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         $show= $Page->show();
-        $list=$table->where($condition)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $list= $table->where($condition)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         $this->assign('list', $list);
         $this->assign('page',  $show);
         $this->meta_title = '站内信';
@@ -224,6 +224,7 @@ class CenterController extends HomeController {
         $data = $this->shoplistAndDocumentByTag($list);
 
         $this->assign('allorder',$data);// 赋值数据集
+
         $this->assign('page',$show);// 
         $this->meta_title = '我的所有订单';
         $this->display();
@@ -242,18 +243,20 @@ class CenterController extends HomeController {
 
         /* 数据分页*/
         $order=M("order");
-        $count=$order->where("uid='$uid' and status='-1' and ispay='1'")->count();
+        $count=$order->where("uid='$uid' and status='-1'")->count();
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
         $Page->setConfig('next','下一页');
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show = $Page->show();
-        $list = $order->where("uid='$uid' and status='-1' and ispay='1'")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $show  = $Page->show();
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
+        $list  = $order->where("uid='$uid' and status='-1'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+
         /********通过order订单id,获取shoplist物品以及document的信息*********/
         $data = $this->shoplistAndDocumentByTag($list);
-        $this->assign('needpay',$data);// 赋值数据集
+        $this->assign('allorder',$data);// 赋值数据集
         $this->assign('page',$show);// 
         $this->meta_title = '待支付订单';
         $this->display();
@@ -280,16 +283,17 @@ class CenterController extends HomeController {
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show = $Page->show();
-        $list = $order->where("uid='$uid' and status='1' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $show  = $Page->show();
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
+        $list  = $order->where("uid='$uid' and status='1'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         /********通过order订单id,获取shoplist物品以及document的信息*********/
         $data = $this->shoplistAndDocumentByTag($list);
-        $this->assign('tobeshipped',$data);// 赋值数据集
+        $this->assign('allorder',$data);// 赋值数据集
         $this->assign('page',$show);// 
         $this->meta_title = '待发货订单';
         $this->display();
     }
-    /* 待确认订单*/
+    /* 待确认订单 已经发货*/
     public  function tobeconfirmed(){
         $uid = $this->login();
         /** 购物车调用**/
@@ -308,11 +312,12 @@ class CenterController extends HomeController {
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show = $Page->show();
-        $list = $order->where("uid='$uid' and status='2' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $show  = $Page->show();
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
+        $list  = $order->where("uid='$uid' and status='2'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         /********通过order订单id,获取shoplist物品以及document的信息*********/
         $data = $this->shoplistAndDocumentByTag($list);
-        $this->assign('tobeconfirmed',$data);// 赋值数据集
+        $this->assign('allorder',$data);// 赋值数据集
         $this->assign('page',$show);// 
         $this->meta_title = '待发货订单';
         $this->display();

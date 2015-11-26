@@ -466,30 +466,29 @@ class OrderController extends HomeController {
 
     }
     public function complete($id = 0){
-        $uid = $this->login();
         if(IS_GET){
-            $Form = D('order');
-            $id=$_GET["id"];
+            $Form      = D('order');
+            $orderid   = $_GET["id"];
             $Form->create();
             $Form->status="3";
-            $Form->where("orderid='$id'")->save();
+            $Form->where("orderid='$orderid'")->save();
             $dataid=$Form->where("orderid='$id'")->getField("id");
             //根据订单id获取购物清单,设置商品状态为已完成.，status=3
-            $array=M("shoplist")->where("orderid='$dataid'")->select();
+            $array=M("shoplist")->where("orderid='$dataid'")->field('id')->select();
 
             foreach($array as $k=>$val)
             {
                 //获取购物清单数据表产品id，字段id
-                $byid=$val["id"];
-                M("shoplist")->where("id='$byid'")->setField("status","3");
-                M("shoplist")->where("id='$byid'")->setField("iscomment","1");
+                $byid    = $val["id"];
+                $setData = array('status'=>3,'iscomment'=>1);
+                M("shoplist")->where("id='$byid'")->save($setData);
             }
             if($dataid){
                 //记录行为
-                action_log('update_order', 'order', $data['id'], UID);
+                user_log('用户已经成功收货');
                 $this->success('确认收货成功，您可以返回评价商品', Cookie('__forward__'));
             }else {
-                $this->error('确认收货失败'.$id);
+                $this->error('确认收货失败');
             }
         }
 

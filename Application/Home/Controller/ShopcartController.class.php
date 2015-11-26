@@ -398,14 +398,14 @@ class ShopcartController extends HomeController {
         //设置订单状态
         if($_POST["PayType"]=="1") {
             //产生订单orderlist
-            $data['status'] = 1;
-            $data['ispay'] = -1; //货到付款
+            $data['status'] = 1;  //待发货
+            $data['ispay'] = -1;  //货到付款未完成
             $data['backinfo'] = "已提交等待发货";
         }else if($_POST["PayType"]=="2"){
             //产生订单orderlist
             $data['backinfo']="等待支付";
-            $data['status']  = -1;//待支付
-            $data['ispay']   = 1; //在线支付未完成
+            $data['status']  = -1; //待支付
+            $data['ispay']   = -2; //在线支付未完成
         }
 
         /**根据订单tag 保存对应的费用数据  并清空该物品购物车**/

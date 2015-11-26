@@ -110,12 +110,9 @@ class PayController extends HomeController {
             $hotsearch=R("Index/getHotsearch");
             $this->assign('hotsearch',$hotsearch);
             /* uid调用*/
-            $user=session('user_auth');
-            $uid=$user['uid'];
-            $score=get_score($uid);
-            /* 底部分类调用*/
-            $menulist=R('Service/AllMenu');
-            $this->assign('footermenu',$menulist);
+            $uid   = is_login();
+            $score = get_score($uid);
+
             /* 积分兑换*/
             $ratio= $score/C('RATIO');
             $this->assign('ratio', $ratio);
@@ -170,7 +167,6 @@ class PayController extends HomeController {
             $data = array('status'=>'1','ispay'=>'2');//设置订单为已经支付,状态为已提交
             M('order')->where(array('tag' => $param['order_id']))->setField($data);
             // 配置邮件提醒
-    //		$uid=M("pay")->where(array('out_trade_no' => $param['order_id']))->getField('uid');
             $mail=get_email();//获取会员邮箱
             $title="支付提醒";
             $content="您在<a href=\"".C('DAMAIN')."\" target='_blank'>".C('SITENAME').'</a>支付了订单，交易号'.$param['order_id'];
