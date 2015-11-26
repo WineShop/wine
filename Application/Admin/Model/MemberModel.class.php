@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: kevin <lamp365@163.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Admin\Model;
@@ -12,7 +12,7 @@ use Think\Model;
 
 /**
  * 用户模型
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author kevin <lamp365@163.com>
  */
 
 class MemberModel extends Model {
@@ -48,14 +48,7 @@ class MemberModel extends Model {
         return true;
     }
 
-    /**
-     * 注销当前用户
-     * @return void
-     */
-    public function logout(){
-        session('user_auth', null);
-        session('user_auth_sign', null);
-    }
+
 
     /**
      * 自动登录用户

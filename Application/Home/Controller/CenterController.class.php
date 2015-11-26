@@ -158,8 +158,9 @@ class CenterController extends HomeController {
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show= $Page->show();
-        $list= $table->where($condition)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $show  = $Page->show();
+        $field = 'id,sendname,title,content,status,uid,view,create_time,update_time,group';
+        $list  = $table->where($condition)->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         $this->assign('list', $list);
         $this->assign('page',  $show);
         $this->meta_title = '站内信';

@@ -16,19 +16,7 @@ class NewController extends Controller {
 	 /* 热词调用*/
     $hotsearch=R("Index/getHotsearch");
     $this->assign('hotsearch',$hotsearch);
-    /* 购物车调用*/
-   $cart=R("Shopcart/usercart");
-   $this->assign('usercart',$cart);
-   if(!session('user_auth')){$usercart=$_SESSION['cart'];
-        $this->assign('usercart',$usercart);
-   
-   }
-      /* 底部分类调用*/
-   $menulist=R('Service/AllMenu');
-   $this->assign('footermenu',$menulist);
-     /* 左侧分类列表*/
-     $mlist=R('Index/menulist');
-     $this->assign('categoryq', $mlist);
+
 			 /* 获取商品*/
 		 $key=I('get.order');
 		 $sort=I('get.sort');  
@@ -86,19 +74,7 @@ class NewController extends Controller {
 	 /* 热词调用*/
     $hotsearch=R("Index/getHotsearch");
     $this->assign('hotsearch',$hotsearch);
-    /* 购物车调用*/
-   $cart=R("Shopcart/usercart");
-   $this->assign('usercart',$cart);
-   if(!session('user_auth')){$usercart=$_SESSION['cart'];
-        $this->assign('usercart',$usercart);
-   
-   }
-      /* 底部分类调用*/
-   $menulist=R('Service/AllMenu');
-   $this->assign('footermenu',$menulist);
-     /* 左侧分类列表*/
-     $mlist=R('Index/menulist');
-     $this->assign('categoryq', $mlist);
+
 	  /** * 控制器必须！**/ 
              
 		    $tuan=M("tuan");

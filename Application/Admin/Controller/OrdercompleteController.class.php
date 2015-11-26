@@ -66,40 +66,39 @@ class OrdercompleteController extends AdminController {
     public function edit($id = 0){
         if(IS_POST){
             $Form = D('order');
-        $user=session('user_auth');
-          $uid=$user['uid'];
+            $uid = is_login();
             if($_POST["id"]){ 
-				$id=$_POST["id"];
-			  $Form->create();
-            $Form->status="3";
-			$Form->assistant = $uid;
-			$Form->update_time = NOW_TIME;
-			 $Form->backinfo=$_POST["backinfo"];
-           $result=$Form->where("id='$id'")->save();
+                $id=$_POST["id"];
+                $Form->create();
+                $Form->status="3";
+                $Form->assistant = $uid;
+                $Form->update_time = NOW_TIME;
+                $Form->backinfo=$_POST["backinfo"];
+                $result=$Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_order', 'order', $data['id'], UID);
+                    user_log("管理员修改订单(id:{$id})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
-                    $this->error('更新失败55'.$id);
+                    $this->error('更新失败');
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
             /* 获取数据 */
             $info = M('order')->find($id);
-$detail= M('order')->where("id='$id'")->select();
-$list=M('shoplist')->where("orderid='$id'")->select();
+            $detail= M('order')->where("id='$id'")->select();
+            $list=M('shoplist')->where("orderid='$id'")->select();
 
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-$this->assign('list', $list);
+            $this->assign('list', $list);
             $this->assign('detail', $detail);
 			 $this->assign('info', $info);
-			 $this->assign('a', $orderid);
+			 $this->assign('a', $id);
             $this->meta_title = '编辑订单';
             $this->display();
         }
@@ -140,18 +139,15 @@ $this->assign('list', $list);
  public function complete($id = 0){
         if(IS_POST){
             $Form = D('shoplist');
-        $user=session('user_auth');
-         $uid=$user['uid'];
-     if($_POST["id"]){ 
+            $uid =is_login();
+            if($_POST["id"]){
 				$id=$_POST["id"];
-				
-             $Form->create();
-			
-            $Form->status="3";
-            $result=$Form->where("id='$id'")->save();
+                $Form->create();
+                $Form->status="3";
+                $result=$Form->where("id='$id'")->save();
 	
-//根据订单id获取购物清单,设置商品状态为已完成.，status=3
-$del=M("shoplist")->where("orderid='$id'")->select();
+                //根据订单id获取购物清单,设置商品状态为已完成.，status=3
+                $del=M("shoplist")->where("orderid='$id'")->select();
 
 foreach($del as $k=>$val)
 	{
@@ -173,7 +169,7 @@ $shop=M("shoplist");
 			
 			
        else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
  } 
 		

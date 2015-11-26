@@ -65,8 +65,7 @@ class PayController extends AdminController {
     public function edit($id = 0){
         if(IS_POST){
             $Form = D('pay');
-          $user=session('user_auth');
-          $uid=$user['uid'];
+          $uid=is_login();
             if($_POST["id"]){ 
                 $Form->create();
 				$id=$_POST["id"];
@@ -75,13 +74,13 @@ class PayController extends AdminController {
            $result=$Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_pay', 'pay', $data['id'], UID);
+                    user_log("管理员修改订单(id:{$id})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败55'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error("参数有误！");
             }
         } else {
             $info = array();
@@ -98,7 +97,7 @@ $list=M('shoplist')->where("orderid='$id'")->select();
 $this->assign('list', $list);
             $this->assign('detail', $detail);
 			 $this->assign('info', $info);
-			 $this->assign('a', $payid);
+			 $this->assign('a', $id);
             $this->meta_title = '编辑订单';
             $this->display();
         }

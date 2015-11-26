@@ -16,11 +16,12 @@ class UserApi {
      * @return integer 0-未登录，大于0-当前登录用户ID
      */
     public static function is_login(){
-        $user = session('user_auth');
-        if (empty($user)) {
+        $user       = new \User\Api\UserApi;
+        $userCache  = $user->getUserCache();
+        if (empty($userCache)) {
             return 0;
         } else {
-            return session('user_auth_sign') == data_auth_sign($user) ? $user['uid'] : 0;
+            return empty($userCache['id']) ? 0 : $userCache['id'];
         }
     }
 
@@ -54,7 +55,7 @@ class UserApi {
         if(isset($list[$key])){ //已缓存，直接使用
             $name = $list[$key];
         } else { //调用接口获取用户信息
-            $User = new User\Api\UserApi();
+            $User = new \User\Api\UserApi;
             $info = $User->info($uid);
             if($info && isset($info[1])){
                 $name = $list[$key] = $info[1];

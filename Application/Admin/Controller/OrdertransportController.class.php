@@ -133,8 +133,7 @@ $this->assign('list', $list);
     public function complete($id = 0){
         if(IS_POST){
             $Form = D('order');
-        $user=session('user_auth');
-          $uid=$user['uid'];
+            $uid=is_login();
      if($_POST["id"]){ 
 				$id=$_POST["id"];
 				
@@ -167,7 +166,7 @@ $shop=M("shoplist");
 			
 			
        else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
  } 
 		

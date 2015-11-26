@@ -65,42 +65,41 @@ class OrderController extends AdminController {
      */
     public function edit($id = 0){
         if(IS_POST){
-            $Form = D('order');
-          $user=session('user_auth');
-          $uid=$user['uid'];
-            if($_POST["id"]){ 
+           $Form = D('order');
+           $uid  = is_login();
+           if($_POST["id"]){
                 $Form->create();
 				$id=$_POST["id"];
 				$Form->update_time = NOW_TIME;
-			$Form->assistant = $uid;
+			    $Form->assistant = $uid;
 
-           $result=$Form->where("id='$id'")->save();
+                $result=$Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_order', 'order', $data['id'], UID);
+                    user_log("管理员修改了订单（id:{$id}）");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
-                    $this->error('更新失败55'.$id);
+                    $this->error('更新失败');
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
             /* 获取数据 */
             $info = M('order')->find($id);
-$detail= M('order')->where("id='$id'")->select();
-$list=M('shoplist')->where("orderid='$id'")->select();
-$addressid=M('order')->where("id='$id'")->getField("addressid");
-$address=M('transport')->where("id='$addressid'")->select();
- $this->assign('alist', $address);
+            $detail= M('order')->where("id='$id'")->select();
+            $list=M('shoplist')->where("orderid='$id'")->select();
+            $addressid=M('order')->where("id='$id'")->getField("addressid");
+            $address=M('transport')->where("id='$addressid'")->select();
+            $this->assign('alist', $address);
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-$this->assign('list', $list);
+            $this->assign('list', $list);
             $this->assign('detail', $detail);
-			 $this->assign('info', $info);
-			 $this->assign('a', $orderid);
+            $this->assign('info', $info);
+            $this->assign('a', $id);
             $this->meta_title = '编辑订单';
             $this->display();
         }
@@ -112,59 +111,56 @@ $this->assign('list', $list);
     public function send($id = 0){
         if(IS_POST){
             $Form = D('order');
-        $user=session('user_auth');
-          $uid=$user['uid'];
+            $uid  =is_login();
             if($_POST["id"]){ 
-				$id=$_POST["id"];
-			
-               $Form->create();
-			$user=session('user_auth');
-            $uid=$user['uid'];
-            $Form->assistant = $uid;
-			$Form->update_time = NOW_TIME;
-            $Form->status="2";
-			$orderid=M('order')->where("id='$id'")->getField("orderid");
-    $result=$Form->where("id='$id'")->save();
+				$id = $_POST["id"];
+                $Form->create();
+                $Form->assistant   = $uid;
+                $Form->update_time = NOW_TIME;
+                $Form->status="2";
 
-//根据订单id获取购物清单
-$del=M("shoplist")->where("orderid='$id'")->select();
+                $result=$Form->where("id='$id'")->save();
 
-foreach($del as $k=>$val)
-	{
-//获取购物清单数据表产品id，字段id
-$byid=$val["id"];
-$goodid=$val["goodid"];
-		   //销量加1 库存减1
-             $sales= M('document_product')->where("id='$goodid'")->setInc('totalsales');
-              $stock= M('document_product')->where("id='$goodid'")->setDec('stock');
-$data['status']=2;
-$shop=M("shoplist");
- M("shoplist")->where("id='$byid'")->save($data);
-}
+                //根据订单id获取购物清单
+                $del = M("shoplist")->where("orderid='$id'")->select();
+
+                foreach($del as $k=>$val)
+                {
+                    //获取购物清单数据表产品id，字段id
+                    $byid   = $val["id"];
+                    $goodid = $val["goodid"];
+                    //销量加1 库存减1
+                    $setdata = array(
+                        'sale'           => array('exp', '`sale`+1'),
+                    );
+                    $sales = M('document')->where("id='$goodid'")->save($setdata);
+                    $data['status']=2;
+                    M("shoplist")->where("id='$byid'")->save($data);
+                 }
 
                 if($result){
                     //记录行为
-                    action_log('update_order', 'order', $data['id'], UID);
+                    user_log("管理员确认了发货(id:{$id})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
-                    $this->error('更新失败'.$id);
+                    $this->error('更新失败');
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
             /* 获取数据 */
-            $info = M('order')->find($id);
-$detail= M('order')->where("id='$id'")->select();
-$list=M('shoplist')->where("orderid='$id'")->select();
+            $info   = M('order')->find($id);
+            $detail = M('order')->where("id='$id'")->select();
+            $list   = M('shoplist')->where("orderid='$id'")->select();
 
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-$this->assign('list', $list);
+            $this->assign('list', $list);
             $this->assign('detail', $detail);
-			 $this->assign('info', $info);
+            $this->assign('info', $info);
 			
             $this->meta_title = '订单发货';
             $this->display();
@@ -178,8 +174,8 @@ $this->assign('list', $list);
      */
     public function del(){
        if(IS_POST){
-             $ids = I('post.id');
-            $order = M("order");
+             $ids   = I('post.id');
+             $order = M("order");
 			
             if(is_array($ids)){
                              foreach($ids as $id){

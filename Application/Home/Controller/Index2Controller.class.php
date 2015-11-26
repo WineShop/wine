@@ -52,16 +52,7 @@ class IndexController extends HomeController {
         /** 热词调用**/
         $hotsearch=$this->getHotsearch();
         $this->assign('hotsearch',$hotsearch);
-        /**购物车调用**/
-        $cart=R("shopcart/usercart");
-        $this->assign('usercart',$cart);
-        if(!session('user_auth')){$usercart=$_SESSION['cart'];
-            $this->assign('usercart',$usercart);
 
-        }
-        /** 底部分类调用**/
-        $menulist=R('Service/AllMenu');
-        $this->assign('footermenu',$menulist);
         $tree=$this->maketree() ;
 
         $this->assign ( 'category', $tree);
