@@ -48,4 +48,51 @@ class OrdertopayController extends AdminController {
         }
     }
 
+    public function del(){
+        $order = M("order");
+        $shop  = M("shoplist");
+        $order->startTrans();
+        if(IS_POST){
+            $ids   = I('post.id');
+            if(is_array($ids)){
+                foreach($ids as $id){
+                    $res1 = $order->where("id='$id'")->delete();
+                    $res2 = $shop ->where("orderid='$id'")->delete();
+                }
+            }
+
+        }else{
+            $id   = I('get.id');
+            $res1 = $order->where("id='$id'")->delete();
+            $res2 = $shop->where("orderid='$id'")->delete();
+
+        }
+        if ($res1 && $res2){
+            $order->commit();
+            $this->success("删除成功！");
+        }else{
+            $order->rollback();
+            $this->error("删除失败！");
+        }
+    }
+
+    public function see()
+    {
+        $id = I('get.id');
+        /* 获取数据 */
+        $field  = 'id,orderid,tag,pricetotal,create_time,status,assistant,update_time,uid,shipprice,codemoney,display,ispay,total,addressid';
+        $detail = M('order')->field($field)->find($id);
+
+        $field  = 'id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters';
+        $list   = M('shoplist')->where("orderid='$id'")->field($field)->select();
+
+        if(false === $detail){
+            $this->error('获取订单信息错误');
+        }
+        $this->assign('list', $list);
+        $this->assign('detail', $detail);
+
+        $this->meta_title = '订单发货';
+        $this->display();
+    }
 }

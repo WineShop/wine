@@ -44,7 +44,7 @@
 					<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$order.id}"></td>
 						<td>{$order.id}</td>
 						<td>{$order.uid}</td>
-						<td><a title="编辑" href="{:U('edit?id='.$order['id'].'&pid='.$pid)}">{$order.orderid}</a></td>
+						<td><a title="查看详情" href="{:U('see?id='.$order['id'])}">{$order.orderid}</a></td>
 						
                         <td>{$order.pricetotal}</td>
                         <td>{$order.backinfo}</td>
@@ -56,7 +56,7 @@
 					</tr>
 				</volist>
 				<else/>
-				<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+				<td colspan="8" class="text-center"> aOh! 暂时还没有内容! </td>
 				</notempty>
 			</tbody>
 		</table>

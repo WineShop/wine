@@ -26,7 +26,7 @@ class CenterController extends HomeController {
         /*****最近订单**************/
         /* 数据分页*/
         $order  = M("order");
-        $count  = $order->where(" uid='$uid'")->count();
+        $count  = $order->where(" uid='$uid' and status>2")->count();
         $this->assign('anum', $count);
 
         $Page= new \Think\Page($count,5);
@@ -36,8 +36,8 @@ class CenterController extends HomeController {
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         $show  = $Page->show();
-        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
-        $list  = $order->where("uid='$uid'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total';
+        $list  = $order->where("uid='$uid'  and status>2")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         /********通过order订单id,获取shoplist物品以及document的信息*********/
         $data = $this->shoplistAndDocumentByTag($list);
         $this->assign('allorder',$data);// 赋值数据集
@@ -200,9 +200,6 @@ class CenterController extends HomeController {
      */
     public  function allorder(){
         $uid = $this->login();
-        /** 购物车调用**/
-        $cart  = $_SESSION['cart'];
-        $this->assign('usercart',$cart);
 
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
@@ -210,7 +207,7 @@ class CenterController extends HomeController {
 
         /* 数据分页*/
         $order = M("order");
-        $count = $order->where(" uid='$uid'  and total!=''")->count();
+        $count = $order->where(" uid='$uid'  and status>2")->count();
         $Page= new \Think\Page($count,5);
         $Page->setConfig('prev','上一页');
         $Page->setConfig('next','下一页');
@@ -218,7 +215,7 @@ class CenterController extends HomeController {
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         $show = $Page->show();
-        $list = $order->where("uid='$uid'  and total!=''")->order('id desc')->field('id,orderid,tag,pricetotal,create_time,status,ispay,total')
+        $list = $order->where("uid='$uid'  and status>2")->order('id desc')->field('id,orderid,tag,pricetotal,create_time,status,ispay,total')
                       ->limit($Page->firstRow.','.$Page->listRows)->select();
 
         /********通过order订单id,获取shoplist物品以及document的信息*********/
@@ -252,7 +249,7 @@ class CenterController extends HomeController {
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         $show  = $Page->show();
-        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total';
         $list  = $order->where("uid='$uid' and status='-1'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
 
         /********通过order订单id,获取shoplist物品以及document的信息*********/
@@ -285,7 +282,7 @@ class CenterController extends HomeController {
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         $show  = $Page->show();
-        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total';
         $list  = $order->where("uid='$uid' and status='1'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         /********通过order订单id,获取shoplist物品以及document的信息*********/
         $data = $this->shoplistAndDocumentByTag($list);
@@ -314,7 +311,7 @@ class CenterController extends HomeController {
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
         $show  = $Page->show();
-        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total,backinfo';
+        $field = 'id,orderid,tag,pricetotal,create_time,status,uid,display,ispay,total';
         $list  = $order->where("uid='$uid' and status='2'")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
         /********通过order订单id,获取shoplist物品以及document的信息*********/
         $data = $this->shoplistAndDocumentByTag($list);
@@ -617,7 +614,7 @@ class CenterController extends HomeController {
         $detail   = M("shoplist");
         foreach($orderlist as $key=> $arr)
         {
-            $shoplist = $detail->field('id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters')
+            $shoplist = $detail->field('id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters,iscomment')
                               ->where("orderid={$arr['id']}")->select();
 
             $goodids  = $goodWhere = array();

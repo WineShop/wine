@@ -125,6 +125,23 @@ define(function(require, exports, module){
         });
     }
 
+
+    //确认收获
+    var completegood = function(id,url){
+        T.restPost(url,{id:id},function(success){
+            main.modalAlert(success.data);
+            main.redirect();
+        },function(error){
+            main.modalAlert(error.data,'danger');
+        })
+    }
+
+    $(".completegood").click(function(){
+        var url = $(this).data('url');
+        var id  = $(this).data('id');
+        completegood(id,url);
+    });
+
     module.exports = {
         center_init : center_init,
         center_order_action : center_order_action,

@@ -59,34 +59,9 @@
 	</form></div>
 	
 	<div id="tab2" class="tab-pane  tab2">
-	<table  id="table" class="gridtable" width="100%">
-        <thead>
-            <tr>
-			 <th >商品编号</th>
-                <th >商品名</th>
-				<th >净重</th>
-                <th >价格</th>
-                <th >数量</th>
-                
-            </tr>
-        </thead>  </tbody>  <volist name="list" id="vo">  
-           <tr>
-		 <td align="center">{$vo.goodid}</td>
-                <td><A href="{:U('Home/Article/detail?id='.$vo['goodid'])}" > <img src="{$vo.goodid|get_cover_id|get_cover='path'}"  width="40" height="40"/>{$vo.goodid|get_good_name}</A></td>
-               <td align="center"> <span class="weight">{$vo.goodid|get_weight}</span>g</td>
-                <td align="center">{$vo.goodid|get_good_price}</td>
-                 <td align="center">{$vo.num}</td>
-                
-            </tr>
-          </volist>                 </tbody></table>  <BR/>  
-		  <div style="color:red"><volist name="detail" id="vo">
-		  <p style="text-align:right;color:red;width:100%">小计：{$vo.total}元 </p> 
-		   <p style="text-align:right;color:red;width:100%">运费：{$vo.shipprice}元</p> 
-		  
-		  <p style="text-align:right;color:red;width:100%">总金额： {$vo.pricetotal}元 </p>
-		   <p style="text-align:right;color:red;width:100%">时间：{$vo.create_time|date='Y-m-d H:i:s',###}</p>  </volist> </div>
-		  </div>
+        <include file="Public/goodinfo"/>
 	</div>
+</div>
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">

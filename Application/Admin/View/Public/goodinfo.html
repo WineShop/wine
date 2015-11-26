@@ -1,0 +1,65 @@
+
+        <table  id="table" class="gridtable" width="100%">
+            <thead>
+            <tr>
+                <th >商品编号</th>
+                <th >Uid</th>
+                <th >商品名</th>
+                <th >规格</th>
+                <th >价格</th>
+                <th >数量</th>
+                <th style="float: right;margin-right:30px;">地址</th>
+            </tr>
+            </thead>
+            <volist name="list" id="vo">
+                <tr>
+                    <td align="center">{$vo.uid}</td>
+                    <td align="center">{$vo.goodid}</td>
+                    <td align="center"><A href="{:U('Home/Article/detail?id='.$vo['goodid'])}" >{$vo.goodid|get_good_name}</A></td>
+                    <td align="center"> <span class="weight">{$vo.parameters|default="无"}</span></td>
+                    <td align="center">{$vo.goodid|get_good_price}</td>
+                    <td align="center">{$vo.num}</td>
+                    <td align="center">
+                        <div class="btn-group-click adv-sch-pannel show_address" data-addressid="{$detail.addressid}">
+                            <button class="btn">地址<i class="btn-arrowdown"></i></button>
+                            <div class="dropdown cf" style="display: none;">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </volist>
+        </table>  <BR/>
+        <div style="color:red">
+            <p style="text-align:right;color:red;width:100%">小计：{$detail.total}元 </p>
+            <p style="text-align:right;color:red;width:100%">优惠：{$detail.codemoney}元</p>
+            <p style="text-align:right;color:red;width:100%">运费：{$detail.shipprice}元</p>
+
+            <p style="text-align:right;color:red;width:100%">总金额： {$detail.pricetotal}元 </p>
+            <p style="text-align:right;color:red;width:100%">时间：{$detail.create_time|date='Y-m-d H:i:s',###}</p>
+        </div>
+
+<script type="text/javascript" charset="utf-8">
+    function getAddress(){
+        var url = "{:U('Admin/Order/ajaxGetAddress')}";
+        $('.show_address').each(function(){
+            var obj = this;
+            var param = {addressid:$(this).data('addressid')};
+            $.post(url,param,function(data){
+                if(data){
+                    var str = data['province'] + "-" + data['city'] + data['area']=='' ? '' : data['area'] +'  |  '+data['address']+'  ' + data['realname'] + '  ' + data['cellphone'];
+
+                }else{
+                    var str = '暂无地址！';
+                }
+                $(obj).find('.dropdown').html(str);
+            })
+        });
+    }
+
+    getAddress();
+
+</script>
+

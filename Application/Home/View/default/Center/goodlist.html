@@ -49,7 +49,7 @@
                                     <if condition="$vo['iscomment'] eq 1">
                                         <div class="mt15"></div>
                                         <p><a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}' class="confirm">评价商品</a></p>
-                                    <elseif condition="$vo['iscomment'] eq 2">
+                                    <elseif condition="$vo['iscomment'] eq 2"/>
                                         <div class="mt15"></div>
                                         <p><a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}' class="confirm">已经评价</a></p>
                                     <else/>
@@ -63,8 +63,8 @@
                                         <p><span class="order_tip">暂无操作</span></p>
                                     </if>
                                     <if condition="$vo['status'] eq 3">
-                                        <p><a  href='{:U("/Order/back",array("id"=>$vo["id"]))}' class="confirm">申请退货</a></p>
-                                        <p><a  href="{:U('/Order/change',array('id'=>$vo['id']))}" class="confirm">申请换货</a></p>
+                                        <p><a href="javascript:;" data-url='{:U("/Order/back")}' data-id="{$vo['id']}" class="confirm backgood">申请退货</a></p>
+                                        <p><a href="javascript:;" data-url="{:U('/Order/change')}" data-id="{$vo['id']}" class="confirm changegood">申请换货</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq 4">
                                         <div class="mt15"></div>
@@ -136,24 +136,24 @@
 
                     <div class="act-area">
                         <if condition='$po.status eq 2'>
-                            <p><a class='confirm' href='{:U("/order/complete",array("id"=>$po["orderid"]))}'>确认收货</a> </p>
+                            <p><a href="javascript:;" class='confirm completegood' data-url='{:U("/order/complete")}' data-id="{$po['orderid']}">确认收货</a> </p>
                             <p><a class='confirm' href='{:U("/order/detail",array("id"=>$po["orderid"]))}'>查看物流</a> </p>
                         </if>
                         <if condition='($po.status eq -1) and ($po.ispay eq -1)'>
-                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
                             <p><span class="order_tip">货到付款</span> </p>
+                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel')}">取消订单</a> </p>
                         </if>
                         <if condition='($po.status eq -1) and ($po.ispay eq -2)'>
-                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
                             <p><A class='confirm' href="{:U('Pay/index',array('orderid'=>$po['orderid']))}">前去支付</a> </p>
+                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel')}">取消订单</a> </p>
                         </if>
                         <if condition='($po.status eq 1) and ($po.ispay eq -1)'>
                             <div class="mt15"></div>
-                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
+                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel')}">取消订单</a> </p>
                         </if>
                         <if condition='($po.status eq 1) and ($po.ispay eq -2)'>
                             <div class="mt15"></div>
-                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel',array('id'=>$po['orderid']))}">取消订单</a> </p>
+                            <p><A class='confirm cancle_order'  href='javascript:;' data-id='{$po["orderid"]}' data-url="{:U('/order/cancel')}">取消订单</a> </p>
                         </if>
 
                     </div>

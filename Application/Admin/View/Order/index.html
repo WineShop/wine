@@ -44,20 +44,20 @@
 					<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$order.id}"></td>
 						<td>{$order.id}</td>
 						<td>{$order.uid}</td>
-						<td><a title="编辑" href="{:U('edit?id='.$order['id'].'&pid='.$pid)}">{$order.orderid}</a></td>
+						<td><a title="查看详情" href="{:U('see?id='.$order['id'])}">{$order.orderid}</a></td>
 						
                         <td>{$order.pricetotal}</td>
-                        <td>{$order.status}</td>
+                        <td>等待支付</td>
                          <td>{$order.create_time||date='Y-m-d H:i:s',###}</td>
 					<td> 
                             <a title="编辑" href="{:U('edit?id='.$order['id'])}">编辑</a>
-<a title="发货" href="{:U('send?id='.$order['id'])}">发货</a>
+                            <a title="发货" href="{:U('send?id='.$order['id'])}">发货</a>
                             <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$order['id'])}">删除</a>
                         </td>
 					</tr>
 				</volist>
 				<else/>
-				<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+				<td colspan="8" class="text-center"> aOh! 暂时还没有内容! </td>
 				</notempty>
 			</tbody>
 		</table>
