@@ -38,6 +38,7 @@ seajs.config({
         Coupon      : 'Home/js/center/coupon.js',
         Passwd      : 'Home/js/center/passwd.js',
         Address     : 'Home/js/center/address.js',
+        Comment     : 'Home/js/center/comment.js',
 
         //后台登陆
         AdminLogin  : 'Admin/js/login/login.js'

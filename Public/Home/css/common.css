@@ -162,7 +162,7 @@ background: #ff3300;border: solid #E23C3D;border-width: 0 2px 2px;overflow: visi
 }
 .all-goods .item .product h4 a{ color: #666666; font-size:14px; font-family:"宋体";}
 .all-goods .item .product h4 a:hover{ text-decoration:none;}
-.all-goods .item .product s{display: block;position: absolute;top: 13px;left: 173px;width: 6px;height: 9px; background: url(../images/indexSprite.png) no-repeat 0px 0px;}
+.all-goods .item .product s{display: block;position: absolute;top: 13px;left: 173px;width: 6px;height: 9px;}
 .all-goods .active .product h4{
     line-height:50px;
     background:url("../images/menu_ico.png") 20px center no-repeat #f7f7f7;
@@ -763,9 +763,9 @@ line-height: 36px;
 width:198px;overflow:hidden;
 }
 .star{margin:5px 0;clear:both;}
-.star .title{float:left;overflow:hidden;}
+.star .title{float:left;overflow:hidden;  line-height: 26px;}
 .star .target-demo{float:left;overflow:hidden;}
-.star .hint{float:left;overflow:hidden;}
+.star .hint{float:left;overflow:hidden;line-height: 26px;color: #E23C3D;font-weight: bold}
 .center_left dd a{
 display: block;text-indent:2em;
 padding-left:3px;width:195px;overflow:hidden;
@@ -1561,8 +1561,8 @@ padding-bottom: 10px;
 .center_right h4 span{display:inline-block;padding:1px 10px;border-radius: 3px;background-color:#E23C3D;color:#fff}
 .comment_list{border-bottom: 2px solid #eee;width:100%}
 .comment_area{margin:0 auto;width:90%}
-.comment_area h5{font-size:14px;font-weight:400;line-height:10px;height:10px;background-color:#eee;}
-.comment_area table{margin:5px 0;}
+.comment_area h5{font-size:14px;font-weight:bold;line-height:15px;height:15px;background-color:#eee;}
+.comment_area table{margin:10px 0;}
 .comment_area th{padding:5px 0;font-size:14px;font-weight:400;line-height:16px;height:16px;}
 .person-info{clear:both;}
 .person-info img{ -moz-border-radius: 75px; -webkit-border-radius:75px;border-radius:75px;}
