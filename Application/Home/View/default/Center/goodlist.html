@@ -68,45 +68,45 @@
                                     </if>
                                     <if condition="$vo['status'] eq 4">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">退货审核</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">退货审核</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq 5">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">同意退货</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">同意退货</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq 6">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">正退货中</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">正退货中</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq 7">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">退货被拒</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">退货被拒</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq 8">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">退货完成</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">退货完成</a></p>
                                     </if>
 
 
                                     <if condition="$vo['status'] eq -4">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">审核换货</a></p>
+                                        <p><a  href='{:U("/Order/changedetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">审核换货</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq -5">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">同意换货</a></p>
+                                        <p><a  href='{:U("/Order/changedetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">同意换货</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq -6">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">正换货中</a></p>
+                                        <p><a  href='{:U("/Order/changedetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">正换货中</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq -7">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">换货被拒</a></p>
+                                        <p><a  href='{:U("/Order/changedetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">换货被拒</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq -8">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">换货完成</a></p>
+                                        <p><a  href='{:U("/Order/changedetail",array("id"=>$vo["id"]))}' class="confirm" title="查看审核状态">换货完成</a></p>
                                     </if>
 
                                 </span>

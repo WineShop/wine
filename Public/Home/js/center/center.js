@@ -142,12 +142,17 @@ define(function(require, exports, module){
         completegood(id,url);
     });
 
-    //申请换货
-    var changegood = function(param,url){
-
+    //申请退货
+    var backgood = function(param,url){
+        T.restPost(url,param,function(success){
+            main.modalAlert(success.msg);
+            main.redirect();
+        },function(error){
+            main.modalAlert(error.msg,'danger');
+        });
     }
 
-    //申请退货
+    //申请换货
     var changegood = function(param,url){
         T.restPost(url,param,function(success){
             main.modalAlert(success.msg);
@@ -161,6 +166,11 @@ define(function(require, exports, module){
         var url    = $("#changegood").attr('action');
         var param  = $("#changegood").serialize();
         changegood(param,url);
+    });
+    $(document).delegate('#sub_backgood','click',function(){
+        var url    = $("#form_backgood").attr('action');
+        var param  = $("#form_backgood").serialize();
+        backgood(param,url);
     });
 
     module.exports = {

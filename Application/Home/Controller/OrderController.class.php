@@ -192,54 +192,8 @@ class OrderController extends HomeController {
         $this->display();
 
     }
-    public function backdetail(){
-        $uid = $this->login();
-        /* 左侧菜单 */
-        $this->meta_title = '退货详情';
-        /* 购物车调用*/
-        $cart  =  $_SESSION['cart'];
-        $this->assign('usercart',$cart);
 
-        /* 热词调用*/
-        $hotsearch = C('HOT_SEARCH');
-        $this->assign('hotsearch',$hotsearch);
 
-        $id= I('get.id');//获取orderid
-        $back=M("backlist");
-        $list= $back->where("shopid='$id'")->find();
-        $info= M("backlist")->where("shopid='$id'")->getField("backinfo");
-        $this->assign('info',$list);
-        $this->assign('backinfo',$info);
-        $msg="退货单";
-        $this->assign('msg',$msg);
-        $this->display();
-
-    }
-
-    public function changedetail(){
-        $uid = $this->login();
-        /* 购物车调用*/
-        $cart  =  $_SESSION['cart'];
-        $this->assign('usercart',$cart);
-
-        /* 热词调用*/
-        $hotsearch = C('HOT_SEARCH');
-        $this->assign('hotsearch',$hotsearch);
-
-        $id= I('get.id');//获取id
-        $change=M("change");
-        $list= $change->where("shopid='$id'")->find();
-        $info= M("change")->where("shopid='$id'")->getField("backinfo");
-        $this->assign('info',$list);
-        $this->assign('backinfo',$info);
-        $this->assign('id',$id);
-        $this->meta_title = '换货单'.$list['id'].'详情';
-
-        $msg="换货:";
-        $this->assign('msg',$msg);
-        $this->display();
-
-    }
     public function wuliu(){
         $uid = $this->login();
         $id= I('get.orderid');//获取id
@@ -267,35 +221,35 @@ class OrderController extends HomeController {
     public function back(){
         $uid = is_login();
         if(IS_POST){
-            $id= I('post.id');//获取id
-            $num= I('post.num');//获取num
-            $price= I('post.price');//获取价格
-            $goodid= I('post.goodid');//获取goodid
-            $parameters = I('post.parameters');//获取parameters
-            $datanum=M("shoplist")->where("id='$id'")->getField("num");
+            $shopid     = I('post.shopid');
+            $num        = I('post.num');
+            $reason     = I('post.reason');
+            //验证个数以及，是否之前已经操作过
+            $shopinfo = $this->checkGoodsIsAction($reason,$num,$uid,$shopid,'backlist');
 
-            if($datanum<$num){
-                $this->error('超出购买数量');
+            //保存信息到退货表
+            $back= D("backlist");
+            $back->create();//Create方法创建的数据对象是保存在内存,并没有实际写入到数据库，直到使用add或者save方法才会真正写入数据库
+            $back->startTrans();
+            $back->create();
+            $back->create_time= NOW_TIME;
+            $back->total      = $num * $shopinfo['price'];
+            $back->status     = 1;
+            $back->num        = $shopinfo['num'];
+            $back->uid        = $uid;
+            $back->parameters = $shopinfo['parameters'];
+            $res1 = $back->add();
+
+            //更改商品的售后信息
+            $data['status']     = 4;
+            $shop = M("shoplist");
+            $res2 = $shop->where("id='$shopid'")->save($data);
+            if($res1 && $res2) {
+                $back->commit();
+                $this->ajaxSuccess('申请成功，请等待管理员处理！');
             }else{
-                //保存信息到退货表
-                $back= D("backlist");
-
-                $back->create();//Create方法创建的数据对象是保存在内存,并没有实际写入到数据库，直到使用add或者save方法才会真正写入数据库
-                $back->create_time=NOW_TIME;
-                $back->status=1;
-                $back->total=$num*$price;
-                $back->parameters=$parameters;
-                $result=$back->add();
-
-                //更改商品的售后信息
-                $data['status']=4;
-                $shop=M("shoplist");
-                $add=$shop->where("id='$id'")->save($data);
-                if($add) {
-                    $this->success('提交成功',U("center/index"));
-                }else{
-                    $this->error('申请失败',U("center/index"));
-                }
+                $back->rollback();
+                $this->ajaxError('对不起，申请失败！');
             }
 
         }else{  //is_post
@@ -311,9 +265,37 @@ class OrderController extends HomeController {
             $this->display();
 
         }
+    }
+
+    public function backdetail(){
+        if($uid = is_login()){
+            /** 热词调用 热门搜索**/
+            $hotsearch = C('HOT_SEARCH');
+            $this->assign('hotsearch',$hotsearch);
+
+            $id     = I('get.id');//获取id
+            $back   = M("backlist");
+            $field  = "id,goodid,num,tool,toolid,uid,status,create_time,info,total,shopid,reason,backname,address,contact,backinfo,update_time";
+            $list   = $back->where("shopid={$id} and uid={$uid}")->field($field)->find();
+
+            if(empty($list))  $this->error('对不起，参数有误！');
+            $document = M('document')->field('id,title,fengmian')->find($list['goodid']);
+            $this->assign('list',$list);
+            $this->assign('document',$document);
+            $this->assign('id',$id);
+            $this->meta_title = '退货详情';
+
+            $msg="退货单";
+            $this->assign('msg',$msg);
+            $this->display();
+        }else{
+            $this->error('对不起，你还没登录！');
+        }
 
 
     }
+
+
     public function backkuaidi(){
         $uid = $this->login();
         if(IS_POST){
@@ -371,7 +353,6 @@ class OrderController extends HomeController {
             $change->num        = $shopinfo['num'];
             $change->uid        = $uid;
             $change->parameters = $shopinfo['parameters'];
-            $change->title      = $shopinfo['title'];
             $res1 = $change->add();
 
             //更改商品的售后信息
@@ -395,6 +376,33 @@ class OrderController extends HomeController {
             $this->assign('msg',$msg);
             $this->display();
 
+        }
+
+    }
+
+    public function changedetail(){
+        if($uid = is_login()){
+            /** 热词调用 热门搜索**/
+            $hotsearch = C('HOT_SEARCH');
+            $this->assign('hotsearch',$hotsearch);
+
+            $id     = I('get.id');//获取id
+            $change = M("change");
+            $field  = "id,goodid,num,tool,toolid,uid,status,create_time,info,total,shopid,reason,changetool,changetoolid,backname,address,contact,backinfo,acceptname,acceptaddress,acceptphone,update_time";
+            $list   = $change->where("shopid={$id} and uid={$uid}")->field($field)->find();
+
+            if(empty($list))  $this->error('对不起，参数有误！');
+            $document = M('document')->field('id,title,fengmian')->find($list['goodid']);
+            $this->assign('list',$list);
+            $this->assign('document',$document);
+            $this->assign('id',$id);
+            $this->meta_title = '换货单'.$list['id'].'详情';
+
+            $msg="换货:";
+            $this->assign('msg',$msg);
+            $this->display();
+        }else{
+            $this->error('对不起，你还没登录！');
         }
 
     }

@@ -1533,12 +1533,12 @@ width: 115px;
 .back-detail img{vertical-align:middle}
 .back-detail{display: block;margin:0 auto;width:88%;}
 .back-detail-asc{float:left;width:70%;}
-.back-good-img{float:right;width:20%;padding:5px;}
+.back-good-img{float:right;width:20%;padding:5px 10px;text-align: right}
 .apply-wrap{overflow:hidden;clear:both;width:100%;}
-.apply{width:100%;border:1px solid #E23C3D;overflow:hidden}
-.apply h3,.apply-feedback h3{clear:both;height:30px;line-height:30px;font-weight:500;}
+.apply{width:100%;border:2px solid #E23C3D;overflow:hidden}
+.apply h3,.apply-feedback h3{clear:both;height:30px;line-height:30px;font-weight:500;padding-left: 10px;}
 .apply p{height:30px;line-height:20px;padding:5px 10px;}
-.apply-feedback{width:100%;border:1px solid #E23C3D;padding-bottom:10px;}
+.apply-feedback{width:100%;border:2px solid #E23C3D;padding-bottom:10px;}
 .apply-feedback p{height:30px;line-height:30px;padding:5px 10px;}
 .apply-feedback  input{height:30px;line-height:30px;}
 .info-wrap{
