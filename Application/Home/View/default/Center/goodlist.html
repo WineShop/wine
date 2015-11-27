@@ -51,7 +51,7 @@
                                         <p><a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}' class="confirm">评价商品</a></p>
                                     <elseif condition="$vo['iscomment'] eq 2"/>
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Comment/index",array("id"=>$vo["id"]))}' class="confirm">已经评价</a></p>
+                                        <p><span class="order_tip">已经评价</span></p>
                                     <else/>
                                         <div class="mt15"></div>
                                         <p><span class="order_tip">等待评论</span></p>
@@ -63,8 +63,8 @@
                                         <p><span class="order_tip">暂无操作</span></p>
                                     </if>
                                     <if condition="$vo['status'] eq 3">
-                                        <p><a href="javascript:;" data-url='{:U("/Order/back")}' data-id="{$vo['id']}" class="confirm backgood">申请退货</a></p>
-                                        <p><a href="javascript:;" data-url="{:U('/Order/change')}" data-id="{$vo['id']}" class="confirm changegood">申请换货</a></p>
+                                        <p><a href='{:U("/Order/back",array("id"=>$vo["id"]))}'  class="confirm" data-toggle="modal" data-target="#alterModal">申请退货</a></p>
+                                        <p><a href="{:U('/Order/change',array('id'=>$vo['id']))}"  class="confirm" data-toggle="modal" data-target="#alterModal">申请换货</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq 4">
                                         <div class="mt15"></div>
@@ -90,7 +90,7 @@
 
                                     <if condition="$vo['status'] eq -4">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">换货审核中</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">审核换货</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq -5">
                                         <div class="mt15"></div>
@@ -98,11 +98,11 @@
                                     </if>
                                     <if condition="$vo['status'] eq -6">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">换货中</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">正换货中</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq -7">
                                         <div class="mt15"></div>
-                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">换货被拒绝</a></p>
+                                        <p><a  href='{:U("/Order/backdetail",array("id"=>$vo["id"]))}' class="confirm">换货被拒</a></p>
                                     </if>
                                     <if condition="$vo['status'] eq -8">
                                         <div class="mt15"></div>

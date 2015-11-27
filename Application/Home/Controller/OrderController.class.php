@@ -265,7 +265,7 @@ class OrderController extends HomeController {
     }
 
     public function back(){
-        $uid = $this->login();
+        $uid = is_login();
         if(IS_POST){
             $id= I('post.id');//获取id
             $num= I('post.num');//获取num
@@ -300,9 +300,9 @@ class OrderController extends HomeController {
 
         }else{  //is_post
             $this->meta_title = '提交退货单';
-            $id= I('get.id');//获取id
-            $msg="Tips，提交退货单";
-            $detail=M("shoplist")->find($id);
+            $id     = I('get.id');//获取id
+            $msg    = "申请退货";
+            $detail = M("shoplist")->where("uid={$uid}")->field('id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters,iscomment')->find($id);
             //获取购物清单
             $this->assign('list',$detail);
             //获取物品id
@@ -354,37 +354,45 @@ class OrderController extends HomeController {
 
     }
     public function change(){
-        $uid = $this->login();
+        $uid = is_login();
         if(IS_POST){
-            $id= I('post.id');//获取id
-            $num= I('post.num');//获取num
-            $price= I('post.price');//获取价格
-            $parameters = I('post.parameters');//获取parameters
-            $change=D("change");
+            $shopid     = I('post.shopid');
+            $num        = I('post.num');
+            $reason     = I('post.reason');
+            //验证个数以及，是否之前已经操作过
+            $shopinfo = $this->checkGoodsIsAction($reason,$num,$uid,$shopid,'change');
+
+            $change     = D("change");
+            $change->startTrans();
             $change->create();
-            $change->create_time=NOW_TIME;
-            $change->total=$num*$price;
-            $change->status=1;
-            $back->parameters=$parameters;
-            $change->add();
+            $change->create_time= NOW_TIME;
+            $change->total      = $num * $shopinfo['price'];
+            $change->status     = 1;
+            $change->num        = $shopinfo['num'];
+            $change->uid        = $uid;
+            $change->parameters = $shopinfo['parameters'];
+            $change->title      = $shopinfo['title'];
+            $res1 = $change->add();
+
             //更改商品的售后信息
-            $data['status']=-4;
-            $shop=M("shoplist");
-            if($shop->where("id='$id'")->save($data)) {
-                $this->success('申请成功',U("center/index"));
+            $data['status']     = -4;
+            $shop = M("shoplist");
+            $res2 = $shop->where("id='$shopid'")->save($data);
+            if($res1 && $res2) {
+                $change->commit();
+                $this->ajaxSuccess('申请成功，请等待管理员处理！');
             }else{
-                $this->error('申请失败，或重复操作');
+                $change->rollback();
+                $this->ajaxError('对不起，申请失败！');
             }
         }else{
-            $id= I('get.id');//获取id
-            $msg="Tips，提交换货单";
+            $id   = I('get.id');//获取id
+            $msg  = "申请换货";
             $this->meta_title = '填写换货单';
-            $detail=M("shoplist")->find($id);
+            $detail = M("shoplist")->where("uid={$uid}")->field('id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters,iscomment')->find($id);
             //获取购物清单
             $this->assign('list',$detail);
-
             $this->assign('msg',$msg);
-
             $this->display();
 
         }
@@ -494,4 +502,33 @@ class OrderController extends HomeController {
 
     }
 
+    /**
+     * 退货或者换货时，检验个数是否超过，以及是否之前操作过
+     * @param $num
+     * @param $uid
+     * @param $shopid
+     * @param $type
+     * @return mixed
+     */
+    public function checkGoodsIsAction($reason,$num,$uid,$shopid,$type)
+    {
+        if(empty($reason))
+            $this->ajaxError('对不起，请填写原因');
+
+        $field = 'id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters,iscomment';
+        $shopinfo = M("shoplist")->where("id={$shopid}  and uid={$uid}")->field($field)->find();
+        if(empty($shopinfo))
+            $this->ajaxError('对不起，参数有误！');
+        if($num > $shopinfo['num'])
+            $this->ajaxError('操作的个数超过了购买的个数');
+        if($type == 'change')
+        {
+           $data = M('change')->where("uid={$uid} and shopid={$shopid} and status=1")->find();
+        }else{
+           $data = M('backlist')->where("uid={$uid} and shopid={$shopid} and status=1")->find();
+        }
+        if($data)
+            $this->ajaxError('对不起，之前已经操作过，无须重复操作！');
+        return $shopinfo;
+    }
 }

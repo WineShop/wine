@@ -20,8 +20,8 @@ class MessageController extends AdminController {
      * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function index(){ 
-     
-       $list = $this->lists('Message',"" ,'id desc');
+        $field = 'id,uid,goodid,title,content,status,create_time,update_time,group';
+       $list = $this->lists('Message',"" ,'id desc',$field);
          $this->assign('list', $list);
 		 $this->meta_title = '留言管理';
         $this->display();

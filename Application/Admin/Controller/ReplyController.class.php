@@ -4,24 +4,24 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: kevin <lamp365@163.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台回复管理控制器
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ * @author kevin <lamp365@163.com>
  */
 class ReplyController extends AdminController {
 
     /**
      * 回复管理列表
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author kevin <lamp365@163.com>
      */
-    public function index(){ 
-     
-       $list = $this->lists('Reply','' ,'id desc');
+    public function index(){
+        $field = 'id,uid,messageid,content,status,create_time,update_time,group';
+       $list = $this->lists('Reply','' ,'id desc',$field);
          $this->assign('list', $list);
 		 $this->meta_title = '回复管理';
         $this->display();
@@ -30,7 +30,7 @@ class ReplyController extends AdminController {
     /**
      * 显示回复树，仅支持内部调
      * @param  array $tree 回复树
-     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     * @author kevin <lamp365@163.com>
      */
  
     /* 编辑回复 */

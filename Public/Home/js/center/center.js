@@ -142,6 +142,27 @@ define(function(require, exports, module){
         completegood(id,url);
     });
 
+    //申请换货
+    var changegood = function(param,url){
+
+    }
+
+    //申请退货
+    var changegood = function(param,url){
+        T.restPost(url,param,function(success){
+            main.modalAlert(success.msg);
+            main.redirect();
+        },function(error){
+            main.modalAlert(error.msg,'danger');
+        });
+    }
+
+    $(document).delegate("#sub_change",'click',function(){
+        var url    = $("#changegood").attr('action');
+        var param  = $("#changegood").serialize();
+        changegood(param,url);
+    });
+
     module.exports = {
         center_init : center_init,
         center_order_action : center_order_action,
