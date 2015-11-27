@@ -76,7 +76,7 @@ class OrdertransportController extends AdminController {
                     user_log("管理员修改订单(orderid:{$id})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
-                    $this->error('更新失败55'.$id);
+                    $this->error('更新失败'.$id);
                 }
             } else {
                 $this->error('参数有误！');
@@ -84,7 +84,7 @@ class OrdertransportController extends AdminController {
         } else {
             $id = I('get.id');
             /* 获取数据 */
-            $field  = 'id,orderid,tag,pricetotal,create_time,status,assistant,update_time,uid,shipprice,codemoney,display,ispay,total,addressid';
+            $field  = 'id,orderid,tag,pricetotal,create_time,status,assistant,update_time,uid,shipprice,codemoney,display,ispay,total,tool,toolid,addressid';
             $detail = M('order')->field($field)->find($id);
 
             $field  = 'id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters';
@@ -185,7 +185,7 @@ class OrdertransportController extends AdminController {
 
     public function kuaidi()
     {
-        ppd('快打');
+        ppd('快递查询，等待开发');
     }
 
 }

@@ -31,13 +31,13 @@ class DatabaseController extends AdminController{
                 if(!is_dir($path)){
                     mkdir($path, 0755, true);
                 }
-                $path = realpath($path);
-                $flag = \FilesystemIterator::KEY_AS_FILENAME;
-                $glob = new \FilesystemIterator($path,  $flag);
+                $path    = realpath($path);
+                $fileObj = \FilesystemIterator::KEY_AS_FILENAME;
+                $glob    = new \FilesystemIterator($path,  $fileObj);
 
                 $list = array();
                 foreach ($glob as $name => $file) {
-
+                    pp($name,$file);    //自定义封装的一个打印输出函数
                     if(preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)){
                         $name = sscanf($name, '%4s%2s%2s-%2s%2s%2s-%d');
 
@@ -48,11 +48,19 @@ class DatabaseController extends AdminController{
                         if(isset($list["{$date} {$time}"])){
                             $info = $list["{$date} {$time}"];
                             $info['part'] = max($info['part'], $part);
+                            //获取文件大小
                             $info['size'] = $info['size'] + $file->getSize();
                         } else {
                             $info['part'] = $part;
+                            //获取文件大小
                             $info['size'] = $file->getSize();
                         }
+                        /**
+                         * pathinfo(path,options)
+                         * PATHINFO_DIRNAME - 只返回 dirname
+                         * PATHINFO_BASENAME - 只返回 basename
+                         * PATHINFO_EXTENSION - 只返回 extension
+                         */
                         $extension        = strtoupper(pathinfo($file->getFilename(), PATHINFO_EXTENSION));
                         $info['compress'] = ($extension === 'SQL') ? '-' : $extension;
                         $info['time']     = strtotime("{$date} {$time}");

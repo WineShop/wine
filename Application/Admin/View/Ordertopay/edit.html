@@ -4,9 +4,10 @@
 <block name="body">
 	<div class="main-title">
 		<h2>
-			{$info['id']?'编辑':'新增'}订单
+			{$detail['id']?'编辑':'新增'}订单
 		
 		</h2>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="btn" onclick="window.history.back();">返 回</span>
 	</div>
 	<ul class="tab-nav nav">
 	<li data-tab="tab1" class="current"><a href="javascript:void(0);">订单修改</a></li>
@@ -21,13 +22,13 @@
 		<div class="form-item">
 			<label class="item-label">订单号<span class="check-tips">（唯一的id）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="id" value="{$info.id|default=''}">
+				<input type="text" <notempty name="detail['id']"> disabled </notempty> class="text input-large" name="id" value="{$detail.id|default=''}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">金额<span class="check-tips">（商品金额）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="total" value="{$info.pricetotal}">
+				<input type="text" class="text input-large" name="total" value="{$detail.pricetotal}">
 			</div>
 		</div>
 
@@ -35,30 +36,19 @@
 <div class="form-item">
 			<label class="item-label">总额<span class="check-tips">（总额）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="pricetotal" value="{$info.pricetotal}">
-			</div>
-		</div>
-		<div class="form-item">
-			<label class="item-label">会员备注<span class="check-tips">（总额）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="info" value="{$info.info}">
-			</div>
-		</div>
-<div class="form-item">
-			<label class="item-label">运费<span class="check-tips">（发货的快递单号）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="shipprice" value="{$info.shipprice}">
+				<input type="text" class="text input-large" name="pricetotal" value="{$detail.pricetotal}">
 			</div>
 		</div>
 
-      <div class="form-item">
-			<label class="item-label">操作人<span class="check-tips">（用于调转的URL，支持带http://的URL或U函数参数格式）</span></label>
+       <div class="form-item">
+			<label class="item-label">运费<span class="check-tips">（发货的运费）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="assistant" value="{$info.assistant|default='暂无'}">
+				<input type="text" class="text input-large" name="shipprice" value="{$detail.shipprice}">
 			</div>
 		</div>
+
 		<div class="form-item">
-			<input type="hidden" name="id" value="{$info.id|default=''}">
+			<input type="hidden" name="id" value="{$detail.id|default=''}">
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 		</div>

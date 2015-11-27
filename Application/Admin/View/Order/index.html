@@ -47,10 +47,9 @@
 						<td><a title="查看详情" href="{:U('see?id='.$order['id'])}">{$order.orderid}</a></td>
 						
                         <td>{$order.pricetotal}</td>
-                        <td>等待支付</td>
+                        <td>已经支付</td>
                          <td>{$order.create_time||date='Y-m-d H:i:s',###}</td>
-					<td> 
-                            <a title="编辑" href="{:U('edit?id='.$order['id'])}">编辑</a>
+					<td>
                             <a title="发货" href="{:U('send?id='.$order['id'])}">发货</a>
                             <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$order['id'])}">删除</a>
                         </td>

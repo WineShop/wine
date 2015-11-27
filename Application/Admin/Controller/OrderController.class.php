@@ -58,59 +58,11 @@ class OrderController extends AdminController {
         }
     }
 
-    /**
-     * 编辑订单
-     * @author kevin <lamp365@163.com>
-     */
-    public function edit($id = 0){
-        if(IS_POST){
-           $Form = D('order');
-           $uid  = is_login();
-           if($_POST["id"]){
-                $Form->create();
-				$id=$_POST["id"];
-				$Form->update_time = NOW_TIME;
-			    $Form->assistant = $uid;
 
-                $result=$Form->where("id='$id'")->save();
-                if($result){
-                    //记录行为
-                    user_log("管理员修改了订单（id:{$id}）");
-                    $this->success('更新成功', Cookie('__forward__'));
-                } else {
-                    $this->error('更新失败');
-                }
-            } else {
-                $this->error('参数有误！');
-            }
-        } else {
-            /* 获取数据 */
-            $field  = 'id,orderid,tag,pricetotal,create_time,status,assistant,update_time,uid,shipprice,codemoney,display,ispay,total,addressid';
-            $detail = M('order')->field($field)->find($id);
-
-            $field  = 'id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters';
-            $list   = M('shoplist')->where("orderid='$id'")->field($field)->select();
-
-            if(false === $detail){
-                $this->error('获取订单信息错误');
-            }
-
-           /* $addressid = $detail["addressid"];
-            $address   = M('transport')->field('id,orderid,cellphone,province,city,area,address,realname,create_time,uid,status')
-                                        ->where("id='$addressid'")->select();
-            $this->assign('alist', $address);*/
-
-            $this->assign('list', $list);
-            $this->assign('detail', $detail);
-
-            $this->meta_title = '订单发货';
-            $this->display();
-        }
-    }
-  /**
-     * 订单发货 修改订单状态为2 并对库存减去和售出累加
-     * @author kevin <lamp365@163.com>
-     */
+/**
+ * 订单发货 修改订单状态为2 并对库存减去和售出累加
+ * @author kevin <lamp365@163.com>
+ */
     public function send($id = 0){
         if(IS_POST){
             $Form = D('order');
