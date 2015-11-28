@@ -81,7 +81,7 @@ class  ChangerefuseController extends AdminController {
                     $this->error('更新失败,退货单'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
@@ -125,7 +125,7 @@ $back_shoplist=M('shoplist')->where("id='$shopid'")->setField('status','-5');
                     $this->error('更新失败'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();

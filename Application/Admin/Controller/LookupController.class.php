@@ -93,7 +93,7 @@ class LookupController extends AdminController {
                     $this->error('更新失败'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();

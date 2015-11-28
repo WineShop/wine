@@ -81,7 +81,7 @@ class BackagreeController extends AdminController {
                     $this->error('更新失败');
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
@@ -125,7 +125,7 @@ $back_shoplist=M('shoplist')->where("id='$shopid'")->setField('status','7');//�
                     $this->error('更新失败'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();

@@ -4,20 +4,20 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <lamp365@163.com>
  */
 class ChangeController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
     public function index(){
         /* 查询条件初始化 */
@@ -36,7 +36,7 @@ class ChangeController extends AdminController {
 
     /**
      * 新增订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function add(){
         if(IS_POST){
@@ -64,7 +64,7 @@ class ChangeController extends AdminController {
 
     /**
      * 编辑订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function edit($id = 0){
         if(IS_POST){
@@ -82,7 +82,7 @@ class ChangeController extends AdminController {
                     $this->error('更新失败'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
@@ -103,7 +103,7 @@ class ChangeController extends AdminController {
     }
  /**
      * 同意订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function agree($id = 0){
        if(IS_POST){
@@ -130,7 +130,7 @@ $back_shoplist=M('shoplist')->where("id='$shopid'")->setField('status','-5');
                     $this->error('更新失败'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
@@ -153,7 +153,7 @@ $this->assign('list', $list);
 
    /**
      * 拒绝订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
 public function refuse($id = 0){
        if(IS_POST){
@@ -175,7 +175,7 @@ $back_shoplist=M('shoplist')->where("id='$shopid'")->setField('status','-7');//�
                     $this->error('更新失败'.$id);
                 }
             } else {
-                $this->error($Config->getError());
+                $this->error('参数有误！');
             }
         } else {
             $info = array();
