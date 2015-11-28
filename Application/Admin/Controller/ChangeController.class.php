@@ -21,12 +21,11 @@ class ChangeController extends AdminController {
      */
     public function index(){
         /* 查询条件初始化 */
-		$a=M("change")->where("total='null'")->delete();	 
        $map  = array('status' =>1);
         $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
         $list = $this->lists('change', $map,'id desc',$field);
-
-        $this->assign('list', $list);
+        $data = getOrderListDocument($list,'goodid');
+        $this->assign('list', $data);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
         
@@ -224,6 +223,22 @@ $this->assign('list', $list);
         } 
     }
 
+    public function see()
+    {
+        $shopid = I('get.shopid');
+        if(empty($shopid))
+            $this->error('获取订单信息错误');
+        $tag    = M('shoplist')->field('tag')->find($shopid);
+        $order  = M('order')->where($tag)->field('id')->find();
 
+        $data = seeUserOrderDetail($order['id']);
+        if(!$data)
+            $this->error('获取订单信息错误');
+        $this->assign('list', $data['list']);
+        $this->assign('detail', $data['detail']);
+
+        $this->meta_title = '订单发货';
+        $this->display();
+    }
 
 }

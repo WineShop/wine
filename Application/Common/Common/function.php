@@ -4,12 +4,12 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: Kevin <lamp365@163.com> <http://myblog365.xyz>
+// | Author: Kevin <lamp365@163.com> <http://dayblog.cn>
 // +----------------------------------------------------------------------
 // +----------------------------------------------------------------------
 
 // OneThink常量定义
-const ONETHINK_VERSION    = '1.1.140825';
+const ONETHINK_VERSION    = '1.1.1501125';
 const ONETHINK_ADDON_PATH = './Addons/';
 
 /**

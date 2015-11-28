@@ -443,6 +443,11 @@ function get_action_type($type, $all = false){
 	return $list[$type];
 }
 
+/**
+ * 查看用户订单详细情况
+ * @param $id  是订单id orderid
+ * @return array|bool
+ */
 function seeUserOrderDetail($id)
 {
     /* 获取数据 */
@@ -458,6 +463,11 @@ function seeUserOrderDetail($id)
     return array('detail'=>$detail,'list'=>$list);
 }
 
+/**
+ * 删除用户订单
+ * @param $id  id是orderid
+ * @return bool
+ */
 function delUserOrder($id)
 {
     $order = M("order");
@@ -483,4 +493,19 @@ function delUserOrder($id)
         $order->rollback();
         return false;
     }
+}
+
+/**
+ * 获取订单列表文档
+ * @param $data
+ * @param $field
+ * @return mixed
+ */
+function getOrderListDocument($data,$field)
+{
+    foreach($data as &$dataArr)
+    {
+        $dataArr['document'] = M('document')->field('title')->find($dataArr[$field]);
+    }
+    return $data;
 }

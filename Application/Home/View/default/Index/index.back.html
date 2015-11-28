@@ -1,0 +1,102 @@
+<extend name="Base/common"/>
+<block name="body">
+<!--flexcontainer begin-->
+<div class="flexcontainer">
+    <!--导航和购物车-->
+    {:W('Public/nav')}
+    <!--//导航和购物车-->
+
+<!--pic begin--><!--幻灯片首个li设置class为CurrentPic-->
+
+<div class="screen">
+    <div class="LunBo">
+        <ul class="LunBoslide">
+            <volist name="slide" id="vo">
+                <li><a href="{$vo.url|get_nav_url}" ><img src="{:C('QINIUDOMAIN')}/{$vo.icon}"/></a> </li>
+            </volist>
+        </ul>
+        <div class="LunBoNum">
+            <span class="CurrentNum">1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+        </div>
+    </div>
+ <!--pic over-->
+
+
+    <div  class="rside">
+        <span>
+            <img data-img="2" src="__IMG__/article_tip.jpg"  alt="">
+        </span>
+        <div class="note">
+            <ul><li class="selected">公告</li><li>活动</li></ul>
+        </div>
+        <div id="msg">
+            <div class="message">
+                <ul class="home_notice">
+
+                </ul>
+            </div>
+            <div class="message"  style="display: none">
+                <ul class="home_active">
+
+                </ul>
+            </div>
+            <div class="message"  style="display: none"></div>
+        </div>
+    </div>
+
+</div><!--screen over-->
+</div><!--flexcontainer over-->
+
+<style type="text/css" rel="stylesheet">/* jdf-1.0.0/ ui-base.css Date:2015-03-24 17:41:14 */
+a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,font,form,h1,h2,h3,h4,h5,h6,html,i,iframe,img,ins,label,legend,li,ol,p,pre,small,span,strong,u,ul,var{margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block} 
+	 
+	 hr{ -moz-box-sizing:content-box;box-sizing:content-box;height:0;}</style>
+<!--商品内容循环开始-->
+
+<volist name="category" id="vo"  key="k" >
+<div class="list">
+    <h3><span class="floor">{$k}F</span>{$vo.title}</h3>
+    <div class="category">
+        <div class="icon">
+            <a href="{:U('Article/index?category='.$vo['name'])}" target="_blank"><img src="{:C('QINIUDOMAIN')}/{$vo.icon}"  /></a>
+        </div>
+    <!--栏目推荐位调用结束-->
+    <!--栏目文章调用开始-->
+        <ul class="article">
+
+           <volist name="vo.doc" id="article">
+                <li>
+                    <div class="pic" >
+                        <a class="yershop_img" style="position: absolute" href="{:U('Article/detail?id='.$article['id'])}" target="_blank" title="{$article.title}">
+                            <img src="{:C('QINIUDOMAIN')}/{$article.fengmian}" >
+                        </a>
+                    </div>
+                    <div class="name"><a href="{:U('Article/detail?id='.$article['id'])}"  target="_blank" title="{$article.title}">{$article.title}</a></div>
+                    <div class="price">
+                        <font>￥</font><span>{$article.price}</span>
+                        <span>{$v|get_good_yprice}</span>
+                    </div>
+                </li>
+           </volist>
+        </ul>
+    </div>				<!--栏目文章调用开始-->
+</div>
+</volist>
+<!--循环结束-->
+ 
+<script type="text/javascript">
+    var aurl = "{:U('Index/ajaxActive')}";     //活动
+    var nurl = "{:U('Index/ajaxNotice')}";     //公告
+    seajs.use(['Index'],function(Index){
+        Index.getArticle(aurl,nurl);
+    })
+
+</script>
+
+
+            
+</block> 

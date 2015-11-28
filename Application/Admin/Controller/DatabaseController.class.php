@@ -37,7 +37,6 @@ class DatabaseController extends AdminController{
 
                 $list = array();
                 foreach ($glob as $name => $file) {
-                    pp($name,$file);    //自定义封装的一个打印输出函数
                     if(preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)){
                         $name = sscanf($name, '%4s%2s%2s-%2s%2s%2s-%d');
 
