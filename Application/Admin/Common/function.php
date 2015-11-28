@@ -509,3 +509,28 @@ function getOrderListDocument($data,$field)
     }
     return $data;
 }
+
+/**
+ * shoplist状态
+ * @param $status
+ * @return string
+ */
+function shoplistSatus($status)
+{
+    switch($status)
+    {
+        case 4; $str = '申请退货';break;
+        case 5; $str = '同意退货';break;
+        case 6; $str = '正退货中';break;
+        case 7; $str = '退货已拒';break;
+        case 8; $str = '退货完成';break;
+
+        case -4; $str = '申请换货';break;
+        case -5; $str = '同意换货';break;
+        case -6; $str = '正换货中';break;
+        case -7; $str = '换货被拒';break;
+        case -8; $str = '换货完成';break;
+        default; $str ='暂无';
+    }
+    return $str;
+}

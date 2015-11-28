@@ -67,35 +67,33 @@ class ChangeController extends AdminController {
      */
     public function edit($id = 0){
         if(IS_POST){
-            $Form =D('change');
-       
-            if($_POST["id"]){
-	         $id=$_POST["id"];
-             $Form->create();
-           $result=$Form->where("id='$id'")->save();
+            $Form      = D('change');
+            $memberid  = I('post.memberid');
+            $shopid    = I('post.shopid');
+            $id        = I('post.id');
+           if($id){
+               unset($_POST['id']);
+               $Form->create();
+               $result = $Form->where("id='$id'")->save();
+//               ppd($Form->getlastSql());
                 if($result){
                     //记录行为
-                    action_log('update_change', 'change', $data['id'], UID);
+                    user_log("管理员修改了,用户({$memberid})退货商品({$shopid})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
-                    $this->error('更新失败'.$id);
+                    $this->error('更新失败');
                 }
             } else {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
             /* 获取数据 */
-            $info = M('change')->find($id);
-
-            $list=M('change')->where("shopid='$id'")->select();
-
-            if(false === $info){
+            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
+            $info   = M('change')->field($field)->find($id);
+            if(empty($info)){
                 $this->error('获取订单信息错误');
             }
-            $this->assign('list', $list);
-
-			 $this->assign('info', $info);
+            $this->assign('info', $info);
             $this->meta_title = '编辑订单';
             $this->display();
         }
