@@ -442,3 +442,45 @@ function get_action_type($type, $all = false){
 	}
 	return $list[$type];
 }
+
+function seeUserOrderDetail($id)
+{
+    /* 获取数据 */
+    $field  = 'id,orderid,tag,pricetotal,create_time,status,assistant,update_time,uid,shipprice,codemoney,display,ispay,total,addressid';
+    $detail = M('order')->field($field)->find($id);
+
+    $field  = 'id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters';
+    $list   = M('shoplist')->where("orderid='$id'")->field($field)->select();
+
+    if(empty($detail)){
+        return false;
+    }
+    return array('detail'=>$detail,'list'=>$list);
+}
+
+function delUserOrder($id)
+{
+    $order = M("order");
+    $shop  = M("shoplist");
+    $order->startTrans();
+    if(is_array($id)){
+        $ids   = $id;
+        foreach($ids as $id){
+            $res1 = $order->where("id='$id'")->delete();
+            $res2 = $shop ->where("orderid='$id'")->delete();
+        }
+
+    }else{
+        $res1 = $order->where("id='$id'")->delete();
+        $res2 = $shop->where("orderid='$id'")->delete();
+
+    }
+
+    if ($res1 && $res2){
+        $order->commit();
+        return true;
+    }else{
+        $order->rollback();
+        return false;
+    }
+}
