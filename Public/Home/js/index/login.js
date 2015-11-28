@@ -17,7 +17,7 @@ define(function(require, exports, module){
             $("button:submit").html('请等待');
            T.restPost(url,param,function(success){
                main.modalAlert(success.msg);
-               main.redirect('');
+               main.redirect('',3000);
            },function(error){
                 main.modalAlert(error.msg,'danger');
                 $(".checkCode").click();

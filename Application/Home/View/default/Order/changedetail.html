@@ -55,18 +55,19 @@
                 <if condition="$list.status eq '2'">
                 <p>换货发送地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.address}  <i class="glyphicon glyphicon-phone"></i>{$list.contact}</span></p>
                 <p style="display: block;color:white;background: #E23C3D">买家换货快递</p>
-                <form action="{:U('order/changekuaidi')}" method="post" class="form-horizontal">
-                    <input type="hidden" class="text input-large"  name="backid"  value="{$list.id}">
+                <form action="{:U('order/changekuaidi')}" method="post" id="form_changekuaidi" class="form-horizontal">
+                    <input type="hidden" class="text input-large"  name="changeid"  value="{$list.id}">
+                    <input type="hidden" class="text input-large"  name="shopid"  value="{$list.shopid}">
                     <p>快递名称：<input type="text" class="text input-large"  name="tool"  ></p>
                     <p>快递单号：<input type="text" class="text input-large"  name="toolid"  ></p>
-                    <p><input type="submit" class="btn_submit_pay" value="提交" /></p>
+                    <p><input type="button" class="btn_submit_pay" id="sub_changekuaidi" value="提交" /></p>
 
                 </form>
 
                 <elseif condition="$list.status eq '3'"/>
-                    <p>拒绝原因：<span style="color: #E23C3D;font-weight: bold">{$list.backlist}</span></p>
+                    <p>拒绝原因：<span style="color: #E23C3D;font-weight: bold">{$list.backinfo}</span></p>
                 <elseif condition="$list.status eq '4'"/>
-                    <p>换货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.address}  <i class="glyphicon glyphicon-phone"></i>{$list.contact}</span></p>
+                    <p>换货地址：<span style="color: #E23C3D;font-weight: bold"><i class="glyphicon glyphicon-user"></i>{$list.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.address}  <i class="glyphicon glyphicon-phone"></i>{$list.contact}</span></p>
                     <h3 style="display: block;color:white;background: #E23C3D">买家换货使用快递</h3>
                     <p>快递名称：{$list.tool}</p>
 

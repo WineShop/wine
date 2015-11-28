@@ -164,7 +164,7 @@ class ChangeController extends AdminController {
      * 拒绝订单
      * @author kevin <lamp365@163.com>
      */
-public function refuse($id = 0){
+public function refuse(){
        if(IS_POST){
            $Form = D('change');
            $id     = I('post.id');

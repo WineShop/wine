@@ -407,26 +407,33 @@ class OrderController extends HomeController {
 
     }
 
+    //换货时  用户回递回来的快递
     public function changekuaidi(){
-        $uid = $this->login();
+        $uid = is_login();
         if(IS_POST){
-            $id= I('post.backid');//获取退货主键id
-            $back=D("change");
-            $shopid=$back->where("id='$id'")->getField("shopid");
+            $id     = I('post.changeid');//获取换货主键id
+            $shopid = I('post.shopid');
+            $change = D("change");
+            unset($_POST['shopid']);
+            unset($_POST['changeid']);
             //保存信息到退货表
+            $change->startTrans();
+            $change->create();//Create方法创建的数据对象是保存在内存,并没有实际写入到数据库，直到使用add或者save方法才会真正写入数据库
+            $change->status = 4;
+            $res1    = $change->where("id='$id' and uid={$uid}")->save();
 
-            $back->create();//Create方法创建的数据对象是保存在内存,并没有实际写入到数据库，直到使用add或者save方法才会真正写入数据库
-            $back->status=4;
-            $result=$back->where("id='$id'")->save();
             //更改商品的售后信息
-            $data['status']=-6;
-            $shop=M("shoplist");
-            $add=$shop->where("id='$shopid'")->save($data);
-            if($add)
+            $data['status'] = -6;
+            $shop   = M("shoplist");
+            $res2   = $shop->where("id='$shopid' and uid={$uid}")->save($data);
+
+            if($res1 && $res2)
             {
-                $this->success('提交成功',U("center/index"));
+                $change->commit();
+                $this->ajaxSuccess('提交成功，请等待管理员处理！');
             }else{
-                $this->error('申请失败');
+                $change->rollback();
+                $this->ajaxError('对不起，申请失败！');
             }
         }else{
             $id= I('get.id');//获取id
@@ -485,7 +492,7 @@ class OrderController extends HomeController {
         if(IS_POST){
             $Form      = D('order');
             $orderid   = I('post.id');
-
+            unset($_POST['id']);
             $Form->startTrans();
 
             $Form->create();

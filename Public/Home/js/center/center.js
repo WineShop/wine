@@ -142,8 +142,12 @@ define(function(require, exports, module){
         completegood(id,url);
     });
 
-    //申请退货
-    var backgood = function(param,url){
+    /**
+     * 公共的  给出参数和url 去请求处理
+     * @param param
+     * @param url
+     */
+    var getCommonAjax = function(param,url){
         T.restPost(url,param,function(success){
             main.modalAlert(success.msg);
             main.redirect();
@@ -152,25 +156,24 @@ define(function(require, exports, module){
         });
     }
 
-    //申请换货
-    var changegood = function(param,url){
-        T.restPost(url,param,function(success){
-            main.modalAlert(success.msg);
-            main.redirect();
-        },function(error){
-            main.modalAlert(error.msg,'danger');
-        });
-    }
 
+    //换货
     $(document).delegate("#sub_change",'click',function(){
         var url    = $("#changegood").attr('action');
         var param  = $("#changegood").serialize();
-        changegood(param,url);
+        getCommonAjax(param,url);
     });
+    //退货
     $(document).delegate('#sub_backgood','click',function(){
         var url    = $("#form_backgood").attr('action');
         var param  = $("#form_backgood").serialize();
-        backgood(param,url);
+        getCommonAjax(param,url);
+    });
+    //确认换货  提交快递单号
+    $("#sub_changekuaidi").click(function(){
+        var url   =  $("#form_changekuaidi").attr('action');
+        var param =  $("#form_changekuaidi").serialize();
+        getCommonAjax(param,url);
     });
 
     module.exports = {

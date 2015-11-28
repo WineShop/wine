@@ -19,8 +19,7 @@
         <div class="form-item">
 			<label class="item-label">换货商品<span class="check-tips">（商品名称）</span></label>
 			<div class="controls">
-				<input type="hidden" class="text input-large"  name="goodid"  value="{$info.goodid}">
-				{$info.shopid|get_good_name}
+                <input type="text" class="text input-large" value="{$info.goodid|get_good_name}" disabled/>
 			</div>
 		</div>
 

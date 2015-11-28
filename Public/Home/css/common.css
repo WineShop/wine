@@ -1399,8 +1399,11 @@ height: 40px;
 line-height: 40px;
 color: #fff;
 font-size: 18px;
-background: #E23C3D;margin:15px 20px 0px 20px ;
+background: #FF6347;
+margin:15px 20px 0px 20px ;
+border-radius: 3px;
 }
+a.btn_success:hover{background: #E23C3D}
 .payform{margin-left:132px  }
 #write{ overflow:hidden;margin-top: 10px;}
 #write li{ overflow:hidden;font-size: 14px;margin-bottom: 10px;}
