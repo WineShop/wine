@@ -74,6 +74,7 @@ class ChangeController extends AdminController {
            if($id){
                unset($_POST['id']);
                $Form->create();
+               $Form->update_time = time();
                $result = $Form->where("id='$id'")->save();
 
                 if($result){

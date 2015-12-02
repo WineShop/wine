@@ -70,11 +70,12 @@ class ChangeoverController extends AdminController {
        
             if($_POST["id"]){
 				$id=$_POST["id"];
+                unset($_POST['id']);
                $Form->create();
-           $result=$Form->where("id='$id'")->save();
+               $result=$Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_change', 'change', $data['id'], UID);
+                    user_log("管理员修改了用户({$_POST['memberid']})换货信息");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败,换货单'.$id);
@@ -83,7 +84,9 @@ class ChangeoverController extends AdminController {
                 $this->error('参数有误！');
             }
         } else {
-            $info = M('change')->find($id);
+            /* 获取数据 */
+            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters,address,backname,contact';
+            $info   = M('change')->field($field)->find($id);
             if(false === $info){
                 $this->error('获取订单信息错误');
             }

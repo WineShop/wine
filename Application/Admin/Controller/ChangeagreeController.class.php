@@ -73,7 +73,8 @@ class ChangeagreeController extends AdminController {
 	            $id = $_POST["id"];
                 unset($_POST['id']);
                 $Form->create();
-                $result=$Form->where("id='$id'")->save();
+                $Form->update_time = time();
+                $result = $Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
                     user_log("管理员修改了用户(uid:{$_POST['memberid']})换货订单(gooid:{$_POST['goodid']})");

@@ -86,7 +86,7 @@ class ChangeonController extends AdminController {
             }
         } else {
             /* 获取数据 */
-            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
+            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters,backname,address,contact';
             $info   = M('change')->field($field)->find($id);
 
             if(false === $info){

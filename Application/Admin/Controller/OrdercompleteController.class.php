@@ -23,7 +23,7 @@ class OrdercompleteController extends AdminController {
         /* 查询条件初始化 */
 	
         $map    = array('status' => 3);
-        $field  = 'id,tag,orderid,pricetotal,create_time,status,uid,display,ispay,total,addressid,message';
+        $field  = 'id,tag,orderid,pricetotal,create_time,update_time,status,uid,display,ispay,total,addressid,message';
         $list   = $this->lists('order', $map,'id desc',$field);
 
         $this->assign('list', $list);
