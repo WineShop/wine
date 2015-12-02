@@ -73,14 +73,10 @@
 
                     <p>快递单号：{$list.toolid}</p>
 
-                    <notempty name="list.changetool">
 
                     <h3 style="display: block;color:white;background: #E23C3D">卖家发货使用快递</h3>
-                    <p>快递名称：{$list.changetool}</p>
-
-                    <p>快递单号：{$list.changetoolid}</p>
-                    <p>卖家发货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.acceptname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.acceptaddress}  <i class="glyphicon glyphicon-phone"></i>{$list.acceptphone}</span></p>
-                    </notempty>
+                    <p>等待卖家再次发货！</p>
+                 </notempty>
                 <elseif condition="$list.status eq '5'"/>
                     <p>退货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.address}  <i class="glyphicon glyphicon-phone"></i>{$list.contact}</span></p>
                     <h3 style="display: block;color:white;background: #E23C3D">买家换货使用快递</h3>
@@ -90,13 +86,13 @@
 
                     <notempty name="list.changetool">
 
-                    <h3 style="display: block;color:white;background: #E23C3D">卖家发货使用快递</h3>
-                    <p>快递名称：{$list.changetool}</p>
+                        <h3 style="display: block;color:white;background: #E23C3D">卖家发货使用快递</h3>
+                        <p>快递名称：{$list.changetool}</p>
 
-                    <p>快递单号：{$list.changetoolid}</p>
-                    <p>卖家发货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.acceptname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.acceptaddress}  <i class="glyphicon glyphicon-phone"></i>{$list.acceptphone}</span></p>
+                        <p>快递单号：{$list.changetoolid}</p>
+                        <p>卖家发货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.acceptname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.acceptaddress}  <i class="glyphicon glyphicon-phone"></i>{$list.acceptphone}</span></p>
                     </notempty>
-                    <h3 style="display: block;color:white;background: #E23C3D">卖家发货使用快递</h3>
+                    <h3 style="display: block;color:white;background: #E23C3D">订单换货状态</h3>
                     <p><span style="color: #E23C3D;font-weight: bold">换货完成</span></p>
                 <else />
                 </if>

@@ -10,7 +10,6 @@
 	</div>
 
 	<div class="cf">
-		<a class="btn" href="{:U('add')}">新 增</a>
 		  <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
          <!-- 高级搜索 -->
         <div class="search-form fr cf">
@@ -28,12 +27,14 @@
 					<th class="row-selected">
 					 <input class="checkbox check-all" type="checkbox">
 					</th>
-					<th>ID</th>
-					<th>商品名称</th>
-                    <th>金额</th>
-                     <th>状态</th>
-                       <th>时间</th>
-					<th>操作</th>
+                    <th>ID</th>
+                    <th>Uid</th>
+                    <th>商品名称</th>
+                    <th>数量</th>
+                    <th>总金额</th>
+                    <th>原因</th>
+                    <th>时间</th>
+                    <th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -42,22 +43,21 @@
 					<tr>
 					<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$order.id}"></td>
 						<td>{$order.id}</td>
-						<td><a title="编辑" href="{:U('edit?id='.$order['id'].'&pid='.$pid)}">{$order.goodid|get_good_name}</a></td>
-						
+						<td>{$order.uid}</td>
+                        <td><a title="查看订单" href="{:U('see?shopid='.$order['shopid'])}">{$order['document']['title']}</a></td>
+                        <td>{$order.num}</td>
                         <td>{$order.total}</td>
-                        <td>{$order.status}</td>
-                         <td>{$order.update_time|date='Y-m-d H:i:s',###}</td>
+                        <td><span title="{$order.reason}">{$order.reason|cut_substr=0,16}</span></td>
+                        <td>{$order.update_time|date='Y-m-d H:i:s',###}</td>
 					<td> 
                             <a title="编辑" href="{:U('edit?id='.$order['id'])}">编辑</a>
-							<a title="编辑" href="{:U('send?id='.$order['id'])}">发货</a>
-<a title="拒绝" href="{:U('complete?id='.$order['id'])}">完成</a>
-                         
+							<a title="发货" href="{:U('send?id='.$order['id'])}">发货</a>
 							<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$order['id'])}">删除</a>
                         </td>
 					</tr>
 				</volist>
 				<else/>
-				<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+				<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
 				</notempty>
 			</tbody>
 		</table>

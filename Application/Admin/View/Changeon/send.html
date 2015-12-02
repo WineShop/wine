@@ -4,7 +4,7 @@
 <block name="body">
 	<div class="main-title">
 		<h2>
-			{$info['id']?'编辑':'新增'}订单
+			换货订单
 		
 		</h2>
 	</div>
@@ -43,27 +43,19 @@
 	<div class="form-item">
 			<label class="item-label">收件人地址<span class="check-tips">（换货说明）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="acceptaddres" value="{$arr.address}">
+				<input type="text" class="text input-large" name="acceptaddres" value="{$address.address}">
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="item-label">收件人<span class="check-tips"></span> </label>
 			<div class="controls">
-			<input type="text" class="text input-large" name="acceptname" value="{$arr.realname}">				
+			<input type="text" class="text input-large" name="acceptname" value="{$address.realname}">
 			</div>
 		</div>
 <div class="form-item">
 			<label class="item-label">收件人联系电话<span class="check-tips"></span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="acceptphone" value="{$arr.cellphone}">
-			</div>
-		</div>
-	
-
-<div class="form-item">
-			<label class="item-label">状态<span class="check-tips">（{$info.status}）</span></label>
-			<div class="controls">
-				<input type="text"  class="text input-large" name="status" value="4">
+				<input type="text" class="text input-large" name="acceptphone" value="{$address.cellphone}">
 			</div>
 		</div>
 
@@ -77,20 +69,20 @@
 	 <div class="form-item">
 			<label class="item-label">发件人<span class="check-tips"></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="tool" value="{$info.backname}" >
+				<input type="text" class="text input-large" name="backname" value="{$info.backname}" >
 			</div>
 		</div>
 	<div class="form-item">
 			<label class="item-label">发件人地址<span class="check-tips"></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="tool" value="{$info.address}" >
+				<input type="text" class="text input-large" name="address" value="{$info.address}" >
 			</div>
 		</div>
 	
 <div class="form-item">
 			<label class="item-label">发货人联系方式<span class="check-tips"></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="tool" value="{$info.contact}" >
+				<input type="text" class="text input-large" name="contact" value="{$info.contact}" >
 			</div>
 	</div>
 
@@ -98,8 +90,11 @@
 
 </div>
 		
-		<div class="form-item cf"><input type="hidden" name="id" value="{$info.id|default=''}">
-			
+		<div class="form-item cf">
+            <input type="hidden" name="id" value="{$info.id|default=''}">
+            <input type="hidden" name="memberid" value="{$info.uid|default=''}">
+            <input type="hidden" name="shopid" value="{$info.shopid|default=''}">
+
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 		</div>

@@ -4,29 +4,28 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <lamp365@163.com>
  */
 class ChangeonController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
     public function index(){
         /* 查询条件初始化 */
-		$a=M("change")->where("total='null'")->delete();	 
-       $map  = array('status' =>4);
-        $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
-       $list = $this->lists('change', $map,'id desc',$field);
-
-        $this->assign('list', $list);
+        $map  = array('status' =>4);
+        $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
+        $list = $this->lists('change', $map,'id desc',$field);
+        $data = getOrderListDocument($list,'goodid');
+        $this->assign('list', $data);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
         
@@ -36,7 +35,7 @@ class ChangeonController extends AdminController {
 
     /**
      * 新增订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function add(){
         if(IS_POST){
@@ -64,19 +63,20 @@ class ChangeonController extends AdminController {
 
     /**
      * 编辑订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function edit($id = 0){
         if(IS_POST){
             $Form = D('change');
        
             if($_POST["id"]){
-				$id=$_POST["id"];
-               $Form->create();
-           $result=$Form->where("id='$id'")->save();
+				$id = $_POST["id"];
+                unset($_POST["id"]);
+                $Form->create();
+                $result=$Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_change', 'change', $data['id'], UID);
+                    user_log("管理员修改编辑了用户({$_POST['memberid']})换货信息");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败,退货单'.$id);
@@ -85,62 +85,64 @@ class ChangeonController extends AdminController {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
             /* 获取数据 */
-            $info = M('change')->find($id);
-
-            $list=M('change')->where("shopid='$id'")->select();
+            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
+            $info   = M('change')->field($field)->find($id);
 
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-            $this->assign('list', $list);
-
 			 $this->assign('info', $info);
             $this->meta_title = '编辑订单';
             $this->display();
         }
     }
    /**
-     * 编辑订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * 确认换货并发货
+     * @author kevin <lamp365@163.com>
      */
     public function send($id = 0){
         if(IS_POST){
             $Form = D('change');
        
             if($_POST["id"]){
-				$id=$_POST["id"];
-               $Form->create();
-           $result=$Form->where("id='$id'")->save();
-                if($result){
+				$id     = $_POST["id"];
+                $shopid = $_POST["shopid"];
+                unset($_POST['id']);
+                $Form->create();
+                $Form->status      = 5;
+                $Form->update_time = time();
+                $Form->startTrans();
+
+                $res1 = $Form->where("id='$id'")->save();
+                /* 编辑后更新商品反馈信息*/
+                $res2 = M('shoplist')->where("id='$shopid'")->setField('status','-8');
+                if($res1 && $res2){
+                    $Form->commit();
                     //记录行为
-                    action_log('update_change', 'change', $data['id'], UID);
+                    user_log("管理员确认了用户({$_POST['memberid']})换货,发快递");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
-                    $this->error('更新失败,退货单'.$id);
+                    $Form->rollback();
+                    $this->error('更新失败'.$id);
                 }
             } else {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
             /* 获取数据 */
-            $info = M('change')->find($id);
+            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters,backname,address,contact';
+            $info   = M('change')->field($field)->find($id);
 
-            $shopid=$info["shopid"];
-          $orderid=M('shoplist')->where("id='$shopid'")->getField('orderid');  
-           $addressid=M('order')->where("id='$orderid'")->getField('addressid');
+            $orderid   = M('shoplist')->where("id={$info['shopid']}")->getField('orderid');
+            $addressid = M('order')->where("id='$orderid'")->getField('addressid');
+            $address   = M('transport')->field("id,address,realname,cellphone")->find($addressid);
 
-       $array = array();
-            /* 获取数据 */
-            $array = M('transport')->find($addressid);
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-            $this->assign('arr', $array);
-
-			 $this->assign('info', $info);
+            $this->assign('info', $info);
+            $this->assign('address', $address);
             $this->meta_title = '编辑订单';
             $this->display();
         }
@@ -148,47 +150,49 @@ class ChangeonController extends AdminController {
 
  /**
      * 同意订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function complete($id = 0){
        if(IS_POST){
             $Form =D('change');
             if($_POST["id"]){ 
-				$id=$_POST["id"];
-				$shopid=$_POST["shopid"];
+				$id     = $_POST["id"];
+				$shopid = $_POST["shopid"];
+                unset($_POST['id']);
 				
-             /*更新时间*/
-             $Form->create();
+                /*更新时间*/
+                $Form->create();
+                $Form->status      = 5;
+                $Form->update_time = time();
+                $Form->startTrans();
            
-           $result=$Form->where("id='$id'")->save();
- /* 编辑后更新商品反馈信息*/
-$back_shoplist=M('shoplist')->where("id='$shopid'")->setField('status','-8');
-                if($back_shoplist){
+                $res1 = $Form->where("id='$id'")->save();
+                /* 编辑后更新商品反馈信息*/
+                $res2 = M('shoplist')->where("id='$shopid'")->setField('status','-8');
+                if($res1 && $res2){
+                    $Form->commit();
                     //记录行为
-                    action_log('update_order', 'order', $data['id'], UID);
+                    user_log("管理员确认了用户({$_POST['memberid']})换货");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
+                    $Form->rollback();
                     $this->error('更新失败'.$id);
                 }
             } else {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
-            /* 获取数据 */
-            $info = M('change')->find($id);
-$detail= M('change')->where("id='$id'")->select();
-$list=M('shoplist')->where("orderid='$id'")->select();
+           $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
+           $info   = M('change')->field($field)->find($id);
 
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-$this->assign('list', $list);
-            $this->assign('detail', $detail);
+
 			 $this->assign('info', $info);
 			 
             $this->meta_title = '编辑订单';
-           $this->display();
+            $this->display();
         }
     }
 
@@ -220,6 +224,24 @@ $this->assign('list', $list);
                 $this->error("删除失败！");
             }
         } 
+    }
+
+    public function see()
+    {
+        $shopid = I('get.shopid');
+        if(empty($shopid))
+            $this->error('获取订单信息错误');
+        $tag    = M('shoplist')->field('tag')->find($shopid);
+        $order  = M('order')->where($tag)->field('id')->find();
+
+        $data = seeUserOrderDetail($order['id']);
+        if(!$data)
+            $this->error('获取订单信息错误');
+        $this->assign('list', $data['list']);
+        $this->assign('detail', $data['detail']);
+
+        $this->meta_title = '订单发货';
+        $this->display();
     }
 
 

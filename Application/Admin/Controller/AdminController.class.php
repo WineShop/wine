@@ -39,7 +39,6 @@ class AdminController extends Controller {
                 $this->error('403:禁止访问');
             }
         }*/
-
         // 检测访问权限
         $access =   $this->accessControl();
 
@@ -243,7 +242,7 @@ class AdminController extends Controller {
      * @author kevin  <lamp365@163.com>
      */
     final public function getMenus($controller=CONTROLLER_NAME){
-        $menus  =   session('ADMIN_MENU_LIST'.$controller);
+//        $menus  =   session('ADMIN_MENU_LIST'.$controller);
         if(empty($menus)){
             // 获取主菜单
             $where['pid']   =   0;

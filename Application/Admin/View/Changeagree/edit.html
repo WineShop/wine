@@ -16,29 +16,31 @@
 <div class="tab-content">						
 <form action="{:U()}" method="post" class="form-horizontal">
 	<div id="tab1" class="tab-pane in tab1">  
-	<div class="back-detail" >     
+	<div class="back-detail" >
 
-    <empty name='info'>
-        <div class="personal_info_none_goods">
-            <p>没有该订单，<a href='{:U("index/index")}' class="red">查询错误</a></p>
-        </div>
-	<else />
+        <empty name='info'>
+            <div class="personal_info_none_goods">
+                <p>没有该订单，<a href='{:U("index/index")}' class="red">查询错误</a></p>
+            </div>
+        <else />
 
             
-      <div class="apply">  
+      <div class="apply">
         <h3 style="display: block;color:white;background:#f60">买家申请换货说明</h3>
-      
-        <div class="apply-wrap">
+
+         <div class="apply-wrap">
             <div class="back-detail-asc">
-                <p>申请时间：{$info.create_time|date='Y-m-d H:i:s',###} </p><p>名称：{$info.goodid|get_good_name} </p>
+                <p>申请时间：{$info.create_time|date='Y-m-d H:i:s',###} </p>
+                <p>商品名称：{$info.goodid|get_good_name} </p>
                 <p>商品金额：{$info.total} </p>
                 <p>商品数量：{$info.num}</p>
                 <p>换货原因：{$info.reason}</p>
             </div>
-            <div class="back-good-img"><img src="{$info.goodid}"  width="170" height="170"/>
-        </div>
-      </div>
-     </div>
+            <div class="back-good-img">
+                <img src="{$info.goodid}"  width="170" height="170"/>
+            </div>
+         </div>
+       </div>
 		 
 		
 			
@@ -46,11 +48,11 @@
         <h3 style="display: block;color:white;background: #f60">卖家反馈</h3>
           	<p>反馈时间：{$info.update_time|date='Y-m-d H:i:s',###}</p>  <p>动态：<span class="red"><php>
 			  $status=$info['status'];
-			  if($status==1){ echo "待审核";}; 
+			  if($status==1){ echo "待审核";};
 			  if($status==2){ echo "同意换货";};
               if($status==3){ echo "换货被拒绝";};
 			  if($status==4){ echo "正换货";};
-			  if($status==5){ echo "已换货";};</php></span></p> 
+			  if($status==5){ echo "已换货";};</php></span></p>
 
     <if condition="$info.status eq '2'">
         <p>换货地址：<span class="red">
@@ -61,9 +63,7 @@
         </p>
         <p style="display: block;color:white;background: #f60">买家换货快递</p>
         <input type="hidden" class="text input-large"  name="backid"  value="{$info.id}">
-        <p>快递名称：<input type="text" class="text input-large"  name="tool"  ></p>
-        <p>快递单号：<input type="text" class="text input-large"  name="toolid"  ></p>
-        <p><input type="submit" class="btn_submit_pay" value="提交" /></p>
+        <p>买家暂未提交快递单号</p>
 
     <else />
     </if>
@@ -75,14 +75,14 @@
 	<p>换货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$info.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$info.address}  <i class="glyphicon glyphicon-phone"></i>{$info.contact}</span></p>
 	<h3 style="display: block;color:white;background: #f60">买家换货快递</h3>
 	<p>快递名称：{$info.tool}</p>
-        
+
     <p>快递单号：{$info.toolid}</p>
     <notempty name="$info.changetool">
 
     <p>卖家发货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$info.acceptname}  <i class="glyphicon glyphicon-map-marker"></i>{$info.acceptaddress}  <i class="glyphicon glyphicon-phone"></i>{$info.acceptphone}</span></p>
 	<h3 style="display: block;color:white;background: #f60">卖家发货使用快递</h3>
 	<p>快递名称：{$info.changetool}</p>
-        
+
     <p>快递单号：{$info.changetool}</p>
 
     </notempty>
@@ -92,7 +92,7 @@
         <p>换货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$info.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$info.address}  <i class="glyphicon glyphicon-phone"></i>{$info.contact}</span></p>
         <h3 style="display: block;color:white;background: #f60">买家换货快递</h3>
         <p>快递名称：{$info.tool}</p>
-        
+
         <p>快递单号：{$info.toolid}</p>
 
     <else />

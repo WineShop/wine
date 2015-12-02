@@ -422,6 +422,7 @@ class OrderController extends HomeController {
             //保存信息到退货表
             $change->startTrans();
             $change->create();//Create方法创建的数据对象是保存在内存,并没有实际写入到数据库，直到使用add或者save方法才会真正写入数据库
+            $change->update_time = time();
             $change->status = 4;
             $res1    = $change->where("id='$id' and uid={$uid}")->save();
 
@@ -493,7 +494,8 @@ class OrderController extends HomeController {
             $Form->startTrans();
 
             $Form->create();
-            $Form->status="3";
+            $Form->status      = "3";
+            $Form->update_time = time();
             $res1 = $Form->where("orderid='$orderid'")->save();
             //根据订单id获取购物清单,设置商品状态为已完成.，status=3
             $res2 = M("shoplist")->where("tag='$orderid'")->save(array('status'=>3,'iscomment'=>1));

@@ -10,9 +10,6 @@
 	</div>
 	<ul class="tab-nav nav">
 	<li data-tab="tab1" class="current"><a href="javascript:void(0);">换货动态</a></li>
-	<li data-tab="tab2" ><a href="javascript:void(0);">编辑信息</a>
-	
-	</li>
 	<li data-tab="tab3" ><a href="javascript:void(0);">换货信息</a>
 	
 	</li>
@@ -33,14 +30,17 @@
 <h3 style="display: block;color:white;background:#f60">买家申请换货说明</h3>
       
 <div class="apply-wrap">
-<div class="back-detail-asc">	<p>申请时间：{$info.time|date='Y-m-d H:i:s',###} </p><p>名称：{$info.goodid|get_good_name} </p>
-<p>金额：{$info.total} 数量：{$info.num}</p>
- <p>标题{$info.title}</p>
-        
- <p>原因：{$info.reason}</p>
- </div>
- <div class="back-good-img"><img src="{$info.goodid|get_cover_id|get_cover='path'}"  width="170" height="170"/> 
- </div>
+<div class="back-detail-asc">
+    <div class="back-detail-asc">
+        <p>申请时间：{$info.create_time|date='Y-m-d H:i:s',###} </p>
+        <p>商品名称：{$info.goodid|get_good_name} </p>
+        <p>商品金额：{$info.total} </p>
+        <p>商品数量：{$info.num}</p>
+        <p>换货原因：{$info.reason}</p>
+    </div>
+    <div class="back-good-img">
+        <img src="{$info.goodid}"  width="170" height="170"/>
+    </div>
  </div>
  
  </div>
@@ -116,108 +116,58 @@
 </div>
 
 </div>
-
+</div>
 		    </div>
-	
-	<div id="tab2" class="tab-pane tab2">
-	
-	
-	<div class="form-item">
-			<label class="item-label">换货商品主键id<span class="check-tips">（shoplist列表主键）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large"  name="shopid"  value="{$info.shopid}">
-				
-			</div>
-		</div>
-<div class="form-item">
-			<label class="item-label">换货商品编号<span class="check-tips">（document列表主键）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large"  name="goodid"  value="{$info.goodid}">
-				
-			</div>
-		</div>
 
 
-		<div class="form-item">
-			<label class="item-label">标题<span class="check-tips">（换货说明）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="title" value="{$info.title}">
-			</div>
-		</div>
-		<div class="form-item">
-			<label class="item-label">原因<span class="check-tips">（网站搜索引擎关键字）</span> </label>
-			<div class="controls">
-			<label class="textarea input-large">
-				<textarea name="reson">{$info.reason}</textarea>
-			</label>				
-			</div>
-		</div>
-<div class="form-item">
-			<label class="item-label">数量<span class="check-tips"></span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="num" value="{$info.num}">
-			</div>
-		</div>
-		<div class="form-item">
-			<label class="item-label">金额<span class="check-tips"></span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="total" value="{$info.total}">
-			</div>
-		</div>
-
-
-
-
-     
-		
-	</div>
 	
 	<div id="tab3" class="tab-pane  tab3">
 	 
-	 <div class="form-item">
+	    <div class="form-item">
 			<label class="item-label">换货快递名称<span class="check-tips"></label>
 			<div class="controls">
 				<input type="text" class="text input-large" name="tool" value="{$info.tool}" >
 			</div>
 		</div>
-	<div class="form-item">
+	    <div class="form-item">
 			<label class="item-label">换货快递单号<span class="check-tips"></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="tool" value="{$info.toolid}" >
+				<input type="text" class="text input-large" name="toolid" value="{$info.toolid}" >
 			</div>
 		</div>
 	
-	<div class="form-item">
+	    <div class="form-item">
 			<label class="item-label">换货地址<span class="check-tips"></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="tool" value="{$info.address}" >
+				<input type="text" class="text input-large" name="address" value="{$info.address}" >
 			</div>
-	</div>
-	<div class="form-item">
+	    </div>
+	    <div class="form-item">
 			<label class="item-label">换货联系人<span class="check-tips"></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="tool" value="{$info.backname}" >
+				<input type="text" class="text input-large" name="backname" value="{$info.backname}" >
 			</div>
 		</div>
-	<div class="form-item">
+	    <div class="form-item">
 			<label class="item-label">换货联系方式<span class="check-tips"></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="tool" value="{$info.contact}" >
+				<input type="text" class="text input-large" name="contact" value="{$info.contact}" >
 			</div>
 		</div>
 
 
 </div>
 		
-		<div class="form-item cf"><input type="hidden" name="id" value="{$info.id|default=''}">
-			<input type="hidden" name="shopid" value="{$info.shopid|default=''}">
+		<div class="form-item cf">
+            <input type="hidden" name="id" value="{$info.id|default=''}">
+			<input type="hidden" name="memberid" value="{$info.uid|default=''}">
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 		</div>
 		</div>  
 		  
 		  </form>
-	</div></div>
+	</div>
 </block>
 <block name="script">
 <script type="text/javascript" charset="utf-8">
