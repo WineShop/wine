@@ -56,10 +56,10 @@
                 <p>换货发送地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.address}  <i class="glyphicon glyphicon-phone"></i>{$list.contact}</span></p>
                 <p style="display: block;color:white;background: #E23C3D">买家换货快递</p>
                 <form action="{:U('order/changekuaidi')}" method="post" id="form_changekuaidi" class="form-horizontal">
-                    <input type="hidden" class="text input-large"  name="changeid"  value="{$list.id}">
+                    <input type="hidden" class="text input-large"  name="changeid"  value="{$list.id}" >
                     <input type="hidden" class="text input-large"  name="shopid"  value="{$list.shopid}">
-                    <p>快递名称：<input type="text" class="text input-large"  name="tool"  ></p>
-                    <p>快递单号：<input type="text" class="text input-large"  name="toolid"  ></p>
+                    <p>快递名称：<input type="text" class="text input-large"  name="tool"   style="padding: 0px 5px;width: 250px;"></p>
+                    <p>快递单号：<input type="text" class="text input-large"  name="toolid"   style="padding: 0px 5px;width: 250px;"></p>
                     <p><input type="button" class="btn_submit_pay" id="sub_changekuaidi" value="提交" /></p>
 
                 </form>

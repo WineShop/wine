@@ -43,9 +43,9 @@ class ChangeagreeController extends AdminController {
             $Config = D('change');
             $data = $Config->create();
 			  /* 新增时间并更新时间*/
-  	$shopid=$_POST["shopid"];
-      $shoplist=D('shoplist')->where("id='$shopid'")->setField('status','-5');
-	  if($data){
+            $shopid=$_POST["shopid"];
+            $shoplist=D('shoplist')->where("id='$shopid'")->setField('status','-5');
+          if($data){
                 if($Config->add()){
                     S('DB_CONFIG_DATA',null);
                     $this->success('新增成功', U('index'));
@@ -69,14 +69,14 @@ class ChangeagreeController extends AdminController {
     public function edit($id = 0){
         if(IS_POST){
             $Form = D('change');
-       
             if($_POST["id"]){
-	         $id=$_POST["id"];
-             $Form->create();
-           $result=$Form->where("id='$id'")->save();
+	            $id = $_POST["id"];
+                unset($_POST['id']);
+                $Form->create();
+                $result=$Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_change', 'change', $data['id'], UID);
+                    user_log("管理员修改了用户(uid:{$_POST['memberid']})换货订单(gooid:{$_POST['goodid']})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败'.$id);
@@ -85,18 +85,14 @@ class ChangeagreeController extends AdminController {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
             /* 获取数据 */
-            $info = M('change')->find($id);
-
-            $list=M('change')->where("shopid='$id'")->select();
+            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters,address,backname,contact';
+            $info   = M('change')->field($field)->find($id);
 
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-            $this->assign('list', $list);
-
-			 $this->assign('info', $info);
+            $this->assign('info', $info);
             $this->meta_title = '编辑订单';
             $this->display();
         }

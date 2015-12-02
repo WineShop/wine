@@ -165,16 +165,16 @@ class ShopcartController extends HomeController {
     /**
      *订单明细  未用到
      */
-    public function detail() {
-        $count = $this->getCnt();            /*查询购物车中商品的种类 */
-        $sum   = $this->getNum();           /* 查询购物车中商品的个数*/
-        $money = $this->getPrice();         /* 购物车中商品的总金额*/
+   /* public function detail() {
+        $count = $this->getCnt();            //查询购物车中商品的种类
+        $sum   = $this->getNum();            //查询购物车中商品的个数
+        $money = $this->getPrice();          // 购物车中商品的总金额
         $this->assign('sum', $sum);
         $this->assign('money',  $money);
         $this->assign('list',$_SESSION['cart']);
 
         $this->display();
-    }
+    }*/
     public function index() {
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');

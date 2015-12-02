@@ -15,11 +15,12 @@ class OrderController extends HomeController {
 
     /* 文档模型频道页 */
     public function detail(){
-        $uid     = $this->login();
-        $id      = I('get.id');//获取id
-        $typeCom = M("order")->where("orderid='$id'")->getField("tool");
-        $typeNu  = M("order")->where("orderid='$id'")->getField("toolid");
-        if(isset($typeCom)&&$typeNu){
+        $uid       = $this->login();
+        $id        = I('get.id');//获取id
+        $orderinfo = M("order")->where("orderid='$id' and uid={$uid}")->field("tool,toolid,addressid")->find();
+        $typeCom   = $orderinfo["tool"];
+        $typeNu    = $orderinfo["toolid"];
+        if(isset($typeCom) && $typeNu){
             $retData = $this->getkuaidi($typeCom,$typeNu );
         }else{
             $retData = "";
@@ -35,16 +36,18 @@ class OrderController extends HomeController {
         $this->assign('hotsearch',$hotsearch);
 
         $order  = D("Order");
-        $detail = $order->where("orderid='$id'")->select();
+        $field  = 'id,orderid,tag,pricetotal,create_time,status,ispay,total';
+        $detail = $order->where("orderid='$id'")->field($field)->select();
 
-        $list=M("shoplist");
+        $list   = M("shoplist");
+        $field  = 'id,goodid,num,orderid,uid,status,create_time,price,total,sort,tag,parameters,iscomment';
         foreach($detail as $n=> $val){
-            $detail[$n]['id']=$list->where('orderid=\''.$val['id'].'\'')->select();
+            $detail[$n]['id']=$list->where('orderid=\''.$val['id'].'\'')->field($field)->select();
 
         }
 
-        $addressid=$order->where("orderid='$id'")->getField("addressid");
-        $trans=M("transport")->where("id='$addressid'")->select();
+        $addressid = $orderinfo["addressid"];
+        $trans     = M("transport")->where("id='$addressid'")->field('id,orderid,cellphone,province,city,area,address,realname,uid,status,create_time')->select();
 
         $this->assign('translist',$trans);
         $this->assign('detaillist',$detail);
@@ -67,18 +70,18 @@ class OrderController extends HomeController {
 
 
         if(IS_POST){
-            $id       = I('post.id');//获取orderid
+            $tag       = I('post.id');//获取订单tag
             $order    = M("order");
             $shoplist = M('shoplist');
-            $info     = $order->where(array("orderid"=>$id,'uid'=>$uid))->field('status,ispay,id')->find();
+            $info     = $order->where(array("orderid"=>$tag,'uid'=>$uid))->field('status,ispay,id')->find();
             $status   = $info["status"];
-            $num      = $info["ispay"];
+            $ispay    = $info["ispay"];
             $orderid  = $info["id"];
             $data     = $shoplist->where("orderid='$orderid'")->field('num,price')->select();
             if(empty($data)){
                 $this->ajaxError('取消有误，非法参数！');
             }
-            $cash = 0;
+            $cash = $shop_num = $count = 0;
             foreach ($data as $k=>$val) {
                 /*取消的商品总额*/
                 $cash += $val['num'] * $val['price'];
@@ -90,7 +93,7 @@ class OrderController extends HomeController {
             }
 
             //订单已提交或未支付直接取消   货到付款 已提交  || 在线支付未完成 待支付
-            if(($num==-1&&$status==1)||($num==1&&$status==-1)){
+            if(($ispay == -1 && $status == -1)||($ispay==-2&&$status==-1)){
                 //设置订单取消
 
                 //保存数据到取消表中后台调用
@@ -98,14 +101,14 @@ class OrderController extends HomeController {
                 $cancel->create();
                 $cancel->create_time = NOW_TIME;
                 $cancel->status  = 3;
-                $cancel->orderid = $id;
+                $cancel->orderid = $tag;
                 $cancel->cash    = $cash;//取消的金额
                 $cancel->num     = $shop_num;//取消的数量
                 $cancel->count   = $count;//取消的种类
                 $cancel->info    = "自助取消";
                 $cancel ->add();
                 //设置订单为订单已取消
-                $data = array('status'=>'6','backinfo'=>'订单已关闭');
+                $data = array('status'=>'6');
                 //更新订单列表订单状态为已取消，清空取消订单操作
                 if($order->where("id='{$orderid}'")->setField($data)) {
                     $this->ajaxSuccess('申请成功，订单已取消');
@@ -119,14 +122,14 @@ class OrderController extends HomeController {
                 $cancel->create();
                 $cancel->time=NOW_TIME;
                 $cancel->status=1;
-                $cancel->orderid=$id;
+                $cancel->orderid=$tag;
                 $cancel->cash  = $cash;//取消的金额
                 $cancel->num   = $shop_num;//取消的数量
                 $cancel->count = $count;//取消的种类
                 $cancel ->add();
                 $data = array('status'=>'4');//设置订单状态为已提交，发货等状态不变
                 if($order->where("id='{$orderid}'")->setField($data)) {
-                    $this->ajaxSuccess('申请成功，你可以重亲购物');
+                    $this->ajaxSuccess('申请成功，你可以查看状态！');
                 }else{
 //                    \Think\LogTool::instance()->setLogger('Ucenter/order');
 //                    \Think\LogTool::instance()->setLog('error',$uid.'用户在'.date('Y-h-d H:i:s',time()).' 订单取消失败了：');
@@ -135,29 +138,29 @@ class OrderController extends HomeController {
 
             }
         }else{   //is_post
-            $id    = I('get.id');//获取orderid
+            $id    = I('get.id');//获取订单tag
             $msg   = "申请取消订单:";
             $order = M("order");
             $detail= $order->where(array('uid'=>$uid,'orderid'=>$id))->field('status,ispay')->find();
             if(empty($detail))
                 $this->error('该订单不存在！');
 
-            $num  = $detail["status"];
+            $status  = $detail["status"];
 
-            if($num == "1"){
-                $paynum = $detail["ispay"];
+            if($status == 1){
+                $ispay = $detail["ispay"];
 
-                if($paynum == "1"){
-                    $info="当前订单状态为未完成支付";
+                if($ispay == -1){
+                    $info="当前订单状态为货到付款";
                 }
-                if(!$paynum){
-                    $info="当前订单已提交等待发货中";
+                if($ispay == 2){
+                    $info="当前订单已支付提交等待发货中";
                 }
             }
-            if($num == "2")
+            if($status == 2)
                 $info="当前提交的订单已发货,需审核通过后取消";
 
-            if($num == '-1')
+            if($status == -1)
                 $info="当前订单的状态为待支付";
 
             $this->assign('info',$info);
@@ -453,20 +456,14 @@ class OrderController extends HomeController {
     }
     public function getkuaidi($typeCom,$typeNu ){
 
-//$typeCom = $_GET["com"];//快递公司
-        //$typeNu = $_GET["nu"];  //快递单号
+        $AppKey = C('100KEY');//请将XXXXXX替换成您在http://kuaidi100.com/app/reg.html申请到的KEY
+        $url    = 'http://api.kuaidi100.com/api?id='.$AppKey.'&com='.$typeCom.'&nu='.$typeNu.'&show=2&muti=1&order=asc';
 
-//echo $typeCom.'<br/>' ;
-//echo $typeNu ;
-
-        $AppKey=C('100KEY');//请将XXXXXX替换成您在http://kuaidi100.com/app/reg.html申请到的KEY
-        $url ='http://api.kuaidi100.com/api?id='.$AppKey.'&com='.$typeCom.'&nu='.$typeNu.'&show=2&muti=1&order=asc';
-
-//请勿删除变量$powered 的信息，否者本站将不再为你提供快递接口服务。
+        //请勿删除变量$powered 的信息，否者本站将不再为你提供快递接口服务。
         $powered = '查询数据由：<a href="http://kuaidi100.com" target="_blank">KuaiDi100.Com （快递100）</a> 网站提供 ';
 
 
-//优先使用curl模式发送数据
+        //优先使用curl模式发送数据
         if (function_exists('curl_init') == 1){
             $curl = curl_init();
             curl_setopt ($curl, CURLOPT_URL, $url);
@@ -479,15 +476,15 @@ class OrderController extends HomeController {
         }else{
             Vendor("Snoopy.Snoopy");
             $snoopy=new \Vendor\Snoopy\Snoopy();
-            $snoopy->referer = 'http://www.google.com/';//伪装来源
+            $snoopy->referer = 'http://www.baidu.com/';//伪装来源
             $snoopy->fetch($url);
             $get_content = $snoopy->results;
         }
         return $get_content;
-//print_r($get_content . '<br/>' . $powered);
-
+        //print_r($get_content . '<br/>' . $powered);
 
     }
+
     public function complete($id = 0){
         if(IS_POST){
             $Form      = D('order');
