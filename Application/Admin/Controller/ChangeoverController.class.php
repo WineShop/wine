@@ -4,29 +4,28 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <lamp365@163.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <lamp365@163.com>
  */
 class ChangeoverController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <lamp365@163.com>
      */
     public function index(){
         /* 查询条件初始化 */
-		$a=M("change")->where("total='null'")->delete();	 
        $map  = array('status' =>5);
-        $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
+        $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
        $list = $this->lists('change', $map,'id desc',$field);
-
-        $this->assign('list', $list);
+        $data = getOrderListDocument($list,'goodid');
+        $this->assign('list', $data);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
         
@@ -36,7 +35,7 @@ class ChangeoverController extends AdminController {
 
     /**
      * 新增订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function add(){
         if(IS_POST){
@@ -63,7 +62,7 @@ class ChangeoverController extends AdminController {
 
     /**
      * 编辑订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
     public function edit($id = 0){
         if(IS_POST){
@@ -84,25 +83,19 @@ class ChangeoverController extends AdminController {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
-            /* 获取数据 */
             $info = M('change')->find($id);
-
-            $list=M('change')->where("shopid='$id'")->select();
-
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-            $this->assign('list', $list);
 
-			 $this->assign('info', $info);
+			$this->assign('info', $info);
             $this->meta_title = '编辑订单';
             $this->display();
         }
     }
  /**
      * 同意订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <lamp365@163.com>
      */
    
 
@@ -134,6 +127,24 @@ class ChangeoverController extends AdminController {
                 $this->error("删除失败！");
             }
         } 
+    }
+
+    public function see()
+    {
+        $shopid = I('get.shopid');
+        if(empty($shopid))
+            $this->error('获取订单信息错误');
+        $tag    = M('shoplist')->field('tag')->find($shopid);
+        $order  = M('order')->where($tag)->field('id')->find();
+
+        $data = seeUserOrderDetail($order['id']);
+        if(!$data)
+            $this->error('获取订单信息错误');
+        $this->assign('list', $data['list']);
+        $this->assign('detail', $data['detail']);
+
+        $this->meta_title = '订单发货';
+        $this->display();
     }
 
 
