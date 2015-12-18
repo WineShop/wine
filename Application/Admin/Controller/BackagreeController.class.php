@@ -4,28 +4,28 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | author 烟消云散 <1010422715@qq.com>
+// | author kevin <kevin.liu@yunzhihui.com>
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
 
 /**
  * 后台订单控制器
-  * @author 烟消云散 <1010422715@qq.com>
+  * @author kevin <kevin.liu@yunzhihui.com>
  */
 class BackagreeController extends AdminController {
 
     /**
      * 订单管理
-     * author 烟消云散 <1010422715@qq.com>
+     * author kevin <kevin.liu@yunzhihui.com>
      */
     public function index(){
         /* 查询条件初始化 */
-		$a=M("backlist")->where("total='null'")->delete();	 
        $map  = array('status' =>2);
-       $list = $this->lists('backlist', $map,'id desc');
-
-        $this->assign('list', $list);
+        $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,parameters';
+        $list = $this->lists('backlist', $map,'id desc',$field);
+        $data = getOrderListDocument($list,'goodid');
+        $this->assign('list', $data);
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
         
@@ -35,7 +35,7 @@ class BackagreeController extends AdminController {
 
     /**
      * 新增订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
     public function add(){
         if(IS_POST){
@@ -63,19 +63,20 @@ class BackagreeController extends AdminController {
 
     /**
      * 编辑订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
-    public function edit($id = 0){
+    public function edit(){
         if(IS_POST){
-            $Form =  D('backlist');
-       
+            $Form = D('backlist');
             if($_POST["id"]){
-	         $id=$_POST["id"];
-             $Form->create();
-           $result=$Form->where("id='$id'")->save();
+                $id = $_POST["id"];
+                unset($_POST['id']);
+                $Form->create();
+                $Form->update_time = time();
+                $result = $Form->where("id='$id'")->save();
                 if($result){
                     //记录行为
-                    action_log('update_backlist', 'backlist', $data['id'], UID);
+                    user_log("管理员修改了用户(uid:{$_POST['memberid']})退货订单(gooid:{$_POST['goodid']})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败');
@@ -84,18 +85,14 @@ class BackagreeController extends AdminController {
                 $this->error('参数有误！');
             }
         } else {
-            $info = array();
             /* 获取数据 */
-            $info = M('backlist')->find($id);
-
-            $list=M('backlist')->where("shopid='$id'")->select();
+            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,parameters,address,backname,contact';
+            $info   = M('backlist')->field($field)->find(I('get.id'));
 
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
-            $this->assign('list', $list);
-
-			 $this->assign('info', $info);
+            $this->assign('info', $info);
             $this->meta_title = '编辑订单';
             $this->display();
         }
@@ -103,7 +100,7 @@ class BackagreeController extends AdminController {
 
    /**
      * 拒绝订单
-     * @author 烟消云散 <1010422715@qq.com>
+     * @author kevin <kevin.liu@yunzhihui.com>
      */
 public function refuse($id = 0){
        if(IS_POST){
@@ -147,20 +144,17 @@ $this->assign('list', $list);
     }
    /**
      * 删除订单
-     * @author yangweijie <yangweijiester@gmail.com>
+     * @author kevin <lamp365@163.com>
      */
     public function del(){
        if(IS_POST){
              $ids = I('post.id');
             $order = M("backlist");
-			
-            if(is_array($ids)){
-                             foreach($ids as $id){
-		
-                             $order->where("id='$id'")->delete();
-						
-                }
-            }
+
+           if(is_array($ids)){
+               $wh['id'] = array('in',$ids);
+               $order->where($wh)->delete();
+           }
            $this->success("删除成功！");
         }else{
             $id = I('get.id');
@@ -174,6 +168,23 @@ $this->assign('list', $list);
         } 
     }
 
+    public function see()
+    {
+        $shopid = I('get.shopid');
+        if(empty($shopid))
+            $this->error('获取订单信息错误');
+        $tag    = M('shoplist')->field('tag')->find($shopid);
+        $order  = M('order')->where($tag)->field('id')->find();
+
+        $data = seeUserOrderDetail($order['id']);
+        if(!$data)
+            $this->error('获取订单信息错误');
+        $this->assign('list', $data['list']);
+        $this->assign('detail', $data['detail']);
+
+        $this->meta_title = '订单发货';
+        $this->display();
+    }
 
 
 }

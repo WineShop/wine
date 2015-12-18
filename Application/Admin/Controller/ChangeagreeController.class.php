@@ -30,7 +30,7 @@ class ChangeagreeController extends AdminController {
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
         
-        $this->meta_title = '退货管理';
+        $this->meta_title = '换货管理';
         $this->display();
     }
 
@@ -66,7 +66,7 @@ class ChangeagreeController extends AdminController {
      * 编辑订单
      * @author kevin <lamp365@163.com>
      */
-    public function edit($id = 0){
+    public function edit(){
         if(IS_POST){
             $Form = D('change');
             if($_POST["id"]){
@@ -88,7 +88,7 @@ class ChangeagreeController extends AdminController {
         } else {
             /* 获取数据 */
             $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,update_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters,address,backname,contact';
-            $info   = M('change')->field($field)->find($id);
+            $info   = M('change')->field($field)->find(I('get.id'));
 
             if(false === $info){
                 $this->error('获取订单信息错误');
@@ -149,15 +149,12 @@ $this->assign('list', $list);
      */
     public function del(){
        if(IS_POST){
-             $ids = I('post.id');
+            $ids   = I('post.id');
             $order = M("change");
 			
             if(is_array($ids)){
-                             foreach($ids as $id){
-		
-                             $order->where("id='$id'")->delete();
-						
-                }
+                $wh['id'] = array('in',$ids);
+                 $order->where($wh)->delete();
             }
            $this->success("删除成功！");
         }else{
