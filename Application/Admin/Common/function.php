@@ -496,7 +496,7 @@ function delUserOrder($id)
 }
 
 /**
- * 获取订单列表文档
+ * 获取订单列表文档  以下有待修改不应该每次查询 应该是一次查询用in
  * @param $data
  * @param $field
  * @return mixed
