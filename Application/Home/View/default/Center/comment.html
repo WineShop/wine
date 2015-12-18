@@ -17,36 +17,36 @@
 	<h4 style="margin-top: 10px;"><span>评价列表</span></h4>
        
 	    <table   class="col_name"  width="100%">
-        <thead>
             <tr>
-                <th width="10%">评价</th>
-				<th width="35%" >评论</th>
-				<th width="30%" >商品信息</th>
-                <th width="25%">操作</th>
-				
-               
-				
-              </tr>
- <volist name="comment" id="co"> 
-  <tr class="comment_list"><td width="10%" align="center"><php>if($co['commentscore']==1){echo "<img src='/5555/Public/Home/images/bad.png'>"
-			  ;};
-			  if($co['commentscore']==2){echo "<img src='/5555/Public/Home/images/common.png'>"
-			  ;};
-			  if($co['commentscore']==3){echo "<img src='/5555/Public/Home/images/ok.png'>"
-			  ;};
-			  </php><td width="35%" align="center">{$co.content}</br>{$co.create_time|date='Y-m-d H:i:s',###}</td>
-			  <td width="30%" align="center"> <a href="{:U('Article/detail?id='.$co['goodid'])}" >{$co.goodid|get_good_name} </a>￥{$co.goodid|get_good_price} </td>
-			   <th width="25%"></th>
-			  </tr>
-    
-        </volist></table>
+                <th width="45%">评价</th>
+				<th width="35%" >商品信息</th>
+                <th width="20%" >时间</th>
+            </tr>
+          <volist name="comment" id="co">
+            <tr class="comment_list">
+                <td width="45%" align="center">
+                <php>if($co['score']==1){echo "<img src='/Public/Home/images/bad.png' style='vertical-align: middle'>"
+                  ;};
+                  if($co['score']==2){echo "<img src='/Public/Home/images/common.png' style='vertical-align: middle'>"
+                  ;};
+                  if($co['score']==3){echo "<img src='/Public/Home/images/ok.png' style='vertical-align: middle;'>"
+                  ;};
+                  </php>
+                    {$co.content}
+                </td>
+                  <td width="35%" align="center"> <a href="{:U('Article/detail?id='.$co['goodid'])}" >{$co.goodid|get_good_name} </a>￥{$co.goodid|get_good_price} </td>
+                  <td width="20%" align="center">{$co.create_time|date='Y-m-d H:i:s',###}</td>
+            </tr>
+
+           </volist>
+        </table>
 		
        
 	
 	
 	<!-- 分页 -->
         <div class="page">
-{$page}
+        {$page}
         </div>
 
 

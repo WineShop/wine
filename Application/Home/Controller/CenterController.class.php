@@ -425,24 +425,22 @@ class CenterController extends HomeController {
 
     public  function comment() {   /* 购物车调用*/
         $uid = $this->login();
-        /** 购物车调用**/
-        $cart  = $_SESSION['cart'];
-        $this->assign('usercart',$cart);
 
         /** 热词调用 热门搜索**/
         $hotsearch = C('HOT_SEARCH');
         $this->assign('hotsearch',$hotsearch);
 
-        $comment=D("Comment");
-        $count=$comment->where(" uid='$uid' ")->count();
+        $comment = D("Comment");
+        $count   = $comment->where(" uid='$uid' ")->count();
         $Page= new \Think\Page($count,10);
         $Page->setConfig('prev','上一页');
         $Page->setConfig('next','下一页');
         $Page->setConfig('first','第一页');
         $Page->setConfig('last','尾页');
         $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $show= $Page->show();
-        $commentlist=$comment->where("uid='$uid' ")->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+        $show        = $Page->show();
+        $field       = "id,goodid,create_time,update_time,score,goodscore,servicescore,deliveryscore,content,tag,status,uid";
+        $commentlist = $comment->where("uid='$uid' ")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
 
         $this->assign('comment', $commentlist);
         $this->assign('page',  $show);

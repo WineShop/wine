@@ -1,0 +1,37 @@
+<extend name="Public/base"/>
+#tab1 table{border-right:1px solid #F00;border-bottom:1px solid #F00}
+#tab1 table td{border-left:1px solid #F00;border-top:1px solid #F00}
+<block name="body">
+	<div class="main-title">
+		<h2>
+			查看详情
+		</h2>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="btn" onclick="window.history.back();">返 回</span>
+	</div>
+	<ul class="tab-nav nav">
+	<li data-tab="tab1" class="current"><a href="javascript:void(0);">订单详情</a></li>
+   </ul>
+<div class="tab-content">						
+
+	<div id="tab1" class="tab-pane in tab1">
+
+        <include file="Public/goodinfo"/>
+
+    </div>
+</div>
+</block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+	//导航高亮
+	highlight_subnav('{:U('index')}');
+	if($('ul.tab-nav').length){
+		//当有tab时，返回按钮不显示
+		$('.btn-return').hide();
+	}
+	$(function(){
+		//支持tab
+		showTab();
+	})
+
+</script>
+</block>
