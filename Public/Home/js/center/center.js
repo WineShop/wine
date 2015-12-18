@@ -176,6 +176,13 @@ define(function(require, exports, module){
         getCommonAjax(param,url);
     });
 
+    //确认退货 提交快递订单号
+    $("#sub_backkuaidi").click(function(){
+        var url   =  $("#form_backkuaidi").attr('action');
+        var param =  $("#form_backkuaidi").serialize();
+        getCommonAjax(param,url);
+    });
+
     module.exports = {
         center_init : center_init,
         center_order_action : center_order_action,

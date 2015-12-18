@@ -37,7 +37,7 @@
 			
                           <div class="apply-feedback">
                               <h3 style="display: block;color:white;background: #E23C3D">卖家反馈</h3>
-                              <p>反馈时间：<empty name="list.update_time">暂未处理<else/>{$list.update_time|date='Y-m-d H:i:s',###}</empty></p>  <p>反馈：<span class="red">
+                              <p>反馈时间：<empty name="list.update_time">暂未处理<else/>{$list.update_time|date='Y-m-d H:i:s',###}</empty></p>  <p>反馈信息：<span class="red">
                               <php>
                               $status=$list['status'];
                               if($status==1){ echo "待审核";};
@@ -52,11 +52,12 @@
 
                             <p>退货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$list.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$list.address}  <i class="glyphicon glyphicon-phone"></i>{$list.contact}</span></p>
                             <p style="display: block;color:white;background: #E23C3D">买家退货快递</p>
-                            <form action="{:U('order/backkuaidi')}" method="post" class="form-horizontal">
+                            <form action="{:U('order/backkuaidi')}" method="post" class="form-horizontal" id="form_backkuaidi">
                                 <input type="hidden" class="text input-large"  name="backid"  value="{$list.id}">
-                                <p>快递名称：<input type="text" class="text input-large"  name="tool"  ></p>
-                                <p>快递单号：<input type="text" class="text input-large"  name="toolid"  ></p>
-                                <p><input type="submit" class="btn_submit_pay" value="提交" /></p>
+                                <input type="hidden" class="text input-large"  name="shopid"  value="{$list.shopid}">
+                                <p>快递名称：<input type="text" class="text input-large"  name="tool" style="padding: 0px 5px;width: 250px;" ></p>
+                                <p>快递单号：<input type="text" class="text input-large"  name="toolid" style="padding: 0px 5px;width: 250px;" ></p>
+                                <p><input type="button" class="btn_submit_pay" id="sub_backkuaidi"  value="提交" /></p>
                             </form>
                          <elseif condition="$list.status eq '3'"/>
                          <p>拒绝原因：<span style="color: #E23C3D;font-weight: bold">{$list.backlist}</span></p>

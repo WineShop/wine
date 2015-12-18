@@ -302,30 +302,35 @@ class OrderController extends HomeController {
     public function backkuaidi(){
         $uid = $this->login();
         if(IS_POST){
-            $id= I('post.backid');//获取退货主键id
-            $back=D("backlist");
-            $shopid=$back->where("id='$id'")->getField("shopid");
+            $id     = I('post.backid');//获取退货主键id
+            $shopid = I('post.shopid');
+            $back   = D("backlist");
+            unset($_POST['shopid']);
+            unset($_POST['backid']);
             //保存信息到退货表
-
+            $back->startTrans();
             $back->create();//Create方法创建的数据对象是保存在内存,并没有实际写入到数据库，直到使用add或者save方法才会真正写入数据库
-            $back->status=4;
+            $back->update_time = time();
+            $back->status      = 4;
+            $res1              = $back->where("id='$id' and uid={$uid}")->save();
 
-            $result=$back->where("id='$id'")->save();
             //更改商品的售后信息
             $data['status']=6;
-            $shop=M("shoplist");
-            $add=$shop->where("id='$shopid'")->save($data);
-            if($add)
+            $shop = M("shoplist");
+            $res2  = $shop->where("id='$shopid' and uid={$uid}")->save($data);
+            if($res1 && $res2)
             {
-                $this->success('提交成功',U("center/index"));
+                $back->commit();
+                $this->ajaxSuccess('提交成功，请等待管理员处理！');
             }
             else{
-                $this->error('申请失败');
+                $back->rollback();
+                $this->ajaxError('对不起，申请失败！');
             }
         }else{
             $id= I('get.id');//获取id
             $msg="Tips，提交退货单";
-            $this->meta_title = '填写退货单';
+            $this->meta_title = '退货快递操作';
             $detail=M("shoplist")->find($id);
             //获取购物清单
             $this->assign('info',$detail);
