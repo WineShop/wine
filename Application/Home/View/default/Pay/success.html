@@ -5,7 +5,22 @@
 </block>
 
 <block name="body"></h3>
-<div id="success" ><a><img src="__STATIC__/images/success.png"  style="vertical-align:bottom;"><i style="color:red;clear:both;font-size:18px;">支付成功</i></a><a class="btn_success" rel="nofollow" href="{:U('index/index')}">继续购物</a></div>
+<div id="success" >
+    <div class="su_left">
+        <img src="__IMG__/user_check_success.png" width="60px"/>
+    </div>
+    <div class="su_right">
+        <h3 style="display: inline-block">恭喜您，支付成功！</h3>
+
+        <div style="padding: 10px 0px 0px 0px;">管理员会尽快配送！</div>
+        <div style="padding: 10px 0px;"><span id="num" style="color:#E23C3D;font-weight: bolder">6</span>s 后自动返回……</div>
+        <div>
+            <a class="btn_success" rel="nofollow" href="{:U('Index/index')}">继续购物</a>
+            &nbsp;&nbsp;&nbsp;<a class="btn_success" rel="nofollow" href="{:U('Center/allorder')}">订单管理</a>
+        </div>
+    </div>
+
+</div>
 
 <!--脚本开始-->
 
@@ -15,5 +30,17 @@
             ucenter.center_init();
             ucenter.center_order_action();
         })
+
+        $(function(){
+            var i = 6;
+            var intervalid = setInterval(function(){
+                if (i == 0) {
+                    window.location.href = "{:U('Center/allorder')}";
+                    clearInterval(intervalid);
+                }
+                $('#num').html(i);
+                i--;
+            }, 1000);
+        });
     </script>
 </block>

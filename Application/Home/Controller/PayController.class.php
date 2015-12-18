@@ -89,10 +89,7 @@ class PayController extends HomeController {
                 $body     = C('SITENAME')."订单支付";//商品描述
                 $title    = C('SITENAME')."订单支付";//设置商品名称
             }
-            //else{
-            // $order_no = $pay->createOrderNo(); //充值，生成订单号
-            // $body= C('SITENAME')."会员充值"；//商品描述
-            //}
+
             $vo = new \Think\Pay\PayVo();
             $vo->setBody($body)
                 ->setFee(I('post.money')) //支付金额
