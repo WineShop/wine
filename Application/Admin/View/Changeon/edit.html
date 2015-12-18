@@ -60,7 +60,7 @@
     <if condition="$info.status eq '2'">
 	<p>换货地址：<span class="red"><i class="glyphicon glyphicon-user"></i>{$info.backname}  <i class="glyphicon glyphicon-map-marker"></i>{$info.address}  <i class="glyphicon glyphicon-phone"></i>{$info.contact}</span></p>
 	<p style="display: block;color:white;background: #f60">买家换货快递</p>
-	<form action="{:U("order/backkuaidi")}" method="post" class="form-horizontal">
+	<form action="{:U('order/backkuaidi')}" method="post" class="form-horizontal">
 <input type="hidden" class="text input-large"  name="backid"  value="{$info.id}">
 <p>快递名称：<input type="text" class="text input-large"  name="tool"  ></p>
 <p>快递单号：<input type="text" class="text input-large"  name="toolid"  ></p>

@@ -199,7 +199,7 @@ class ChangeonController extends AdminController {
   
    /**
      * 删除订单
-     * @author yangweijie <yangweijiester@gmail.com>
+     * @author kevin <lamp365@163.com>
      */
     public function del(){
        if(IS_POST){
@@ -207,11 +207,8 @@ class ChangeonController extends AdminController {
             $order = M("change");
 			
             if(is_array($ids)){
-                             foreach($ids as $id){
-		
-                             $order->where("id='$id'")->delete();
-						
-                }
+                $wh['id'] = array('in',$ids);
+                $order->where($wh)->delete();
             }
            $this->success("删除成功！");
         }else{

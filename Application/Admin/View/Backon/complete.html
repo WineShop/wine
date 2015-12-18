@@ -27,16 +27,10 @@
 			</label>	
 			</div>
 		</div>
-
-      <div class="form-item">
-			<label class="item-label">状态<span class="check-tips">（系统生成，不可更改）</span></label>
-			<div class="controls">
-				<input type="text" class="text input-large" name="status" value="5" >
-			</div>
-		</div>
 		<div class="form-item">
 			<input type="hidden" name="id" value="{$info.id|default=''}">
-			<input type="hidden" name="shopid" value="{$info.shopid|default=''}">
+            <input type="hidden" name="shopid" value="{$info.shopid|default=''}">
+            <input type="hidden" name="memberid" value="{$info.uid|default=''}">
 			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
 			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 		</div>
@@ -62,7 +56,7 @@
         
  <p>原因：{$info.reason}</p>
  </div>
- <div class="back-good-img"><img src="{$info.goodid|get_cover_id|get_cover='path'}"  width="170" height="170"/> 
+ <div class="back-good-img"><img src="{$info.goodid}"  width="170" height="170"/>
  </div>
  </div>
  
