@@ -441,7 +441,11 @@ class CenterController extends HomeController {
         $show        = $Page->show();
         $field       = "id,goodid,create_time,update_time,score,goodscore,servicescore,deliveryscore,content,tag,status,uid";
         $commentlist = $comment->where("uid='$uid' ")->field($field)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-
+        $docuemnt    = M('document');
+        foreach($commentlist as $key => $arr)
+        {
+            $commentlist[$key]['son_info'] = $docuemnt->field('title,price')->find($arr['goodid']);
+        }
         $this->assign('comment', $commentlist);
         $this->assign('page',  $show);
         $this->meta_title = get_username().'的评论管理';

@@ -34,7 +34,7 @@
                   </php>
                     {$co.content}
                 </td>
-                  <td width="35%" align="center"> <a href="{:U('Article/detail?id='.$co['goodid'])}" >{$co.goodid|get_good_name} </a>￥{$co.goodid|get_good_price} </td>
+                  <td width="35%" align="center"> <a href="{:U('Article/detail?id='.$co['goodid'])}" >{$co.son_info.title} </a>￥{$co.son_info.price} </td>
                   <td width="20%" align="center">{$co.create_time|date='Y-m-d H:i:s',###}</td>
             </tr>
 
