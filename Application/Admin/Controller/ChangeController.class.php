@@ -79,7 +79,7 @@ class ChangeController extends AdminController {
 
                 if($result){
                     //记录行为
-                    user_log("管理员修改了,用户({$memberid})退货商品({$shopid})");
+                    user_log("管理员修改了,用户({$memberid})换货商品({$shopid})");
                     $this->success('更新成功', Cookie('__forward__'));
                 } else {
                     $this->error('更新失败');
@@ -121,7 +121,7 @@ class ChangeController extends AdminController {
                 //销量减1 库存加1
                 $total_num = "`total_num`+{$num}";
                 $setdata = array(
-                    'sale'           => array('exp', '`sale`+1'),
+                    'sale'           => array('exp', '`sale`-1'),
                     'total_num'      => array('exp', $total_num),
                 );
                 $sales = M('document')->where("id='$goodid'")->save($setdata);
@@ -199,7 +199,7 @@ public function refuse(){
         } else {
             /* 获取数据 */
            $field  = 'id,goodid,num,tool,toolid,uid,status,create_time,info,total,backinfo,shopid,reason,changetool,changetoolid,parameters';
-           $info   = M('change')->field($field)->where('status=1')->find($id);
+           $info   = M('change')->field($field)->where('status=1')->find(I('get.id'));
             if(false === $info){
                 $this->error('获取订单信息错误');
             }
@@ -211,17 +211,16 @@ public function refuse(){
     }
    /**
      * 删除订单
-     * @author yangweijie <yangweijiester@gmail.com>
+     * @author kevin <lamp365@163.com>
      */
     public function del(){
        if(IS_POST){
              $ids = I('post.id');
              $order = M("change");
-			
+
             if(is_array($ids)){
-                 foreach($ids as $id){
-                    $order->where("id='$id'")->delete();
-                }
+                $wh['id'] = array ('in',$ids);
+                $order->where($wh)->delete();
             }
            $this->success("删除成功！");
         }else{
