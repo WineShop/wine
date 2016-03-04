@@ -1016,7 +1016,7 @@ overflow: hidden;
 display: inline;
 float: left;
 margin-left: -1px;
-padding-left:10px;width:46%;border-left:1px solid #eee;
+padding-left:10px;width:48%;border-left:1px solid #eee;
 margin-top: 20px;
 }
 .row div{float:left;margin-right:15px;}
@@ -1433,7 +1433,7 @@ line-height: 28px;padding:5px
 input.v_inp {
   height: 29px;
   line-height:30px;
-  width: 290px;
+  width: 272px;
   background: #FFf;
   border: 1px solid #EEE;
   border-radius:2px;

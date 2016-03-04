@@ -16,7 +16,7 @@
                 <tr>
                     <td align="center">{$vo.uid}</td>
                     <td align="center">{$vo.goodid}</td>
-                    <td align="center"><A href="{:U('Home/Article/detail?id='.$vo['goodid'])}" >{$vo.goodid|get_good_name}</A></td>
+                    <td align="center"><A href="/Home/Article/detail?id={$vo['goodid']}" >{$vo.goodid|get_good_name}</A></td>
                     <td align="center"> <span class="weight">{$vo.parameters|default="无"}</span></td>
                     <td align="center">{$vo.goodid|get_good_price}</td>
                     <td align="center">{$vo.num}</td>
